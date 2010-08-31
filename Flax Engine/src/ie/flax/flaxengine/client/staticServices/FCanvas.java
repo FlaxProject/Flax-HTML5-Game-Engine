@@ -3,15 +3,11 @@ package ie.flax.flaxengine.client.staticServices;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
+ * This class will allow the developer to programmatically create the canvas tag
+ * and set its attributes and specify where to insert the canvas tag in the HTML
+ * document i.e for embedding the canvas in a website.
  * 
  * @author Ciarán McCann
- * 
- *         This class will allow the developer to programmatically create the
- *         canvas tag and set its attributes and specify where to insert the
- *         canvas tag in the HTML document i.e for embedding the canvas in a
- *         website.
- * 
- * 
  */
 public class FCanvas {
 
@@ -43,11 +39,11 @@ public class FCanvas {
 	 *            is the ID of the HTML element in which to insert the canvas
 	 *            tag.
 	 */
-	public FCanvas(String insertID) {
+	public FCanvas(String insertId) {
 		this.width = 640;
 		this.height = 480;
 
-		setupCanvasTag(insertID, width, height);
+		setupCanvasTag(insertId, width, height);
 		this.context = getContext();
 	}
 
@@ -61,12 +57,12 @@ public class FCanvas {
 	 * @param height
 	 *            canvas should be
 	 */
-	public FCanvas(String insertID, int width, int height) {
+	public FCanvas(String insertId, int width, int height) {
 
 		this.width = width;
 		this.height = height;
 
-		setupCanvasTag(insertID, width, height);
+		setupCanvasTag(insertId, width, height);
 		this.context = getContext();
 	}
 
@@ -80,9 +76,9 @@ public class FCanvas {
 	 * @param height
 	 *            of canvas
 	 */
-	public native void setupCanvasTag(String insertID, int width, int height)
+	public native void setupCanvasTag(String insertId, int width, int height)
 	/*-{
-		$doc.getElementById(insertID).innerHTML = "<canvas style=border:black 1px solid id=\"FlaxEngineCanvas\" width=" + width + " height=" + height + ">Your browser is way out of date man, get a good one like Chrome</canvas>";
+		$doc.getElementById(insertId).innerHTML = "<canvas style=border:black 1px solid id=\"FlaxEngineCanvas\" width=" + width + " height=" + height + ">Your browser is way out of date man, get a good one like Chrome</canvas>";
 	}-*/;
 
 	/**
@@ -99,11 +95,12 @@ public class FCanvas {
 	 * @param imageURL
 	 * @return JS Object containing the image object
 	 */
-	public native JavaScriptObject loadImage(String imageURL)
+	public native JavaScriptObject loadImage(String imagePath)
 	/*-{
-		//TODO add in check for if its relative url or abolsute 
+	
+		//TODO expection handling will be sorted out higher up in the abstraction layer
 		var img = new Image();
-		img.src = imageURL; 
+		img.src = imagePath; 
 
 		return img;
 	}-*/;
