@@ -95,4 +95,6 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 			Log.error(e.getMessage());
 		}
 	}
+
+	//TODO: JSON stuff
 }
