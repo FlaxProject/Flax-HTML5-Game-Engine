@@ -12,5 +12,5 @@ public interface FileHandleServiceAsync {
 	void clearFile(String fileName, AsyncCallback<Void> callback);
 	void deleteFile(String fileName, AsyncCallback<Void> callback);
 	void readFileAsXml(String fileName, AsyncCallback<Document> callback);
-	void writeToXml(Document docToWrite, String fileName, AsyncCallback<Void> callback);
+	void writeXmlToFile(Document docToWrite, String fileName, AsyncCallback<Void> callback);
 }

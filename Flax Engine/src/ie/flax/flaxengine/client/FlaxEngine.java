@@ -10,6 +10,5 @@ public class FlaxEngine implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		// TODO Auto-generated method stub
-		//Window.alert("I still work!");
 	}
 }

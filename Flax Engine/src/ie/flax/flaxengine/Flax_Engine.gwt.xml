@@ -13,7 +13,10 @@
   <!-- Other module inherits                                      -->
   <inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
   <!-- To switch logging off, change TRACE to OFF.                -->
-
+  
+  <inherits name="com.google.gwt.xml.XML" />
+  
+  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='ie.flax.flaxengine.client.FlaxEngine'/>
 
