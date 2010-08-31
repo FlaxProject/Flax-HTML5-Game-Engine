@@ -1,7 +1,7 @@
 package ie.flax.flaxengine.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.user.client.Window;
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
