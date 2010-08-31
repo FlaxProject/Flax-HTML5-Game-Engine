@@ -97,7 +97,6 @@ public class FCanvas {
 	 */
 	public native JavaScriptObject loadImage(String imagePath)
 	/*-{
-	
 		//TODO expection handling will be sorted out higher up in the abstraction layer
 		var img = new Image();
 		img.src = imagePath; 
