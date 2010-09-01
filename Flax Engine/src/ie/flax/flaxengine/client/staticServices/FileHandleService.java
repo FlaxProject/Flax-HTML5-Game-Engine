@@ -1,7 +1,5 @@
 package ie.flax.flaxengine.client.staticServices;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
@@ -9,11 +7,11 @@ import com.google.gwt.xml.client.Document;
 
 /**
  * This class is the client-side code for the FileHandling service. Pretty much just a method list.
+ * To view the actual code behind the methods, see FileHandleServiceImpl.
  * 
  * @author carllange
  *
  */
-
 @RemoteServiceRelativePath("FileHandleService")
 public interface FileHandleService extends RemoteService {
 	
@@ -41,7 +39,7 @@ public interface FileHandleService extends RemoteService {
 	 * @param fileName The name and extension of the file to delete.
 	 * @throws FileNotFoundException Throws this if it can't find the file.
 	 */
-	public void deleteFile(String fileName) throws FileNotFoundException;
+	public void deleteFile(String fileName);
 	
 	/**
 	 * This returns an XML file as a Document.
@@ -51,7 +49,7 @@ public interface FileHandleService extends RemoteService {
 	 * @return
 	 * @throws IOException
 	 */
-	public Document readFileAsXml(String fileName) throws IOException;
+	public Document readFileAsXml(String fileName);
 	
 	/**
 	 * This writes a Document to a file

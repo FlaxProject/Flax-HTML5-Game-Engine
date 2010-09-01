@@ -22,8 +22,7 @@ import com.google.gwt.xml.client.XMLParser;
  *
  */
 @SuppressWarnings("serial")
-public class FileHandleServiceImpl extends RemoteServiceServlet implements
-		FileHandleService {
+public class FileHandleServiceImpl extends RemoteServiceServlet implements FileHandleService {
 
 	
 	/* (non-Javadoc)
@@ -52,7 +51,7 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void clearFile(String fileName) {
 		// actually deletes the file and creates a new one with the same name
-		// TODO replace with actual in-file overwriting if this proves to be annoying.
+		// replace with actual in-file overwriting if this proves to be annoying.
 		deleteFile(fileName);
 		createFile(fileName);
 	}
@@ -68,30 +67,47 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 		if (fileToDelete.exists()) fileToDelete.delete();
 	}
 
-	/* (non-Javadoc)
+	/* This converts the contents of the file to a String 
+	 * stole some code from http://cl.ly/2Byf 
+	 * 
+	 * TODO Check for compatibility with file encodings
+	 * 
+	 * (non-Javadoc)
 	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#readFileAsXml(java.lang.String)
 	 */
 	@Override
-	public Document readFileAsXml(String fileName) throws IOException {
-		String fileAsString;
-		Document fileAsXml;
+	public Document readFileAsXml(String fileName) {
+		String fileAsString = null;
+		Document fileAsXml = null;
 		
-		// This converts the contents of the file to a String
-		// stole this code from http://cl.ly/2Byf
-		// TODO Check for compatibility with file encodings
-		// TODO Actually understand this
-		FileInputStream stream = new FileInputStream(new File(fileName));
+		// TODO clean this shit up, very untidy
+		FileInputStream stream = null;
+		
 		try {
+			try {
+				stream = new FileInputStream(new File(fileName));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			FileChannel fc = stream.getChannel();
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 			// Instead of using default, pass in a decoder.
 			fileAsString = Charset.defaultCharset().decode(bb).toString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		finally {
-			stream.close();
+			try {
+				stream.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
-		fileAsXml = XMLParser.parse(fileAsString);
+		if (fileAsString != null) fileAsXml = XMLParser.parse(fileAsString);
 
 		return fileAsXml;
 	}
@@ -102,7 +118,7 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void writeXmlToFile(Document docToWrite, String fileName) {
 		// TODO Apparently Document.toString() actually does work. Check for legitimency
-		// TODO this deletes files without warning, change to appending
+		// TODO this deletes files without warning, wtf
 		// TODO this is very iffy, make better.
 		deleteFile(fileName);
 		createFile(fileName);
