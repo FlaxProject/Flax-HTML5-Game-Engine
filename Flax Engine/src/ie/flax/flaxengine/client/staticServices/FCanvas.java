@@ -1,7 +1,7 @@
 package ie.flax.flaxengine.client.staticServices;
 
-import org.mortbay.log.Log;
 
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
