@@ -20,7 +20,7 @@ public class Graphic {
 	 * HashMap of JS image objects, which is indexed by the name of the image.
 	 * All images loaded into the engine are stored here.
 	 */
-	private static HashMap<String, JavaScriptObject> imageLibary = new HashMap<String, JavaScriptObject>();
+	private static HashMap<String, FImage> imageLibary = new HashMap<String, FImage>();
 	
 
 	/**
@@ -72,10 +72,10 @@ public class Graphic {
 			try {
 				
 				//TODO sort this loading problem and remove this debug code
-				if(Graphic.isLoaded(imageLibary.get(imagePath)))
+				if((imageLibary.get(imagePath).isLoaded()))
 				{
 					Log.info(" Double check and I think " + imagePath + " loaded ");
-					graphicLayer.drawImage(imageLibary.get(imagePath), x, y, width,height);
+					graphicLayer.drawImage(imageLibary.get(imagePath).imageData, x, y, width,height);
 				}
 				else
 				{
@@ -87,6 +87,19 @@ public class Graphic {
 			}
 
 	}
+	
+	
+	/*public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y, float width, float height)
+	{	
+				
+		try {			
+			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
+		} catch (Exception e) {
+			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
+		
+		}
+	
+	}*/
 	
 	/**
 	 * Draws an segment of an image to a segment of the canvas
@@ -105,7 +118,7 @@ public class Graphic {
 	{
 		try {
 			
-			graphicLayer.drawImage(imageLibary.get(imagePath), xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
+			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
 		} catch (Exception e) {
 			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		
@@ -120,7 +133,7 @@ public class Graphic {
 	public static void loadImage(String imagePath, String nameToReferenceBy) {
 			
 		try {
-			imageLibary.put(nameToReferenceBy, graphicLayer.loadImage(imagePath)); //TODO fix onLoad bug, need to check are imageLoaded before drawing
+			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing
 							
 			Log.info("Image " + imagePath + " Loaded sucessfully " );
 		} catch (Exception e) {
@@ -128,10 +141,7 @@ public class Graphic {
 		}
 	}
 	
-	public native static boolean isLoaded(JavaScriptObject c)	
-	/*-{	 									 	
-					return c.complete;
-	}-*/;
+	
 	
 
 	

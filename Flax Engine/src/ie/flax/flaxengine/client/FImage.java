@@ -41,4 +41,8 @@ public class FImage {
 		return height;
 	}
 
+	public native  boolean isLoaded()	
+	/*-{	 									 	
+			return this.@ie.flax.flaxengine.client.FImage::imageData.complete;
+	}-*/;
 }
