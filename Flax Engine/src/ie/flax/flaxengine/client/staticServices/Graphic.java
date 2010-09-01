@@ -72,7 +72,7 @@ public class Graphic {
 			try {
 				graphicLayer.drawImage(imageLibary.get(imagePath), x, y, width,height);
 			} catch (Exception e) {
-				Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath, graphicLayer.context);
+				Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 			}
 
 	}
@@ -90,17 +90,17 @@ public class Graphic {
 	 * @param widthDes
 	 * @param heightDes
 	 */
-/*	public static void drawImage(String imagePath, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
+	public static void drawImage(String imagePath, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
 	{
 		try {
 	
 			graphicLayer.drawImage(imageLibary.get(imagePath), xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
 		} catch (Exception e) {
-			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath, graphicLayer.context);
+			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		
 		}
 
-	}*/
+	}
 
 	/**
 	 * Loads images into the engine
@@ -112,12 +112,13 @@ public class Graphic {
 		//imagePath = imagePath.substring(0,imagePath.length()- 4;
 		
 		try {
-			imageLibary.put(imagePath, graphicLayer.loadImage(imagePath));
+			imageLibary.put(imagePath, graphicLayer.loadImage(imagePath)); //TODO fix onLoad bug, need to check are imageLoaded before drawing
+							
 			Log.info("Image " + imagePath + " Loaded sucessfully " );
 		} catch (Exception e) {
-			Log.error("Graphic.LoadImage - error loading image with name "
-					+ imagePath  + e);
+			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
 		}
 	}
 
+	
 }
