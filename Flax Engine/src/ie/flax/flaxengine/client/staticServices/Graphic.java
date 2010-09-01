@@ -1,10 +1,9 @@
 package ie.flax.flaxengine.client.staticServices;
 
-import java.util.Map;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dev.util.collect.HashMap;
+import java.util.HashMap;
 
 /**
  * Graphics class is a static service that works as an abstraction layer for the
@@ -21,7 +20,8 @@ public class Graphic {
 	 * HashMap of JS image objects, which is indexed by the name of the image.
 	 * All images loaded into the engine are stored here.
 	 */
-	private static Map<String, JavaScriptObject> imageLibary = new HashMap<String, JavaScriptObject>();
+	private static HashMap<String, JavaScriptObject> imageLibary = new HashMap<String, JavaScriptObject>();
+	
 
 	/**
 	 * Is the reference to the drawing object
@@ -67,17 +67,12 @@ public class Graphic {
 	 * @param height
 	 * @param width
 	 */
-	public static void drawImage(String imagePath, float x, float y,
-			float height, float width) {
+	public static void drawImage(String imagePath, float x, float y,float height, float width) {
 		
 			try {
-				graphicLayer.drawImage(imageLibary.get(imagePath), x, y,
-						 width,height);
+				graphicLayer.drawImage(imageLibary.get(imagePath), x, y, width,height);
 			} catch (Exception e) {
-				Log.error(
-						"Graphic.drawImage - error drawing image object width index key of "
-								+ imagePath + "<br>" + e, imageLibary
-								.get(imagePath));
+				Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath, graphicLayer.context);
 			}
 
 	}
@@ -95,18 +90,17 @@ public class Graphic {
 	 * @param widthDes
 	 * @param heightDes
 	 */
-	public static void drawImage(String imagePath, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
+/*	public static void drawImage(String imagePath, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
 	{
 		try {
+	
 			graphicLayer.drawImage(imageLibary.get(imagePath), xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
 		} catch (Exception e) {
-			Log.error(
-					"Graphic.drawImage - error drawing image object width index key of "
-							+ imagePath + "<br>" + e, imageLibary
-							.get(imagePath));
+			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath, graphicLayer.context);
+		
 		}
 
-	}
+	}*/
 
 	/**
 	 * Loads images into the engine
@@ -114,11 +108,15 @@ public class Graphic {
 	 */
 	public static void loadImage(String imagePath) {
 		
+		// Removes the extension of the image so that it can be referenced now by just the name
+		//imagePath = imagePath.substring(0,imagePath.length()- 4;
+		
 		try {
 			imageLibary.put(imagePath, graphicLayer.loadImage(imagePath));
+			Log.info("Image " + imagePath + " Loaded sucessfully " );
 		} catch (Exception e) {
 			Log.error("Graphic.LoadImage - error loading image with name "
-					+ imagePath + "<br>" + e);
+					+ imagePath  + e);
 		}
 	}
 

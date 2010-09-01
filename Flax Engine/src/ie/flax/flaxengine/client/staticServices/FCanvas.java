@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client.staticServices;
 
+import org.mortbay.log.Log;
+
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -11,7 +13,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class FCanvas {
 
-	private JavaScriptObject context;
+	public JavaScriptObject context = null;
 	private int width;
 	private int height;
 
@@ -45,6 +47,7 @@ public class FCanvas {
 
 		setupCanvasTag(insertId, width, height);
 		this.context = getContext();
+		
 	}
 
 	/**
@@ -64,6 +67,7 @@ public class FCanvas {
 
 		setupCanvasTag(insertId, width, height);
 		this.context = getContext();
+	
 	}
 
 	/**
@@ -78,16 +82,18 @@ public class FCanvas {
 	 */
 	public native void setupCanvasTag(String insertId, int width, int height)
 	/*-{
-		$doc.getElementById(insertId).innerHTML = "<canvas style=border:black 1px solid id=\"FlaxEngineCanvas\" width=" + width + " height=" + height + ">Your browser is way out of date man, get a good one like Chrome</canvas>";
+		$doc.getElementById(insertId).innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';
 	}-*/;
 
 	/**
 	 * 
 	 * @return context in JS object
 	 */
-	public native JavaScriptObject getContext()
+	private native JavaScriptObject getContext()
 	/*-{
+		//TODO store canvas context instead of getting everytime
 		return $doc.getElementById('FlaxEngineCanvas').getContext('2d');
+		
 	}-*/;
 
 	/**
@@ -113,10 +119,9 @@ public class FCanvas {
 	 * @param height
 	 * @param width
 	 */
-	public native void drawImage(JavaScriptObject imageObj, float x, float y,
-			float height, float width)
-	/*-{
-		context.drawImage(imageObj,x,y,width,height);
+	public native void drawImage(JavaScriptObject imageObj, float x, float y,float height, float width)
+	/*-{	 									 	
+		$doc.getElementById('FlaxEngineCanvas').getContext('2d').drawImage(imageObj,x,y,height,width);	
 	}-*/;
 
 	/**
@@ -132,11 +137,11 @@ public class FCanvas {
 	 * @param widthDes
 	 * @param heightDes
 	 */
-	public native void drawImage(JavaScriptObject imageObj, float xSrc,
+	/*public native void drawImage(JavaScriptObject imageObj, float xSrc,
 			float ySrc, float widthSrc, float heightSrc, float xDes,
 			float yDes, float widthDes, float heightDes)
-	/*-{
+	-{
 		context.drawImage(imageObj,xSrc,ySrc,widthSrc,heightSrc,xDes,yDes,widthDes,heightDes);
-	}-*/;
+	}-;*/
 
 }
