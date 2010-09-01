@@ -13,7 +13,8 @@
   <!-- Other module inherits                                      -->
   <inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
   <!-- To switch logging off, change TRACE to OFF.                -->
-  
+  <!-- This is for XML handling. We may think about removing this -->
+  <!-- at a later stage, as obviously this adds to size.		  -->
   <inherits name="com.google.gwt.xml.XML" />
   
   

@@ -17,6 +17,10 @@ public class Settings {
 	private static String MAP_DIRECTORY_PATH = "/maps/";		//TODO should be lowercase (or final)
 	private static Boolean collisionOn = true;
 	
+	
+	/**
+	 * @param settingsXmlFile
+	 */
 	public void init(String settingsXmlFile) {
 		FileHandleServiceAsync FileHandle = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		
@@ -50,12 +54,21 @@ public class Settings {
 		
 	}
 	
+	/**
+	 * @param imgDirPath
+	 * @param mapDirPath
+	 */
 	public void init(String imgDirPath, String mapDirPath) {
 		// by default, collision is true, so this constructor should be enough.
 		IMAGE_DIRECTORY_PATH = imgDirPath;
 		MAP_DIRECTORY_PATH = mapDirPath;
 	}
 	
+	/**
+	 * @param imgDirPath
+	 * @param mapDirPath
+	 * @param collision
+	 */
 	public void init(String imgDirPath, String mapDirPath, Boolean collision) {
 		IMAGE_DIRECTORY_PATH = imgDirPath;
 		MAP_DIRECTORY_PATH = mapDirPath;

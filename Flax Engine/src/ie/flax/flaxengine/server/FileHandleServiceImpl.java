@@ -17,10 +17,18 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 
+/**
+ * @author carllange
+ *
+ */
 @SuppressWarnings("serial")
 public class FileHandleServiceImpl extends RemoteServiceServlet implements
 		FileHandleService {
 
+	
+	/* (non-Javadoc)
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#createFile(java.lang.String)
+	 */
 	@Override
 	public void createFile(String fileName) {
 		File fileToCreate = new File(fileName);
@@ -37,6 +45,10 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#clearFile(java.lang.String)
+	 */
 	@Override
 	public void clearFile(String fileName) {
 		// actually deletes the file and creates a new one with the same name
@@ -45,6 +57,9 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 		createFile(fileName);
 	}
 
+	/* (non-Javadoc)
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#deleteFile(java.lang.String)
+	 */
 	@Override
 	public void deleteFile(String fileName){
 		File fileToDelete = new File(fileName);
@@ -53,9 +68,11 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 		if (fileToDelete.exists()) fileToDelete.delete();
 	}
 
+	/* (non-Javadoc)
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#readFileAsXml(java.lang.String)
+	 */
 	@Override
 	public Document readFileAsXml(String fileName) throws IOException {
-		FileReader fr;
 		String fileAsString;
 		Document fileAsXml;
 		
@@ -79,6 +96,9 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements
 		return fileAsXml;
 	}
 
+	/* (non-Javadoc)
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#writeXmlToFile(com.google.gwt.xml.client.Document, java.lang.String)
+	 */
 	@Override
 	public void writeXmlToFile(Document docToWrite, String fileName) {
 		// TODO Apparently Document.toString() actually does work. Check for legitimency
