@@ -78,7 +78,7 @@ public class FCanvas {
 	 * @param height
 	 *            of canvas
 	 */
-	public native void setupCanvasTag(String insertId, int width, int height)
+	private native void setupCanvasTag(String insertId, int width, int height)
 	/*-{
 		$doc.getElementById(insertId).innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';
 	}-*/;

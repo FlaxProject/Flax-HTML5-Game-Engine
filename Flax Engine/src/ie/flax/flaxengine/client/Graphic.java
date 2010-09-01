@@ -70,7 +70,18 @@ public class Graphic {
 	public static void drawImage(String imagePath, float x, float y,float height, float width) {
 		
 			try {
-				graphicLayer.drawImage(imageLibary.get(imagePath), x, y, width,height);
+				
+				//TODO sort this loading problem and remove this debug code
+				if(Graphic.isLoaded(imageLibary.get(imagePath)))
+				{
+					Log.info(" Double check and I think " + imagePath + " loaded ");
+					graphicLayer.drawImage(imageLibary.get(imagePath), x, y, width,height);
+				}
+				else
+				{
+					Log.error("On secound thoughts " + imagePath + " is not loaded");
+				}
+				
 			} catch (Exception e) {
 				Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 			}
@@ -93,7 +104,7 @@ public class Graphic {
 	public static void drawImage(String imagePath, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
 	{
 		try {
-	
+			
 			graphicLayer.drawImage(imageLibary.get(imagePath), xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
 		} catch (Exception e) {
 			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
@@ -104,21 +115,24 @@ public class Graphic {
 
 	/**
 	 * Loads images into the engine
-	 * @param imagePath - simply pass in the string name of the image you wish to load and make sure the image is in the image folder or the speficed location in the settings.IMAGE_DIR
+	 * @param imagePath - pass in the path to the image you wish to load and then the path is used
 	 */
-	public static void loadImage(String imagePath) {
-		
-		// Removes the extension of the image so that it can be referenced now by just the name
-		//imagePath = imagePath.substring(0,imagePath.length()- 4;
-		
+	public static void loadImage(String imagePath, String nameToReferenceBy) {
+			
 		try {
-			imageLibary.put(imagePath, graphicLayer.loadImage(imagePath)); //TODO fix onLoad bug, need to check are imageLoaded before drawing
+			imageLibary.put(nameToReferenceBy, graphicLayer.loadImage(imagePath)); //TODO fix onLoad bug, need to check are imageLoaded before drawing
 							
 			Log.info("Image " + imagePath + " Loaded sucessfully " );
 		} catch (Exception e) {
 			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
 		}
 	}
+	
+	public native static boolean isLoaded(JavaScriptObject c)	
+	/*-{	 									 	
+					return c.complete;
+	}-*/;
+	
 
 	
 }
