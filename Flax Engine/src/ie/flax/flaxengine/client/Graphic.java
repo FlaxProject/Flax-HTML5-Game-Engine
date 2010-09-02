@@ -89,17 +89,24 @@ public class Graphic {
 	}
 	
 	
-	/*public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y, float width, float height)
+	public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
 	{	
-				
-		try {			
-			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
+		int numberOfTilesWidth = (imageLibary.get(imagePath).getWidth()/tileSize);
+		
+		int xSrc = (Texture/numberOfTilesWidth);
+		int ySrc = (Texture%numberOfTilesWidth)*numberOfTilesWidth;
+	
+		try {
+			
+			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, tileSize, tileSize, x, y, tileSize, tileSize);
 		} catch (Exception e) {
 			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		
 		}
+		
+	}
 	
-	}*/
+			
 	
 	/**
 	 * Draws an segment of an image to a segment of the canvas
