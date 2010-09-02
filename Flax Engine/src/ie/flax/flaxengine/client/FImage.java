@@ -15,6 +15,7 @@ public class FImage {
 	public JavaScriptObject imageData; // Set as public so as not to add overhead of a method call
 	private int width;
 	private int height;
+	
 
 	public FImage(JavaScriptObject imageData) {
 

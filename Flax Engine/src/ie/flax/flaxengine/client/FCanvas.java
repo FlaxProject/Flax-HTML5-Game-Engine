@@ -44,8 +44,7 @@ public class FCanvas {
 		this.height = 480;
 
 		setupCanvasTag(insertId, width, height);
-		this.context = getContext();
-		
+		this.context = getContext();		
 	}
 
 	/**

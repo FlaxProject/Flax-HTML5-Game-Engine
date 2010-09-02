@@ -12,8 +12,17 @@ public class FTile extends FObject{
 	private int texture;
 	private byte layer;
 	
-	public FTile(float x, float y, float width, float height) {
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public FTile(float x, float y, float width, float height, int texture) {
 		super(x, y, width, height);
+		
+		this.texture = texture;
 		
 	}
 	

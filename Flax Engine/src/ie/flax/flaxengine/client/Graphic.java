@@ -89,9 +89,18 @@ public class Graphic {
 	}
 	
 	
+	/**
+	 * 
+	 * @param imagePath
+	 * @param Texture
+	 * @param tileSize
+	 * @param x
+	 * @param y
+	 */
 	public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
 	{	
 		int numberOfTilesWidth = (imageLibary.get(imagePath).getWidth()/tileSize);
+		
 		
 		int xSrc = (Texture/numberOfTilesWidth);
 		int ySrc = (Texture%numberOfTilesWidth)*numberOfTilesWidth;

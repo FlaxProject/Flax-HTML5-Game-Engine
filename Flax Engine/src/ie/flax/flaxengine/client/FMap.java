@@ -27,23 +27,66 @@ public class FMap {
 
 	private int width;
 	private int height;
-	private static int tileSize;
+	private final int tileSize;
 	private String tileSheet;
 	private FTile[][] tiles;
 	private List<FObject> objects = new ArrayList<FObject>();
-
 	// private List<FEntity> entities = new ArrayList<FEntity>();
+	
+	public FMap()
+	{
+		//TODO code to be removed when JSON serialisation works.
+		this.width = this.height = 100;
+		this.tileSize = 32;
+		this.tileSheet = "c";
+		tiles = new FTile[width][height];
+		
+		  for (int y = 0; y < height; y++)
+	         {
+	             for (int x = 0; x < width; x++)
+	             {                
+	                tiles[x][y] =  new FTile(x*this.tileSize, y*this.tileSize, 32, 32, 1);
+	             }
+	         }
+	}
 
+	/**
+	 * 
+	 * @return width (int)
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * 
+	 * @return height (int)
+	 */
 	public int getHeight() {
 		return height;
 	}
 
+	/**
+	 * This is used to reference the imageLibary with the name of the tileSheet eg. imageLibary.get("myTileSheet")
+	 * @return tileSheet name 
+	 */
 	public String getTileSheet() {
 		return tileSheet;
 	}
+	
 
+	/**
+	 * Draws the map
+	 */
+	 public void draw()
+     {
+		 //TODO implement camera scrolling in the map drawing
+         for (int y = 0; y < height; y++)
+         {
+             for (int x = 0; x < width; x++)
+             {                
+                Graphic.drawTile(tileSheet, tiles[x][y].getTexture(), this.tileSize, tiles[x][y].getX(), tiles[x][y].getY());
+             }
+         }
+     }
 }
