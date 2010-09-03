@@ -10,7 +10,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
-import ie.flax.flaxengine.client.staticServices.FileHandleService;
+import ie.flax.flaxengine.client.FileHandleService;
+import ie.flax.flaxengine.client.FlaxEngine;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -40,8 +41,8 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements FileH
 				Log.error("File could not be written. Details follow.");
 				Log.error(e.getMessage());
 			}
-			Log.warn("The file you tried to create already exists.");
 		}
+		else Log.warn("The file you tried to create already exists.");
 	}
 
 	
@@ -76,9 +77,8 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements FileH
 	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#readFileAsXml(java.lang.String)
 	 */
 	@Override
-	public Document readFileAsXml(String fileName) {
+	public String readFileAsString(String fileName) {
 		String fileAsString = null;
-		Document fileAsXml = null;
 		
 		// TODO clean this shit up, very untidy
 		FileInputStream stream = null;
@@ -107,30 +107,22 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements FileH
 			}
 		}
 
-		if (fileAsString != null) fileAsXml = XMLParser.parse(fileAsString);
-
-		return fileAsXml;
+		return fileAsString;
 	}
 
 	/* (non-Javadoc)
 	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#writeXmlToFile(com.google.gwt.xml.client.Document, java.lang.String)
 	 */
 	@Override
-	public void writeXmlToFile(Document docToWrite, String fileName) {
-		// TODO Apparently Document.toString() actually does work. Check for legitimency
-		// TODO this deletes files without warning, wtf
-		// TODO this is very iffy, make better.
-		deleteFile(fileName);
+	public void writeStringToFile(String stringToWrite, String fileName) {
 		createFile(fileName);
 		
 		try {
 			FileWriter fw = new FileWriter(fileName);
-			fw.write(docToWrite.toString()); // this may be extremely slow
+			fw.write(stringToWrite);
 		} catch (IOException e) {
 			Log.error("File could not be written. Details follow.");
 			Log.error(e.getMessage());
 		}
 	}
-
-	//TODO: JSON stuff
 }

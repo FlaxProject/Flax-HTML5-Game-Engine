@@ -1,4 +1,4 @@
-package ie.flax.flaxengine.client.staticServices;
+package ie.flax.flaxengine.client;
 
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -42,20 +42,18 @@ public interface FileHandleService extends RemoteService {
 	public void deleteFile(String fileName);
 	
 	/**
-	 * This returns an XML file as a Document.
-	 * May be renamed to parse XML.
+	 * This returns a file as a String. Needed for things like XML parsing.
 	 * 
-	 * @param fileName The name and extension of the XML file to parse.
+	 * @param fileName
 	 * @return
-	 * @throws IOException
 	 */
-	public Document readFileAsXml(String fileName);
+	public String readFileAsString(String fileName);
 	
 	/**
-	 * This writes a Document to a file
+	 * This writes a String to a file
 	 * 
 	 * @param docToWrite
 	 * @param fileName
 	 */
-	public void writeXmlToFile(Document docToWrite, String fileName);
+	public void writeStringToFile(String stringToWrite, String fileName);
 }

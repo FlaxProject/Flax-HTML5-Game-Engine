@@ -1,4 +1,4 @@
-package ie.flax.flaxengine.client.staticServices;
+package ie.flax.flaxengine.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
@@ -11,6 +11,6 @@ public interface FileHandleServiceAsync {
 	void createFile(String fileName, AsyncCallback<Void> callback);
 	void clearFile(String fileName, AsyncCallback<Void> callback);
 	void deleteFile(String fileName, AsyncCallback<Void> callback);
-	void readFileAsXml(String fileName, AsyncCallback<Document> callback);
-	void writeXmlToFile(Document docToWrite, String fileName, AsyncCallback<Void> callback);
+	void readFileAsString(String fileName, AsyncCallback<String> callback);
+	void writeStringToFile(String stringToWrite, String fileName, AsyncCallback<Void> callback);
 }
