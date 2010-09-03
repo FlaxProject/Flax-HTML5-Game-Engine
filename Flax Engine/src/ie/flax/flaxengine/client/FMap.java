@@ -27,89 +27,91 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  * @author Ciarán McCann
  * 
  */
-public class FMap implements JsonSerializable{
+public class FMap implements JsonSerializable {
 
 	private int width;
 	private int height;
-	private final int tileSize;
+	private int tileSize;
+
 	private String tileSheet;
-	private List< List<FTile> > tiles = new ArrayList<FTile ArrayList<FTile>>(); //TODO working on readying for serialization
+	private List<FTile> tiles;
 	private List<FObject> objects = new ArrayList<FObject>();
-	// private List<FEntity> entities = new ArrayList<FEntity>();
+	private List<FEntity> entities = new ArrayList<FEntity>();
+
 	
-	public FMap()
-	{
-		//TODO code to be removed when JSON serialisation works.
-		this.width = this.height = 100;
+	public FMap() {
+		// TODO code to be removed when JSON serialisation works.
+		this.width = this.height = 1000;
 		this.tileSize = 32;
 		this.tileSheet = "c";
-		tiles = new FTile[width][height];
-		
-		  for (int y = 0; y < height; y++)
-	         {
-	             for (int x = 0; x < width; x++)
-	             {                
-	                tiles[x][y] =  new FTile(x*this.tileSize, y*this.tileSize, 32, 32, 1);
-	             }
-	         }
+		tiles = new ArrayList<FTile>(width * height);
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				tiles.add(new FTile(x * this.tileSize, y * this.tileSize, 32,32, 1));
+				objects.add(new FObject(23, 23, 23, 23));
+			}
+		}
 	}
-	
-	
+
 	/**
-	 * Pass this method JSON and it gives you back an FMap object which you can then assign to your object via FMap myMap = JsonToFMap(String Json);
+	 * Pass this method JSON and it gives you back an FMap object which you can
+	 * then assign to your object via FMap myMap = JsonToFMap(String Json);
+	 * 
 	 * @param JSON
 	 * @return
 	 */
-	public static FMap JsonToFMap(String Json)
-	{
-		Serializer serializer = (Serializer)GWT.create( Serializer.class );		
-		return (FMap)serializer.deSerialize(Json, "ie.flax.flaxengine.client.FMap");	
+	public static FMap JsonToFMap(String Json) {
+		Serializer serializer = (Serializer) GWT.create(Serializer.class);
+		return (FMap) serializer.deSerialize(Json,
+				"ie.flax.flaxengine.client.FMap");
 	}
-	
+
 	/**
 	 * Creates a JSON string from the current FMap object
+	 * 
 	 * @return String of JSON
 	 */
-	public String FMapToJson()
-	{
-		Serializer serializer = (Serializer)GWT.create( Serializer.class );		
+	public String FMapToJson() {
+		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return serializer.serialize(this);
 	}
-		
-	
-	
 
-	public FTile[][] getTiles() {
+	public void setTileSize(int tileSize) {
+		this.tileSize = tileSize;
+	}
+
+	public List<FTile> getTiles() {
 		return tiles;
 	}
 
-
-	public void setTiles(FTile[][] tiles) {
+	public void setTiles(List<FTile> tiles) {
 		this.tiles = tiles;
 	}
 
+	public List<FEntity> getEntities() {
+		return entities;
+	}
 
-
+	public void setEntities(List<FEntity> entities) {
+		this.entities = entities;
+	}
 
 	public int getTileSize() {
 		return tileSize;
 	}
 
-
 	public void setWidth(int width) {
 		this.width = width;
 	}
-
 
 	public void setHeight(int height) {
 		this.height = height;
 	}
 
-
 	public void setTileSheet(String tileSheet) {
 		this.tileSheet = tileSheet;
 	}
-
 
 	/**
 	 * 
@@ -128,34 +130,33 @@ public class FMap implements JsonSerializable{
 	}
 
 	/**
-	 * This is used to reference the imageLibary with the name of the tileSheet eg. imageLibary.get("myTileSheet")
-	 * @return tileSheet name 
+	 * This is used to reference the imageLibary with the name of the tileSheet
+	 * eg. imageLibary.get("myTileSheet")
+	 * 
+	 * @return tileSheet name
 	 */
 	public String getTileSheet() {
 		return tileSheet;
 	}
-	
 
 	/**
 	 * Draws the map
 	 */
-	 public void draw()
-     {
-		 //TODO implement camera scrolling in the map drawing
-         for (int y = 0; y < height; y++)
-         {
-             for (int x = 0; x < width; x++)
-             {                
-                Graphic.drawTile(tileSheet, tiles[x][y].getTexture(), this.tileSize, tiles[x][y].getX(), tiles[x][y].getY());
-             }
-         }
-     }
-
+	public void draw() {
+		// TODO implement camera scrolling in the map drawing
+		for (int y = 0; y < height; y++) 
+		{
+			for (int x = 0; x < width; x++)
+			{
+				FTile temp = tiles.get(x + (y * this.width));
+				Graphic.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
+			}
+		}
+	}
 
 	public void setObjects(List<FObject> objects) {
 		this.objects = objects;
 	}
-
 
 	public List<FObject> getObjects() {
 		return objects;

@@ -1,12 +1,14 @@
 package ie.flax.flaxengine.client;
 
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
+
 /**
  * FObject is the base object which all physical objects in the game are derived from.
  * 
  * @author Ciarán McCann
  *
  */
-public class FObject {
+public class FObject implements JsonSerializable{
 
 	private float x;
 	private float y;
@@ -28,6 +30,14 @@ public class FObject {
 		this.height = height;
 	}
 	
+	
+	
+	public FObject() {
+		
+	}
+
+
+
 	/**
 	 * Gets the X value of the FObject
 	 * @return float

@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client;
 
-public class FEntity {
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
+
+public class FEntity implements JsonSerializable {
 
 }

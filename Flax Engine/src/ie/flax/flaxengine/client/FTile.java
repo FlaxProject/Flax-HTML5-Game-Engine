@@ -1,12 +1,14 @@
 package ie.flax.flaxengine.client;
 
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
+
 /**
  * FTile extends FObject and is the main compoenet of the map class
  * 
  * @author Ciarán McCann
  *
  */
-public class FTile extends FObject{
+public class FTile extends FObject implements JsonSerializable{
 
 	private boolean solid;
 	private int texture;
@@ -26,11 +28,26 @@ public class FTile extends FObject{
 		
 	}
 	
+	
+	
+	public FTile(float x, float y, float width, float height) {
+		super(x, y, width, height);
+	}
+
+	
+
+
+	public FTile() {
+		super();
+	}
+
+
+
 	/**
 	 * Ture or false is the tile collideable or not
 	 * @return
 	 */
-	public boolean isSolid() {
+	public boolean getSolid() {
 		return solid;
 	}
 
