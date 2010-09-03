@@ -3,33 +3,35 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
-
 import java.util.ArrayList;
 import java.util.List;
-
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 
 /**
+ * FMap is an automatic class, which given a filePath to a JSON map file will 
+ * construct itself by magic. FMap does all the work for you.
+ * <br><br>
+ * 
  * The map object is basically the environment, it defines the tiles, the
  * objects, the entity in the world. It is a very automated object in that it
  * takes 1 parameter for its constructor. The path to the xml file which
  * contains all the information about the map. Below is a template example of
  * the information.
- * 
+ * <br><br>
  * The map file is the game information file really. It contains almost all of
  * the info about the different objects that will be created. The images for
  * each object are also loaded when this map file is read. The tiles are all
  * stored on one sheet and objects and entitys have their own sperate images due
  * to the fact they may have animations.
- * 
+ * <br><br>
  * Thought if a developer would like to programmatically add in all the objects
  * and entitys they can do so. Though the map object requires the xml file for
  * at-lest the tiles of the map.
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  * 
  */
 public class FMap implements JsonSerializable, onFileLoadedEventHandler {
@@ -38,36 +40,40 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private int height;
 	private int tileSize;
 	private String name;
-
-	private String tileSheet;
+	
+	/**
+	 * This holds the string which is used to reference the tileSheet image in the imageLibary
+	 */
+	private String tileSheet;	
+	
 	private List<FTile> tiles;
 	private List<FObject> objects = new ArrayList<FObject>();
 	private List<FEntity> entities = new ArrayList<FEntity>();
 
-	
+	/**
+	 * FMap constructor takes in the map path and use the static service file
+	 * handle to read the map file which is has the JSON of the map. The JSON
+	 * string is then returned to the FMap class via an event due to
+	 * asynchronous
+	 * 
+	 * @param mapPath
+	 *            address to the map file to be loaded.
+	 */
 	public FMap(String mapPath) {
 		
-		FileHandle.readFileAsString(mapPath, mapPath);
-		
-		// TODO code to be removed when JSON serialisation works.
-		
 		name = mapPath;
-		/*this.width = this.height = 1000;
-		this.tileSize = 32;
-		this.tileSheet = "c";
-		tiles = new ArrayList<FTile>(width * height);
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				tiles.add(new FTile(x * this.tileSize, y * this.tileSize, 32,32, 1));
-				objects.add(new FObject(23, 23, 23, 23));
-			}
-		}*/
-		
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
+		FileHandle.readFileAsString(mapPath, mapPath);//Makes a request for the map file
+			
 	}
 	
-
+	/**
+	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
 	public FMap() {
 		
 	}
@@ -80,10 +86,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * @param JSON
 	 * @return
 	 */
-	public static FMap JsonToFMap(String Json) {
+	public  FMap JsonToFMap(String Json) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
-		return (FMap) serializer.deSerialize(Json,
-				"ie.flax.flaxengine.client.FMap");
+		return (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
 	}
 
 	/**
@@ -97,49 +102,37 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	}
 	
 	
-
+	/**
+	 * Gets the name of the map file which this map object was created from
+	 * @return String name of map
+	 */
 	public String getName() {
 		return name;
 	}
 
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-
+	
+	/**
+	 * Sets the tileSize of the map 
+	 * @param tileSize
+	 */
 	public void setTileSize(int tileSize) {
 		this.tileSize = tileSize;
 	}
 
-	public List<FTile> getTiles() {
-		return tiles;
-	}
 
-	public void setTiles(List<FTile> tiles) {
-		this.tiles = tiles;
-	}
-
-	public List<FEntity> getEntities() {
-		return entities;
-	}
-
-	public void setEntities(List<FEntity> entities) {
-		this.entities = entities;
-	}
-
+	/**
+	 * Gets the tileSize used by the current map
+	 * @return int tilesize
+	 */
 	public int getTileSize() {
 		return tileSize;
 	}
 
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
-
+	
+	/**
+	 * Sets the tileSheet of the engine
+	 * @param tileSheet
+	 */
 	public void setTileSheet(String tileSheet) {
 		this.tileSheet = tileSheet;
 	}
@@ -185,13 +178,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		}
 	}
 
-	public void setObjects(List<FObject> objects) {
-		this.objects = objects;
-	}
-
-	public List<FObject> getObjects() {
-		return objects;
-	}
+	
 
 	/**
 	 * This method is run when a onFileLoaded event is fired. It then checks was
@@ -210,12 +197,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			 * Creates a temp FMap object from the JSON string which is stored
 			 * in the event object which was pulled from the server
 			 */
-			FMap temp = FMap.JsonToFMap(e.getDataLoadedFromFile()); 
+			FMap temp = JsonToFMap(e.getDataLoadedFromFile()); 
 						
 			/**
 			 * It would be nicer to go this =
 			 * FMap.JsonToFMap(e.getDataLoadedFromFile()); though we can't do
-			 * that. It would have to be outside the class which wouldnt work as
+			 * that. It would have to be outside the class which wouldn't work as
 			 * well with the ID's etc.
 			 */
 			this.entities = temp.entities;
@@ -224,6 +211,112 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			this.tileSheet = temp.tileSheet;
 			this.tileSize = temp.tileSize;
 			this.width = temp.width;
+			
+			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
+			
 		}
 	}
+	
+	
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated
+	 void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated
+	public List<FTile> getTiles() {
+		return tiles;
+	}
+	
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated
+	public void setObjects(List<FObject> objects) {
+		this.objects = objects;
+	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public List<FObject> getObjects() {
+		return objects;
+	}
+	
+	
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public void setTiles(List<FTile> tiles) {
+		this.tiles = tiles;
+	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public List<FEntity> getEntities() {
+		return entities;
+	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public void setEntities(List<FEntity> entities) {
+		this.entities = entities;
+	}
+	
 }
