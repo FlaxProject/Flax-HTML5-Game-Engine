@@ -16,6 +16,10 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 	private String dataLoadedFromFile;
 	private String id;
 	
+	public String getId() {
+		return id;
+	}
+	
 	/**
 	 * Constructs the event object
 	 * @param dataLoadedFromFile stores the File Data for transport as string
@@ -33,11 +37,6 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 	 */
 	public String getDataLoadedFromFile() {
 		return dataLoadedFromFile;
-	}
-
-		
-	public String getId() {
-		return id;
 	}
 
 

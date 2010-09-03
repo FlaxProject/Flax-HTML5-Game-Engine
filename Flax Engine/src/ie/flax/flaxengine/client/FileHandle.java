@@ -69,10 +69,10 @@ public class FileHandle {
 		});
 	}
 	
-	static void readFileAsString(String fileName, int inid) {
+	static void readFileAsString(String fileName, String inid) {
 		
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
-		final int id = inid;
+		final String id = inid;
 		fh.readFileAsString(fileName, id, new AsyncCallback<String>() {
 			
 			@Override
