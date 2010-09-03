@@ -3,6 +3,10 @@ package ie.flax.flaxengine.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
+import com.kfuntak.gwt.json.serialization.client.Serializer;
+
 /**
  * The map object is basically the environment, it defines the tiles, the
  * objects, the entity in the world. It is a very automated object in that it
@@ -23,13 +27,13 @@ import java.util.List;
  * @author Ciarán McCann
  * 
  */
-public class FMap {
+public class FMap implements JsonSerializable{
 
 	private int width;
 	private int height;
 	private final int tileSize;
 	private String tileSheet;
-	private FTile[][] tiles;
+	private List< List<FTile> > tiles = new ArrayList<FTile ArrayList<FTile>>(); //TODO working on readying for serialization
 	private List<FObject> objects = new ArrayList<FObject>();
 	// private List<FEntity> entities = new ArrayList<FEntity>();
 	
@@ -49,6 +53,63 @@ public class FMap {
 	             }
 	         }
 	}
+	
+	
+	/**
+	 * Pass this method JSON and it gives you back an FMap object which you can then assign to your object via FMap myMap = JsonToFMap(String Json);
+	 * @param JSON
+	 * @return
+	 */
+	public static FMap JsonToFMap(String Json)
+	{
+		Serializer serializer = (Serializer)GWT.create( Serializer.class );		
+		return (FMap)serializer.deSerialize(Json, "ie.flax.flaxengine.client.FMap");	
+	}
+	
+	/**
+	 * Creates a JSON string from the current FMap object
+	 * @return String of JSON
+	 */
+	public String FMapToJson()
+	{
+		Serializer serializer = (Serializer)GWT.create( Serializer.class );		
+		return serializer.serialize(this);
+	}
+		
+	
+	
+
+	public FTile[][] getTiles() {
+		return tiles;
+	}
+
+
+	public void setTiles(FTile[][] tiles) {
+		this.tiles = tiles;
+	}
+
+
+
+
+	public int getTileSize() {
+		return tileSize;
+	}
+
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+
+	public void setTileSheet(String tileSheet) {
+		this.tileSheet = tileSheet;
+	}
+
 
 	/**
 	 * 
@@ -89,4 +150,14 @@ public class FMap {
              }
          }
      }
+
+
+	public void setObjects(List<FObject> objects) {
+		this.objects = objects;
+	}
+
+
+	public List<FObject> getObjects() {
+		return objects;
+	}
 }

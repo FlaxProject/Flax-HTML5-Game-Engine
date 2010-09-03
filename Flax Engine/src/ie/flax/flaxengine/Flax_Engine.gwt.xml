@@ -3,6 +3,9 @@
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
+ <!-- Allows the objects to be serialized and deserialized -->
+  <inherits name="com.kfuntak.gwt.json.serialization.GWTProJsonSerializer" />
+
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
