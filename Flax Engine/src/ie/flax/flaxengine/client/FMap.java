@@ -77,31 +77,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public FMap() {
 		
 	}
-
-
-	/**
-	 * Pass this method JSON and it gives you back an FMap object which you can
-	 * then assign to your object via FMap myMap = JsonToFMap(String Json);
-	 * 
-	 * @param JSON
-	 * @return
-	 */
-	public  FMap JsonToFMap(String Json) {
-		Serializer serializer = (Serializer) GWT.create(Serializer.class);
-		return (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
-	}
-
-	/**
-	 * Creates a JSON string from the current FMap object
-	 * 
-	 * @return String of JSON
-	 */
-	public String FMapToJson() {
-		Serializer serializer = (Serializer) GWT.create(Serializer.class);
-		return serializer.serialize(this);
-	}
-	
-	
+		
 	/**
 	 * Gets the name of the map file which this map object was created from
 	 * @return String name of map
@@ -178,6 +154,48 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		}
 	}
 
+	/**
+	 * This adds the given FEntity object or objects that are derived from FEntity
+	 * to the map object.
+	 * @param entity
+	 */
+	public void addEntity(FEntity entity)
+	{
+		entities.add(entity);
+	}
+	
+	/**
+	 * This adds the given FObject object or objects that are derived from FObject
+	 * to the map object.
+	 * @param FObject 
+	 */
+	public void addObjects(FObject object)
+	{
+		objects.add(object);
+	}
+	
+	/**
+	 * Pass this method JSON and it gives you back an FMap object which you can
+	 * then assign to your object via FMap myMap = JsonToFMap(String Json);
+	 * 
+	 * @param JSON
+	 * @return
+	 */
+	public  FMap JsonToFMap(String Json) {
+		Serializer serializer = (Serializer) GWT.create(Serializer.class);
+		return (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
+	}
+
+	/**
+	 * Creates a JSON string from the current FMap object
+	 * 
+	 * @return String of JSON
+	 */
+	public String FMapToJson() {
+		Serializer serializer = (Serializer) GWT.create(Serializer.class);
+		return serializer.serialize(this);
+	}
+	
 	
 
 	/**

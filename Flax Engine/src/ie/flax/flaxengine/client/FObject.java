@@ -5,7 +5,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 /**
  * FObject is the base object which all physical objects in the game are derived from.
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public class FObject implements JsonSerializable{
@@ -31,12 +31,16 @@ public class FObject implements JsonSerializable{
 	}
 	
 	
-	
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated
 	public FObject() {
 		
 	}
-
-
 
 	/**
 	 * Gets the X value of the FObject
