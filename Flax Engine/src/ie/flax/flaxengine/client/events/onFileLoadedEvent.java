@@ -11,6 +11,12 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 		
 		this.dataLoadedFromFile = dataLoadedFromFile;
 	}
+	
+	/**
+	 *  For each new event, a new event type must also be specified, 
+	 *  with which the event can be registered
+	 */
+	public static Type<onFileLoadedEventHandler> TYPE = new Type<onFileLoadedEventHandler>();
 
 	public String getDataLoadedFromFile() {
 		return dataLoadedFromFile;
@@ -18,14 +24,16 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 
 	@Override
 	protected void dispatch(onFileLoadedEventHandler handler) {
-		// TODO Auto-generated method stub
+		handler.onFileLoaded(this);
 		
 	}
 
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<onFileLoadedEventHandler> getAssociatedType() {
 		// TODO Auto-generated method stub
-		return null;
+		return TYPE;
 	}
+
+	
 
 }

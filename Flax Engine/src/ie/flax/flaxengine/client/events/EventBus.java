@@ -10,6 +10,6 @@ import com.google.gwt.event.shared.HandlerManager;
  */
 public class EventBus {
 	
-	public static HandlerManager hanlderManger;
+	public static HandlerManager hanlderManger = new HandlerManager(null);
 
 }
