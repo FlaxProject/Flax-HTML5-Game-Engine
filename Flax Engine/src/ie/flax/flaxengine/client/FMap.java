@@ -225,7 +225,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * 
 	 */
 	@Deprecated
-	 void setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	
