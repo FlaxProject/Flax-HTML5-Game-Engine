@@ -14,19 +14,14 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 	 * This the string of file data 
 	 */
 	private String dataLoadedFromFile;
-	
-	public int getId() {
-		return id;
-	}
-
-	private int id;
+	private String id;
 	
 	/**
 	 * Constructs the event object
 	 * @param dataLoadedFromFile stores the File Data for transport as string
 	 * @param id 
 	 */
-	public onFileLoadedEvent(String dataLoadedFromFile, int id) {
+	public onFileLoadedEvent(String dataLoadedFromFile, String id) {
 		this.id = id;
 		this.dataLoadedFromFile = dataLoadedFromFile;
 	}
@@ -40,8 +35,13 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 		return dataLoadedFromFile;
 	}
 
-	
-	
+		
+	public String getId() {
+		return id;
+	}
+
+
+
 	/**
 	 *  For each new event, a new event type must also be specified, 
 	 *  with which the event can be registered
