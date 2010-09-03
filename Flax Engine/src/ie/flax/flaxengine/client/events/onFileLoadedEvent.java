@@ -2,15 +2,38 @@ package ie.flax.flaxengine.client.events;
 
 import com.google.gwt.event.shared.GwtEvent;
 
+/**
+ * This is the event object for onFileLoaded, it allows the file data to be stored and 
+ * passed to the listening classes.
+ * @author Ciarán McCann
+ *
+ */
 public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 
+	/**
+	 * This the string of file data 
+	 */
 	private String dataLoadedFromFile;
 	
-		
+	/**
+	 * Constructs the event object
+	 * @param dataLoadedFromFile stores the File Data for transport as string
+	 */
 	public onFileLoadedEvent(String dataLoadedFromFile) {
 		
 		this.dataLoadedFromFile = dataLoadedFromFile;
 	}
+	
+	
+	/**
+	 * Access the data which was got from the file
+	 * @return String filedata
+	 */
+	public String getDataLoadedFromFile() {
+		return dataLoadedFromFile;
+	}
+
+	
 	
 	/**
 	 *  For each new event, a new event type must also be specified, 
@@ -18,10 +41,8 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 	 */
 	public static Type<onFileLoadedEventHandler> TYPE = new Type<onFileLoadedEventHandler>();
 
-	public String getDataLoadedFromFile() {
-		return dataLoadedFromFile;
-	}
-
+	
+	
 	@Override
 	protected void dispatch(onFileLoadedEventHandler handler) {
 		handler.onFileLoaded(this);
