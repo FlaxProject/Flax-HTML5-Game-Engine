@@ -37,6 +37,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private int width;
 	private int height;
 	private int tileSize;
+	private String name;
 
 	private String tileSheet;
 	private List<FTile> tiles;
@@ -44,8 +45,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private List<FEntity> entities = new ArrayList<FEntity>();
 
 	
-	public FMap() {
+	public FMap(String mapPath) {
 		// TODO code to be removed when JSON serialisation works.
+		
+		name = mapPath;
 		this.width = this.height = 1000;
 		this.tileSize = 32;
 		this.tileSheet = "c";
@@ -169,9 +172,37 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		return objects;
 	}
 
+	/**
+	 * This method is run when a onFileLoaded event is fired. It then checks was
+	 * the file loaded request by itself. Which it does so by the ID. It then constructs the object
+	 * 
+	 * @param e
+	 *            event object
+	 */
 	@Override
 	public void onFileLoaded(onFileLoadedEvent e) {
-		// TODO Auto-generated method stub
-		Window.alert("" + e.getId());
+				
+		//if(this class called for the file)
+		if(e.getId() == this.name)
+		{
+			/**
+			 * Creates a temp FMap object from the JSON string which is stored
+			 * in the event object which was pulled from the server
+			 */
+			FMap temp = FMap.JsonToFMap(e.getDataLoadedFromFile()); 
+						
+			/**
+			 * It would be nicer to go this =
+			 * FMap.JsonToFMap(e.getDataLoadedFromFile()); though we can't do
+			 * that. It would have to be outside the class which wouldnt work as
+			 * well with the ID's etc.
+			 */
+			this.entities = temp.entities;
+			this.tiles = temp.tiles;
+			this.objects = temp.objects;
+			this.tileSheet = temp.tileSheet;
+			this.tileSize = temp.tileSize;
+			this.width = temp.width;
+		}
 	}
 }
