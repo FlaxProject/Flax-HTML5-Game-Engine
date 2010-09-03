@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Text;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.XMLParser;
 
 import com.allen_sauer.gwt.log.client.Log;
 
@@ -33,12 +34,15 @@ public class Settings {
 	 * @param settingsXmlFile The name and extension of the XML file on the server.
 	 */
 	public static void init(String settingsXmlFile) {
-		FileHandleServiceAsync FileHandle = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
+		FileHandleServiceAsync fhs = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		
-		FileHandle.readFileAsXml(settingsXmlFile, new AsyncCallback<Document>() {
+		fhs.readFileAsString(settingsXmlFile, new AsyncCallback<String>() {
 			
 			@Override
-			public void onSuccess(Document xml) {
+			public void onSuccess(String xmlAsString) {
+				// parse string into XML
+				Document xml = XMLParser.parse(xmlAsString);
+				
 				// get imgdir path
 				Text imgPathNode = (Text)xml.getElementsByTagName("image directory path").item(0).getFirstChild();
 				IMAGE_DIRECTORY_PATH = imgPathNode.getData();
