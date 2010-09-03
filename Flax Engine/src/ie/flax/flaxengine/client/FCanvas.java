@@ -69,9 +69,10 @@ public class FCanvas {
 
 	/**
 	 * 
+	 * 
 	 * @param insertID
 	 *            is the ID of the HTML element in which to insert the canvas
-	 *            tag.
+	 *            tag. If the ID doesn't exist it will place it in the body of the html
 	 * @param width
 	 *            of canvas
 	 * @param height
@@ -79,7 +80,14 @@ public class FCanvas {
 	 */
 	private native void setupCanvasTag(String insertId, int width, int height)
 	/*-{
+		if($doc.getElementById(insertId) != null)
+		{		
 		$doc.getElementById(insertId).innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';
+		}
+		else
+		{
+			$doc.getElementsByTagName("body").innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';			
+		}
 	}-*/;
 
 	/**

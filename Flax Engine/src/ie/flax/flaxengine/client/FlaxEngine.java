@@ -12,14 +12,14 @@ public class FlaxEngine implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		
-		Graphic.init("test");		
+		Graphic.init("nameFieldContainer");		
 		Graphic.loadImage("x.jpg","x");
 		Graphic.loadImage("u.jpg","u");
 		Graphic.loadImage("x.jpg","c");
 		
-	//	myMap.draw();
+		//myMap.draw();
 		
-		Log.info(myMap.FMapToJson());
+	//	Log.info(myMap.FMapToJson());
 		
 
 		
