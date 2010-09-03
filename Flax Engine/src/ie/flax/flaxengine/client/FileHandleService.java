@@ -47,7 +47,7 @@ public interface FileHandleService extends RemoteService {
 	 * @param fileName
 	 * @return
 	 */
-	public String readFileAsString(String fileName);
+	public String readFileAsString(String fileName, int id);
 	
 	/**
 	 * This writes a String to a file

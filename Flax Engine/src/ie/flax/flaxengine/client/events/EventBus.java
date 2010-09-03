@@ -13,6 +13,6 @@ public class EventBus {
 	/**
 	 * This is the events hanlder which is used for firing and registering events.
 	 */
-	public static HandlerManager hanlderManger = new HandlerManager(null);
+	public static HandlerManager handlerManager = new HandlerManager(null);
 
 }

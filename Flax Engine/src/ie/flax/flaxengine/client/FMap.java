@@ -1,9 +1,14 @@
 package ie.flax.flaxengine.client;
 
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.onFileLoadedEvent;
+import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 
@@ -27,7 +32,7 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  * @author Ciarán McCann
  * 
  */
-public class FMap implements JsonSerializable {
+public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 
 	private int width;
 	private int height;
@@ -52,6 +57,8 @@ public class FMap implements JsonSerializable {
 				objects.add(new FObject(23, 23, 23, 23));
 			}
 		}
+		
+		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
 	}
 
 	/**
@@ -160,5 +167,11 @@ public class FMap implements JsonSerializable {
 
 	public List<FObject> getObjects() {
 		return objects;
+	}
+
+	@Override
+	public void onFileLoaded(onFileLoadedEvent e) {
+		// TODO Auto-generated method stub
+		Window.alert("" + e.getId());
 	}
 }

@@ -1,5 +1,8 @@
 package ie.flax.flaxengine.client;
 
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.onFileLoadedEvent;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -66,15 +69,15 @@ public class FileHandle {
 		});
 	}
 	
-	static void fileAsString(String fileName) {
+	static void readFileAsString(String fileName, int inid) {
 		
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
-
-		fh.readFileAsString(fileName, new AsyncCallback<String>() {
+		final int id = inid;
+		fh.readFileAsString(fileName, id, new AsyncCallback<String>() {
 			
 			@Override
 			public void onSuccess(String result) {
-				//TODO fire event
+				EventBus.handlerManager.fireEvent(new onFileLoadedEvent(result, id));
 			}
 			
 			@Override

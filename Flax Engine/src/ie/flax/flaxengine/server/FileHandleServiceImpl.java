@@ -77,7 +77,7 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements FileH
 	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#readFileAsXml(java.lang.String)
 	 */
 	@Override
-	public String readFileAsString(String fileName) {
+	public String readFileAsString(String fileName, int id) {
 		String fileAsString = null;
 		
 		// TODO clean this shit up, very untidy

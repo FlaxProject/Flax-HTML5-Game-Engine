@@ -36,7 +36,7 @@ public class Settings {
 	public static void init(String settingsXmlFile) {
 		FileHandleServiceAsync fhs = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		
-		fhs.readFileAsString(settingsXmlFile, new AsyncCallback<String>() {
+		/*fhs.readFileAsString(settingsXmlFile, new AsyncCallback<String>() {
 			
 			@Override
 			public void onSuccess(String xmlAsString) {
@@ -65,7 +65,7 @@ public class Settings {
 			public void onFailure(Throwable caught) {
 				Log.error("Could not read settings. This may be because your connection to the server isn't working. Try using another constructor.");
 			}
-		});
+		});*/
 		
 	}
 	
