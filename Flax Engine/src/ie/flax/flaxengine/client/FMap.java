@@ -46,10 +46,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 
 	
 	public FMap(String mapPath) {
+		
+		FileHandle.readFileAsString(mapPath, mapPath);
+		
 		// TODO code to be removed when JSON serialisation works.
 		
 		name = mapPath;
-		this.width = this.height = 1000;
+		/*this.width = this.height = 1000;
 		this.tileSize = 32;
 		this.tileSheet = "c";
 		tiles = new ArrayList<FTile>(width * height);
@@ -59,10 +62,16 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				tiles.add(new FTile(x * this.tileSize, y * this.tileSize, 32,32, 1));
 				objects.add(new FObject(23, 23, 23, 23));
 			}
-		}
+		}*/
 		
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
 	}
+	
+
+	public FMap() {
+		
+	}
+
 
 	/**
 	 * Pass this method JSON and it gives you back an FMap object which you can
@@ -86,6 +95,18 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return serializer.serialize(this);
 	}
+	
+	
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public void setTileSize(int tileSize) {
 		this.tileSize = tileSize;

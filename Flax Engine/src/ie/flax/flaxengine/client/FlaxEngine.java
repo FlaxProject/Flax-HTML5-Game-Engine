@@ -10,7 +10,7 @@ import com.google.gwt.core.client.EntryPoint;
 
 public class FlaxEngine implements EntryPoint {
 	
-	FMap myMap = new FMap();
+	FMap myMap = new FMap("map.json");
 	
 	@Override
 	public void onModuleLoad() {
@@ -22,12 +22,12 @@ public class FlaxEngine implements EntryPoint {
 		
 		//myMap.draw();
 		
-		//Log.info(myMap.FMapToJson());
+		Log.info(myMap.getTileSheet());
 		
 
 		
 		int inid = 1;
 		//FileHandle.readFileAsString("testFile.txt", inid );
-		EventBus.handlerManager.fireEvent(new onFileLoadedEvent("OHHAI", 3));
+		//EventBus.handlerManager.fireEvent(new onFileLoadedEvent("OHHAI", 3));
 	}
 }
