@@ -8,6 +8,8 @@ import com.google.gwt.dom.client.Text;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
+import com.kfuntak.gwt.json.serialization.client.Serializer;
 
 import com.allen_sauer.gwt.log.client.Log;
 
@@ -15,10 +17,9 @@ import com.allen_sauer.gwt.log.client.Log;
  * @author carllange
  *
  */
-public class Settings {
+public class Settings implements JsonSerializable{
 	
-	private String name;
-	
+
 	private String IMAGE_DIRECTORY_PATH;	//TODO should be lowercase (or final)
 	private String MAP_DIRECTORY_PATH;		//TODO should be lowercase (or final)
 	private Boolean collisionOn;
@@ -28,19 +29,26 @@ public class Settings {
 	 *  
 	 *  By default, IMAGE_DIRECTORY_PATH is "/images/", MAP_DIRECTORY_PATH is "/maps/", and collisionOn is true.
 	 */
-	public void init() {
+	public Settings() {
 		IMAGE_DIRECTORY_PATH = "/images/";
 		MAP_DIRECTORY_PATH = "/maps/";
 		collisionOn = true;
 	}
+	
+	
 	
 	/**
 	 * This initialises the settings from an XML file on the server.
 	 * 
 	 * @param settingsXmlFile The name and extension of the XML file on the server.
 	 */
-	public Settings(String settingsXmlFile) {
+	public Settings(String Json) {
+		Serializer serializer = (Serializer) GWT.create(Serializer.class);
+		Settings temp = (Settings) serializer.deSerialize(Json,"ie.flax.flaxengine.client.Settings");
 		
+		this.collisionOn = temp.collisionOn;
+		this.IMAGE_DIRECTORY_PATH = temp.IMAGE_DIRECTORY_PATH;
+		this.MAP_DIRECTORY_PATH = temp.MAP_DIRECTORY_PATH;
 	}
 	
 	/**
@@ -66,6 +74,31 @@ public class Settings {
 		IMAGE_DIRECTORY_PATH = imgDirPath;
 		MAP_DIRECTORY_PATH = mapDirPath;
 		collisionOn = collision;
+	}
+
+	
+	public String getIMAGE_DIRECTORY_PATH() {
+		return IMAGE_DIRECTORY_PATH;
+	}
+
+	public void setIMAGE_DIRECTORY_PATH(String iMAGEDIRECTORYPATH) {
+		IMAGE_DIRECTORY_PATH = iMAGEDIRECTORYPATH;
+	}
+
+	public String getMAP_DIRECTORY_PATH() {
+		return MAP_DIRECTORY_PATH;
+	}
+
+	public void setMAP_DIRECTORY_PATH(String mAPDIRECTORYPATH) {
+		MAP_DIRECTORY_PATH = mAPDIRECTORYPATH;
+	}
+
+	public Boolean getCollisionOn() {
+		return collisionOn;
+	}
+
+	public void setCollisionOn(Boolean collisionOn) {
+		this.collisionOn = collisionOn;
 	}
 
 	public String getImageDirectoryPath() {
