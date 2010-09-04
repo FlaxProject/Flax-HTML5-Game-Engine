@@ -1,5 +1,9 @@
 package ie.flax.flaxengine.client;
+
+
+import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.user.client.Timer;
 
 /**
  * This class is the EntryPiont of the program and its used to test the engine.
@@ -8,22 +12,15 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class Main implements EntryPoint{
 
-	//DevelopersCodeTest theGame = new developersCodeTest(mapPaths, insertId);
-	FMap x = new FMap("map.json");
+	developersCodeTest theGame = new developersCodeTest("map.json", "nameFieldContainer");
 	
 	@Override
 	public void onModuleLoad() {
-		
-		//Graphic.init("nameFieldContainer");		
+			
 		//Graphic.loadImage("http://cdn.flax.ie/images/flaxLogo.png","c");
-		//Graphic.loadImage("u.jpg","u");
-		//Graphic.loadImage("x.jpg","c");
 		
-		
-		
-		//myMap.draw();
-	
-		
+		theGame.run(); // Starts the game loop
+				
 	}
 
 }

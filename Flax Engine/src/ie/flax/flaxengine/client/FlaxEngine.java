@@ -1,13 +1,12 @@
 package ie.flax.flaxengine.client;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.mortbay.log.Log;
+import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.user.client.Timer;
 
-import com.google.gwt.core.client.EntryPoint;
 
 /**
  * This class is the engine itself, all the other class are the components and
@@ -27,6 +26,41 @@ public abstract class FlaxEngine {
 	private boolean playing;
 	
 	/**
+	 * This timer implements the game loop. The timer loops every 500 millsecounds
+	 * It checks is the engineReady and then if the game is been played and then 
+	 */
+	private Timer gameTimer = new Timer()
+	{
+
+		@Override
+		public void run() {
+							
+			if(isEngineReady())
+			{
+			
+				if(playing == true)
+				{		
+					//TODO Game Loop
+					//Log.info("Game Loop is looping");					
+				}
+			}
+		}
+			
+	};
+		
+	
+	
+	/**
+	 * The run method starts the game loop
+	 */
+	public void run()
+	{
+		playing = true;	
+		gameTimer.scheduleRepeating(500);
+								
+	}
+	
+	/**
 	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
 	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
 	 * @param insertId - id of element of which to insert the canvas
@@ -39,6 +73,17 @@ public abstract class FlaxEngine {
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
+	}
+	
+	/**
+	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
+	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
+	 * @param insertId - id of element of which to insert the canvas
+	 */
+	public FlaxEngine(String mapPaths, String insertId)
+	{
+		Graphic.init(insertId);// setup the canvas		
+		maps.add(new FMap(mapPaths));//Loads all the maps
 	}
 	
 	
@@ -95,22 +140,6 @@ public abstract class FlaxEngine {
 		return result;
 	}
 
-	/**
-	 * The run method is the game loop method. 
-	 */
-	public void run()
-	{
-		playing = true;
-		
-		while(playing)
-		{
-			if(isEngineReady())
-			{
-				//TODO main game loop
-				Log.info("Game Loop started");
-				break;
-			}
-		}
-	}
+	
 
 }
