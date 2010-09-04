@@ -14,6 +14,7 @@ public class FObject implements JsonSerializable{
 	private float y;
 	private float width;
 	private float height;
+	private String sprite;
 	
 	/**
 	 * Constructs the Objects	
@@ -28,6 +29,15 @@ public class FObject implements JsonSerializable{
 		this.y = y;
 		this.width = width;
 		this.height = height;
+	}
+	
+	/**
+	 * This is a simple masking method for drawing the object
+	 */
+	public void draw()
+	{
+		Graphic.drawImage(sprite, x, y, height, width);
+		//TODO have a thing about animation and weather or not to have that as extend feature
 	}
 	
 	

@@ -8,8 +8,10 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  * @author Ciaran McCann
  *
  */
-public class FTile extends FObject implements JsonSerializable{
+public class FTile implements JsonSerializable{
 
+	private int x;
+	private int y;
 	private boolean solid;
 	private int texture;
 		
@@ -21,10 +23,16 @@ public class FTile extends FObject implements JsonSerializable{
 	 * @param height
 	 * @param texture
 	 */
-	public FTile(float x, float y, float width, float height, int texture) {
-		super(x, y, width, height);		
-		this.texture = texture;		
+
+	public FTile(int x, int y, boolean solid, int texture) {
+		super();
+		this.x = x;
+		this.y = y;
+		this.solid = solid;
+		this.texture = texture;
 	}
+
+	
 	
 	/**
 	 * DO NOT USE THIS CONSTRUCTOR -This method only exist so that JSON serialization
@@ -35,6 +43,46 @@ public class FTile extends FObject implements JsonSerializable{
 	@Deprecated
 	public FTile() {
 		super();
+	}
+
+	/**
+	 * Gets the X postion of the tile
+	 * @return int X
+	 */
+	public int getX() {
+		return x;
+	}
+
+	/**
+	 * Gets the Y postion of the tile
+	 * @return int Y
+	 */
+	public int getY() {
+		return y;
+	}
+
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 

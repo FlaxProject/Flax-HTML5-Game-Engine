@@ -1,8 +1,11 @@
 package ie.flax.flaxengine.client;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.mortbay.log.Log;
 
 import com.google.gwt.core.client.EntryPoint;
 
@@ -80,24 +83,34 @@ public abstract class FlaxEngine {
 	 * Checks are all the engine componets are loaded and the data in them got from the server
 	 * @return
 	 */
-	/*private boolean isEngineLoaded()
+	private boolean isEngineReady()
 	{
-		//if(Graphics.
+		boolean result = false;
 		
-		return true;
+		if(Graphic.isComponentReady())//TODO add check for FMaps loaded and also audio
+		{
+			result = true;
+		}
+		
+		return result;
 	}
 
-	*//**
-	 * Game Loop
-	 *//*
+	/**
+	 * The run method is the game loop method. 
+	 */
 	public void run()
 	{
 		playing = true;
 		
 		while(playing)
 		{
-			//if()
+			if(isEngineReady())
+			{
+				//TODO main game loop
+				Log.info("Game Loop started");
+				break;
+			}
 		}
-	}*/
+	}
 
 }
