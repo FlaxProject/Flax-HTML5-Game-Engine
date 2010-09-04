@@ -80,16 +80,16 @@ public abstract class FlaxEngine {
 	 * Checks are all the engine componets are loaded and the data in them got from the server
 	 * @return
 	 */
-	private boolean isEngineLoaded()
+	/*private boolean isEngineLoaded()
 	{
 		//if(Graphics.
 		
 		return true;
 	}
 
-	/**
+	*//**
 	 * Game Loop
-	 */
+	 *//*
 	public void run()
 	{
 		playing = true;
@@ -98,6 +98,6 @@ public abstract class FlaxEngine {
 		{
 			//if()
 		}
-	}
+	}*/
 
 }

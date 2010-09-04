@@ -40,7 +40,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private int height;
 	private int tileSize;
 	private String name;
-	private boolean Loaded;
+	//TODO below popertiy can only be uncommetned when you rebuild the JSON with this propertiy in it.
+	//private boolean Loaded; 
 	
 	/**
 	 * This holds the string which is used to reference the tileSheet image in the imageLibary
@@ -346,22 +347,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * can work Using this method is at your own risk and will most likely break
 	 * your code in RUNTIME!!
 	 * 
-	 */
+	 *//*
 	@Deprecated	
 	public boolean getLoaded() {
 		return Loaded;
 	}
 
-	/**
+	*//**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
 	 * can work Using this method is at your own risk and will most likely break
 	 * your code in RUNTIME!!
 	 * 
-	 */
+	 *//*
 	@Deprecated	
 	public void setLoaded(boolean loaded) {
 		Loaded = loaded;
-	}
+	}*/
 
 
 	
