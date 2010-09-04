@@ -20,8 +20,8 @@ import com.allen_sauer.gwt.log.client.Log;
  */
 public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	
-	private String IMAGE_DIRECTORY_PATH;	//TODO should be lowercase (or final)
-	private String MAP_DIRECTORY_PATH;		//TODO should be lowercase (or final)
+	private String imageDirectoryPath;
+	private String mapDirectoryPath;
 	private Boolean collisionOn;
 	
 	/**
@@ -30,8 +30,8 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	 *  By default, IMAGE_DIRECTORY_PATH is "/images/", MAP_DIRECTORY_PATH is "/maps/", and collisionOn is true.
 	 */
 	public Settings() {
-		IMAGE_DIRECTORY_PATH = "/images/";
-		MAP_DIRECTORY_PATH = "/maps/";
+		imageDirectoryPath = "/images/";
+		mapDirectoryPath = "/maps/";
 		collisionOn = true;
 	}
 	
@@ -55,8 +55,8 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param mapDirPath The directory path to the images
 	 */
 	public Settings(String imgDirPath, String mapDirPath) {
-		IMAGE_DIRECTORY_PATH = imgDirPath;
-		MAP_DIRECTORY_PATH = mapDirPath;
+		imageDirectoryPath = imgDirPath;
+		mapDirectoryPath = mapDirPath;
 		collisionOn = true;
 	}
 	
@@ -68,31 +68,20 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param collision
 	 */
 	public Settings(String imgDirPath, String mapDirPath, Boolean collision) {
-		IMAGE_DIRECTORY_PATH = imgDirPath;
-		MAP_DIRECTORY_PATH = mapDirPath;
+		imageDirectoryPath = imgDirPath;
+		mapDirectoryPath = mapDirPath;
 		collisionOn = collision;
-		
 	}
 
-	
-	public String getIMAGE_DIRECTORY_PATH() {
-		return IMAGE_DIRECTORY_PATH;
+
+	@Deprecated
+	public void setImageDirectoryPath(String imgDirPath) {
+		imageDirectoryPath = imgDirPath;
 	}
 
-	public void setIMAGE_DIRECTORY_PATH(String iMAGEDIRECTORYPATH) {
-		IMAGE_DIRECTORY_PATH = iMAGEDIRECTORYPATH;
-	}
-
-	public String getMAP_DIRECTORY_PATH() {
-		return MAP_DIRECTORY_PATH;
-	}
-
-	public void setMAP_DIRECTORY_PATH(String mAPDIRECTORYPATH) {
-		MAP_DIRECTORY_PATH = mAPDIRECTORYPATH;
-	}
-
-	public Boolean getCollisionOn() {
-		return collisionOn;
+	@Deprecated
+	public void setMapDirectoryPath(String mapDirPath) {
+		mapDirectoryPath = mapDirPath;
 	}
 
 	public void setCollisionOn(Boolean collisionOn) {
@@ -100,18 +89,14 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	}
 
 	public String getImageDirectoryPath() {
-		return IMAGE_DIRECTORY_PATH;
+		return imageDirectoryPath;
 	}
 
 	public String getMapDirectoryPath() {
-		return MAP_DIRECTORY_PATH;
+		return mapDirectoryPath;
 	}
 
-	public void setCollision(Boolean collision) {
-		this.collisionOn = collision;
-	}
-
-	public Boolean getCollision() {
+	public Boolean getCollisionOn() {
 		return collisionOn;
 	}
 	
@@ -136,9 +121,6 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return serializer.serialize(this);
 	}
-	
-
-
 
 	@Override
 	public void onFileLoaded(onFileLoadedEvent e) {
@@ -148,8 +130,8 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		Settings temp = JsonToSettings(e.getDataLoadedFromFile());
 		
 		this.collisionOn = temp.collisionOn;
-		this.IMAGE_DIRECTORY_PATH = temp.IMAGE_DIRECTORY_PATH;
-		this.MAP_DIRECTORY_PATH = temp.MAP_DIRECTORY_PATH;
+		this.imageDirectoryPath = temp.imageDirectoryPath;
+		this.mapDirectoryPath = temp.mapDirectoryPath;
 		
 		Log.info("The settings object was constructed from a file sucessfully");
 		}
