@@ -14,4 +14,8 @@ public class developersCodeTest extends FlaxEngine {
 		// TODO Auto-generated constructor stub
 	}
 
+	public developersCodeTest(String mapPath, String insertId) {
+		super(mapPath, insertId);
+	}
+
 }

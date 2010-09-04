@@ -19,7 +19,7 @@ public class Graphic {
 	 * HashMap of JS image objects, which is indexed by the name of the image.
 	 * All images loaded into the engine are stored here.
 	 */
-	private static HashMap<String, FImage> imageLibary = new HashMap<String, FImage>();
+	public static HashMap<String, FImage> imageLibary = new HashMap<String, FImage>();
 	
 
 	/**
@@ -89,23 +89,12 @@ public class Graphic {
 	 */
 	public static void drawImage(String imagePath, float x, float y,float height, float width) {
 		
-			try {
-				
-				//TODO sort this loading problem and remove this debug code
-				if((imageLibary.get(imagePath).isLoaded()))
-				{
-					Log.info(" Double check and I think " + imagePath + " loaded ");
+			try {			
 					graphicLayer.drawImage(imageLibary.get(imagePath).imageData, x, y, width,height);
-				}
-				else
-				{
-					Log.error("On secound thoughts " + imagePath + " is not loaded");
-				}
-				
+			
 			} catch (Exception e) {
 				Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 			}
-
 	}
 	
 	
@@ -119,15 +108,17 @@ public class Graphic {
 	 */
 	public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
 	{	
-		int numberOfTilesWidth = (imageLibary.get(imagePath).getWidth()/tileSize);
+		int numTilesWidth = (imageLibary.get(imagePath).getWidth()/tileSize);
 		
+		double decPlace = (numTilesWidth%Texture);
+		double decPlace2 = (Texture%numTilesWidth);
 		
-		int xSrc = (Texture/numberOfTilesWidth);
-		int ySrc = (Texture%numberOfTilesWidth)*numberOfTilesWidth;
+		int ySrc = (int) (decPlace*numTilesWidth);
+		int xSrc = (int) (decPlace2);
 	
 		try {
 			
-			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, tileSize, tileSize, x, y, tileSize, tileSize);
+			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc*tileSize, ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
 		} catch (Exception e) {
 			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		

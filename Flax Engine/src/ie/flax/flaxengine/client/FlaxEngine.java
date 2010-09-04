@@ -24,6 +24,7 @@ public abstract class FlaxEngine {
 	private List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
 	private boolean playing;
+	public static Settings settings;
 	
 	/**
 	 * This timer implements the game loop. The timer loops every 500 millsecounds
@@ -41,7 +42,9 @@ public abstract class FlaxEngine {
 				if(playing == true)
 				{		
 					//TODO Game Loop
-					//Log.info("Game Loop is looping");					
+					//Log.info("Game Loop is looping");	
+					maps.get(0).draw();
+				
 				}
 			}
 		}
@@ -102,7 +105,7 @@ public abstract class FlaxEngine {
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
 		
-		//TODO read the settings file and populate the varibles
+		settings = new Settings(settingsFile);//loads the settings from file
 	}
 	
 	
@@ -112,7 +115,7 @@ public abstract class FlaxEngine {
 	 * @param insertId - id of element of which to insert the canvas
 	 * @param settings - HashMap<String, String>
 	 */
-	public FlaxEngine(String[] mapPaths, String insertId, HashMap<String, String> settings)
+	public FlaxEngine(String[] mapPaths, String insertId, String imgDirPath, String mapDirPath, Boolean collision)
 	{
 		Graphic.init(insertId);// setup the canvas
 		
@@ -121,7 +124,7 @@ public abstract class FlaxEngine {
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
 		
-		//TODO read the settings from the HasMap and populate the members
+		settings = new Settings(imgDirPath, mapDirPath, collision);
 	}
 	
 	/**
