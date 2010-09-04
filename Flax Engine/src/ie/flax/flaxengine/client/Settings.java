@@ -44,21 +44,9 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	public Settings(String pathToSettingFile) {
 		
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);	
-		FileHandle.readFileAsString(pathToSettingFile,this.toString());
-		
+		FileHandle.readFileAsString(pathToSettingFile,this.toString());		
 	}
 	
-	/**
-	 * A method to programatically configure the settings. Collision is on by default.
-	 * 
-	 * @param imgDirPath The directory path to the images
-	 * @param mapDirPath The directory path to the images
-	 */
-	public Settings(String imgDirPath, String mapDirPath) {
-		imageDirectoryPath = imgDirPath;
-		mapDirectoryPath = mapDirPath;
-		collisionOn = true;
-	}
 	
 	/**
 	 * A method to programatically configure the settings. All settings are set by this method.
