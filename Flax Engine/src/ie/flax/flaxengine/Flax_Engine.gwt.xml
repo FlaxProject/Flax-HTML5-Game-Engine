@@ -22,7 +22,7 @@
   
   
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='ie.flax.flaxengine.client.FlaxEngine'/>
+  <entry-point class='ie.flax.flaxengine.client.Main'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
