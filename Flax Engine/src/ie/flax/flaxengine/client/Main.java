@@ -17,7 +17,8 @@ public class Main implements EntryPoint{
 	@Override
 	public void onModuleLoad() {
 			
-		//Graphic.loadImage("http://cdn.flax.ie/images/flaxLogo.png","c");
+		Graphic.loadImage("http://cdn.flax.ie/images/flaxLogo.png","c");
+		Graphic.loadImage("http://cdn.flax.ie/images/flaxLogo.png","c");
 		
 		theGame.run(); // Starts the game loop
 				

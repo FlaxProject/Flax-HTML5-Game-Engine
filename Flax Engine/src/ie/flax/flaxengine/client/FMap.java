@@ -181,6 +181,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	}
 	
 	/**
+	 * If true this FMap object has finished loading its data
+	 * @return
+	 */
+	public boolean getLoaded() {
+		return Loaded;
+	}
+	
+	/**
 	 * Pass this method JSON and it gives you back an FMap object which you can
 	 * then assign to your object via FMap myMap = JsonToFMap(String Json);
 	 * 
@@ -239,6 +247,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			//TODO check if the image (tileSheet) are loaded if not load them
 			
 			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
+			Loaded = true;
 		}
 	}
 	
@@ -344,16 +353,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		this.entities = entities;
 	}
 
-	/**
-	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated	
-	public boolean getLoaded() {
-		return Loaded;
-	}
 
 	/**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization

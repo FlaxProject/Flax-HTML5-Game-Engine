@@ -1,9 +1,8 @@
 package ie.flax.flaxengine.client;
 
 
-import com.allen_sauer.gwt.log.client.Log;
-import com.google.gwt.core.client.JavaScriptObject;
 import java.util.HashMap;
+import com.allen_sauer.gwt.log.client.Log;
 
 /**
  * Graphics class is a static service that works as an abstraction layer for the
@@ -37,7 +36,7 @@ public class Graphic {
 	 */
 	public static void init(String insertId) {
 		graphicLayer = new FCanvas(insertId);
-		Log.info("graphics component started successfully");
+		Log.info("Graphics component started successfully");
 	}
 
 	/**
@@ -57,7 +56,7 @@ public class Graphic {
 	}
 
 	/**
-	 * Checks all the image that where loaded into the imageLibary to make sure
+	 * Checks all the images that where loaded into the imageLibary to make sure
 	 * they are completely loaded.
 	 * 
 	 * @return true or false
@@ -65,6 +64,7 @@ public class Graphic {
 	public static boolean isComponentReady() {
 		boolean result = true;
 
+		
 		for (String key : imageLibary.keySet()) 
 		{
 			if (!imageLibary.get(key).isLoaded()) 
@@ -73,6 +73,7 @@ public class Graphic {
 				break;
 			}
 		}
+		
 		return result;
 	}
 
@@ -166,13 +167,17 @@ public class Graphic {
 	 * @param imagePath - pass in the path to the image you wish to load and then the path is used
 	 */
 	public static void loadImage(String imagePath, String nameToReferenceBy) {
-			
+		
+		if(imageLibary.get(nameToReferenceBy) == null)//Makes sure there are no duplicates
+		{
+		
 		try {
 			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing
 							
 			Log.info("Image " + imagePath + " Loaded sucessfully " );
 		} catch (Exception e) {
 			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
+		}
 		}
 	}
 	

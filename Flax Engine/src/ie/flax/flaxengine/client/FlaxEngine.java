@@ -132,14 +132,23 @@ public abstract class FlaxEngine {
 	{
 		boolean result = false;
 		
-		if(Graphic.isComponentReady())//TODO add check for FMaps loaded and also audio
-		{
+		/**
+		 * Understand the below if() statment. If first checks is the first map in the map
+		 * list null and then the secound check it indexes that object and asks for a memeber Loaded.
+		 * Which if true will then move onto checking if the graphics componet is ready
+		 * 
+		 * This only checks if the first map is loaded, this is going on the idea that all other maps will
+		 * load by the time they are needed
+		 */
+		if(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.isComponentReady())//TODO add check for audio loading
+		{			
 			result = true;
 		}
 		
 		return result;
 	}
 
+	
 	
 
 }
