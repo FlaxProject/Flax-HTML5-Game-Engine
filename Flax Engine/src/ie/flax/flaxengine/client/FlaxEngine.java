@@ -18,8 +18,10 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public abstract class FlaxEngine {
 	
+	private static final String powerBy = "Powered By Flax Web Game Engine";
 	private List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
+	private boolean playing;
 	
 	/**
 	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
@@ -73,13 +75,29 @@ public abstract class FlaxEngine {
 		
 		//TODO read the settings from the HasMap and populate the members
 	}
+	
+	/**
+	 * Checks are all the engine componets are loaded and the data in them got from the server
+	 * @return
+	 */
+	private boolean isEngineLoaded()
+	{
+		//if(Graphics.
+		
+		return true;
+	}
 
 	/**
 	 * Game Loop
 	 */
 	public void run()
 	{
+		playing = true;
 		
+		while(playing)
+		{
+			//if()
+		}
 	}
 
 }

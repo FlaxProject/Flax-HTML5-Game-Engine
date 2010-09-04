@@ -40,6 +40,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private int height;
 	private int tileSize;
 	private String name;
+	private boolean Loaded;
 	
 	/**
 	 * This holds the string which is used to reference the tileSheet image in the imageLibary
@@ -143,7 +144,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * Draws the map
 	 */
 	public void draw() {
-		// TODO implement camera scrolling in the map drawing
+		// TODO implement camera scrolling in the map drawing		
 		for (int y = 0; y < height; y++) 
 		{
 			for (int x = 0; x < width; x++)
@@ -152,6 +153,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				Graphic.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
 			}
 		}
+		
+		Log.info("Map was drawn sucessfully");
 	}
 
 	/**
@@ -337,5 +340,29 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public void setEntities(List<FEntity> entities) {
 		this.entities = entities;
 	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public boolean getLoaded() {
+		return Loaded;
+	}
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public void setLoaded(boolean loaded) {
+		Loaded = loaded;
+	}
+
+
 	
 }
