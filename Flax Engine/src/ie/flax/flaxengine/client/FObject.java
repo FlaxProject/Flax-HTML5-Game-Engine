@@ -16,6 +16,8 @@ public class FObject implements JsonSerializable{
 	private float height;
 	private String sprite;
 	
+
+
 	/**
 	 * Constructs the Objects	
 	 * @param x
@@ -52,6 +54,15 @@ public class FObject implements JsonSerializable{
 		
 	}
 
+	
+	public String getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(String sprite) {
+		this.sprite = sprite;
+	}
+	
 	/**
 	 * Gets the X value of the FObject
 	 * @return float

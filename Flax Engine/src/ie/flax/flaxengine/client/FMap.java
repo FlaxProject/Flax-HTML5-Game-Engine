@@ -3,8 +3,10 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
@@ -40,8 +42,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private int height;
 	private int tileSize;
 	private String name;
-	//TODO below popertiy can only be uncommetned when you rebuild the JSON with this propertiy in it.
-	//private boolean Loaded; 
+	private boolean Loaded; 
 	
 	/**
 	 * This holds the string which is used to reference the tileSheet image in the imageLibary
@@ -64,8 +65,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public FMap(String mapPath) {
 		
 		name = mapPath;
+			
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
-		FileHandle.readFileAsString(mapPath, mapPath);//Makes a request for the map file
+		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file
 			
 	}
 	
@@ -211,10 +213,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	@Override
 	public void onFileLoaded(onFileLoadedEvent e) {
-				
-		//if(this class called for the file)
-		if(e.getId() == this.name)
+			
+					
+		if(this.toString().equalsIgnoreCase(e.getId()))
 		{
+
 			/**
 			 * Creates a temp FMap object from the JSON string which is stored
 			 * in the event object which was pulled from the server
@@ -236,7 +239,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			//TODO check if the image (tileSheet) are loaded if not load them
 			
 			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
-			
 		}
 	}
 	
@@ -347,22 +349,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * can work Using this method is at your own risk and will most likely break
 	 * your code in RUNTIME!!
 	 * 
-	 *//*
+	 */
 	@Deprecated	
 	public boolean getLoaded() {
 		return Loaded;
 	}
 
-	*//**
+	/**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
 	 * can work Using this method is at your own risk and will most likely break
 	 * your code in RUNTIME!!
 	 * 
-	 *//*
+	 */
 	@Deprecated	
 	public void setLoaded(boolean loaded) {
 		Loaded = loaded;
-	}*/
+	}
 
 
 	
