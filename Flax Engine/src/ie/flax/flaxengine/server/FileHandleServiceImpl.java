@@ -15,8 +15,6 @@ import ie.flax.flaxengine.client.FlaxEngine;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.XMLParser;
 
 /**
  * @author carllange
@@ -79,26 +77,25 @@ public class FileHandleServiceImpl extends RemoteServiceServlet implements FileH
 	@Override
 	public String readFileAsString(String fileName, String id) {
 		String fileAsString = null;
-		
+
 		// TODO clean this shit up, very untidy
 		FileInputStream stream = null;
-		
+
 		try {
 			try {
 				stream = new FileInputStream(new File(fileName));
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.error(e.getMessage());
 			}
+
 			FileChannel fc = stream.getChannel();
 			MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 			// Instead of using default, pass in a decoder.
 			fileAsString = Charset.defaultCharset().decode(bb).toString();
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		finally {
+			Log.error(e.getMessage());
+		} finally {
 			try {
 				stream.close();
 			} catch (IOException e) {

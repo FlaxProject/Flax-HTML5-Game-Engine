@@ -3,7 +3,6 @@ package ie.flax.flaxengine.client;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.xml.client.Document;
 
 /**
  * This class is the client-side code for the FileHandling service. Pretty much just a method list.
@@ -42,15 +41,16 @@ public interface FileHandleService extends RemoteService {
 	public void deleteFile(String fileName);
 	
 	/**
-	 * This returns a file as a String. Needed for things like XML parsing.
+	 * This returns a file as a String. Needed for things like JSON parsing.
 	 * 
 	 * @param fileName
+	 * @param id TODO document ids
 	 * @return
 	 */
 	public String readFileAsString(String fileName, String id);
 	
 	/**
-	 * This writes a String to a file
+	 * This writes a String to a file.
 	 * 
 	 * @param docToWrite
 	 * @param fileName

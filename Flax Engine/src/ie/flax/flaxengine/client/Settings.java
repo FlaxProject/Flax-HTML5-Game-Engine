@@ -1,5 +1,8 @@
 package ie.flax.flaxengine.client;
 
+import ie.flax.flaxengine.client.events.onFileLoadedEvent;
+import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Text;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,16 +16,19 @@ import com.allen_sauer.gwt.log.client.Log;
  *
  */
 public class Settings {
-	private static String IMAGE_DIRECTORY_PATH;	//TODO should be lowercase (or final)
-	private static String MAP_DIRECTORY_PATH;		//TODO should be lowercase (or final)
-	private static Boolean collisionOn;
+	
+	private String name;
+	
+	private String IMAGE_DIRECTORY_PATH;	//TODO should be lowercase (or final)
+	private String MAP_DIRECTORY_PATH;		//TODO should be lowercase (or final)
+	private Boolean collisionOn;
 	
 	/**
 	 *  This initialises the settings to their defaults.
 	 *  
 	 *  By default, IMAGE_DIRECTORY_PATH is "/images/", MAP_DIRECTORY_PATH is "/maps/", and collisionOn is true.
 	 */
-	public static void init() {
+	public void init() {
 		IMAGE_DIRECTORY_PATH = "/images/";
 		MAP_DIRECTORY_PATH = "/maps/";
 		collisionOn = true;
@@ -33,39 +39,7 @@ public class Settings {
 	 * 
 	 * @param settingsXmlFile The name and extension of the XML file on the server.
 	 */
-	public static void init(String settingsXmlFile) {
-		FileHandleServiceAsync fhs = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
-		
-		/*fhs.readFileAsString(settingsXmlFile, new AsyncCallback<String>() {
-			
-			@Override
-			public void onSuccess(String xmlAsString) {
-				// parse string into XML
-				Document xml = XMLParser.parse(xmlAsString);
-				
-				// get imgdir path
-				Text imgPathNode = (Text)xml.getElementsByTagName("image directory path").item(0).getFirstChild();
-				IMAGE_DIRECTORY_PATH = imgPathNode.getData();
-			
-				// gwt mapdir path
-				Text mapPathNode = (Text)xml.getElementsByTagName("map directory path").item(0).getFirstChild();
-				MAP_DIRECTORY_PATH = mapPathNode.getData();
-				
-				// collision
-				Text collisionNode = (Text)xml.getElementsByTagName("collision").item(0).getFirstChild();
-				if ((collisionNode.getData() == "true") || (collisionNode.getData() == "on") || (collisionNode.getData() == "yes")) {
-					collisionOn = true;
-				}
-				else {
-					collisionOn = false;
-				}
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				Log.error("Could not read settings. This may be because your connection to the server isn't working. Try using another constructor.");
-			}
-		});*/
+	public Settings(String settingsXmlFile) {
 		
 	}
 	
@@ -75,7 +49,7 @@ public class Settings {
 	 * @param imgDirPath The directory path to the images
 	 * @param mapDirPath The directory path to the images
 	 */
-	public static void init(String imgDirPath, String mapDirPath) {
+	public Settings(String imgDirPath, String mapDirPath) {
 		IMAGE_DIRECTORY_PATH = imgDirPath;
 		MAP_DIRECTORY_PATH = mapDirPath;
 		collisionOn = true;
@@ -88,25 +62,25 @@ public class Settings {
 	 * @param mapDirPath
 	 * @param collision
 	 */
-	public static void init(String imgDirPath, String mapDirPath, Boolean collision) {
+	public Settings(String imgDirPath, String mapDirPath, Boolean collision) {
 		IMAGE_DIRECTORY_PATH = imgDirPath;
 		MAP_DIRECTORY_PATH = mapDirPath;
 		collisionOn = collision;
 	}
 
-	public static String getImageDirectoryPath() {
+	public String getImageDirectoryPath() {
 		return IMAGE_DIRECTORY_PATH;
 	}
 
-	public static String getMapDirectoryPath() {
+	public String getMapDirectoryPath() {
 		return MAP_DIRECTORY_PATH;
 	}
 
-	public static void setCollision(Boolean collision) {
-		Settings.collisionOn = collision;
+	public void setCollision(Boolean collision) {
+		this.collisionOn = collision;
 	}
 
-	public static Boolean getCollision() {
+	public Boolean getCollision() {
 		return collisionOn;
 	}
 }

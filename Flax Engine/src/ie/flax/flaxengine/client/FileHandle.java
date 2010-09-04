@@ -8,8 +8,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.XMLParser;
 
 /**
  * This class is necessary as some FileHandle methods are done client-side.
@@ -18,6 +16,9 @@ import com.google.gwt.xml.client.XMLParser;
  *
  */
 public class FileHandle {
+	/*
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#createFile(java.lang.String)
+	 */
 	static void createFile(String fileName) {
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		fh.createFile(fileName, new AsyncCallback<Void>() {
@@ -35,6 +36,9 @@ public class FileHandle {
 		});
 	}
 	
+	/*
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#clearFile(java.lang.String)
+	 */
 	static void clearFile(String fileName) {
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		fh.clearFile(fileName, new AsyncCallback<Void>() {
@@ -52,6 +56,9 @@ public class FileHandle {
 		});
 	}
 	
+	/*
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#deleteFile(java.lang.String)
+	 */
 	static void deleteFile(String fileName) {
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		fh.deleteFile(fileName, new AsyncCallback<Void>() {
@@ -69,6 +76,9 @@ public class FileHandle {
 		});
 	}
 	
+	/*
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#readFileAsString(java.lang.String)
+	 */
 	static void readFileAsString(String fileName, String inid) {
 		
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
@@ -88,10 +98,9 @@ public class FileHandle {
 		});
 	}
 	
-	static Document convertStringToDocument(String inputString){
-		return XMLParser.parse(inputString);
-	}
-	
+	/*
+	 * @see ie.flax.flaxengine.client.staticServices.FileHandleService#writeStringToFile(java.lang.String)
+	 */
 	static void writeStringToFile(String stringToWrite, String fileName) {
 		FileHandleServiceAsync fh = (FileHandleServiceAsync) GWT.create(FileHandleService.class);
 		
