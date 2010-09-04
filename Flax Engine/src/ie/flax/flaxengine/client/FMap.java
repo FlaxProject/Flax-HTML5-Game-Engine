@@ -229,6 +229,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			this.tileSheet = temp.tileSheet;
 			this.tileSize = temp.tileSize;
 			this.width = temp.width;
+			//TODO check if the image (tileSheet) are loaded if not load them
 			
 			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
