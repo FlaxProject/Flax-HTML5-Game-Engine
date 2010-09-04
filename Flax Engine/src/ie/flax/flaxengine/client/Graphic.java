@@ -56,6 +56,25 @@ public class Graphic {
 		Log.info("graphics component started successfully");
 	}
 
+	/**
+	 * Checks all the image that where loaded into the imageLibary to make sure
+	 * they are completely loaded.
+	 * 
+	 * @return true or false
+	 */
+	public static boolean isComponentReady() {
+		boolean result = true;
+
+		for (String key : imageLibary.keySet()) 
+		{
+			if (!imageLibary.get(key).isLoaded()) 
+			{
+				result = false;
+				break;
+			}
+		}
+		return result;
+	}
 
 	/**
 	 * Draws an image to the canvas
