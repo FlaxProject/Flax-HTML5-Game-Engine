@@ -86,7 +86,7 @@ public class FCanvas {
 		}
 		else
 		{
-			$doc.getElementsByTagName("body").innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';			
+			$doc.getElementsByTagName("BODY").item(0).innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';			
 		}
 	}-*/;
 
