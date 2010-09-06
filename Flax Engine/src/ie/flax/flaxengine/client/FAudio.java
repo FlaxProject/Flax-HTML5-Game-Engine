@@ -12,7 +12,7 @@ import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 
 public class FAudio implements JsonSerializable, onFileLoadedEventHandler{
 	
-	private List<FTile> tiles;
+	private List<FAudioContainer> containers;
 	
 	public FAudio(String jsonFilePath){
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
@@ -24,7 +24,7 @@ public class FAudio implements JsonSerializable, onFileLoadedEventHandler{
 		if(this.toString().equalsIgnoreCase(e.getId())){
 			FAudio temp = JsonToFAudio(e.getDataLoadedFromFile());
 			
-			this.tiles = temp.tiles;
+			this.containers = temp.containers;
 		}
 	}
 	
@@ -54,12 +54,12 @@ public class FAudio implements JsonSerializable, onFileLoadedEventHandler{
 	}
 
 	@Deprecated
-	public List<FTile> getTiles() {
-		return tiles;
+	public List<FAudioContainer> getContainers() {
+		return containers;
 	}
 
 	@Deprecated
-	public void setTiles(List<FTile> tiles) {
-		this.tiles = tiles;
+	public void setContainers(List<FAudioContainer> containers) {
+		this.containers = containers;
 	}
 }
