@@ -109,16 +109,13 @@ public class Graphic {
 	public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
 	{	
 		int numTilesWidth = (imageLibary.get(imagePath).getWidth()/tileSize);
-		
-		double decPlace = (numTilesWidth%Texture);
-		double decPlace2 = (Texture%numTilesWidth);
-		
-		int ySrc = (int) (decPlace*numTilesWidth);
-		int xSrc = (int) (decPlace2);
+	
+		int ySrc = (int)(Texture/numTilesWidth);
+		float xSrc = Texture%numTilesWidth;
 	
 		try {
 			
-			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc*tileSize, ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, (float)xSrc*tileSize, (float)ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
 		} catch (Exception e) {
 			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		
