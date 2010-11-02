@@ -261,6 +261,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			Graphic.loadImage( tileSheet, tileSheet);
 			//TODO check if the image (tileSheet) are loaded if not load them
 			
+			//TODO need to check if all sprites for different objects have been loadeded
+			
 			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			Loaded = true;
 		}

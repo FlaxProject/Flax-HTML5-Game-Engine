@@ -44,7 +44,14 @@ public class FImage {
 	}
 
 	public native  boolean isLoaded()	
-	/*-{	 									 	
-			return this.@ie.flax.flaxengine.client.FImage::imageData.complete;
+	/*-{	 
+			if(this.@ie.flax.flaxengine.client.FImage::imageData.complete&&this.@ie.flax.flaxengine.client.FImage::imageData != null)
+			{										 	
+			return true;
+			}
+			else
+			{
+			return false;
+			}
 	}-*/;
 }

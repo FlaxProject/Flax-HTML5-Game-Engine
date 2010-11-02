@@ -62,19 +62,19 @@ public class Graphic {
 	 * @return true or false
 	 */
 	public static boolean isComponentReady() {
-		boolean result = true;
-
 		
 		for (String key : imageLibary.keySet()) 
 		{
-			if (!imageLibary.get(key).isLoaded()) 
+			if (imageLibary.get(key).getHeight() == 0) 
 			{
-				result = false;
-				break;
+				Log.error("Graphics Component is not ready due to a problem with image " + key );
+				return false;
 			}
 		}
 		
-		return result;
+		Log.debug("Graphics Component is ready to go Sir!");
+		return true;
+	
 	}
 
 	/**
@@ -161,8 +161,16 @@ public class Graphic {
 		
 		try {
 			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing
-							
-			Log.info("Image " + imagePath + " Loaded sucessfully " );
+			
+			if(imageLibary.get(nameToReferenceBy).isLoaded())
+			{
+				Log.info("Image " + imagePath + " Loaded sucessfully " );
+			}
+			else
+			{
+				Log.error("Image " + imagePath + " didn't loaded - looks like a 404");
+			}
+			
 		} catch (Exception e) {
 			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
 		}

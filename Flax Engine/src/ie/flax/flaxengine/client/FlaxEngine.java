@@ -25,6 +25,7 @@ public abstract class FlaxEngine {
 	private int currentMap;
 	private boolean playing;
 	public static Settings settings;
+	private boolean engineStatus;
 	
 	/**
 	 * This timer implements the game loop. The timer loops every 500 millsecounds
@@ -38,7 +39,6 @@ public abstract class FlaxEngine {
 							
 			if(isEngineReady())
 			{
-			
 				if(playing == true)
 				{		
 					//TODO Game Loop
@@ -133,22 +133,28 @@ public abstract class FlaxEngine {
 	 */
 	private boolean isEngineReady()
 	{
-		boolean result = false;
-		
+	
 		/**
-		 * Understand the below if() statment. If first checks is the first map in the map
+		 * Understand the below if() statment. The frist condtion which is check is the status of the engine
+		 * which is by default to false. As this method is called in the main loop
+		 * we don't want all the checks been excuted so we store the status of true once we get it
+		 * In the secound condtional statement this happens -> If first checks is the first map in the map
 		 * list null and then the secound check it indexes that object and asks for a memeber Loaded.
 		 * Which if true will then move onto checking if the graphics componet is ready
 		 * 
 		 * This only checks if the first map is loaded, this is going on the idea that all other maps will
 		 * load by the time they are needed
+		 * 
+		 * 
 		 */
-		if(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.isComponentReady())//TODO add check for audio loading
+		if(		(engineStatus == true)||
+				(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.isComponentReady())//TODO add check for audio loading
+			)
 		{			
-			result = true;
+			engineStatus = true;
 		}
 		
-		return result;
+		return engineStatus;
 	}
 
 	
