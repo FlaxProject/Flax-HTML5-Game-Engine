@@ -65,7 +65,7 @@ public class Graphic {
 		
 		for (String key : imageLibary.keySet()) 
 		{
-			if (imageLibary.get(key).getHeight() == 0) 
+			if (imageLibary.get(key).getHeight() == 0) //TODO: Change imageLib to private and use getter methods
 			{
 				Log.error("Graphics Component is not ready due to a problem with image " + key );
 				return false;

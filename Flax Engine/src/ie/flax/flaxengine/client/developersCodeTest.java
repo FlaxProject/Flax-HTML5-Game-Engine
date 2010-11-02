@@ -11,7 +11,6 @@ public class developersCodeTest extends FlaxEngine {
 
 	public developersCodeTest(String[] mapPaths, String insertId) {
 		super(mapPaths, insertId);
-		// TODO Auto-generated constructor stub
 	}
 
 	public developersCodeTest(String mapPath, String insertId) {

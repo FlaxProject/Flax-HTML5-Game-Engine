@@ -159,13 +159,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		
 		for(FObject obj : objects)
 		{
-			if(obj.getSprite() != null)
 			obj.draw();
 		}
 	
 		for(FEntity ent : entities)
 		{
-			if(ent.getSprite() != null)
 				ent.draw();
 		}
 		

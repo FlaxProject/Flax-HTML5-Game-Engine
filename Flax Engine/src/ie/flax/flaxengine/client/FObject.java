@@ -38,6 +38,7 @@ public class FObject implements JsonSerializable{
 	 */
 	public void draw()
 	{
+		if(sprite != null)
 		Graphic.drawImage(sprite, x, y, height, width);
 		//TODO have a thing about animation and weather or not to have that as extend feature
 	}
