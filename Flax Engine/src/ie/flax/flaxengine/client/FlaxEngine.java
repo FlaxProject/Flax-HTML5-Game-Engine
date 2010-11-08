@@ -124,7 +124,7 @@ public abstract class FlaxEngine {
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
 		
-		settings = new Settings(imgDirPath, mapDirPath, collision);
+		settings = new Settings(imgDirPath, mapDirPath, collision, "0");
 	}
 	
 	/**

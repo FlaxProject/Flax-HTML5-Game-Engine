@@ -23,6 +23,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	private String imageDirectoryPath;
 	private String mapDirectoryPath;
 	private Boolean collisionOn;
+	private String UID = "0"; //set this here
 	
 	/**
 	 *  This initialises the settings to their defaults.
@@ -44,7 +45,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	public Settings(String pathToSettingFile) {
 		
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);	
-		FileHandle.readFileAsString(pathToSettingFile,this.toString());		
+		FileHandle.readFileAsString(pathToSettingFile, this.toString());		
 	}
 	
 	
@@ -54,8 +55,9 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param imgDirPath
 	 * @param mapDirPath
 	 * @param collision
+	 * @param UID
 	 */
-	public Settings(String imgDirPath, String mapDirPath, Boolean collision) {
+	public Settings(String imgDirPath, String mapDirPath, Boolean collision, String UID) {
 		imageDirectoryPath = imgDirPath;
 		mapDirectoryPath = mapDirPath;
 		collisionOn = collision;
@@ -86,6 +88,10 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 
 	public Boolean getCollisionOn() {
 		return collisionOn;
+	}
+	
+	public String getUID(){
+		return UID;
 	}
 	
 	/**
