@@ -12,14 +12,14 @@ import com.google.gwt.user.client.Timer;
  */
 public class Main implements EntryPoint{
 
-	//developersCodeTest theGame = new developersCodeTest("map.json", "nameFieldContainer");
+	developersCodeTest theGame = new developersCodeTest("map.json", "nameFieldContainer");
 	
 	@Override
 	public void onModuleLoad() {
 		/*FileHandle.writeStringToFile("testName.txt", "This is a test", this.toString());
 		FileHandle.readFileAsString("http://flax.ie/private/testName.txt", this.toString());*/
 		
-		//theGame.run(); // Starts the game loop
+		theGame.run(); // Starts the game loop
 		
 		
 				
