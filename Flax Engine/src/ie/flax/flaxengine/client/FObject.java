@@ -15,6 +15,7 @@ public class FObject implements JsonSerializable{
 	private float width;
 	private float height;
 	private String sprite;
+	private String[] audio;
 	
 
 
@@ -25,14 +26,17 @@ public class FObject implements JsonSerializable{
 	 * @param width
 	 * @param height
 	 */
-	public FObject(float x, float y, float width, float height) {
+	public FObject(float x, float y, float width, float height, String sprite, String[] audio) {
 
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.sprite = sprite;
+		this.audio = audio;
 	}
 	
+
 	/**
 	 * This is a simple masking method for drawing the object
 	 */
@@ -54,6 +58,15 @@ public class FObject implements JsonSerializable{
 	public FObject() {
 		
 	}
+	
+	public String[] getAudio() {
+		return audio;
+	}
+
+	public void setAudio(String[] audio) {
+		this.audio = audio;
+	}
+
 
 	
 	public String getSprite() {

@@ -151,8 +151,9 @@ public class Graphic {
 	}
 
 	/**
-	 * Loads images into the engine
-	 * @param imagePath - pass in the path to the image you wish to load and then the path is used
+	 * @deprecated A new method with only one parameter is now the standard
+	 * @param imagePath
+	 * @param nameToReferenceBy
 	 */
 	public static void loadImage(String imagePath, String nameToReferenceBy) {
 		
@@ -175,9 +176,16 @@ public class Graphic {
 			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
 		}
 		}
+		
 	}
 	
-	
+	/**
+	 * Loads images into the engine
+	 * @param imagePath - pass in the path to the image you wish to load and then the path is used
+	 */
+	public static void loadImage(String imagePath) {
+		loadImage(imagePath,imagePath);
+	}
 	
 
 	

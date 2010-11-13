@@ -71,6 +71,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			
 	}
 	
+	//TODO: fix this later, testing
+	public FMap(boolean manualConstruct)
+	{
+		
+		
+	}
+	
 	/**
 	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
 	 * can work Using this method is at your own risk and will most likely break
@@ -255,11 +262,37 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			this.width = temp.width;
 			this.height = temp.height;
 			
-
-			Graphic.loadImage( tileSheet, tileSheet);
-			//TODO check if the image (tileSheet) are loaded if not load them
 			
-			//TODO need to check if all sprites for different objects have been loadeded
+			//Loops though all objects from map
+			for(FObject obj : objects)
+			{
+				//get the list of audio files assoiated with said object and loads them.
+				for(String audioPath : obj.getAudio())
+				{
+					Audio.loadHtml(audioPath);
+				}
+				
+				//get the image file assoiated with said object and loads them.
+				Graphic.loadImage(obj.getSprite());
+			}
+			
+			
+			//Loops though all entites from map
+			for(FEntity obj : entities)
+			{
+				//get the list of audio files assoiated with said object and loads them.
+				for(String audioPath : obj.getAudio())
+				{
+					Audio.loadHtml(audioPath);
+				}
+				
+				//get the image file assoiated with said object and loads them.
+				Graphic.loadImage(obj.getSprite());
+			}
+					
+			
+
+			Graphic.loadImage( tileSheet);			
 			
 			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			Loaded = true;

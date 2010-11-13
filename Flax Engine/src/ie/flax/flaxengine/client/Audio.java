@@ -4,22 +4,30 @@ import java.util.ArrayList;
 import java.util.List;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-
+/**
+ * Audio.java
+ * @author carllange
+ *
+ */
 public class Audio {
 	
-	private List<String> tags = new ArrayList<String>();
+	private static List<String> tags = new ArrayList<String>();
 	
 	//TODO this needs to be updated to work with multiple audio streams playing at once.
 	//also, should gracefully handle the tag not existing
-	static native void play(String src) /*-{
+	public static native void play(String src) /*-{
 		$doc.getTagById(src).play();
 	}-*/;
 	
-	public native void pause(String src) /*-{
+	public static  native void pause(String src) /*-{
 		$doc.getTagById(src).pause();
 	}-*/;
-	
-	private void loadHtml(String src) {
+
+	/**
+	 * Load Audio file and checks if the file has been loaded before so as not to duplicate
+	 * @param src
+	 */
+	public static void loadHtml(String src) {
 		// Later on, this should be changed to SafeHtml
 		// this will be when we move to GWT 2.1
 		// http://code.google.com/webtoolkit/doc/latest/DevGuideSecuritySafeHtml.html
@@ -42,13 +50,13 @@ public class Audio {
 		}
 	}
 	
-	private native void loadAudioFile(String src) /*-{
+	private static native void loadAudioFile(String src) /*-{
 		// this simply calls the audio JSO load function, because
 		// some browsers need to explicitly be told to do this. 
 		$doc.getTagById(tagName).load();
 	}-*/;
 	
-	public boolean isComponentReady(){
+	public static  boolean isComponentReady(){
 		return true; // for testing only
 	}
 }

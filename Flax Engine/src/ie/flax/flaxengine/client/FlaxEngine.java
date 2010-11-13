@@ -63,6 +63,7 @@ public abstract class FlaxEngine {
 								
 	}
 	
+	
 	/**
 	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
 	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
@@ -70,6 +71,7 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String[] mapPaths, String insertId)
 	{
+		//TODO consoludate constructors
 		Graphic.init(insertId);// setup the canvas
 		
 		for(String mapPath : mapPaths)
@@ -148,7 +150,7 @@ public abstract class FlaxEngine {
 		 * 
 		 */
 		if(		(engineStatus == true)||
-				(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.isComponentReady())//TODO add check for audio loading
+				(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.isComponentReady() && Audio.isComponentReady())//TODO add check for audio loading
 			)
 		{			
 			engineStatus = true;
