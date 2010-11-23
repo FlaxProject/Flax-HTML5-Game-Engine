@@ -23,27 +23,30 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	private String imageDirectoryPath;
 	private String mapDirectoryPath;
 	private Boolean collisionOn;
-	private String UID = "0"; //set this here
+	private String UID; //set this here
+	private String serverPath;
 	
 	/**
 	 *  This initialises the settings to their defaults.
 	 *  
-	 *  By default, IMAGE_DIRECTORY_PATH is "/images/", MAP_DIRECTORY_PATH is "/maps/", and collisionOn is true.
+	 *  By default, IMAGE_DIRECTORY_PATH is "/images/", MAP_DIRECTORY_PATH is "/maps/", collisionOn is true, UID is 0, serverPath is "/server.php"
 	 */
 	public Settings() {
 		imageDirectoryPath = "/images/";
 		mapDirectoryPath = "/maps/";
+		UID = "0";
 		collisionOn = true;
+		serverPath = "/server.php";
 	}
 	
 		
 	/**
-	 * This initialises the settings from an XML file on the server.
+	 * This initialises the settings from a JSON file on the server.
 	 * 
-	 * @param settingsXmlFile The name and extension of the XML file on the server.
+	 * @param settingsJSONFile The name and extension of the JSON file on the server.
 	 */
 	public Settings(String pathToSettingFile) {
-		
+		//TODO: Settings doesn't yet construct itself from a JSON file
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);	
 		FileHandle.readFileAsString(pathToSettingFile, this.toString());		
 	}
@@ -56,11 +59,14 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param mapDirPath
 	 * @param collision
 	 * @param UID
+	 * @param serverPath
 	 */
-	public Settings(String imgDirPath, String mapDirPath, Boolean collision, String UID) {
+	public Settings(String imgDirPath, String mapDirPath, Boolean collision, String UID, String serverPath) {
 		imageDirectoryPath = imgDirPath;
 		mapDirectoryPath = mapDirPath;
 		collisionOn = collision;
+		this.UID = UID;
+		this.serverPath = serverPath;
 	}
 
 
@@ -92,6 +98,10 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	
 	public String getUID(){
 		return UID;
+	}
+	
+	public String getServerPath(){
+		return serverPath;
 	}
 	
 	/**

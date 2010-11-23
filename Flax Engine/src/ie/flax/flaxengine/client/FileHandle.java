@@ -45,7 +45,21 @@ public class FileHandle {
 	}
 	
 	static void writeStringToFile(String fileName, String stringToWrite, final String eventID) {
-		String url = "http://flax.ie/private/server.php";
+		//quick warning: this will not work unless a game is initialised
+		
+		//a small guard against a zero or null UID
+		if (FlaxEngine.settings.getUID() == "0"){
+			Log.warn("Your UID is set incorrectly. Don't use a UID of 0. A UID of 0 is insecure. Change it in your Settings file or in your Settings code.");
+		} else if (FlaxEngine.settings.getUID() == null){
+			Log.error("You don't have a UID set! Change that in your settings file or code, and don't forget to configure server.php the same way!");
+		}
+		
+		//a guard against a null server path
+		if (FlaxEngine.settings.getServerPath() == null){
+			Log.error("You have no server path set! Change that in your settings file or code!");
+		}
+		
+		String url = FlaxEngine.settings.getServerPath();
 		
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 		
