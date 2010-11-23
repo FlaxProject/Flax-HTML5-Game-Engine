@@ -100,6 +100,16 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		return UID;
 	}
 	
+	@Deprecated
+	public void setUID(String UID){
+		this.UID = UID;
+	}
+	
+	@Deprecated
+	public void setServerPath(String serverPath){
+		this.serverPath = serverPath;
+	}
+	
 	public String getServerPath(){
 		return serverPath;
 	}
@@ -136,6 +146,8 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		this.collisionOn = temp.collisionOn;
 		this.imageDirectoryPath = temp.imageDirectoryPath;
 		this.mapDirectoryPath = temp.mapDirectoryPath;
+		this.UID = temp.UID;
+		this.serverPath = temp.serverPath;
 		
 		Log.info("The settings object was constructed from a file sucessfully");
 		}
