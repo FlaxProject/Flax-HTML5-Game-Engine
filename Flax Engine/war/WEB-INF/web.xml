@@ -4,18 +4,12 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-	<servlet>
-		<servlet-name>fileHandleServiceImpl</servlet-name>
-		<servlet-class>ie.flax.flaxengine.server.FileHandleServiceImpl</servlet-class>
-	</servlet>
+	
 	<servlet>
 		<servlet-name>remoteLoggerServiceImpl</servlet-name>
 		<servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>fileHandleServiceImpl</servlet-name>
-		<url-pattern>/flax_engine/FileHandleService</url-pattern>
-	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>remoteLoggerServiceImpl</servlet-name>
 		<url-pattern>/flax_engine/gwt-log</url-pattern>
