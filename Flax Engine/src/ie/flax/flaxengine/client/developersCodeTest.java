@@ -9,12 +9,9 @@ package ie.flax.flaxengine.client;
  */
 public class developersCodeTest extends FlaxEngine {
 
-	public developersCodeTest(String[] mapPaths, String insertId) {
-		super(mapPaths, insertId);
-	}
 
 	public developersCodeTest(String mapPath, String insertId) {
-		super(mapPath, insertId);
+		super(mapPath, insertId,500,500);
 	}
 
 }

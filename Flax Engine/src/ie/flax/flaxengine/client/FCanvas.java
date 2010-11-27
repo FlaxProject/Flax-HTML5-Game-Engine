@@ -31,21 +31,6 @@ public class FCanvas {
 		return height;
 	}
 
-	/**
-	 * This constructor sets up the canvas and gives it a default width and
-	 * height of 640*480
-	 * 
-	 * @param insertID
-	 *            is the ID of the HTML element in which to insert the canvas
-	 *            tag.
-	 */
-	public FCanvas(String insertId) {
-		this.width = 640;
-		this.height = 480;
-
-		setupCanvasTag(insertId, width, height);
-		this.context = getContext();		
-	}
 
 	/**
 	 * 
@@ -62,33 +47,20 @@ public class FCanvas {
 		this.width = width;
 		this.height = height;
 
-		setupCanvasTag(insertId, width, height);
-		this.context = getContext();
-	
+		this.context = getContext();	
 	}
 
+
 	/**
-	 * 
-	 * 
-	 * @param insertID
-	 *            is the ID of the HTML element in which to insert the canvas
-	 *            tag. If the ID doesn't exist it will place it in the body of the html
+	 * Currently not in use but should be, see setupHtmlPanel method in flaxengine for more info
 	 * @param width
-	 *            of canvas
 	 * @param height
-	 *            of canvas
+	 * @return
 	 */
-	private native void setupCanvasTag(String insertId, int width, int height)
-	/*-{
-		if($doc.getElementById(insertId) != null)
-		{		
-		$doc.getElementById(insertId).innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';
-		}
-		else
-		{
-			$doc.getElementsByTagName("BODY").item(0).innerHTML = '<canvas id=\"FlaxEngineCanvas\" style="background:red;" width= ' + width + ' height= ' + height + '  >Your browser is way out of date man, get a good one like Chrome</canvas>';			
-		}
-	}-*/;
+	public String getDOMelement(int width, int height) {
+		return "<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width=300 height=200 >Your browser is way out of date man, get a good one like Chrome</canvas>";
+	}
+	
 
 	/**
 	 * 
@@ -145,5 +117,7 @@ public class FCanvas {
 	/*-{
 		this.@ie.flax.flaxengine.client.FCanvas::context.drawImage(imageObj,xSrc,ySrc,widthSrc,heightSrc,xDes,yDes,widthDes,heightDes);
 	}-*/;
+
+	
 
 }

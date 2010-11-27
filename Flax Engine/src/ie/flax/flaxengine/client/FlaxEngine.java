@@ -6,6 +6,9 @@ import java.util.List;
 
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 
 /**
@@ -18,7 +21,7 @@ import com.google.gwt.user.client.Timer;
  * @author Ciarán McCann
  * 
  */
-public abstract class FlaxEngine {
+public abstract class FlaxEngine extends FocusPanel {
 	
 	private static final String powerBy = "Powered By Flax Web Game Engine";
 	private List<FMap> maps = new ArrayList<FMap>();
@@ -26,6 +29,14 @@ public abstract class FlaxEngine {
 	private boolean playing;
 	public static Settings settings;
 	private boolean engineStatus;
+	
+	
+	public FMap getCurrentMap()
+	{
+		return maps.get(currentMap);
+	}
+	
+	
 	
 	/**
 	 * This timer implements the game loop. The timer loops every 500 millsecounds
@@ -71,9 +82,7 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String[] mapPaths, String insertId)
 	{
-		//TODO consoludate constructors
-		Graphic.init(insertId);// setup the canvas
-		
+		setupHtmlPanel(insertId,600,300);	
 		for(String mapPath : mapPaths)
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
@@ -87,7 +96,20 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId)
 	{
-		Graphic.init(insertId);// setup the canvas		
+		setupHtmlPanel(insertId,600,300);	
+		maps.add(new FMap(mapPaths));//Loads all the maps
+	}
+	
+	
+	/**
+	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
+	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
+	 * @param insertId - id of element of which to insert the canvas
+	 * @param CSSclass 
+	 */
+	public FlaxEngine(String mapPaths, String insertId, int width, int height)
+	{		
+		setupHtmlPanel(insertId,width,height);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	}
 	
@@ -98,7 +120,7 @@ public abstract class FlaxEngine {
 	 * @param insertId - id of element of which to insert the canvas
 	 * @param settingsFile
 	 */
-	public FlaxEngine(String[] mapPaths, String insertId, String settingsFile)
+	/*public FlaxEngine(String[] mapPaths, String insertId, String settingsFile)
 	{
 		Graphic.init(insertId);// setup the canvas
 		
@@ -109,6 +131,7 @@ public abstract class FlaxEngine {
 		
 		settings = new Settings(settingsFile);//loads the settings from file
 	}
+	*/
 	
 	
 	/**
@@ -117,7 +140,7 @@ public abstract class FlaxEngine {
 	 * @param insertId - id of element of which to insert the canvas
 	 * @param settings - HashMap<String, String>
 	 */
-	public FlaxEngine(String[] mapPaths, String insertId, String imgDirPath, String mapDirPath, Boolean collision)
+	/*public FlaxEngine(String[] mapPaths, String insertId, String imgDirPath, String mapDirPath, Boolean collision)
 	{
 		Graphic.init(insertId);// setup the canvas
 		
@@ -126,7 +149,29 @@ public abstract class FlaxEngine {
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
 		
-		settings = new Settings(imgDirPath, mapDirPath, collision, "0");
+		settings = new Settings(imgDirPath, mapDirPath, true, "984756", mapDirPath);
+	}
+	*/
+	
+	
+	/**
+	 * This method should be refractored as some stage as it talks about canvas and ignores the abstraction layer
+	 * which atm is fine as a secound graphic layer will not be implemented any time soon. 
+	 *<br><br> This method inserts the canvas tag inside the focus panel which catchs events.
+	 * @param insertId
+	 * @param width
+	 * @param height
+	 */
+	private void setupHtmlPanel(String insertId, int width, int height)
+	{
+		this.setSize(width+"px", height+"px");
+		HTMLPanel panel = new HTMLPanel("<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>");
+		panel.setSize(width+"px", height+"px");
+		
+		this.add(panel);
+		RootPanel.get(insertId).add(this);
+		
+		Graphic.init(insertId,width,height);// setup the canvas	
 	}
 	
 	/**

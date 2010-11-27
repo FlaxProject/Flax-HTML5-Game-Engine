@@ -33,18 +33,6 @@ public class Graphic {
 	 * @param insertId
 	 *            is the ID of the HTML element in which to insert the canvas
 	 *            tag.
-	 */
-	public static void init(String insertId) {
-		graphicLayer = new FCanvas(insertId);
-		Log.info("Graphics component started successfully");
-	}
-
-	/**
-	 * Initialises the graphics components
-	 * 
-	 * @param insertId
-	 *            is the ID of the HTML element in which to insert the canvas
-	 *            tag.
 	 * @param width
 	 *            of the canvas
 	 * @param height
@@ -53,6 +41,18 @@ public class Graphic {
 	public static void init(String insertId, int width, int height) {
 		graphicLayer = new FCanvas(insertId, width, height);
 		Log.info("graphics component started successfully");
+	}
+	
+	
+	/**
+	 * Currently not in use but should be, see setupHtmlPanel method in flaxengine for more info
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public static String getDOMelement(int width, int height)
+	{
+	  return graphicLayer.getDOMelement(width, height);
 	}
 
 	/**
