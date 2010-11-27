@@ -31,6 +31,10 @@ public abstract class FlaxEngine extends FocusPanel {
 	private boolean engineStatus;
 	
 	
+	/**
+	 * Gets the current map
+	 * @return
+	 */
 	public FMap getCurrentMap()
 	{
 		return maps.get(currentMap);

@@ -62,13 +62,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * @param mapPath
 	 *            address to the map file to be loaded.
 	 */
-	public FMap(String mapPath) {
-		
+	public FMap(String mapPath) {		
 		name = mapPath;
 			
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
-		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file
-			
+		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
 	}
 	
 	//TODO: fix this later, testing
@@ -211,7 +209,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * @param JSON
 	 * @return
 	 */
-	public  FMap JsonToFMap(String Json) {
+	private FMap JsonToFMap(String Json) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
 	}
