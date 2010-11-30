@@ -15,7 +15,7 @@ public class FObject implements JsonSerializable{
 	private float width;
 	private float height;
 	private String sprite;
-	private String[] audio;
+	private String audio;
 	
 
 
@@ -33,7 +33,8 @@ public class FObject implements JsonSerializable{
 		this.width = width;
 		this.height = height;
 		this.sprite = sprite;
-		this.audio = audio;
+		this.audio = audio[0];
+		
 	}
 	
 
@@ -59,11 +60,11 @@ public class FObject implements JsonSerializable{
 		
 	}
 	
-	public String[] getAudio() {
+	public String getAudio() {
 		return audio;
 	}
 
-	public void setAudio(String[] audio) {
+	public void setAudio(String audio) {
 		this.audio = audio;
 	}
 

@@ -29,7 +29,7 @@ public class FileHandle {
 
 		    public void onResponseReceived(Request request, Response response) {
 		      if (200 == response.getStatusCode()) {
-		    	  Log.info(response.getText());
+		    	 // Log.info(response.getText());
 		    	  EventBus.handlerManager.fireEvent(new onFileLoadedEvent(response.getText(), eventID));
 		      } else {
 		    	  //TODO: make these error messages more explanatory

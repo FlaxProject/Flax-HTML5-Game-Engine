@@ -85,7 +85,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@Deprecated	
 	public FMap() {
 		
-		/*this.width = this.height = 50;
+		/*
+		String[] audio = new String[3];
+		audio[0] = "audio.mp3";
+		this.width = this.height = 50;
 		this.tileSize = 32;
 		this.tileSheet = "c";
 		tiles = new ArrayList<FTile>(width * height);
@@ -93,9 +96,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				tiles.add(new FTile(x * this.tileSize, y * this.tileSize, true, 1));
+				
 			}
 		}
+		entities.add(new FEntity(100,100,32,32,"http://www.freewebs.com/nightmare_gohan_dbz/nightmaregohan_single_sprite.GIF",audio));
+
+		Log.debug(entities.get(0).getAudio());
 		Log.info(this.FMapToJson());
+		
 		*/
 		
 	}
@@ -208,6 +216,29 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	}
 	
 	/**
+	 * This allows the user to select and modify the enitiy
+	 * @param id
+	 * @return
+	 */
+	public FEntity getEntity(int id)
+	{
+		return entities.get(id);
+	}
+	
+	
+	/**
+	 * This allows the user to select and modify the enitiy
+	 * @param id
+	 * @return
+	 */
+	public FEntity getEntity(int x, int y)
+	{
+		return entities.get(0); //TODO: fix this
+	}
+	
+	
+	
+	/**
 	 * If true this FMap object has finished loading its data
 	 * @return
 	 */
@@ -278,10 +309,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			for(FObject obj : objects)
 			{
 				//get the list of audio files assoiated with said object and loads them.
-				for(String audioPath : obj.getAudio())
-				{
-					Audio.loadHtml(audioPath);
-				}
+				//for(String audioPath : obj.getAudio())
+				//{
+				//	Audio.loadHtml(audioPath);
+				//}
 				
 				//get the image file assoiated with said object and loads them.
 				Graphic.loadImage(obj.getSprite());
@@ -292,10 +323,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			for(FEntity obj : entities)
 			{
 				//get the list of audio files assoiated with said object and loads them.
-				for(String audioPath : obj.getAudio())
-				{
-					Audio.loadHtml(audioPath);
-				}
+				//for(String audioPath : obj.getAudio())
+				//{
+				//	Audio.loadHtml(audioPath);
+				//}
 				
 				//get the image file assoiated with said object and loads them.
 				Graphic.loadImage(obj.getSprite());
@@ -329,7 +360,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * 
 	 */
 	@Deprecated
-	public List<FTile> getTiles() {
+	private List<FTile> getTiles() {
 		return tiles;
 	}
 	
