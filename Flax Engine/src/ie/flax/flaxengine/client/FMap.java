@@ -85,6 +85,19 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@Deprecated	
 	public FMap() {
 		
+		/*this.width = this.height = 50;
+		this.tileSize = 32;
+		this.tileSheet = "c";
+		tiles = new ArrayList<FTile>(width * height);
+
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				tiles.add(new FTile(x * this.tileSize, y * this.tileSize, true, 1));
+			}
+		}
+		Log.info(this.FMapToJson());
+		*/
+		
 	}
 		
 	/**

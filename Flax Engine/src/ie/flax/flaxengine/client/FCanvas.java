@@ -115,6 +115,7 @@ public class FCanvas {
 	 */
 	public native void drawImage(JavaScriptObject imageObj, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
 	/*-{
+		//this.@ie.flax.flaxengine.client.FCanvas::context.rotate(45);
 		this.@ie.flax.flaxengine.client.FCanvas::context.drawImage(imageObj,xSrc,ySrc,widthSrc,heightSrc,xDes,yDes,widthDes,heightDes);
 	}-*/;
 

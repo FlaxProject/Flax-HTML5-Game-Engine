@@ -27,13 +27,13 @@ public class Main implements EntryPoint{
 		FileHandle.readFileAsString("http://flax.ie/private/testName.txt", this.toString());*/
 		
 		theGame.run(); // Starts the game loop
-		com.google.gwt.user.client.Window.alert("start");
+		//com.google.gwt.user.client.Window.alert("start");
 		
 		theGame.addKeyDownHandler( new KeyDownHandler() {
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				com.google.gwt.user.client.Window.alert("key");
+				Log.info("key");
 				
 			}
 		});

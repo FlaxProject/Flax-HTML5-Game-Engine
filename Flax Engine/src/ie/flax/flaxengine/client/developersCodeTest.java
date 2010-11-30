@@ -11,7 +11,7 @@ public class developersCodeTest extends FlaxEngine {
 
 
 	public developersCodeTest(String mapPath, String insertId) {
-		super(mapPath, insertId,500,500);
+		super(mapPath, insertId,800,600);
 	}
 
 }

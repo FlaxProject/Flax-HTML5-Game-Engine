@@ -74,7 +74,7 @@ public abstract class FlaxEngine extends FocusPanel {
 	public void run()
 	{
 		playing = true;	
-		gameTimer.scheduleRepeating(500);
+		gameTimer.scheduleRepeating(41);
 								
 	}
 	
