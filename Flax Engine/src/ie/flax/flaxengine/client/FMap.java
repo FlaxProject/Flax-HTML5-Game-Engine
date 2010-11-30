@@ -360,7 +360,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * 
 	 */
 	@Deprecated
-	private List<FTile> getTiles() {
+	public List<FTile> getTiles() {
 		return tiles;
 	}
 	
