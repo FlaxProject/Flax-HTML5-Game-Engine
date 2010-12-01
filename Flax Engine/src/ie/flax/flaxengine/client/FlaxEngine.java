@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -29,6 +30,9 @@ public abstract class FlaxEngine extends FocusPanel {
 	private boolean playing;
 	public static Settings settings;
 	private boolean engineStatus;
+	private int frameCount = 0;
+	private int oldMilliseconds = 0;
+	
 	
 	
 	/**
@@ -59,7 +63,15 @@ public abstract class FlaxEngine extends FocusPanel {
 					//TODO Game Loop
 					//Log.info("Game Loop is looping");	
 					maps.get(0).draw();
-				
+					frameCount++;
+					int currentMilliseconds = getMilliseconds();
+					
+					if (currentMilliseconds < oldMilliseconds){
+						Log.debug("This second had " + frameCount);
+						frameCount = 0;
+					}
+					
+					oldMilliseconds = currentMilliseconds;
 				}
 			}
 		}
@@ -79,6 +91,12 @@ public abstract class FlaxEngine extends FocusPanel {
 	}
 	
 	
+	protected native int getMilliseconds() /*-{
+		var currentTime = new Date();
+		return currentTime.getMilliseconds();
+	}-*/;
+
+
 	/**
 	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
 	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
