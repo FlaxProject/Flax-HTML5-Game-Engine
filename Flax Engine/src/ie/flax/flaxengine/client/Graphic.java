@@ -161,17 +161,7 @@ public class Graphic {
 		{
 		
 		try {
-			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing
-			
-			if(imageLibary.get(nameToReferenceBy).isLoaded())
-			{
-				Log.info("Image " + imagePath + " Loaded sucessfully " );
-			}
-			else
-			{
-				Log.error("Image " + imagePath + " didn't loaded - looks like a 404");
-			}
-			
+			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing						
 		} catch (Exception e) {
 			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
 		}
