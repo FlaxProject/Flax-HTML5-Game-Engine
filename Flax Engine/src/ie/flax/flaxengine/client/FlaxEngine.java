@@ -52,19 +52,10 @@ public abstract class FlaxEngine extends FocusPanel {
 					//TODO Game Loop
 					//Log.info("Game Loop is looping");	
 					maps.get(0).draw();
-					frameCount++;
-					int currentMilliseconds = getMilliseconds();
-					
-					if (currentMilliseconds < oldMilliseconds){
-						Log.debug("This second had " + frameCount);
-						frameCount = 0;
-					}
-					
-					oldMilliseconds = currentMilliseconds;
+					fpsUpdate();
 				}
 			}
 		}
-			
 	};
 		
 	
@@ -342,6 +333,23 @@ public abstract class FlaxEngine extends FocusPanel {
 		}
 		
 		return engineStatus;
+	}
+
+
+	/**
+	 * This updates the fps counter, and logs the frames every second or so.
+	 * Known bugs: if a frame takes longer than a second (ie >=1001 milliseconds to draw, the FPS recorded is incorrect.
+	 */
+	private void fpsUpdate() {
+		frameCount++;
+		int currentMilliseconds = getMilliseconds();
+		
+		if (currentMilliseconds < oldMilliseconds){
+			Log.debug("This second had " + frameCount);
+			frameCount = 0;
+		}
+		
+		oldMilliseconds = currentMilliseconds;
 	}
 
 	
