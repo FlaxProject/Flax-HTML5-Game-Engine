@@ -6,6 +6,8 @@ import java.util.List;
 
 
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -32,20 +34,7 @@ public abstract class FlaxEngine extends FocusPanel {
 	private boolean engineStatus;
 	private int frameCount = 0;
 	private int oldMilliseconds = 0;
-	
-	
-	
-	/**
-	 * Gets the current map
-	 * @return
-	 */
-	public FMap getCurrentMap()
-	{
-		return maps.get(currentMap);
-	}
-	
-	
-	
+		
 	/**
 	 * This timer implements the game loop. The timer loops every 500 millsecounds
 	 * It checks is the engineReady and then if the game is been played and then 
@@ -81,6 +70,74 @@ public abstract class FlaxEngine extends FocusPanel {
 	
 	
 	/**
+	 * Returns the current map which can the be used to modify the information in the map
+	 * @return
+	 */
+	public FMap getCurrentMap()
+	{
+		return maps.get(currentMap);
+	}
+	
+
+	/**
+	 * The currentMap by setting the index 
+	 * @param setIndex
+	 */
+	public void setCurrentMap(int setIndex)
+	{
+		this.currentMap = setIndex; 
+	}
+	
+	/**
+	 * Sets the current map to the given name
+	 * @param mapName
+	 */
+	public void setCurrentMap(String mapName)
+	{
+		int mapIndex = 0;
+		
+		for(FMap map : maps)
+		{
+			 if(map.getName() == mapName)
+			 {
+				 currentMap = mapIndex;
+				 break;
+			 }
+				 
+				mapIndex++;
+		}
+		
+	}
+	
+	
+	/**
+	 * Gets a map with given ID
+	 * @param mapID
+	 * @return
+	 */
+	public FMap getMap(int mapID)
+	{
+		return maps.get(mapID);
+	}
+	
+	
+	/**
+	 * Searchs though the list of maps and return the one with supplied name
+	 * @param mapName
+	 * @return
+	 */
+	public FMap getMap(String mapName)
+	{
+		for(FMap map : maps)
+		{
+			 if(map.getName() == mapName)
+				 return map;
+		}
+		return null;
+	}
+	
+	
+	/**
 	 * The run method starts the game loop
 	 */
 	public void run()
@@ -104,7 +161,8 @@ public abstract class FlaxEngine extends FocusPanel {
 	 */
 	public FlaxEngine(String[] mapPaths, String insertId)
 	{
-		setupHtmlPanel(insertId,600,300);	
+		setupHtmlPanel(insertId,600,300);
+		setupEventHandlers();
 		for(String mapPath : mapPaths)
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
@@ -119,6 +177,7 @@ public abstract class FlaxEngine extends FocusPanel {
 	public FlaxEngine(String mapPaths, String insertId)
 	{
 		setupHtmlPanel(insertId,600,300);	
+		setupEventHandlers();
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	}
 	
@@ -131,7 +190,8 @@ public abstract class FlaxEngine extends FocusPanel {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{		
-		setupHtmlPanel(insertId,width,height);	
+		setupHtmlPanel(insertId,width,height);
+		setupEventHandlers();
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	}
 	
@@ -194,13 +254,71 @@ public abstract class FlaxEngine extends FocusPanel {
 		RootPanel.get(insertId).add(this);
 		
 		Graphic.init(insertId,width,height);// setup the canvas	
+						
 	}
+	
+	
+	/**
+	 * Registers the canvas for event handling
+	 */
+	private void setupEventHandlers()
+	{
+		this.addKeyDownHandler( new KeyDownHandler() {
+			
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				
+			event.preventDefault();				
+			onKeyDownEvent(event);
+				
+			}
+		});
+		
+		
+		//TODO: register all types of events
+	}
+	
+	
+	
+	
+	/**
+	 * Defines logic for what happens when a key down event happens. 
+	 * @param event
+	 */
+	public void onKeyDownEvent(KeyDownEvent event) {
+		
+		event.preventDefault();
+		
+		if(event.isUpArrow())
+		{
+			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
+		}
+		
+		if(event.isDownArrow())
+		{
+		getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
+		}
+		
+		if(event.isLeftArrow())
+		{
+		getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
+		}
+		
+		if(event.isRightArrow())
+		{
+		getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
+		}
+		
+		
+	}
+
+	
 	
 	/**
 	 * Checks are all the engine componets are loaded and the data in them got from the server
 	 * @return
 	 */
-	private boolean isEngineReady()
+	protected boolean isEngineReady()
 	{
 	
 		/**
