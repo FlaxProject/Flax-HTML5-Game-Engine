@@ -13,6 +13,11 @@ public class FVector {
 		y+=v.y;
 	}
 	
+	void subtract(FVector v){
+		x-=v.x;
+		y-=v.y;
+	}
+	
 	void rotate(double angleInDegrees){
 		angleInDegrees=angleInDegrees/360.0*2*Math.PI;
 
