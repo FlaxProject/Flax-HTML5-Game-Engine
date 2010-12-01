@@ -1,0 +1,13 @@
+com.allen_sauer.gwt.log.client.RemoteLoggerService, false, false, false, false, _, 2546770444
+com.allen_sauer.gwt.log.shared.LogRecord, false, false, true, true, com.allen_sauer.gwt.log.shared.LogRecord/389245345, 389245345
+com.allen_sauer.gwt.log.shared.WrappedClientThrowable, false, false, true, true, com.allen_sauer.gwt.log.shared.WrappedClientThrowable/1300312491, 1300312491
+com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException, true, true, true, true, com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException/3936916533, 3936916533
+java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
+java.lang.StackTraceElement, false, false, true, true, java.lang.StackTraceElement/1098092073, 1098092073
+[Ljava.lang.StackTraceElement;, false, false, true, true, [Ljava.lang.StackTraceElement;/168204027, 168204027
+java.lang.String, true, true, true, true, java.lang.String/2004016611, 2004016611
+java.lang.Throwable, true, false, true, false, java.lang.Throwable/2953622131, 2953622131
+java.util.ArrayList, false, false, true, true, java.util.ArrayList/3821976829, 3821976829
+java.util.HashMap, false, false, true, true, java.util.HashMap/962170901, 962170901
+java.util.LinkedHashMap, false, false, true, true, java.util.LinkedHashMap/1551059846, 1551059846
