@@ -23,45 +23,9 @@ public class Main implements EntryPoint{
 	
 	@Override
 	public void onModuleLoad() {
-		/*FileHandle.writeStringToFile("testName.txt", "This is a test", this.toString());
-		FileHandle.readFileAsString("http://flax.ie/private/testName.txt", this.toString());*/
+				
+		theGame.run(); // Starts the game loop		
 		
-		theGame.run(); // Starts the game loop
-	
-		//com.google.gwt.user.client.Window.alert("start");
-		
-		theGame.addKeyDownHandler( new KeyDownHandler() {
-			
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				
-				event.preventDefault();
-				
-				if(event.isUpArrow())
-				{
-				theGame.getCurrentMap().getEntity(0).setY(theGame.getCurrentMap().getEntity(0).getY()-3);
-				}
-				
-				if(event.isDownArrow())
-				{
-				theGame.getCurrentMap().getEntity(0).setY(theGame.getCurrentMap().getEntity(0).getY()+3);
-				}
-				
-				if(event.isLeftArrow())
-				{
-				theGame.getCurrentMap().getEntity(0).setX(theGame.getCurrentMap().getEntity(0).getX()-3);
-				}
-				
-				if(event.isRightArrow())
-				{
-				theGame.getCurrentMap().getEntity(0).setX(theGame.getCurrentMap().getEntity(0).getX()+3);
-				}
-				
-				
-				//Log.debug(message)
-				
-			}
-		});
 	}
 
 }

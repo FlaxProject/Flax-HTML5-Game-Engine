@@ -8,6 +8,7 @@ import java.util.List;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -24,8 +25,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  * @author Ciarán McCann
  * 
  */
-public abstract class FlaxEngine extends FocusPanel {
+public abstract class FlaxEngine {
 	
+	private FocusPanel eventPanel;
 	private static final String powerBy = "Powered By Flax Web Game Engine";
 	private List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
@@ -34,7 +36,8 @@ public abstract class FlaxEngine extends FocusPanel {
 	private boolean engineStatus;
 	private int frameCount = 0;
 	private int oldMilliseconds = 0;
-		
+	
+
 	/**
 	 * This timer implements the game loop. The timer loops every 500 millsecounds
 	 * It checks is the engineReady and then if the game is been played and then 
@@ -54,6 +57,10 @@ public abstract class FlaxEngine extends FocusPanel {
 					maps.get(0).draw();
 					fpsUpdate();
 				}
+			}
+			else
+			{
+				Log.debug("Engine is not ready yet");
 			}
 		}
 	};
@@ -237,12 +244,13 @@ public abstract class FlaxEngine extends FocusPanel {
 	 */
 	private void setupHtmlPanel(String insertId, int width, int height)
 	{
-		this.setSize(width+"px", height+"px");
+		eventPanel = new FocusPanel();
+		eventPanel.setSize(width+"px", height+"px");
 		HTMLPanel panel = new HTMLPanel("<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>");
 		panel.setSize(width+"px", height+"px");
 		
-		this.add(panel);
-		RootPanel.get(insertId).add(this);
+		eventPanel.add(panel);
+		RootPanel.get(insertId).add(eventPanel);
 		
 		Graphic.init(insertId,width,height);// setup the canvas	
 						
@@ -254,7 +262,7 @@ public abstract class FlaxEngine extends FocusPanel {
 	 */
 	private void setupEventHandlers()
 	{
-		this.addKeyDownHandler( new KeyDownHandler() {
+		eventPanel.addKeyDownHandler( new KeyDownHandler() {
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
@@ -276,9 +284,8 @@ public abstract class FlaxEngine extends FocusPanel {
 	 * Defines logic for what happens when a key down event happens. 
 	 * @param event
 	 */
-	public void onKeyDownEvent(KeyDownEvent event) {
+	protected  void onKeyDownEvent(KeyDownEvent event) {
 		
-		event.preventDefault();
 		
 		if(event.isUpArrow())
 		{
