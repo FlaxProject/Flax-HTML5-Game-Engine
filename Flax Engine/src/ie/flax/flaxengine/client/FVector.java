@@ -8,14 +8,12 @@ public class FVector {
 		this.y = y;
 	}
 
-	void add(FVector v){
-		x+=v.x;
-		y+=v.y;
+	FVector add(FVector v){
+		FVector r = new FVector(this.x+=v.x,this.y+=v.y;
 	}
 	
-	void subtract(FVector v){
-		x-=v.x;
-		y-=v.y;
+	FVector subtract(FVector v){
+		FVector r = new FVector(this.x-=v.x,this.y-=v.y;
 	}
 	
 	void rotate(double angleInDegrees){
