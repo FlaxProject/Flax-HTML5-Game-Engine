@@ -4,9 +4,43 @@ body {
 	margin: 0px;
 	padding: 0;
 	background: #EBEBEB;
-	font: 1.3em Georgia, "Times New Roman", Times, serif;
+	font-family:"Lucida Grande", "Lucida Sans Unicode", Verdana, Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	color: #000000;
+}
+
+canvas{
+	border: 1px solid #DCDCD0;		
+	
+	}
+
+#weavebottomPanel
+{
+	background:#F3F1E5;
+	border: 1px solid #DCDCD0;		
+}
+
+#fps
+{
+	width:29.5%;
+	height:100%;
+	float:left;
+	
+}
+
+#log{
+	width:70%;
+	border-left:1px solid #DCDCD0;
+	height:100%;
+	float:right;
+	}
+	
+.header
+{
+	border-bottom:1px #DCDCD0 solid;
+	margin:0px;
+	padding-top:2px;
+	padding-bottom:2px
 }
 
 #nameFieldContainer{

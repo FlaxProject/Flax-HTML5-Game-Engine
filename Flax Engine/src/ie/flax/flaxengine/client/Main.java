@@ -24,7 +24,8 @@ public class Main implements EntryPoint{
 	@Override
 	public void onModuleLoad() {
 				
-		theGame.run(); // Starts the game loop		
+		theGame.run(); // Starts the game loop
+		
 		
 	}
 

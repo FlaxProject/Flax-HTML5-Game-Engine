@@ -1,8 +1,12 @@
 package ie.flax.flaxengine.client;
 
+
+import ie.flax.flaxengine.client.weave.Weave;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 
 import com.allen_sauer.gwt.log.client.Log;
@@ -36,6 +40,7 @@ public abstract class FlaxEngine {
 	private boolean engineStatus;
 	private int frameCount = 0;
 	private int oldMilliseconds = 0;
+	private Weave editor;
 	
 
 	/**
@@ -252,7 +257,10 @@ public abstract class FlaxEngine {
 		eventPanel.add(panel);
 		RootPanel.get(insertId).add(eventPanel);
 		
+		
 		Graphic.init(insertId,width,height);// setup the canvas	
+		editor = new Weave(insertId,800,600);
+		editor.display();
 						
 	}
 	
