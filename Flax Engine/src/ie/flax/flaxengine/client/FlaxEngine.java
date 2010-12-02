@@ -360,7 +360,7 @@ public abstract class FlaxEngine {
 		int currentMilliseconds = getMilliseconds();
 		
 		if (currentMilliseconds < oldMilliseconds){
-			Log.debug("This second had " + frameCount);
+			editor.updateUIelement("fpscount", ""+frameCount);
 			frameCount = 0;
 		}
 		
