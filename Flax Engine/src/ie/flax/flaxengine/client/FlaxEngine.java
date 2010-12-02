@@ -63,10 +63,7 @@ public abstract class FlaxEngine {
 					fpsUpdate();
 				}
 			}
-			else
-			{
-				Log.debug("Engine is not ready yet");
-			}
+			
 		}
 	};
 		

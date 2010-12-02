@@ -20,7 +20,7 @@ public class Weave {
 	{
 		bottomPanel = new HTMLPanel("<div id=\"weavebottomPanel\" style=\"width:"+ width +"px;height:" + 90 + "px;\">" +
 				"<div id=\"fps\">" +
-				"<p class=\"header\">FPS</p><h2 id=\"fpsCount\"></h2></div>" +
+				"<p class=\"header\">FPS</p><h2 id=\"fpscount\"></h2></div>" +
 				"<div id=\"log\"><p class=\"header\">Logger</p></div>  " +
 				"</div>");
 		
