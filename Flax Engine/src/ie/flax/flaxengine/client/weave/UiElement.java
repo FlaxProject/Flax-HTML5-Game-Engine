@@ -1,7 +1,7 @@
 package ie.flax.flaxengine.client.weave;
 
 /**
- * Lists the ID's of elements in the UI of weave
+ * Lists the ID's of elements in the UI of weave which allows the HTML to be moddifed, without braking code
  * @author ciaran
  *
  */
