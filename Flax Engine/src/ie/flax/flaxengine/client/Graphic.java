@@ -50,9 +50,9 @@ public class Graphic {
 	 * @param height
 	 * @return
 	 */
-	public static String getDOMelement(int width, int height)
+	public static String getDomRenderingElement(int width, int height)
 	{
-	  return graphicLayer.getDOMelement(width, height);
+	  return graphicLayer.getDomRenderingElement(width, height);
 	}
 
 	/**

@@ -161,8 +161,7 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String[] mapPaths, String insertId)
 	{
-		setupHtmlPanel(insertId,600,300);
-		setupEventHandlers();
+		initEngine(insertId,600,300);
 		for(String mapPath : mapPaths)
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
@@ -176,8 +175,7 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId)
 	{
-		setupHtmlPanel(insertId,600,300);	
-		setupEventHandlers();
+		initEngine(insertId,600,300);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	}
 	
@@ -190,8 +188,8 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{		
-		setupHtmlPanel(insertId,width,height);
-		setupEventHandlers();
+		initEngine(insertId,width,height);
+	
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	}
 	
@@ -237,29 +235,46 @@ public abstract class FlaxEngine {
 	
 	
 	/**
-	 * This method should be refractored as some stage as it talks about canvas and ignores the abstraction layer
-	 * which atm is fine as a secound graphic layer will not be implemented any time soon. 
-	 *<br><br> This method inserts the canvas tag inside the focus panel which catchs events.
+	 *This method initlisze many different compenets of the engine, events, rendering, weave
 	 * @param insertId
 	 * @param width
 	 * @param height
 	 */
-	private void setupHtmlPanel(String insertId, int width, int height)
+	private void initEngine(String insertId, int width, int height)
 	{
-		eventPanel = new FocusPanel();
-		eventPanel.setSize(width+"px", height+"px");
-		HTMLPanel panel = new HTMLPanel("<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>");
-		panel.setSize(width+"px", height+"px");
+		setupEventAndRenderingPanel(width, height, insertId);//inserts event panel and canvas tag
 		
-		eventPanel.add(panel);
-		RootPanel.get(insertId).add(eventPanel);
-		
-		
-		Graphic.init(insertId,width,height);// setup the canvas	
-		editor = new Weave(insertId,800,600);
-		editor.display();
-						
+		setupEventHandlers(); //sets the event handlers for canvas tag
+					
+		Graphic.init(insertId,width,height);//Gets the context of the canvas tag and setup the class
+	
+		editor = new Weave(insertId,800,600);//setup weave and defines its width and height
+		editor.display();						
 	}
+
+
+	/**
+	 * Creates a DIV which is catchs the events, inside this DIV the rendering Element, ie the
+	 * canvas tag is place. The DIV catchs all the events for the canvas. These to elements are then inserted into the
+	 * element whos id = insertID. 
+	 * @param width
+	 * @param height
+	 * @param insertId 
+	 */
+	private void setupEventAndRenderingPanel(int width, int height, String insertId) {
+		eventPanel = new FocusPanel();//Constructs the Div, FocusPanel which catchs events
+		eventPanel.setSize(width+"px", height+"px");
+		
+		//The panel below contains the rendering DOM elements, IE the canvas tag.
+		//Below string should be moved into canvas class at some stage, its ok for the mo.
+		HTMLPanel panel = new HTMLPanel("<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>");		
+		panel.setSize(width+"px", height+"px");		
+		
+		eventPanel.add(panel);	//Add render element to event div
+		RootPanel.get(insertId).add(eventPanel);	// add both elements to the insertID div
+	}
+	
+	
 	
 	
 	/**

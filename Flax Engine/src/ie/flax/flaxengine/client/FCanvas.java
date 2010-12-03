@@ -57,8 +57,8 @@ public class FCanvas {
 	 * @param height
 	 * @return
 	 */
-	public String getDOMelement(int width, int height) {
-		return "<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width=300 height=200 >Your browser is way out of date man, get a good one like Chrome</canvas>";
+	public String getDomRenderingElement(int width, int height) {
+		return "<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>";
 	}
 	
 
