@@ -3,6 +3,7 @@ import ie.flax.flaxengine.client.FLog;
 
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 
 public class Weave {
@@ -92,6 +93,23 @@ public class Weave {
 			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
 		}
 	}
+  
+  /**
+   * Given an ID it inserts a widget 
+   * To get a list of UI elements to update use UiElement.yourElementName. You should NOT raw string ID's. 
+   * @param UiElement
+   * @param widget
+   */
+   public void insertWidget(final String UiElement, Widget widget)
+   {
+	   //checks first if the element with ID=id exists
+		if (RootPanel.get(UiElement) != null) {
+			RootPanel.get(UiElement).add(widget);//Inserts the content
+		} else {
+
+			FLog.warn("Insert widget of UI element [" + UiElement + "] failed due to it been null.");
+		}
+   }
    
    
 
