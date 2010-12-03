@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client;
 
 
+import ie.flax.flaxengine.client.weave.UiElement;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.List;
 import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -264,8 +267,7 @@ public abstract class FlaxEngine {
 		
 		Graphic.init(insertId,width/10,height - height/10);//Gets the context of the canvas tag and setup the class
 	
-		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas
-		editor.display();						
+		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
 	}
 
 
@@ -312,9 +314,40 @@ public abstract class FlaxEngine {
 		});
 		
 		
+		eventPanel.addKeyPressHandler(new KeyPressHandler() {
+			
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				event.preventDefault();		
+
+				onKeyPressEvent(event);
+				
+			}
+		});
+		
+		
 		//TODO: register all types of events
 	}
 	
+	
+	/**
+	 * Defines logic for what happens when a key is pressed event happens. 
+	 * @param event
+	 */
+	protected  void onKeyPressEvent(KeyPressEvent event) {
+		
+		//When the Backslash key is hit when the canvas has focus weave toggles hide or shown
+		if(event.getUnicodeCharCode() == 92)
+		{
+			if(editor.getVisablity())
+				editor.hide();
+			else
+				editor.show();
+		}
+		
+		
+	}
+		
 	
 	
 	
@@ -390,7 +423,7 @@ public abstract class FlaxEngine {
 		int currentMilliseconds = getMilliseconds();
 		
 		if (currentMilliseconds < oldMilliseconds){
-			editor.updateUIelement("fpscount", ""+frameCount);
+			editor.updateUIelement(UiElement.FPS_COUNTER_BOTTOM_PANEL, ""+frameCount);
 			frameCount = 0;
 		}
 		
