@@ -13,6 +13,20 @@ canvas{
 	border: 1px solid #DCDCD0;		
 	
 	}
+	
+/** Weave **/
+
+.weaveHide
+{
+	display:none;
+}
+
+.weaveShow
+{
+	display:block;
+}
+
+
 
 #weavebottomPanel
 {

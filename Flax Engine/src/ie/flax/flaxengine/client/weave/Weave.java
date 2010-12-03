@@ -19,7 +19,7 @@ public class Weave {
 	 */
 	public Weave(String insertID, int width, int height)
 	{
-		bottomPanel = new HTMLPanel("<div id=\"weavebottomPanel\" class=\"weaveHide\" style=\"width:"+ width +"px;height:" + 90 + "px;\">" +
+		bottomPanel = new HTMLPanel("<div id=\"weavebottomPanel\" class=\"weaveHide\" style=\"width:"+ width +"px;height:" + height + "px;\">" +
 				"<div id=\"fps\">" +
 				"<p class=\"header\">FPS</p><h2 id=\"fpscount\"></h2></div>" +
 				"<div id=\"log\"><p class=\"header\">Logger</p></div>  " +
