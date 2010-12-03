@@ -1,4 +1,6 @@
 package ie.flax.flaxengine.client.weave;
+import ie.flax.flaxengine.client.FLog;
+
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 

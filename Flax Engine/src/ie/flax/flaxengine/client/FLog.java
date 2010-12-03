@@ -6,27 +6,27 @@ public class FLog {
 	private static String lastmessage = "";
 	private static int msgcounter = 0;
 	
-	static void debug(String msg) {
+	public static void debug(String msg) {
 		if (shouldPrintMessage(msg) == true) Log.debug(msg);
 	}
 	
-	static void trace(String msg) {
+	public static void trace(String msg) {
 		if (shouldPrintMessage(msg) == true) Log.trace(msg);
 	}
 	
-	static void info(String msg) {
+	public static void info(String msg) {
 		if (shouldPrintMessage(msg) == true) Log.info(msg);
 	}
 	
-	static void error(String msg) {
+	public static void error(String msg) {
 		if (shouldPrintMessage(msg) == true) Log.error(msg);
 	}
 	
-	static void fatal(String msg) {
+	public static void fatal(String msg) {
 		if (shouldPrintMessage(msg) == true) Log.fatal(msg);
 	}
 	
-	static void warn(String msg) {
+	public static void warn(String msg) {
 		if (shouldPrintMessage(msg) == true) Log.warn(msg);
 	}
 	
