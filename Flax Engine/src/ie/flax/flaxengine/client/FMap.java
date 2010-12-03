@@ -7,7 +7,6 @@ import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
@@ -336,7 +335,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 
 			Graphic.loadImage( tileSheet);			
 			
-			Log.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
+			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			Loaded = true;
 		}
 	}

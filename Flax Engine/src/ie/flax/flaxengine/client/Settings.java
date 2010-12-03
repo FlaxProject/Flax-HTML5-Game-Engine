@@ -12,8 +12,6 @@ import com.google.gwt.xml.client.XMLParser;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 
-import com.allen_sauer.gwt.log.client.Log;
-
 /**
  * @author carllange
  *
@@ -162,7 +160,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		this.UID = temp.UID;
 		this.serverPath = temp.serverPath;
 		
-		Log.info("The settings object was constructed from a file sucessfully");
+		FLog.info("The settings object was constructed from a file sucessfully");
 		}
 	
 	}

@@ -2,7 +2,6 @@ package ie.flax.flaxengine.client;
 
 
 import java.util.HashMap;
-import com.allen_sauer.gwt.log.client.Log;
 
 /**
  * Graphics class is a static service that works as an abstraction layer for the
@@ -40,7 +39,7 @@ public class Graphic {
 	 */
 	public static void init(String insertId, int width, int height) {
 		graphicLayer = new FCanvas(insertId, width, height);
-		Log.info("graphics component started successfully");
+		FLog.info("graphics component started successfully");
 	}
 	
 	
@@ -67,12 +66,12 @@ public class Graphic {
 		{
 			if (imageLibary.get(key).getHeight() == 0) //TODO: Change imageLib to private and use getter methods
 			{
-				Log.error("Graphics Component is not ready due to a problem with image " + key );
+				FLog.error("Graphics Component is not ready due to a problem with image " + key );
 				return false;
 			}
 		}
 		
-		Log.debug("Graphics Component is ready to go Sir!");
+		FLog.debug("Graphics Component is ready to go Sir!");
 		return true;
 	
 	}
@@ -93,7 +92,7 @@ public class Graphic {
 					graphicLayer.drawImage(imageLibary.get(imagePath).imageData, x, y, width,height);
 			
 			} catch (Exception e) {
-				Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
+				FLog.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 			}
 	}
 	
@@ -117,7 +116,7 @@ public class Graphic {
 			
 			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, (float)xSrc*tileSize, (float)ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
 		} catch (Exception e) {
-			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
+			FLog.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		
 		}
 		
@@ -144,7 +143,7 @@ public class Graphic {
 			
 			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
 		} catch (Exception e) {
-			Log.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
+			FLog.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
 		
 		}
 
@@ -163,7 +162,7 @@ public class Graphic {
 		try {
 			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing						
 		} catch (Exception e) {
-			Log.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
+			FLog.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
 		}
 		}
 		

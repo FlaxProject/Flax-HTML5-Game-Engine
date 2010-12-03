@@ -1,7 +1,5 @@
 package ie.flax.flaxengine.client;
 
-
-import com.allen_sauer.gwt.log.client.Log;
 import com.gargoylesoftware.htmlunit.javascript.host.Window;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.KeyDownEvent;

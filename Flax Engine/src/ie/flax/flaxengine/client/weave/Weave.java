@@ -1,5 +1,4 @@
 package ie.flax.flaxengine.client.weave;
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -70,7 +69,7 @@ public class Weave {
 			RootPanel.get(id).add(new HTMLPanel(content));//Inserts the content
 		} else {
 
-			Log.warn("Update of UI element [" + id + "] failed due to it been null.");
+			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
 		}
 	}
 	
@@ -88,7 +87,7 @@ public class Weave {
 			RootPanel.get(id).add(new HTMLPanel(content));//Inserts the content
 		} else {
 
-			Log.warn("Update of UI element [" + id + "] failed due to it been null.");
+			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
 		}
 	}
    

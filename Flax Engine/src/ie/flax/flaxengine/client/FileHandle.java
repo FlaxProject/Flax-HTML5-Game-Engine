@@ -3,7 +3,6 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 
-import com.allen_sauer.gwt.log.client.Log;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.*;
 
@@ -33,12 +32,12 @@ public class FileHandle {
 		    	  EventBus.handlerManager.fireEvent(new onFileLoadedEvent(response.getText(), eventID));
 		      } else {
 		    	  //TODO: make these error messages more explanatory
-		    	  Log.error("An error occurred accessing the server. The error was " + response.getStatusCode());
+		    	  FLog.error("An error occurred accessing the server. The error was " + response.getStatusCode());
 		      }
 		    }       
 		  });
 		} catch (RequestException e) {
-			Log.error("An error occurred while connecting to the server.");
+			FLog.error("An error occurred while connecting to the server.");
 		}
 		
 		
@@ -49,14 +48,14 @@ public class FileHandle {
 		
 		//a small guard against a zero or null UID
 		if (FlaxEngine.settings.getUID() == "0"){
-			Log.warn("Your UID is set incorrectly. Don't use a UID of 0. A UID of 0 is insecure. Change it in your Settings file or in your Settings code.");
+			FLog.warn("Your UID is set incorrectly. Don't use a UID of 0. A UID of 0 is insecure. Change it in your Settings file or in your Settings code.");
 		} else if (FlaxEngine.settings.getUID() == null){
-			Log.error("You don't have a UID set! Change that in your settings file or code, and don't forget to configure server.php the same way!");
+			FLog.error("You don't have a UID set! Change that in your settings file or code, and don't forget to configure server.php the same way!");
 		}
 		
 		//a guard against a null server path
 		if (FlaxEngine.settings.getServerPath() == null){
-			Log.error("You have no server path set! Change that in your settings file or code!");
+			FLog.error("You have no server path set! Change that in your settings file or code!");
 		}
 		
 		String url = FlaxEngine.settings.getServerPath();
@@ -69,12 +68,12 @@ public class FileHandle {
 			Request response = builder.sendRequest("UID=0"+"&fileName="+fileName+"&fileContents="+stringToWrite, new RequestCallback() {
 
 				public void onError(Request request, Throwable exception) {
-					Log.error("Error while connecting to server.");
+					FLog.error("Error while connecting to server.");
 				}
 
 				public void onResponseReceived(Request request, Response response) {
-					Log.info("Response recieved");
-					Log.info(response.getText());
+					FLog.info("Response recieved");
+					FLog.info(response.getText());
 					EventBus.handlerManager.fireEvent(new onFileLoadedEvent(response.getText(), eventID));
 				}
 			});
