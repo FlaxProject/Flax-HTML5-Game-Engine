@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -166,6 +167,8 @@ public abstract class FlaxEngine {
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
+		
+		settings = new Settings();
 	}
 	
 	/**
@@ -177,6 +180,8 @@ public abstract class FlaxEngine {
 	{
 		initEngine(insertId,600,300);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
+		
+		settings = new Settings();
 	}
 	
 	
@@ -191,6 +196,8 @@ public abstract class FlaxEngine {
 		initEngine(insertId,width,height);
 	
 		maps.add(new FMap(mapPaths));//Loads all the maps
+		
+		settings = new Settings();
 	}
 	
 	
@@ -235,20 +242,29 @@ public abstract class FlaxEngine {
 	
 	
 	/**
-	 *This method initlisze many different compenets of the engine, events, rendering, weave
+	 *This method initialises many different components of the engine, events, rendering, weave
 	 * @param insertId
 	 * @param width
 	 * @param height
 	 */
 	private void initEngine(String insertId, int width, int height)
 	{
-		setupEventAndRenderingPanel(width, height, insertId);//inserts event panel and canvas tag
+		if (settings == null) {
+			settings = new Settings();
+		}
+		
+		if (settings.getFullscreenOn() == true) {
+			width = Window.getClientWidth();
+			height = Window.getClientHeight();
+		}
+		
+		setupEventAndRenderingPanel(width,height - height/10, insertId);//inserts event panel and canvas tag
 		
 		setupEventHandlers(); //sets the event handlers for canvas tag
-					
-		Graphic.init(insertId,width,height);//Gets the context of the canvas tag and setup the class
+		
+		Graphic.init(insertId,width/10,height - height/10);//Gets the context of the canvas tag and setup the class
 	
-		editor = new Weave(insertId,800,600);//setup weave and defines its width and height
+		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas
 		editor.display();						
 	}
 
@@ -265,10 +281,12 @@ public abstract class FlaxEngine {
 		eventPanel = new FocusPanel();//Constructs the Div, FocusPanel which catchs events
 		eventPanel.setSize(width+"px", height+"px");
 		
-		//The panel below contains the rendering DOM elements, IE the canvas tag.
+		//The panel below contains the rendering DOM elements, ie the canvas tag.
 		//Below string should be moved into canvas class at some stage, its ok for the mo.
-		HTMLPanel panel = new HTMLPanel("<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>");		
-		panel.setSize(width+"px", height+"px");		
+		String notSupported = "Sorry! Your browser doesn't support Canvas! Try a newer version.";
+		String canvasHtml = "<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >" + notSupported + "</canvas>";
+		HTMLPanel panel = new HTMLPanel(canvasHtml);	
+		panel.setSize(width+"px", height+"px");	
 		
 		eventPanel.add(panel);	//Add render element to event div
 		RootPanel.get(insertId).add(eventPanel);	// add both elements to the insertID div

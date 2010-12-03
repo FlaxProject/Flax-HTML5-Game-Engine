@@ -43,12 +43,6 @@ canvas{
 	padding-bottom:2px
 }
 
-#nameFieldContainer{
-	width: 900px;
-	margin: 0px auto 20px auto;
-	padding: 20px 0px 0px 0px;
-	}
-
 /** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;
