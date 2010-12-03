@@ -8,6 +8,7 @@ public class Weave {
 	
 	private HTMLPanel bottomPanel;
 	private String insertId;
+	private boolean visablity;
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
@@ -29,11 +30,21 @@ public class Weave {
 	}
 	
 	/**
+	 * Return true if weave is show() or false if hide()
+	 * @return boolean
+	 */
+	public boolean getVisablity()
+	{
+		return visablity;
+	}
+	
+	/**
 	 * Displays the UI
 	 */
 	public void show()
 	{
 		RootPanel.get(UiElement.WEAVE_UI).setStylePrimaryName("weaveShow");
+		visablity = true;
 	}
 	
 	/**
@@ -42,6 +53,7 @@ public class Weave {
 	public void hide()
 	{
 		RootPanel.get(UiElement.WEAVE_UI).setStylePrimaryName("weaveHide");
+		 visablity = false;
 	}
 	
 	/**
