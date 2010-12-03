@@ -23,8 +23,9 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	private String imageDirectoryPath;
 	private String mapDirectoryPath;
 	private Boolean collisionOn;
-	private String UID; //set this here
+	private String UID;
 	private String serverPath;
+	private Boolean fullscreenOn;
 	
 	/**
 	 *  This initialises the settings to their defaults.
@@ -37,6 +38,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		UID = "4588";
 		collisionOn = true;
 		serverPath = "/server.php";
+		fullscreenOn = true;
 	}
 	
 		
@@ -114,6 +116,17 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 		return serverPath;
 	}
 	
+	@Deprecated
+	public void setFullscreenOn(Boolean fullscreenOn) {
+		this.fullscreenOn = fullscreenOn;
+	}
+
+
+	public Boolean getFullscreenOn() {
+		return fullscreenOn;
+	}
+
+
 	/**
 	 * Pass this method JSON and it gives you back an FMap object which you can
 	 * then assign to your object via FMap myMap = JsonToFMap(String Json);
