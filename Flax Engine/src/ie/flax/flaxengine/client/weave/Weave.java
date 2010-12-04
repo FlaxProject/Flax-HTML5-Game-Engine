@@ -67,9 +67,9 @@ public class Weave {
    public void updateUIelement(final String id,String content)
 	{
 	   //checks first if the element with ID=id exists
-		if (RootPanel.get(id) != null) {
-			RootPanel.get(id).clear();
-			RootPanel.get(id).add(new HTMLPanel(content));//Inserts the content
+		if (bottomPanel.getElementById(id) != null) {
+			bottomPanel.getElementById(id).setInnerHTML(content);
+
 		} else {
 
 			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
@@ -86,8 +86,8 @@ public class Weave {
   public void appendUIelement(final String id,String content)
 	{
 	   //checks first if the element with ID=id exists
-		if (RootPanel.get(id) != null) {
-			RootPanel.get(id).add(new HTMLPanel(content));//Inserts the content
+		if (bottomPanel.getElementById(id) != null) {
+			bottomPanel.getElementById(id).setInnerHTML(content);//Inserts the content
 		} else {
 
 			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
@@ -103,8 +103,8 @@ public class Weave {
    public void insertWidget(final String UiElement, Widget widget)
    {
 	   //checks first if the element with ID=id exists
-		if (RootPanel.get(UiElement) != null) {
-			RootPanel.get(UiElement).add(widget);//Inserts the content
+		if (bottomPanel.getElementById(UiElement) != null) {
+			bottomPanel.add(widget, UiElement);//Inserts the content
 		} else {
 
 			FLog.warn("Insert widget of UI element [" + UiElement + "] failed due to it been null.");
