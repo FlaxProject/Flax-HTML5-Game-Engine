@@ -307,47 +307,14 @@ public abstract class FlaxEngine {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				
-			event.preventDefault();				
+					
 			onKeyDownEvent(event);
 				
 			}
 		});
 		
-		
-		eventPanel.addKeyPressHandler(new KeyPressHandler() {
-			
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-				event.preventDefault();		
-
-				onKeyPressEvent(event);
-				
-			}
-		});
-		
-		
 		//TODO: register all types of events
 	}
-	
-	
-	/**
-	 * Defines logic for what happens when a key is pressed event happens. 
-	 * @param event
-	 */
-	protected  void onKeyPressEvent(KeyPressEvent event) {
-		
-		//When the Backslash key is hit when the canvas has focus weave toggles hide or shown
-		if(event.getUnicodeCharCode() == 92)
-		{
-			if(editor.getVisablity())
-				editor.hide();
-			else
-				editor.show();
-		}
-		
-		
-	}
-		
 	
 	
 	
@@ -357,6 +324,19 @@ public abstract class FlaxEngine {
 	 */
 	protected  void onKeyDownEvent(KeyDownEvent event) {
 		
+		event.preventDefault();
+		if(event.getNativeEvent().getKeyCode() == 220)
+		{
+		
+			if(editor.getVisablity())
+			{	editor.hide();
+				Log.info("hide");
+			}
+			else
+			{	editor.show(); 
+				Log.info("show");
+			}
+		}
 		
 		if(event.isUpArrow())
 		{
