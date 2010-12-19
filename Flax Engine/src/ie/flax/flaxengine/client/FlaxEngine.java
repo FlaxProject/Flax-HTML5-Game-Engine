@@ -327,15 +327,7 @@ public abstract class FlaxEngine {
 		event.preventDefault();
 		if(event.getNativeEvent().getKeyCode() == 220)
 		{
-		
-			if(editor.getVisablity())
-			{	editor.hide();
-				Log.info("hide");
-			}
-			else
-			{	editor.show(); 
-				Log.info("show");
-			}
+			editor.toggleDisplay();
 		}
 		
 		if(event.isUpArrow())

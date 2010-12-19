@@ -10,6 +10,11 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
+/**
+ * Ui element which provide file directroy browsing and loading of client side images into the engine.
+ * @author Ciarán McCann
+ *
+ */
 public class UiClientFileLoader {
 
 	private HTMLPanel formElements;

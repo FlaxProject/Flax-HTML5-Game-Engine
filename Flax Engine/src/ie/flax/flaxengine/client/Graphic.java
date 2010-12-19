@@ -3,6 +3,8 @@ package ie.flax.flaxengine.client;
 
 import java.util.HashMap;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 /**
  * Graphics class is a static service that works as an abstraction layer for the
  * graphics system in the engine or interface with non-technology specific
@@ -177,5 +179,20 @@ public class Graphic {
 	}
 	
 
+	
+	public static void loadImageOffline(JavaScriptObject file, String fileName)
+	{		
+
+			if(imageLibary.get(fileName) == null)//Makes sure there are no duplicates
+			{
+			
+			try {
+				imageLibary.put(fileName, new FImage(graphicLayer.loadImageOffline(file))); //TODO fix onLoad bug, need to check are imageLoaded before drawing						
+			} catch (Exception e) {
+				FLog.error("Graphic.LoadImageOffLine - error loading image with name "+ fileName  + e);
+			}
+			}
+			
+	}
 	
 }

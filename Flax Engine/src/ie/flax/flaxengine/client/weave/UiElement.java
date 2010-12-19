@@ -18,8 +18,13 @@ public class UiElement {
 	static public final String LOGGER_BOTTOM_PANEL = "log"; 
 	
 	/**
-	 * Complete Weave UI
+	 * The bottom panel in the weave UI
 	 */
-	static public final String WEAVE_UI = "weavebottomPanel";
+	static public final String WEAVE_UI_BOTTOM_PANEL = "weavebottomPanel";
+	
+	/**
+	 * The vertical panel in the weave UI
+	 */
+	static public final String WEAVE_UI_VERTICAL_PANEL = "weaveVerticalPanel";
 
 }

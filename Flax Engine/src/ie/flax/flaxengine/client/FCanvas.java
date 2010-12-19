@@ -83,6 +83,23 @@ public class FCanvas {
 		
 		return img;
 	}-*/;
+	
+	
+	
+	public native  JavaScriptObject loadImageOffline(JavaScriptObject file)
+	/*-{		
+				  
+   var img = new Image();
+     img.file = file;		
+		   
+    var reader = new FileReader();
+     reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+    reader.readAsDataURL(file);
+    
+    return img;
+ 
+				
+	}-*/;
 		
 
 	/**
