@@ -16,19 +16,8 @@ canvas{
 	
 /** Weave **/
 
-.weaveHide
-{
-	display:none;
-}
 
-.weaveShow
-{
-	display:block;
-}
-
-
-
-#weavebottomPanel
+div#weavebottomPanel, div#weaveVerticalPanel
 {
 	background:#F3F1E5;
 	border: 1px solid #DCDCD0;		
