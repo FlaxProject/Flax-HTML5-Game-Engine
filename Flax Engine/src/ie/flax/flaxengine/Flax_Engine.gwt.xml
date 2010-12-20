@@ -5,6 +5,7 @@
 
  <!-- Allows the objects to be serialized and deserialized -->
   <inherits name="com.kfuntak.gwt.json.serialization.GWTProJsonSerializer" />
+  <inherits name='com.google.gwt.widgetideas.GWTCanvas'/>
 
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->

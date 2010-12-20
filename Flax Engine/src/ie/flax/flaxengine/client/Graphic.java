@@ -1,9 +1,10 @@
 package ie.flax.flaxengine.client;
 
-
 import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.widgetideas.graphics.client.ImageLoader;
 
 /**
  * Graphics class is a static service that works as an abstraction layer for the
@@ -20,40 +21,69 @@ public class Graphic {
 	 * HashMap of JS image objects, which is indexed by the name of the image.
 	 * All images loaded into the engine are stored here.
 	 */
-	public static HashMap<String, FImage> imageLibary = new HashMap<String, FImage>();
-	
+	private static HashMap<String, ImageElement> imageLibary = new HashMap<String, ImageElement>();
 
 	/**
-	 * Is the reference to the drawing object
+	 * Manages the all the canvas elements
 	 */
-	private static FCanvas graphicLayer;
+	private static HashMap<String, FCanvas> canvasElements = new HashMap<String, FCanvas>(1);
 
 	/**
-	 * Initialises the graphics components
-	 * 
-	 * @param insertId
-	 *            is the ID of the HTML element in which to insert the canvas
-	 *            tag.
-	 * @param width
-	 *            of the canvas
-	 * @param height
-	 *            of the canvas
+	 * Gets a canvas
+	 * @param referenceName
+	 * @return  a reference to a canvas object
 	 */
-	public static void init(String insertId, int width, int height) {
-		graphicLayer = new FCanvas(insertId, width, height);
-		FLog.info("graphics component started successfully");
+	public static FCanvas getCanvas(String referenceName) {
+		return canvasElements.get(referenceName);
 	}
-	
-	
+
 	/**
-	 * Currently not in use but should be, see setupHtmlPanel method in flaxengine for more info
-	 * @param width
-	 * @param height
+	 * Gets the default canvas, IE the zero index canvas
+	 * @return - Returns a reference to a canvas object
+	 */
+	public static FCanvas getCanvas() {
+		return canvasElements.get(0); // TODO: ecpection handling
+	}
+
+	/**
+	 * Get image with URL refName
+	 * @param refName
 	 * @return
 	 */
-	public static String getDomRenderingElement(int width, int height)
-	{
-	  return graphicLayer.getDomRenderingElement(width, height);
+	public static ImageElement getImage(String refName) {
+		
+			return imageLibary.get(refName);
+		
+			
+	}
+
+	/**
+	 * Loads images into the engine.
+	 * @param URL - path to where the image is stored
+	 */
+	public static void loadImage(final String URL) {
+		String[] urls = new String[] { URL };
+
+		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
+
+			@Override
+			public void onImagesLoaded(ImageElement[] imageElements) {
+	
+				imageLibary.put(URL,(imageElements[0]));
+			}
+		});
+	}
+
+	
+	/**
+	 * Creates a canvas object and stores it. 
+	 * @param canvasRefName - Used to reference the canvas obj that was created
+	 * @param width - width of the canvas
+	 * @param height - height of the canvas
+	 */
+	public static void createCanvas(String canvasRefName, int width, int height) {
+		canvasElements.put(canvasRefName, new FCanvas(width, height));
+		FLog.info("graphics component started successfully");
 	}
 
 	/**
@@ -63,136 +93,33 @@ public class Graphic {
 	 * @return true or false
 	 */
 	public static boolean isComponentReady() {
-		
-		for (String key : imageLibary.keySet()) 
-		{
-			if (imageLibary.get(key).getHeight() == 0) //TODO: Change imageLib to private and use getter methods
-			{
-				FLog.error("Graphics Component is not ready due to a problem with image " + key );
+
+		for (String key : imageLibary.keySet()) {
+			
+			if (imageLibary.get(key) == null) {
+				
+				FLog.error("Graphics Component is not ready due to a problem with image ###########"+ key);
 				return false;
 			}
+
 		}
-		
 		FLog.debug("Graphics Component is ready to go Sir!");
 		return true;
-	
-	}
-
-	/**
-	 * Draws an image to the canvas
-	 * 
-	 * @param imageObj
-	 *            This is the actual image which will be drawn
-	 * @param x
-	 * @param y
-	 * @param height
-	 * @param width
-	 */
-	public static void drawImage(String imagePath, float x, float y,float height, float width) {
-		
-			try {			
-					graphicLayer.drawImage(imageLibary.get(imagePath).imageData, x, y, width,height);
-			
-			} catch (Exception e) {
-				FLog.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
-			}
-	}
-	
-	
-	/**
-	 * 
-	 * @param imagePath
-	 * @param Texture
-	 * @param tileSize
-	 * @param x
-	 * @param y
-	 */
-	public static void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
-	{	
-		int numTilesWidth = (imageLibary.get(imagePath).getWidth()/tileSize);
-	
-		int ySrc = (int)(Texture/numTilesWidth);
-		float xSrc = Texture%numTilesWidth;
-	
-		try {
-			
-			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, (float)xSrc*tileSize, (float)ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
-		} catch (Exception e) {
-			FLog.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
-		
-		}
-		
-	}
-	
-			
-	
-	/**
-	 * Draws an segment of an image to a segment of the canvas
-	 * 
-	 * @param imageObj
-	 * @param xSrc
-	 * @param ySrc
-	 * @param widthSrc
-	 * @param heightSrc
-	 * @param xDes
-	 * @param yDes
-	 * @param widthDes
-	 * @param heightDes
-	 */
-	public static void drawImage(String imagePath, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
-	{
-		try {
-			
-			graphicLayer.drawImage(imageLibary.get(imagePath).imageData, xSrc, ySrc, widthSrc, heightSrc, xDes, yDes, widthDes, heightDes);
-		} catch (Exception e) {
-			FLog.error("Graphic.drawImage - error drawing image object width index key of "+ imagePath);
-		
-		}
 
 	}
 
-	/**
-	 * @deprecated A new method with only one parameter is now the standard
-	 * @param imagePath
-	 * @param nameToReferenceBy
-	 */
-	public static void loadImage(String imagePath, String nameToReferenceBy) {
-		
-		if(imageLibary.get(nameToReferenceBy) == null)//Makes sure there are no duplicates
-		{
-		
-		try {
-			imageLibary.put(nameToReferenceBy, new FImage(graphicLayer.loadImage(imagePath))); //TODO fix onLoad bug, need to check are imageLoaded before drawing						
-		} catch (Exception e) {
-			FLog.error("Graphic.LoadImage - error loading image with name "+ imagePath  + e);
-		}
-		}
-		
-	}
-	
-	/**
-	 * Loads images into the engine
-	 * @param imagePath - pass in the path to the image you wish to load and then the path is used
-	 */
-	public static void loadImage(String imagePath) {
-		loadImage(imagePath,imagePath);
-	}
-	
-
-	
-	public static void loadImageOffline(JavaScriptObject file, String fileName)
-	{		
-
-			if(imageLibary.get(fileName) == null)//Makes sure there are no duplicates
-			{
-			
-			try {
-				imageLibary.put(fileName, new FImage(graphicLayer.loadImageOffline(file))); //TODO fix onLoad bug, need to check are imageLoaded before drawing						
-			} catch (Exception e) {
-				FLog.error("Graphic.LoadImageOffLine - error loading image with name "+ fileName  + e);
-			}
-			}
-			
-	}
-	
+	public native  JavaScriptObject loadImageOffline(JavaScriptObject file)
+	/*-{		
+				  
+   	 var img = new Image();
+     img.file = file;		
+		   
+     var reader = new FileReader();
+     reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+     reader.readAsDataURL(file);
+    
+    return img;
+ 
+				
+	}-*/;
 }

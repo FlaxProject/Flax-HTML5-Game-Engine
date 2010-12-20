@@ -170,7 +170,9 @@ public abstract class FlaxEngine {
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
-		
+
+		editor = new Weave(this.getCurrentMap(),insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+
 		settings = new Settings();
 	}
 	
@@ -183,7 +185,9 @@ public abstract class FlaxEngine {
 	{
 		initEngine(insertId,600,300);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
-		
+
+		editor = new Weave(this.getCurrentMap(),insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+
 		settings = new Settings();
 	}
 	
@@ -199,8 +203,10 @@ public abstract class FlaxEngine {
 		initEngine(insertId,width,height);
 	
 		maps.add(new FMap(mapPaths));//Loads all the maps
-		
+	
+		editor = new Weave(this.getCurrentMap(),insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
 		settings = new Settings();
+		
 	}
 	
 	
@@ -250,7 +256,7 @@ public abstract class FlaxEngine {
 	 * @param width
 	 * @param height
 	 */
-	private void initEngine(String insertId, int width, int height)
+	protected void initEngine(String insertId, int width, int height)
 	{
 		if (settings == null) {
 			settings = new Settings();
@@ -263,11 +269,7 @@ public abstract class FlaxEngine {
 		
 		setupEventAndRenderingPanel(width,height - height/10, insertId);//inserts event panel and canvas tag
 		
-		setupEventHandlers(); //sets the event handlers for canvas tag
-		
-		Graphic.init(insertId,width/10,height - height/10);//Gets the context of the canvas tag and setup the class
-	
-		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+		setupEventHandlers(); //sets the event handlers for canvas tag		
 	}
 
 
@@ -283,14 +285,12 @@ public abstract class FlaxEngine {
 		eventPanel = new FocusPanel();//Constructs the Div, FocusPanel which catchs events
 		eventPanel.setSize(width+"px", height+"px");
 		
-		//The panel below contains the rendering DOM elements, ie the canvas tag.
-		//Below string should be moved into canvas class at some stage, its ok for the mo.
-		String notSupported = "Sorry! Your browser doesn't support Canvas! Try a newer version.";
-		String canvasHtml = "<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >" + notSupported + "</canvas>";
-		HTMLPanel panel = new HTMLPanel(canvasHtml);	
-		panel.setSize(width+"px", height+"px");	
+	
+		//String notSupported = "Sorry! Your browser doesn't support Canvas! Try a newer version.";		
+		Graphic.createCanvas("Flax", width,height);
+		//TODO: Need to set the unsupport string into the canvas
 		
-		eventPanel.add(panel);	//Add render element to event div
+		eventPanel.add(Graphic.getCanvas("Flax"));	//Add render element to event div
 		RootPanel.get(insertId).add(eventPanel);	// add both elements to the insertID div
 	}
 	
@@ -333,6 +333,17 @@ public abstract class FlaxEngine {
 		if(event.isUpArrow())
 		{
 			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
+			Graphic.getCanvas("Flax").drawImage("http://flax.ie/test/tiles.png", 100, 100);
+			FCanvas canvas = Graphic.getCanvas();
+			
+			canvas.beginPath();
+		      canvas.moveTo(1,1);
+		      canvas.lineTo(1,50);
+		      canvas.lineTo(50,50);
+		      canvas.lineTo(50, 1);
+		      canvas.closePath();
+		    canvas.stroke();
+		    
 		}
 		
 		if(event.isDownArrow())

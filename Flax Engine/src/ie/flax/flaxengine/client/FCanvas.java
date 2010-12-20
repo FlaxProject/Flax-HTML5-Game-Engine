@@ -1,141 +1,81 @@
 package ie.flax.flaxengine.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
 /**
- * This class will allow the developer to programmatically create the canvas tag
- * and set its attributes and specify where to insert the canvas tag in the HTML
- * document i.e for embedding the canvas in a website.
- * 
+ * This FCanvas has changed dramatically, it now extends the power of the GWTCanvas lib.
  * @author Ciarán McCann
+ *
  */
-public class FCanvas {
+public class FCanvas extends GWTCanvas{
 
-	private JavaScriptObject context;
-	private int width;
-	private int height;
-
+	
 	/**
-	 * 
-	 * @return width of canvas
-	 */
-	public int getWidth() {
-		return width;
-	}
-
-	/**
-	 * 
-	 * @return height of canvas
-	 */
-	public int getHeight() {
-		return height;
-	}
-
-
-	/**
-	 * 
-	 * @param insertID
-	 *            is the ID of the HTML element in which to insert the canvas
-	 *            tag.
-	 * @param width
-	 *            canvas should be
-	 * @param height
-	 *            canvas should be
-	 */
-	public FCanvas(String insertId, int width, int height) {
-
-		this.width = width;
-		this.height = height;
-
-		this.context = getContext();	
-	}
-
-
-	/**
-	 * Currently not in use but should be, see setupHtmlPanel method in flaxengine for more info
+	 * Instiates the GWTCanvas
 	 * @param width
 	 * @param height
-	 * @return
 	 */
-	public String getDomRenderingElement(int width, int height) {
-		return "<canvas id=\"FlaxEngineCanvas\" style=\"background:red;\" width= " + width +" height=" + height + " >Your browser is way out of date man, get a good one like Chrome</canvas>";
+	public FCanvas(int width, int height) {
+		super(width,height);
+	}
+
+	
+	/**
+	 * Draws an image to the current canvas object
+	 * @param imagePath - This is the path to the image, which is used to reference the image lib
+	 * @param x 
+	 * @param y
+	 */
+	public void drawImage(String imagePath, float x, float y) {
+			
+		ImageElement img = Graphic.getImage(imagePath);
+		
+		if(img != null)
+		this.drawImage(img, x, y);
 	}
 	
-
 	/**
-	 * 
-	 * @return context in JS object
-	 */
-	private native JavaScriptObject getContext()
-	/*-{		
-		return $doc.getElementById('FlaxEngineCanvas').getContext('2d');		
-	}-*/;
-
-	/**
-	 * 
-	 * @param imageURL
-	 * @return JS Object containing the image object
-	 */
-	public native JavaScriptObject loadImage(String imagePath)
-	/*-{
-		var img = new Image();		
-		img.src = imagePath; 
-		
-		return img;
-	}-*/;
-	
-	
-	
-	public native  JavaScriptObject loadImageOffline(JavaScriptObject file)
-	/*-{		
-				  
-   var img = new Image();
-     img.file = file;		
-		   
-    var reader = new FileReader();
-     reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-    reader.readAsDataURL(file);
-    
-    return img;
- 
-				
-	}-*/;
-		
-
-	/**
-	 * Draws an image to the canvas
-	 * 
-	 * @param imageObj
-	 *            This is the actual image which will be drawn
+	 * Draws an image to the current canvas object
+	 * @param imagePath - This is the path to the image, which is used to reference the image lib
 	 * @param x
 	 * @param y
-	 * @param height
 	 * @param width
+	 * @param height
 	 */
-	public native void drawImage(JavaScriptObject imageObj, float x, float y,float height, float width)
-	/*-{	 									 	
-			this.@ie.flax.flaxengine.client.FCanvas::context.drawImage(imageObj,x,y,height,width);			
-	}-*/;
-
-	/**
-	 * Draws an segment of an image to a segment of the canvas
-	 * 
-	 * @param imageObj
-	 * @param xSrc
-	 * @param ySrc
-	 * @param widthSrc
-	 * @param heightSrc
-	 * @param xDes
-	 * @param yDes
-	 * @param widthDes
-	 * @param heightDes
-	 */
-	public native void drawImage(JavaScriptObject imageObj, float xSrc,float ySrc, float widthSrc, float heightSrc, float xDes,float yDes, float widthDes, float heightDes)
-	/*-{
-		//this.@ie.flax.flaxengine.client.FCanvas::context.rotate(45);
-		this.@ie.flax.flaxengine.client.FCanvas::context.drawImage(imageObj,xSrc,ySrc,widthSrc,heightSrc,xDes,yDes,widthDes,heightDes);
-	}-*/;
-
+	public void drawImage(String imagePath, float x, float y, float width, float height) {
+			
+		ImageElement img = Graphic.getImage(imagePath);
+		
+		if(img != null)
+		this.drawImage(img, x, y,width,height);
+	}
 	
-
+	
+	/**
+	 * Draws an image to the current canvas object
+	 * @param imagePath - This is the path to the tileSheet, which is used to reference the image lib
+	 * @param Texture - a number which presents a square on the tilesheet
+	 * @param tileSize
+	 * @param x
+	 * @param y
+	 */
+	public void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
+	{	
+		int numTilesWidth = 0;
+		int ySrc = 0;
+		float xSrc = 0;
+		
+		ImageElement img = Graphic.getImage(imagePath);
+			
+		if(img != null)
+		{
+				numTilesWidth = (img.getWidth()/tileSize);
+				ySrc = (int)(Texture/numTilesWidth);
+				xSrc = Texture%numTilesWidth;
+				this.drawImage(img, (float)xSrc*tileSize, (float)ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+		}
+	}
+	
 }

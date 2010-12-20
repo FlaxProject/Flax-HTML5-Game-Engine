@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 
@@ -172,15 +173,17 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * Draws the map
 	 */
 	public void draw() {
-		// TODO implement camera scrolling in the map drawing		
+		// TODO implement camera scrolling in the map drawing	
+		
 		for (int y = 0; y < height; y++) 
 		{
 			for (int x = 0; x < width; x++)
 			{
 				FTile temp = tiles.get(x + (y * this.width));
-				Graphic.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
+				Graphic.getCanvas("Flax").drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
 			}
 		}
+		
 		
 		for(FObject obj : objects)
 		{
@@ -190,7 +193,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		for(FEntity ent : entities)
 		{
 				ent.draw();
-		}
+		}		
 		
 	}
 
@@ -329,12 +332,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				
 				//get the image file assoiated with said object and loads them.
 				Graphic.loadImage(obj.getSprite());
+				
 			}
 					
 			
 
 			Graphic.loadImage( tileSheet);			
-			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			Loaded = true;
 		}

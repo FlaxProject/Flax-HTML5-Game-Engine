@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave;
 import ie.flax.flaxengine.client.FLog;
+import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -22,6 +23,7 @@ import com.google.gwt.user.client.ui.FileUpload;
  */
 public class Weave {
 	
+	private FMap map;
 	private HTMLPanel bottomPanel;
 	private HTMLPanel verticalPanel;
 	private UiClientFileLoader fileUpload;
@@ -37,9 +39,10 @@ public class Weave {
 	 * @param width
 	 * @param height
 	 */
-	public Weave(String insertID, int width, int height)
+	public Weave(FMap mapRef, String insertID, int width, int height)
 	{
-		fileUpload = new UiClientFileLoader("Load Image", insertId);		
+		map = mapRef; // stores references 
+		fileUpload = new UiClientFileLoader("Load Image",map);		
 		
 		bottomPanel = new HTMLPanel(
 				"<div id=weavebottomPanel class=weaveHide style=width:"+ width +"px;height:" + height + "px;>" +
