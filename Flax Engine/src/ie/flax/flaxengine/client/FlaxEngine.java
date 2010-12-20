@@ -65,6 +65,7 @@ public abstract class FlaxEngine {
 					//Log.info("Game Loop is looping");	
 					maps.get(0).draw();
 					fpsUpdate();
+					
 				}
 			}
 			
@@ -171,7 +172,7 @@ public abstract class FlaxEngine {
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
 
-		editor = new Weave(this.getCurrentMap(),insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+		editor = new Weave(insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
 
 		settings = new Settings();
 	}
@@ -186,7 +187,7 @@ public abstract class FlaxEngine {
 		initEngine(insertId,600,300);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
 
-		editor = new Weave(this.getCurrentMap(),insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+		editor = new Weave(insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
 
 		settings = new Settings();
 	}
@@ -204,8 +205,9 @@ public abstract class FlaxEngine {
 	
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	
-		editor = new Weave(this.getCurrentMap(),insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
 		settings = new Settings();
+		
 		
 	}
 	
@@ -327,13 +329,14 @@ public abstract class FlaxEngine {
 		event.preventDefault();
 		if(event.getNativeEvent().getKeyCode() == 220)
 		{
-			editor.toggleDisplay();
+			editor.run(this.getCurrentMap());
 		}
 		
 		if(event.isUpArrow())
 		{
 			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
-			Graphic.getCanvas("Flax").drawImage("http://flax.ie/test/tiles.png", 100, 100);
+		    getCurrentMap().setTileSheet("http://flax.ie/test/g.png");
+			Graphic.getCanvas("Flax").drawImage("http://flax.ie/test/g.png", 100, 100);
 			FCanvas canvas = Graphic.getCanvas();
 			
 			canvas.beginPath();

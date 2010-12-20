@@ -39,10 +39,10 @@ public class Weave {
 	 * @param width
 	 * @param height
 	 */
-	public Weave(FMap mapRef, String insertID, int width, int height)
-	{
-		map = mapRef; // stores references 
-		fileUpload = new UiClientFileLoader("Load Image",map);		
+	public Weave(String insertID, int width, int height)
+	{ 
+		fileUpload = new UiClientFileLoader("Load Image",map);	
+		
 		
 		bottomPanel = new HTMLPanel(
 				"<div id=weavebottomPanel class=weaveHide style=width:"+ width +"px;height:" + height + "px;>" +
@@ -50,31 +50,43 @@ public class Weave {
 				"<p class=header>FPS</p><h2 id=fpscount></h2></div>" +
 				"<div id=log><p class=header>Logger</p></div>  " +
 				"</div>" +
-				"<div id=weaveVerticalPanel class=weaveHide style=width:"+ width +"px;height:" + height + "px;>" +
-				"<canvas width="+ (width-300) +" height=" + height + " id=weaveTileSheet></canvas>" +
+				"<div id=weaveVerticalPanel class=weaveHide style=width:"+ width +"px;>" +
+				
 						"<div id=controler>"  + 					
 						"</div>" +		
 				"<div>"
 		);
 		
 		
+		Graphic.createCanvas("Weave", width-300, height);		
+		
+		bottomPanel.add(Graphic.getCanvas("Weave"),"weaveVerticalPanel");
 		bottomPanel.add(fileUpload.getElement(), "controler");
 		
 		//verticalPanel = new HTMLPanel(); 		
 		//verticalPanel.setStyleName(UiElement.WEAVE_UI_VERTICAL_PANEL);	
 		
 		this.insertId = insertID;	
+		bottomPanel.setVisible(false);
 		RootPanel.get(insertId).add(bottomPanel);
 		
 		
 		//RootPanel.get(insertId).add(verticalPanel);
 	}
 	
+	public void run(FMap currentMap)
+	{
+		this.map = currentMap;
+		toggleDisplay();
+		Graphic.getCanvas("Weave").resize(Graphic.getImage(map.getTileSheet()).getWidth(), Graphic.getImage(map.getTileSheet()).getHeight());
+		Graphic.getCanvas("Weave").drawImage(map.getTileSheet(), 0, 0);
+		
+	}
 	
 	/**
 	 * Switchs the weave UI from visible to hidden
 	 */
-	public void toggleDisplay()
+	private void toggleDisplay()
 	{
 		if(bottomPanel.isVisible())
 			bottomPanel.setVisible(false);

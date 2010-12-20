@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.widgetideas.graphics.client.ImageLoader;
+
 
 /**
  * Graphics class is a static service that works as an abstraction layer for the
@@ -63,15 +65,19 @@ public class Graphic {
 	 */
 	public static void loadImage(final String URL) {
 		String[] urls = new String[] { URL };
+		FLog.info("Currently loading image " + URL  +" - Loading...");
 
 		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
 
 			@Override
-			public void onImagesLoaded(ImageElement[] imageElements) {
+			public void onImagesLoaded(ImageElement[] imageElements) { //TODO: take the imageLoader class and mod it for 404 callbacks
 	
 				imageLibary.put(URL,(imageElements[0]));
+				FLog.info("Image " + URL + " is now loaded!");
 			}
 		});
+		
+		
 	}
 
 	
@@ -108,18 +114,21 @@ public class Graphic {
 
 	}
 
-	public native  JavaScriptObject loadImageOffline(JavaScriptObject file)
+	public native static void Offline(JavaScriptObject file)
 	/*-{		
 				  
-   	 var img = new Image();
-     img.file = file;		
-		   
-     var reader = new FileReader();
-     reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-     reader.readAsDataURL(file);
-    
-    return img;
- 
-				
+		alert("loadingdd");
+	 	
+		alert(window.URL.createObjectURL(file));
+	  
 	}-*/;
+	
+	public static void loadImageOffline(JavaScriptObject file)
+	{		
+		
+		 Offline(file);
+	 // imageLibary.put("g.png",  );
+	  
+	  //ImageLoader.loadImages(urls, cb)
+	}
 }

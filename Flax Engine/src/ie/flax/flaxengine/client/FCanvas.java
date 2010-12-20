@@ -33,7 +33,11 @@ public class FCanvas extends GWTCanvas{
 		ImageElement img = Graphic.getImage(imagePath);
 		
 		if(img != null)
+		{
 		this.drawImage(img, x, y);
+		}else{
+			FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
+		}
 	}
 	
 	/**
@@ -48,8 +52,11 @@ public class FCanvas extends GWTCanvas{
 			
 		ImageElement img = Graphic.getImage(imagePath);
 		
-		if(img != null)
+		if(img != null){
 		this.drawImage(img, x, y,width,height);
+	}else{
+		FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
+	}
 	}
 	
 	
@@ -76,6 +83,9 @@ public class FCanvas extends GWTCanvas{
 				xSrc = Texture%numTilesWidth;
 				this.drawImage(img, (float)xSrc*tileSize, (float)ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
 		}
+	else{
+		FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
+	}
 	}
 	
 }

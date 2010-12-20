@@ -30,36 +30,27 @@ public class UiClientFileLoader {
 		fileuploadButton = new Button("Upload");
 
 		formElements = new HTMLPanel("<form id=uploadForm><label id=state></label>"
-				+ "<input type=file id=fileElem accept=image/*  >" + "</form>");
+				+ "<input type=text id=fileElem  size=32 >" + "</form>");
 		formElements.add(fileuploadButton, "uploadForm");
 
 		fileuploadButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				//Graphic.loadImageOffline(getSelectedFile(),getFileName());
-				respones("Currently loading image " + getFileName()  +" - Loading...");	
-				map.setTileSheet(getFileName());
+				
+				String url = getURL();
+				Graphic.loadImage(url);
 			}
 		});
 
 	}
 
-	private native JavaScriptObject getSelectedFile()
+	private native String getURL()
 	/*-{
-		return $doc.forms["uploadForm"]["fileElem"].files[0];
+		return $doc.getElementById("fileElem").value;
 	}-*/;
 	
-	private native String getFileName()
-	/*-{
-		return $doc.forms["uploadForm"]["fileElem"].files[0].name;
-	}-*/;
-	
-	private void respones(String msg)
-	{
-		FLog.info(msg);			
-	}
-	
+
 	/**
 	 * Allows this objects html to be added to the rest of weave
 	 * @return
