@@ -26,26 +26,18 @@ public class UiClientFileLoader {
 	 * @param upLoaduttonText
 	 * @param responseElement
 	 */
-	public UiClientFileLoader(String upLoaduttonText, final FMap map) {
+	public UiClientFileLoader(String upLoaduttonText) {
 		fileuploadButton = new Button("Upload");
+		fileuploadButton.setTitle("Before clicking I just you want to let you know that if there is no image at the location your probly going to crash the engine.");
+		//TODO:Vaildate input
 
-		formElements = new HTMLPanel("<form id=uploadForm><label id=state></label>"
+		formElements = new HTMLPanel("<form id=uploadForm><label>Load TileSheet</label>"
 				+ "<input type=text id=fileElem  size=32 >" + "</form>");
 		formElements.add(fileuploadButton, "uploadForm");
 
-		fileuploadButton.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				String url = getURL();
-				Graphic.loadImage(url);
-			}
-		});
-
 	}
 
-	private native String getURL()
+	public native String getUrl()
 	/*-{
 		return $doc.getElementById("fileElem").value;
 	}-*/;
@@ -60,5 +52,13 @@ public class UiClientFileLoader {
 		return formElements;
 	}
 	
+	/**
+	 * Returns a ref to the button in this UI element
+	 * @return
+	 */
+	public Button getButton()
+	{
+		return fileuploadButton;
+	}
 	
 }

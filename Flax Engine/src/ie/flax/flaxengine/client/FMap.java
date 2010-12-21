@@ -238,6 +238,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		return entities.get(0); //TODO: fix this
 	}
 	
+	/**
+	 * Checks the tile from the tile array based on the given x and y 
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public FTile getTile(int x, int y)
+	{
+		for(FTile obj : tiles)
+		{
+			if(x > obj.getX()&&x < obj.getX()+this.tileSize&&y > obj.getY() && y <= obj.getY()+this.tileSize )
+				return obj;
+		}
+		return null;
+	}
+	
 	
 	
 	/**

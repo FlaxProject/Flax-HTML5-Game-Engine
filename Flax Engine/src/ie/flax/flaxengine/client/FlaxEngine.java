@@ -1,25 +1,21 @@
 package ie.flax.flaxengine.client;
 
 
-import ie.flax.flaxengine.client.weave.UiElement;
 import ie.flax.flaxengine.client.weave.Weave;
+import ie.flax.flaxengine.client.weave.weaveUi;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-
-
-import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -308,9 +304,22 @@ public abstract class FlaxEngine {
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				
-					
+									
 			onKeyDownEvent(event);
+				
+			}
+		});
+		
+		eventPanel.addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				
+				//When the editor is running a click on the map trys to select a tile
+				if(editor.isRunning())
+				{
+					editor.selectedTile(event.getX(), event.getY());
+				}
 				
 			}
 		});
@@ -335,17 +344,6 @@ public abstract class FlaxEngine {
 		if(event.isUpArrow())
 		{
 			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
-		    getCurrentMap().setTileSheet("http://flax.ie/test/g.png");
-			Graphic.getCanvas("Flax").drawImage("http://flax.ie/test/g.png", 100, 100);
-			FCanvas canvas = Graphic.getCanvas();
-			
-			canvas.beginPath();
-		      canvas.moveTo(1,1);
-		      canvas.lineTo(1,50);
-		      canvas.lineTo(50,50);
-		      canvas.lineTo(50, 1);
-		      canvas.closePath();
-		    canvas.stroke();
 		    
 		}
 		
@@ -409,7 +407,7 @@ public abstract class FlaxEngine {
 		int currentMilliseconds = getMilliseconds();
 		
 		if (currentMilliseconds < oldMilliseconds){
-			editor.updateUIelement(UiElement.FPS_COUNTER_BOTTOM_PANEL, ""+frameCount);
+			editor.updateElement(weaveUi.FPS_COUNTER_BOTTOM_PANEL, ""+frameCount);
 			frameCount = 0;
 		}
 		

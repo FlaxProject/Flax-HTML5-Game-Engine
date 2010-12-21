@@ -1,6 +1,8 @@
 package ie.flax.flaxengine.client.weave;
+import ie.flax.flaxengine.client.FCanvas;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
+import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -15,6 +17,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.widgetideas.graphics.client.Color;
 
 /**
  * Weave is the editor that allows the user to create maps.
@@ -24,13 +27,8 @@ import com.google.gwt.user.client.ui.FileUpload;
 public class Weave {
 	
 	private FMap map;
-	private HTMLPanel bottomPanel;
-	private HTMLPanel verticalPanel;
-	private UiClientFileLoader fileUpload;
-
-	
-	private String insertId;
-
+	private weaveUi ui;
+	private int tile;
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
@@ -41,59 +39,109 @@ public class Weave {
 	 */
 	public Weave(String insertID, int width, int height)
 	{ 
-		fileUpload = new UiClientFileLoader("Load Image",map);	
+		ui = new weaveUi(insertID, width, height);
 		
-		
-		bottomPanel = new HTMLPanel(
-				"<div id=weavebottomPanel class=weaveHide style=width:"+ width +"px;height:" + height + "px;>" +
-				"<div id=fps>" +
-				"<p class=header>FPS</p><h2 id=fpscount></h2></div>" +
-				"<div id=log><p class=header>Logger</p></div>  " +
-				"</div>" +
-				"<div id=weaveVerticalPanel class=weaveHide style=width:"+ width +"px;>" +
+		//Action to take when the user clicks tileSheetUploader button
+		ui.tileSheetUploader.getButton().addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
 				
-						"<div id=controler>"  + 					
-						"</div>" +		
-				"<div>"
-		);
+				Graphic.loadImage(ui.tileSheetUploader.getUrl());
+			}
+		});
 		
 		
-		Graphic.createCanvas("Weave", width-300, height);		
-		
-		bottomPanel.add(Graphic.getCanvas("Weave"),"weaveVerticalPanel");
-		bottomPanel.add(fileUpload.getElement(), "controler");
-		
-		//verticalPanel = new HTMLPanel(); 		
-		//verticalPanel.setStyleName(UiElement.WEAVE_UI_VERTICAL_PANEL);	
-		
-		this.insertId = insertID;	
-		bottomPanel.setVisible(false);
-		RootPanel.get(insertId).add(bottomPanel);
-		
-		
-		//RootPanel.get(insertId).add(verticalPanel);
 	}
 	
+	
+	/**
+	 * 
+	 * @param currentMap
+	 */
 	public void run(FMap currentMap)
 	{
 		this.map = currentMap;
-		toggleDisplay();
+		ui.toggleDisplay();
+
 		Graphic.getCanvas("Weave").resize(Graphic.getImage(map.getTileSheet()).getWidth(), Graphic.getImage(map.getTileSheet()).getHeight());
-		Graphic.getCanvas("Weave").drawImage(map.getTileSheet(), 0, 0);
+		Graphic.getCanvas("Weave").drawImage(map.getTileSheet(), 0, 0);		
+		
+		drawGrid();
+		
+		
 		
 	}
 	
 	/**
-	 * Switchs the weave UI from visible to hidden
+	 * draws a Grid over the map so its easier to edit
 	 */
-	private void toggleDisplay()
+	private void drawGrid() {
+		
+	 FCanvas display = Graphic.getCanvas("Flax");
+	 
+		//Find the midpoints of the Canvas
+		double width = display.getCoordWidth();
+		double height = display.getCoordHeight();
+		int tileSize = map.getTileSize();
+
+
+		display.strokeRect(0, 0, height, width);
+		display.strokeRect(0, width, height, width);
+		display.strokeRect(height, 0, height, width);
+		display.strokeRect(height, width, height, width);
+		
+		for (int x = 0; x < width; x += tileSize) {
+			display.moveTo(x, 0);
+			display.lineTo(x, height);
+		}
+		
+		for (int y = 0; y < height; y+= tileSize) {
+			display.moveTo(0, y);
+			display.lineTo(width, y);
+		}
+		
+		display.setStrokeStyle(Color.BLACK);
+		display.stroke();
+	}
+
+
+	/**
+	 * Finds the tile the user clicked on
+	 * @param x
+	 * @param y
+	 */
+	public void selectedTile(int x, int y)
 	{
-		if(bottomPanel.isVisible())
-			bottomPanel.setVisible(false);
+		FTile tile = map.getTile(x, y);
+		
+		if(tile != null) 
+		{
+			tile.setTexture(6);	
+		}
 		else
-			bottomPanel.setVisible(true);
+		{
+			
+		}
 	}
 	
+	/**
+	 * Is weave running or not
+	 * @return - true or false
+	 */
+	public boolean isRunning() {
+		return ui.bottomPanel.isVisible();
+	}
+	
+	
+	/**
+	 * Switchs the weave UI from visible to hidden
+	 */
+	public void toggleDisplay()
+	{
+		ui.toggleDisplay();
+	}
+			
 	
 	/**
 	 * Given an ID and content it inserts the content into element with provided ID
@@ -101,16 +149,9 @@ public class Weave {
 	 * @param id
 	 * @param content
 	 */
-   public void updateUIelement(final String id,String content)
+   public void updateElement(final String id,String content)
 	{
-	   //checks first if the element with ID=id exists
-		if (bottomPanel.getElementById(id) != null) {
-			bottomPanel.getElementById(id).setInnerHTML(content);
-
-		} else {
-
-			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
-		}
+	  ui.updateElement(id, content);
 	}
 	
    
@@ -120,15 +161,9 @@ public class Weave {
 	 * @param id
 	 * @param content
 	 */
-  public void appendUIelement(final String id,String content)
+  public void appendElement(final String id,String content)
 	{
-	   //checks first if the element with ID=id exists
-		if (bottomPanel.getElementById(id) != null) {
-			bottomPanel.getElementById(id).setInnerHTML(content);//Inserts the content
-		} else {
-
-			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
-		}
+	  ui.appendElement(id, content);
 	}
   
   /**
@@ -139,14 +174,13 @@ public class Weave {
    */
    public void insertWidget(final String UiElement, Widget widget)
    {
-	   //checks first if the element with ID=id exists
-		if (bottomPanel.getElementById(UiElement) != null) {
-			bottomPanel.add(widget, UiElement);//Inserts the content
-		} else {
-
-			FLog.warn("Insert widget of UI element [" + UiElement + "] failed due to it been null.");
-		}
+	   ui.insertWidget(UiElement, widget);
    }
+	
+	
+	
+	
+	
    
    
 

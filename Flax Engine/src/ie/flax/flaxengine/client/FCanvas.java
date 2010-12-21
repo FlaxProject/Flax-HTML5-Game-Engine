@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
 /**
@@ -87,5 +88,6 @@ public class FCanvas extends GWTCanvas{
 		FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
 	}
 	}
+	
 	
 }

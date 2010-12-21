@@ -89,7 +89,7 @@ public class Graphic {
 	 */
 	public static void createCanvas(String canvasRefName, int width, int height) {
 		canvasElements.put(canvasRefName, new FCanvas(width, height));
-		FLog.info("graphics component started successfully");
+		FLog.info("Canvas with refName" + canvasRefName + " was created");
 	}
 
 	/**
