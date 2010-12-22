@@ -180,6 +180,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			for (int x = 0; x < width; x++)
 			{
 				FTile temp = tiles.get(x + (y * this.width));
+				
+				if(temp != null)
 				Graphic.getCanvas("Flax").drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
 			}
 		}
@@ -205,6 +207,15 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public void addEntity(FEntity entity)
 	{
 		entities.add(entity);
+	}
+	
+	/**
+	 * Adds the given tile to the map
+	 * @param tile
+	 */
+	public void addTile(FTile tile)
+	{
+		tiles.add(tile);
 	}
 	
 	/**

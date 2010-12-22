@@ -197,12 +197,12 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{		
-		initEngine(insertId,width,height);
-	
+		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+		
+		initEngine(insertId,width,height);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	
-		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
-		settings = new Settings();
+			settings = new Settings();
 		
 		
 	}
@@ -407,7 +407,7 @@ public abstract class FlaxEngine {
 		int currentMilliseconds = getMilliseconds();
 		
 		if (currentMilliseconds < oldMilliseconds){
-			editor.updateElement(weaveUi.FPS_COUNTER_BOTTOM_PANEL, ""+frameCount);
+			editor.updateElement(weaveUi.FPS_COUNTER_BOTTOM_PANEL, "FPS: "+frameCount);
 			frameCount = 0;
 		}
 		

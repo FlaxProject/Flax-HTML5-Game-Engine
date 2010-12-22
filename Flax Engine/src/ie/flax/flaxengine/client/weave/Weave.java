@@ -29,6 +29,7 @@ public class Weave {
 	private FMap map;
 	private weaveUi ui;
 	private int tile;
+	private int currentTexture = 4;
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
@@ -121,7 +122,13 @@ public class Weave {
 		}
 		else
 		{
+			int tileSize = map.getTileSize();
+			int tX = x/tileSize;
+			int tY = y/tileSize;
 			
+			FLog.debug("x = " + tX*tileSize + " y = " + tY*tileSize);
+			
+			map.addTile( new FTile(tX*tileSize,  tY*tileSize, false, currentTexture)  );
 		}
 	}
 	
@@ -130,7 +137,7 @@ public class Weave {
 	 * @return - true or false
 	 */
 	public boolean isRunning() {
-		return ui.bottomPanel.isVisible();
+		return ui.weave.isVisible();
 	}
 	
 	
