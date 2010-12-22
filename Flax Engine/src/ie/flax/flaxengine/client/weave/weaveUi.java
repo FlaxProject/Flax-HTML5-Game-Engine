@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -21,7 +22,7 @@ public class weaveUi {
 	public HTMLPanel weave;
 	public UiClientFileLoader tileSheetUploader;
 	private String insertId;
-	private HTMLPanel consoleTab;
+	private Widget consoleTab;
 	private HTMLPanel tileSheetTab;
 	private HTMLPanel loadSaveTab;
 
@@ -106,9 +107,9 @@ public class weaveUi {
 		 * Create Tab content, style and ID it and then add it to the weave panel
 		 * Console Panel which has the GWT logger in it
 		 */
-		consoleTab = new HTMLPanel( "tab 1 one" );
-		consoleTab.setStyleName(HIDE_TAB);
+		consoleTab = FLog.getWidget();
 		consoleTab.getElement().setId("consoleTab");
+		consoleTab.setStyleName(HIDE_TAB);
 		weave.add(consoleTab, WEAVE);
 	
 		/**
@@ -241,7 +242,6 @@ public class weaveUi {
 		if (weave.getElementById(UiElement) != null) {
 			weave.add(widget, UiElement);//Inserts the content
 		} else {
-
 			FLog.warn("Insert widget of UI element [" + UiElement + "] failed due to it been null.");
 		}
    }
