@@ -1,6 +1,8 @@
 package ie.flax.flaxengine.client;
 
+import com.allen_sauer.gwt.log.client.DivLogger;
 import com.allen_sauer.gwt.log.client.Log;
+import com.google.gwt.user.client.ui.Widget;
 
 public class FLog {
 	private static String lastmessage = "";
@@ -50,5 +52,9 @@ public class FLog {
 		//if it hits here, something's wrong
 		Log.warn("Problem with logger");
 		return true;
+	}
+	
+	public static Widget getWidget() {
+		return Log.getLogger(DivLogger.class).getWidget();
 	}
 }
