@@ -126,8 +126,6 @@ public class Weave {
 			int tX = x/tileSize;
 			int tY = y/tileSize;
 			
-			FLog.debug("x = " + tX*tileSize + " y = " + tY*tileSize);
-			
 			map.addTile( new FTile(tX*tileSize,  tY*tileSize, false, currentTexture)  );
 		}
 	}

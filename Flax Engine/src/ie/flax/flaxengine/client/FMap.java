@@ -175,17 +175,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public void draw() {
 		// TODO implement camera scrolling in the map drawing	
 		
-		for (int y = 0; y < height; y++) 
+		for(FTile temp : tiles)
 		{
-			for (int x = 0; x < width; x++)
-			{
-				FTile temp = tiles.get(x + (y * this.width));
-				
-				if(temp != null)
-				Graphic.getCanvas("Flax").drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
-			}
-		}
+			Graphic.getCanvas("Flax").drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());
 		
+		}
 		
 		for(FObject obj : objects)
 		{
