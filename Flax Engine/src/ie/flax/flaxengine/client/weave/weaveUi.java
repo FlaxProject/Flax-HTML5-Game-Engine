@@ -256,7 +256,7 @@ public class weaveUi {
 	/**
 	 * Where the output for the logger is piped, in the bottom weave panel
 	 */
-	static public final String LOGGER_BOTTOM_PANEL = "log"; 
+	static public final String LOGGER = "consoleTab"; 
 	
 	/**
 	 * The bottom panel in the weave UI
