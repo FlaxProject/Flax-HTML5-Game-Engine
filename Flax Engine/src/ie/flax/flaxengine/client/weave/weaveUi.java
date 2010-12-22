@@ -22,7 +22,7 @@ public class weaveUi {
 	public HTMLPanel weave;
 	public UiClientFileLoader tileSheetUploader;
 	private String insertId;
-	private Widget consoleTab;
+	private HTMLPanel consoleTab;
 	private HTMLPanel tileSheetTab;
 	private HTMLPanel loadSaveTab;
 
@@ -107,8 +107,9 @@ public class weaveUi {
 		 * Create Tab content, style and ID it and then add it to the weave panel
 		 * Console Panel which has the GWT logger in it
 		 */
-		consoleTab = FLog.getWidget();
+		consoleTab = new HTMLPanel("");
 		consoleTab.getElement().setId("consoleTab");
+		consoleTab.add(FLog.getWidget(), "consoleTab");
 		consoleTab.setStyleName(HIDE_TAB);
 		weave.add(consoleTab, WEAVE);
 	
