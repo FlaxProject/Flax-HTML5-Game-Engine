@@ -3,7 +3,10 @@ package ie.flax.flaxengine.client.weave;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.Graphic;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -14,53 +17,177 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class weaveUi {
 	
-	public HTMLPanel bottomPanel;
-	public HTMLPanel verticalPanel;
+
+	public HTMLPanel weave;
 	public UiClientFileLoader tileSheetUploader;
 	private String insertId;
+	private HTMLPanel consoleTab;
+	private HTMLPanel tileSheetTab;
+	private HTMLPanel loadSaveTab;
+
 	
 	public weaveUi(String insertID, int width, int height)
 	{
+		/**
+		 * Setups the image uploader and the canvas for the tilehsheet that was loaded
+		 */
 		tileSheetUploader = new UiClientFileLoader("Load Image");	
+		Graphic.createCanvas("Weave", width-300, height);	
 		
 		
-		bottomPanel = new HTMLPanel(
-				"<div id="+ WEAVE_UI_BOTTOM_PANEL + " class=weave style=width:"+ width +"px;height:" + height + "px;>" +
-				"<div id=fps>" +
-				"<p class=header>FPS</p><h2 id=fpscount></h2></div>" +
-				"<div id=log><p class=header>Logger</p></div>  " +
-				"</div>" +
-				"<div id=" + WEAVE_UI_VERTICAL_PANEL + " class=weave style=width:"+ width +"px;>" +
+		weave = new HTMLPanel("<div id=menu></div>");
+		weave.getElement().setId(WEAVE);
+		
+		
+		/**
+		 * Construct menu lable styles
+		 */
+		final Label consoleTabLabel = new Label("Console");
+		final Label closetabLabel = new Label("Close All");	
+		final Label tileSheetLabel = new Label("Tile Sheet");
+		final Label loadSaveLabel = new Label("Map Import/Export");
+		
+		/**
+		 * Set menu lable
+		 */
+		consoleTabLabel.setStyleName("label");
+		closetabLabel.setStyleName("label");
+		tileSheetLabel.setStyleName("label");
+		loadSaveLabel.setStyleName("label");
+		
+		/**
+		 * Add labesl to menu Bars
+		 */
+		weave.add(closetabLabel, "menu");
+		weave.add(consoleTabLabel, "menu");
+		weave.add(tileSheetLabel, "menu");
+		weave.add(loadSaveLabel, "menu");
+		
+		/**
+		 * Add onClick functionality to labels
+		 */
+		consoleTabLabel.addClickHandler( new ClickHandler() {		
+			@Override
+			public void onClick(ClickEvent event) {
+				show("consoleTab");				
+			}
+		});
+		
+		
+		loadSaveLabel.addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				show("loadSaveTab");
 				
+			}
+		});
+		
+		tileSheetLabel.addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				show("tileSheetTab");	
+				
+			}
+		});
+		
+		closetabLabel.addClickHandler( new ClickHandler() {			
+			@Override
+			public void onClick(ClickEvent event) {
+				closeAll();				
+			}
+		});
+		
 
-				"<div>"
-		);
 		
 		
-		Graphic.createCanvas("Weave", width-300, height);		
+		/**
+		 * Create Tab content, style and ID it and then add it to the weave panel
+		 * Console Panel which has the GWT logger in it
+		 */
+		consoleTab = new HTMLPanel( "tab 1 one" );
+		consoleTab.setStyleName(HIDE_TAB);
+		consoleTab.getElement().setId("consoleTab");
+		weave.add(consoleTab, WEAVE);
+	
+		/**
+		 * FPS label
+		 */
+		final Label fps = new Label("FPS");
+		fps.setStyleName("label");
+		fps.getElement().setId("fps");
+		weave.add(fps, "menu");
 		
-		bottomPanel.add(tileSheetUploader.getElement(), WEAVE_UI_VERTICAL_PANEL);
-		bottomPanel.add(Graphic.getCanvas("Weave"),WEAVE_UI_VERTICAL_PANEL);
+		/**
+		 * Sets the tile sheet uploader tab
+		 */
+		tileSheetTab = (tileSheetUploader.getElement());
+		tileSheetTab.getElement().setId("tileSheetTab");
+		tileSheetTab.add(Graphic.getCanvas("Weave"), "tileSheetTab");
+		tileSheetTab.setStyleName(HIDE_TAB);
+		weave.add(tileSheetTab,WEAVE);
+		
+		/**
+		 * Export to JSON
+		 */
+		loadSaveTab = new HTMLPanel("<h3>The Current map file in JSON</h3><textarea size=200 id=mapJson>");
+		loadSaveTab.getElement().setId("loadSaveTab");
+		loadSaveTab.setStyleName(HIDE_TAB);
+		weave.add(loadSaveTab, WEAVE);
 		
 		
-		//verticalPanel = new HTMLPanel(); 		
-		//verticalPanel.setStyleName(UiElement.WEAVE_UI_VERTICAL_PANEL);	
 		
 		this.insertId = insertID;	
-		bottomPanel.setVisible(false);
-		RootPanel.get(insertId).add(bottomPanel);
+		weave.setVisible(false);
+		RootPanel.get(insertId).add(weave);
 	}
 	
+	
+	/**
+	 * Changes the tabs in the weave menu
+	 * @param tab
+	 */
+	public native void show(String tab)
+	/*-{
+		
+		var arrayOfelemnets = $doc.getElementsByTagName("div")
+	
+	for( var i = 0; i < arrayOfelemnets.length; i++)
+	{
+			if(arrayOfelemnets[i].className == 'tabShow')
+			arrayOfelemnets[i].className = 'tabHide';
+	
+	}
+	//TODO: Rewrite in GWT code - be faster
+	
+	if($doc.getElementById(tab).className == 'tabHide')
+	$doc.getElementById(tab).className = 'tabShow';
+	else
+	$doc.getElementById(tab).className = 'tabHide';
+	}-*/;
+	
+	
+	/**
+	 * Close all tabs
+	 */
+	public void closeAll()
+	{
+		consoleTab.setStyleName(HIDE_TAB);
+		tileSheetTab.setStyleName(HIDE_TAB);
+		loadSaveTab.setStyleName(HIDE_TAB);
+				
+	};
 
 	/**
 	 * Switchs the weave UI from visible to hidden
 	 */
 	public void toggleDisplay()
 	{
-		if(bottomPanel.isVisible())
-			bottomPanel.setVisible(false);
+		if(weave.isVisible())
+			weave.setVisible(false);
 		else
-			bottomPanel.setVisible(true);
+			weave.setVisible(true);
 	}
 	
 	
@@ -75,8 +202,8 @@ public class weaveUi {
    public void updateElement(final String id,String content)
 	{
 	   //checks first if the element with ID=id exists
-		if (bottomPanel.getElementById(id) != null) {
-			bottomPanel.getElementById(id).setInnerHTML(content);
+		if (weave.getElementById(id) != null) {
+			weave.getElementById(id).setInnerHTML(content);
 
 		} else {
 
@@ -94,8 +221,8 @@ public class weaveUi {
   public void appendElement(final String id,String content)
 	{
 	   //checks first if the element with ID=id exists
-		if (bottomPanel.getElementById(id) != null) {
-			bottomPanel.getElementById(id).setInnerHTML(content);//Inserts the content
+		if (weave.getElementById(id) != null) {
+			weave.getElementById(id).setInnerHTML(content);//Inserts the content
 		} else {
 
 			FLog.warn("Update of UI element [" + id + "] failed due to it been null.");
@@ -111,8 +238,8 @@ public class weaveUi {
    public void insertWidget(final String UiElement, Widget widget)
    {
 	   //checks first if the element with ID=id exists
-		if (bottomPanel.getElementById(UiElement) != null) {
-			bottomPanel.add(widget, UiElement);//Inserts the content
+		if (weave.getElementById(UiElement) != null) {
+			weave.add(widget, UiElement);//Inserts the content
 		} else {
 
 			FLog.warn("Insert widget of UI element [" + UiElement + "] failed due to it been null.");
@@ -124,7 +251,7 @@ public class weaveUi {
 	/**
 	 * Where the numbers for the FPS counter are displayed, in the bottom weave panel
 	 */
-	static public final String FPS_COUNTER_BOTTOM_PANEL = "fpscount"; 
+	static public final String FPS_COUNTER_BOTTOM_PANEL = "fps"; 
 	
 	/**
 	 * Where the output for the logger is piped, in the bottom weave panel
@@ -134,11 +261,10 @@ public class weaveUi {
 	/**
 	 * The bottom panel in the weave UI
 	 */
-	static public final String WEAVE_UI_BOTTOM_PANEL = "weavebottomPanel";
+	static public final String WEAVE = "weave";
 	
-	/**
-	 * The vertical panel in the weave UI
-	 */
-	static public final String WEAVE_UI_VERTICAL_PANEL = "weaveVerticalPanel";
+	
+	private final String SHOW_TAB  = "tabShow";
+	private final String HIDE_TAB  = "tabHide";
 
 }

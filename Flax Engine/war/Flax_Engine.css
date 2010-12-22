@@ -15,35 +15,59 @@ canvas{
 	}
 	
 /** Weave **/
-
-
-div#weavebottomPanel, div#weaveVerticalPanel
+#weave
 {
-	background:#F3F1E5;
-	border: 1px solid #DCDCD0;		
+	height:30px;
+	}
+
+#weave #fps
+{
+float:right;
 }
 
-#fps
+div.tabShow, div.tabHide {
+   -webkit-transition: height 0.4s ease-in; 
+   border: #DCDCD0 1px solid;
+   width:100%;  
+   
+   overflow: scroll;
+}
+
+div.tabHide
 {
-	width:29.5%;
-	height:100%;
+	
+	height:0px;	
+	position: absolute;
+	top:27px;
+	background:#eee;
+}
+
+div.tabShow
+{
+	height:200px;
+	position: absolute;
+	top:27px;
+	background:#eee;
+}
+
+#menu
+{
+	background: #F3F1E5;
+	width:100%;
+	border: #DCDCD0 1px solid;
+	border-bottom:none;
+	overflow: none;
+	
+}
+
+div .label{
+	
+	border-right: #DCDCD0 1px solid;
+	padding-left:10px;
+	padding-right:10px;
+	font-size:20px;
 	float:left;
 	
-}
-
-#log{
-	width:70%;
-	border-left:1px solid #DCDCD0;
-	height:100%;
-	float:right;
-	}
-	
-.header
-{
-	border-bottom:1px #DCDCD0 solid;
-	margin:0px;
-	padding-top:2px;
-	padding-bottom:2px
 }
 
 /** Example rules used by the template application (remove for your app) */
