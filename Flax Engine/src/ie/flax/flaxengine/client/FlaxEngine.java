@@ -162,14 +162,13 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String[] mapPaths, String insertId)
 	{
+		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
+
 		initEngine(insertId,600,300);
 		for(String mapPath : mapPaths)
 		{
 			maps.add(new FMap(mapPath));//Loads all the maps
 		}
-
-		editor = new Weave(insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
-
 		settings = new Settings();
 	}
 	
@@ -180,10 +179,11 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId)
 	{
+
+		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
+
 		initEngine(insertId,600,300);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
-
-		editor = new Weave(insertId,600,300/10);//setup weave and defines its width and height - a tenth the height of the canvas					
 
 		settings = new Settings();
 	}
@@ -197,7 +197,7 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{		
-		editor = new Weave(insertId,width,height/10);//setup weave and defines its width and height - a tenth the height of the canvas					
+		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
 		
 		initEngine(insertId,width,height);	
 		maps.add(new FMap(mapPaths));//Loads all the maps
@@ -265,7 +265,7 @@ public abstract class FlaxEngine {
 			height = Window.getClientHeight();
 		}
 		
-		setupEventAndRenderingPanel(width,height - height/10, insertId);//inserts event panel and canvas tag
+		setupEventAndRenderingPanel(width,height, insertId);//inserts event panel and canvas tag
 		
 		setupEventHandlers(); //sets the event handlers for canvas tag		
 	}
@@ -315,9 +315,25 @@ public abstract class FlaxEngine {
 			@Override
 			public void onClick(ClickEvent event) {
 				
+				//TODO: Abstract this code away into the editor and called it through a method
 				//When the editor is running a click on the map trys to select a tile
 				if(editor.isRunning())
 				{
+					editor.selectedTile(event.getX(), event.getY());
+				}
+				
+			}
+		});
+		
+		eventPanel.addMouseMoveHandler( new MouseMoveHandler() {
+			
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+				
+				//TODO: Abstract this code away into the editor and called it through a method
+				if(editor.isRunning())
+				{
+					if(event.isShiftKeyDown())
 					editor.selectedTile(event.getX(), event.getY());
 				}
 				

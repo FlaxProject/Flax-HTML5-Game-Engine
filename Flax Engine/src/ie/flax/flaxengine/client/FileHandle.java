@@ -43,7 +43,7 @@ public class FileHandle {
 		
 	}
 	
-	static void writeStringToFile(String fileName, String stringToWrite, final String eventID) {
+	public static void writeStringToFile(String fileName, String stringToWrite, final String eventID) {
 		//quick warning: this will not work unless a game is initialised
 		
 		//a small guard against a zero or null UID

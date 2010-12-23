@@ -33,7 +33,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	public Settings() {
 		imageDirectoryPath = "/images/";
 		mapDirectoryPath = "/maps/";
-		UID = "4588";
+		UID = "6cSNeQPq8qkcWzUBUe/LF1wPyC3iKJpO";
 		collisionOn = true;
 		serverPath = "/server.php";
 		fullscreenOn = true;

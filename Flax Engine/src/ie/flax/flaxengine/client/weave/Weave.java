@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -26,7 +28,7 @@ import com.google.gwt.widgetideas.graphics.client.Color;
  */
 public class Weave {
 	
-	private FMap map;
+	private static FMap map;
 	private weaveUi ui;
 	private int tile;
 	private int currentTexture = 4;
@@ -38,21 +40,26 @@ public class Weave {
 	 * @param width
 	 * @param height
 	 */
-	public Weave(String insertID, int width, int height)
+	public Weave(String insertID)
 	{ 
-		ui = new weaveUi(insertID, width, height);
+		ui = new weaveUi(insertID);	
 		
-		//Action to take when the user clicks tileSheetUploader button
-		ui.tileSheetUploader.getButton().addClickHandler( new ClickHandler() {
-			
+			//Setting up click functionality for the weave tileSheet
+			Graphic.getCanvas("Weave").addMouseHandler( new MouseDownHandler() {		
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onMouseDown(MouseDownEvent event) {
 				
-				Graphic.loadImage(ui.tileSheetUploader.getUrl());
+				int tileSize = Weave.map.getTileSize();
+				int numberOfTilesInaRow = (Graphic.getImage(map.getTileSheet()).getWidth())/tileSize;
+				
+				
+				int x = event.getX()/tileSize;
+				int y = event.getY()/tileSize;
+				
+				currentTexture = (y*numberOfTilesInaRow)+x;
+				
 			}
 		});
-		
-		
 	}
 	
 	
@@ -64,14 +71,21 @@ public class Weave {
 	{
 		this.map = currentMap;
 		ui.toggleDisplay();
-
-		Graphic.getCanvas("Weave").resize(Graphic.getImage(map.getTileSheet()).getWidth(), Graphic.getImage(map.getTileSheet()).getHeight());
-		Graphic.getCanvas("Weave").drawImage(map.getTileSheet(), 0, 0);		
 		
-		drawGrid();
+		drawGrid();	
 		
-		
-		
+		Graphic.getCanvas("Weave").resize(Graphic.getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getImage(Weave.getFMapReference().getTileSheet()).getHeight());
+		Graphic.getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);	
+	}
+	
+	
+	/**
+	 * Gets a reference to the current map object
+	 * @return
+	 */
+	public static FMap getFMapReference()
+	{
+		return map;
 	}
 	
 	/**
@@ -118,13 +132,14 @@ public class Weave {
 		
 		if(tile != null) 
 		{
-			tile.setTexture(6);	
+			tile.setTexture(currentTexture);	
 		}
 		else
 		{
 			int tileSize = map.getTileSize();
 			int tX = x/tileSize;
 			int tY = y/tileSize;
+			//FLog.debug("New tile Object created at x=" + tX + " y= "+ tY +" with currentTile " + currentTexture );
 			
 			map.addTile( new FTile(tX*tileSize,  tY*tileSize, false, currentTexture)  );
 		}

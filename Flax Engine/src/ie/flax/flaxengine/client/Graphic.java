@@ -1,5 +1,8 @@
 package ie.flax.flaxengine.client;
 
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.onImageLoadedEvent;
+
 import java.util.HashMap;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -54,9 +57,7 @@ public class Graphic {
 	 */
 	public static ImageElement getImage(String refName) {
 		
-			return imageLibary.get(refName);
-		
-			
+			return imageLibary.get(refName);			
 	}
 
 	/**
@@ -73,6 +74,7 @@ public class Graphic {
 			public void onImagesLoaded(ImageElement[] imageElements) { //TODO: take the imageLoader class and mod it for 404 callbacks
 	
 				imageLibary.put(URL,(imageElements[0]));
+				EventBus.handlerManager.fireEvent( new onImageLoadedEvent(URL));
 				FLog.info("Image " + URL + " is now loaded!");
 			}
 		});
@@ -89,9 +91,14 @@ public class Graphic {
 	 */
 	public static void createCanvas(String canvasRefName, int width, int height) {
 		canvasElements.put(canvasRefName, new FCanvas(width, height));
-		FLog.info("Canvas with refName" + canvasRefName + " was created");
+		FLog.info("Canvas with refName " + canvasRefName + " was created");
 	}
 
+	public static void createCanvas(String canvasRefName) {
+		canvasElements.put(canvasRefName, new FCanvas());
+		FLog.info("Canvas with refName " + canvasRefName + " was created");		
+	}
+	
 	/**
 	 * Checks all the images that where loaded into the imageLibary to make sure
 	 * they are completely loaded.
@@ -131,4 +138,6 @@ public class Graphic {
 	  
 	  //ImageLoader.loadImages(urls, cb)
 	}
+
+	
 }

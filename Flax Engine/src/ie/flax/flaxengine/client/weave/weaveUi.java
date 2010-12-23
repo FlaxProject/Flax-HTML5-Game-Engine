@@ -20,20 +20,22 @@ public class weaveUi {
 	
 
 	public HTMLPanel weave;
-	public UiClientFileLoader tileSheetUploader;
+	private UiClientFileLoader tileSheetUploader;
 	private String insertId;
 	private HTMLPanel consoleTab;
 	private HTMLPanel tileSheetTab;
-	private HTMLPanel loadSaveTab;
+	private UiSaveLoadPanel loadSaveTab;
+	private UiSaveLoadPanel saveLoadPanel;
+	
 
 	
-	public weaveUi(String insertID, int width, int height)
+	public weaveUi(String insertID)
 	{
 		/**
 		 * Setups the image uploader and the canvas for the tilehsheet that was loaded
 		 */
 		tileSheetUploader = new UiClientFileLoader("Load Image");	
-		Graphic.createCanvas("Weave", width-300, height);	
+		Graphic.createCanvas("Weave");	
 		
 		
 		weave = new HTMLPanel("<div id=menu></div>");
@@ -99,9 +101,7 @@ public class weaveUi {
 				closeAll();				
 			}
 		});
-		
-
-		
+			
 		
 		/**
 		 * Create Tab content, style and ID it and then add it to the weave panel
@@ -133,16 +133,16 @@ public class weaveUi {
 		/**
 		 * Export to JSON
 		 */
-		loadSaveTab = new HTMLPanel("<h3>The Current map file in JSON</h3><textarea size=200 id=mapJson>");
-		loadSaveTab.getElement().setId("loadSaveTab");
-		loadSaveTab.setStyleName(HIDE_TAB);
-		weave.add(loadSaveTab, WEAVE);
+		loadSaveTab = new UiSaveLoadPanel();
+		weave.add(loadSaveTab.getElement(), WEAVE);
 		
 		
 		
 		this.insertId = insertID;	
 		weave.setVisible(false);
 		RootPanel.get(insertId).add(weave);
+		
+		
 	}
 	
 	
@@ -177,7 +177,7 @@ public class weaveUi {
 	{
 		consoleTab.setStyleName(HIDE_TAB);
 		tileSheetTab.setStyleName(HIDE_TAB);
-		loadSaveTab.setStyleName(HIDE_TAB);
+		loadSaveTab.getElement().setStyleName(HIDE_TAB);
 				
 	};
 
@@ -265,7 +265,7 @@ public class weaveUi {
 	static public final String WEAVE = "weave";
 	
 	
-	private final String SHOW_TAB  = "tabShow";
-	private final String HIDE_TAB  = "tabHide";
+	static public final String SHOW_TAB  = "tabShow";
+	static public final String HIDE_TAB  = "tabHide";
 
 }

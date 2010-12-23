@@ -1,7 +1,8 @@
 package ie.flax.flaxengine.client;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
@@ -23,6 +24,11 @@ public class FCanvas extends GWTCanvas{
 	}
 
 	
+	public FCanvas() {
+		super();
+	}
+
+
 	/**
 	 * Draws an image to the current canvas object
 	 * @param imagePath - This is the path to the image, which is used to reference the image lib
@@ -37,7 +43,7 @@ public class FCanvas extends GWTCanvas{
 		{
 		this.drawImage(img, x, y);
 		}else{
-			FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
+			//FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
 		}
 	}
 	
@@ -56,7 +62,7 @@ public class FCanvas extends GWTCanvas{
 		if(img != null){
 		this.drawImage(img, x, y,width,height);
 	}else{
-		FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
+		//FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
 	}
 	}
 	
@@ -74,20 +80,29 @@ public class FCanvas extends GWTCanvas{
 		int numTilesWidth = 0;
 		int ySrc = 0;
 		float xSrc = 0;
-		
+
 		ImageElement img = Graphic.getImage(imagePath);
-			
-		if(img != null)
-		{
-				numTilesWidth = (img.getWidth()/tileSize);
-				ySrc = (int)(Texture/numTilesWidth);
-				xSrc = Texture%numTilesWidth;
-				this.drawImage(img, (float)xSrc*tileSize, (float)ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+
+		if (img != null) {
+			numTilesWidth = (img.getWidth() / tileSize);
+			ySrc = (int) (Texture / numTilesWidth);
+			xSrc = Texture % numTilesWidth;
+			this.drawImage(img, (float) xSrc * tileSize, (float) ySrc
+					* tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+		} else {
+			//FLog.warn("DrawImage: Unable to drawImage as the image "
+			//		+ imagePath + " is null");
 		}
-	else{
-		FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
-	}
 	}
 	
+	
+	/**
+	 * Allows mouse clicks to be registered on the tilesheet
+	 * @param handler
+	 * @return
+	 */
+	public HandlerRegistration addMouseHandler(MouseDownHandler handler) {
+        return addDomHandler(handler, MouseDownEvent.getType());
+  }
 	
 }

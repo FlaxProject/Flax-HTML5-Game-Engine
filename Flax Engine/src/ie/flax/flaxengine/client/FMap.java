@@ -62,6 +62,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * @param mapPath
 	 *            address to the map file to be loaded.
 	 */
+	@SuppressWarnings("deprecation")
 	public FMap(String mapPath) {		
 		name = mapPath;
 			
@@ -251,10 +252,15 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	public FTile getTile(int x, int y)
 	{
+		int clickX = x/tileSize;
+		int clickY = y/tileSize;
+		
+		
 		for(FTile obj : tiles)
 		{
-			if(x > obj.getX()&&x < obj.getX()+this.tileSize&&y > obj.getY() && y <= obj.getY()+this.tileSize )
-				return obj;
+			if(x == clickX && y == clickY)
+				return obj;		
+			
 		}
 		return null;
 	}
@@ -276,7 +282,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * @param JSON
 	 * @return
 	 */
-	private FMap JsonToFMap(String Json) {
+	public FMap JsonToFMap(String Json) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
 	}
