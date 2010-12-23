@@ -56,11 +56,11 @@ public class UiSaveLoadPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				if(jsonData.getValue() != null)
-				{
-					
-					FMap map = Weave.getFMapReference();
-					map = Weave.getFMapReference().JsonToFMap(jsonData.getValue());
+				if(jsonData.getValue() != "")
+				{		
+					//Gets the current map and replaces it with the object form from the JSON in the textarea in the import tab
+					Weave.getFMapReference().replaceMap(Weave.getFMapReference().JsonToFMap(jsonData.getValue()));
+										
 				}
 				else
 				{
@@ -116,7 +116,7 @@ public class UiSaveLoadPanel {
 		
 		tabDiv.add(load,ELEMENT_ID);
 		tabDiv.add(save, ELEMENT_ID);
-		tabDiv.add(saveToServer, ELEMENT_ID);
+		//tabDiv.add(saveToServer, ELEMENT_ID);
 		tabDiv.add(jsonData, ELEMENT_ID);
 		
 	}

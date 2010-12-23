@@ -297,7 +297,30 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		return serializer.serialize(this);
 	}
 	
-	
+	/**
+	 * basiclly does the following operation on the object
+	 * FMap x = new ("map.json);
+	 * FMap y = x;  //For some reaosn doing this does not work
+	 * <br><br>
+	 * This method replace the current object with another
+	 * @param newMapObj
+	 */
+	public void replaceMap(FMap newMapObj)
+	{
+		/**
+		 * It would be nicer to go this =
+		 * FMap.JsonToFMap(e.getDataLoadedFromFile()); though we can't do
+		 * that. It would have to be outside the class which wouldn't work as
+		 * well with the ID's etc.
+		 */
+		this.entities = newMapObj.entities;
+		this.tiles = newMapObj.tiles;
+		this.objects = newMapObj.objects;
+		this.tileSheet = newMapObj.tileSheet;
+		this.tileSize = newMapObj.tileSize;
+		this.width = newMapObj.width;
+		this.height = newMapObj.height;
+	}
 
 	/**
 	 * This method is run when a onFileLoaded event is fired. It then checks was
@@ -319,19 +342,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			 */
 			FMap temp = JsonToFMap(e.getDataLoadedFromFile()); 
 						
-			/**
-			 * It would be nicer to go this =
-			 * FMap.JsonToFMap(e.getDataLoadedFromFile()); though we can't do
-			 * that. It would have to be outside the class which wouldn't work as
-			 * well with the ID's etc.
-			 */
-			this.entities = temp.entities;
-			this.tiles = temp.tiles;
-			this.objects = temp.objects;
-			this.tileSheet = temp.tileSheet;
-			this.tileSize = temp.tileSize;
-			this.width = temp.width;
-			this.height = temp.height;
+			replaceMap(temp);
 			
 			
 			//Loops though all objects from map
