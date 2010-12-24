@@ -38,6 +38,7 @@ public class weaveUi {
 		Graphic.createCanvas("Weave");	
 		
 		
+		
 		weave = new HTMLPanel("<div id=menu></div>");
 		weave.getElement().setId(WEAVE);
 		

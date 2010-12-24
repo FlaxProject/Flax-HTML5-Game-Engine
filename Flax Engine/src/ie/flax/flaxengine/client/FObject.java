@@ -39,13 +39,15 @@ public class FObject implements JsonSerializable{
 	
 
 	/**
-	 * This is a simple masking method for drawing the object
+	 * Draws the objects sprite
+	 * its passed the canvas reference to speed up rendering
+	 * @param refence
 	 */
-	public void draw()
+	public void draw(FCanvas refence)
 	{
 		if(sprite != null)
 		{
-		Graphic.getCanvas("Flax").drawImage(sprite, x, y,width,height);
+			refence.drawImage(sprite, x, y,width,height);
 		}
 		//TODO have a thing about animation and weather or not to have that as extend feature
 	}

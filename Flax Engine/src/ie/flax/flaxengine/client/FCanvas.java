@@ -68,6 +68,13 @@ public class FCanvas extends GWTCanvas{
 	
 	
 	/**
+	 * Removed from the drawTile method to increse drawing speed
+	 */
+	private int numTilesWidth = 0;
+	private int ySrc = 0;
+	private float xSrc = 0;
+	
+	/**
 	 * Draws an image to the current canvas object
 	 * @param imagePath - This is the path to the tileSheet, which is used to reference the image lib
 	 * @param Texture - a number which presents a square on the tilesheet
@@ -77,22 +84,16 @@ public class FCanvas extends GWTCanvas{
 	 */
 	public void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
 	{	
-		int numTilesWidth = 0;
-		int ySrc = 0;
-		float xSrc = 0;
-
+		
 		ImageElement img = Graphic.getImage(imagePath);
 
 		if (img != null) {
+			
 			numTilesWidth = (img.getWidth() / tileSize);
 			ySrc = (int) (Texture / numTilesWidth);
 			xSrc = Texture % numTilesWidth;
-			this.drawImage(img, (float) xSrc * tileSize, (float) ySrc
-					* tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
-		} else {
-			//FLog.warn("DrawImage: Unable to drawImage as the image "
-			//		+ imagePath + " is null");
-		}
+			this.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+		} 
 	}
 	
 	

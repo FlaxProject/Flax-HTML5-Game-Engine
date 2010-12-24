@@ -41,6 +41,7 @@ public class Weave {
 	 */
 	public Weave(String insertID)
 	{ 
+		currentTile = new FTile();
 		ui = new weaveUi(insertID);	
 		
 			//Setting up click functionality for the weave tileSheet
