@@ -5,6 +5,7 @@ import ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
@@ -48,7 +49,7 @@ public class weaveUi {
 		 */
 		final Label consoleTabLabel = new Label("Console");
 		final Label closetabLabel = new Label("Close All");	
-		final Label tileSheetLabel = new Label("Tile Sheet");
+		final Label tileSheetLabel = new Label("Tiles");
 		final Label loadSaveLabel = new Label("Map Import/Export");
 		
 		/**
@@ -73,6 +74,7 @@ public class weaveUi {
 		consoleTabLabel.addClickHandler( new ClickHandler() {		
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				show("consoleTab");				
 			}
 		});
@@ -109,8 +111,8 @@ public class weaveUi {
 		 * Console Panel which has the GWT logger in it
 		 */
 		consoleTab = new HTMLPanel("");
-		consoleTab.getElement().setId("consoleTab");
-		consoleTab.add(FLog.getWidget(), "consoleTab");
+		consoleTab.getElement().setId(CONSOLE_TAB);
+		consoleTab.add(FLog.getWidget(), CONSOLE_TAB);
 		consoleTab.setStyleName(HIDE_TAB);
 		weave.add(consoleTab, WEAVE);
 	
@@ -126,8 +128,8 @@ public class weaveUi {
 		 * Sets the tile sheet uploader tab
 		 */
 		tileSheetTab = (tileSheetUploader.getElement());
-		tileSheetTab.getElement().setId("tileSheetTab");
-		tileSheetTab.add(Graphic.getCanvas("Weave"), "tileSheetTab");
+		tileSheetTab.getElement().setId(TILES_TAB);
+		tileSheetTab.add(Graphic.getCanvas("Weave"), TILES_TAB);
 		tileSheetTab.setStyleName(HIDE_TAB);
 		weave.add(tileSheetTab,WEAVE);
 		
@@ -151,24 +153,16 @@ public class weaveUi {
 	 * Changes the tabs in the weave menu
 	 * @param tab
 	 */
-	public native void show(String tab)
-	/*-{
-		
-		var arrayOfelemnets = $doc.getElementsByTagName("div")
-	
-	for( var i = 0; i < arrayOfelemnets.length; i++)
-	{
-			if(arrayOfelemnets[i].className == 'tabShow')
-			arrayOfelemnets[i].className = 'tabHide';
-	
-	}
-	//TODO: Rewrite in GWT code - be faster
-	
-	if($doc.getElementById(tab).className == 'tabHide')
-	$doc.getElementById(tab).className = 'tabShow';
+	public void show(String tab)
+	{		
+	/*	closeAll();
+
+	if(DOM.getElementById(tab).getClassName() == HIDE_TAB)
+		DOM.getElementById(tab).setClassName(SHOW_TAB);
 	else
-	$doc.getElementById(tab).className = 'tabHide';
-	}-*/;
+		DOM.getElementById(tab).setClassName(HIDE_TAB);
+		*/
+	}
 	
 	
 	/**
@@ -263,10 +257,22 @@ public class weaveUi {
 	/**
 	 * The bottom panel in the weave UI
 	 */
-	static public final String WEAVE = "weave";
-	
-	
+	static public final String WEAVE = "weave";	
 	static public final String SHOW_TAB  = "tabShow";
 	static public final String HIDE_TAB  = "tabHide";
-
+	
+	/**
+	 * The ID reference for the consoleTab
+	 */
+	static public final String CONSOLE_TAB = "consoleTab";
+	
+	/**
+	 * The ID reference for the tile tab
+	 */
+	static public final String TILES_TAB = "tileSheetTab";
+	
+	/**
+	 * The ID reference for the import/export tabs
+	 */
+	static public final String MAP_TAB = "loadSaveTab";
 }

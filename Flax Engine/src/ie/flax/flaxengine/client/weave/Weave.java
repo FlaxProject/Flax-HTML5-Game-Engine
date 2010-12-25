@@ -10,6 +10,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
@@ -195,6 +197,34 @@ public class Weave {
    public void insertWidget(final String UiElement, Widget widget)
    {
 	   ui.insertWidget(UiElement, widget);
+   }
+
+   
+   /**
+    * Defines the actions the editor will take when a mouse click is registered
+    * @param event
+    */
+   public void onClick(ClickEvent event) {
+	  selectedTile(event.getX(), event.getY());	
+   }
+
+   /**
+    * Defines the actions the editor will take when the key is pressed
+    * @param event
+    */
+   public void onKeyDown(KeyDownEvent event) {
+	
+	   if(event.getNativeEvent().getKeyCode() == 49)
+	   {
+		   ui.show(weaveUi.CONSOLE_TAB);
+	   }
+	   
+	   if(event.getNativeEvent().getKeyCode() == 50)
+	   {
+		   ui.show(weaveUi.TILES_TAB);
+		   ui.closeAll();
+	   }
+	
    }
 	
 	

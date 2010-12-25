@@ -7,6 +7,8 @@ import ie.flax.flaxengine.client.weave.weaveUi;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -196,7 +198,16 @@ public abstract class FlaxEngine {
 	 * @param CSSclass 
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
-	{		
+	{	
+		GWT.setUncaughtExceptionHandler( new UncaughtExceptionHandler() {
+			
+			@Override
+			public void onUncaughtException(Throwable e) {
+				
+				FLog.error("JS error" + e.getLocalizedMessage());
+			}
+		});
+		
 		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
 		
 		initEngine(insertId,width,height);	
@@ -306,6 +317,11 @@ public abstract class FlaxEngine {
 			public void onKeyDown(KeyDownEvent event) {
 									
 			onKeyDownEvent(event);
+			
+			 if(editor.isRunning())
+             {
+                editor.onKeyDown(event);
+             }
 				
 			}
 		});
@@ -319,7 +335,7 @@ public abstract class FlaxEngine {
 				//When the editor is running a click on the map trys to select a tile
 				if(editor.isRunning())
 				{
-					editor.selectedTile(event.getX(), event.getY());
+					editor.onClick(event);
 				}
 				
 			}
@@ -339,6 +355,7 @@ public abstract class FlaxEngine {
 				
 			}
 		});
+		
 		
 		//TODO: register all types of events
 	}
