@@ -79,10 +79,10 @@ public class FCanvas extends GWTCanvas{
 	 * @param imagePath - This is the path to the tileSheet, which is used to reference the image lib
 	 * @param Texture - a number which presents a square on the tilesheet
 	 * @param tileSize
-	 * @param x
-	 * @param y
+	 * @param d
+	 * @param e
 	 */
-	public void drawTile(String imagePath, int Texture, int tileSize, float x, float y)
+	public void drawTile(String imagePath, int Texture, int tileSize, double d, double e)
 	{	
 		
 		ImageElement img = Graphic.getImage(imagePath);
@@ -92,7 +92,7 @@ public class FCanvas extends GWTCanvas{
 			numTilesWidth = (img.getWidth() / tileSize);
 			ySrc = (int) (Texture / numTilesWidth);
 			xSrc = Texture % numTilesWidth;
-			this.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+			this.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, d, e, tileSize, tileSize);
 		} 
 	}
 	

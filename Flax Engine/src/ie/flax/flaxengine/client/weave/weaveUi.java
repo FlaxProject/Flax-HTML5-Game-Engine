@@ -5,6 +5,8 @@ import ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -32,6 +34,7 @@ public class weaveUi {
 	
 	public weaveUi(String insertID)
 	{
+		
 		/**
 		 * Setups the image uploader and the canvas for the tilehsheet that was loaded
 		 */
@@ -42,7 +45,6 @@ public class weaveUi {
 		
 		weave = new HTMLPanel("<div id=menu></div>");
 		weave.getElement().setId(WEAVE);
-		
 		
 		/**
 		 * Construct menu lable styles
@@ -155,13 +157,13 @@ public class weaveUi {
 	 */
 	public void show(String tab)
 	{		
-	/*	closeAll();
+		closeAll();
 
 	if(DOM.getElementById(tab).getClassName() == HIDE_TAB)
 		DOM.getElementById(tab).setClassName(SHOW_TAB);
 	else
 		DOM.getElementById(tab).setClassName(HIDE_TAB);
-		*/
+		
 	}
 	
 	
@@ -275,4 +277,28 @@ public class weaveUi {
 	 * The ID reference for the import/export tabs
 	 */
 	static public final String MAP_TAB = "loadSaveTab";
+
+
+
+	public void onKeyDown(KeyDownEvent event) {
+	
+		  if(event.getNativeEvent().getKeyCode() == 49)
+		   {
+
+			   closeAll();
+		   }
+		   
+		   if(event.getNativeEvent().getKeyCode() == 50)
+		   {
+
+			   show(weaveUi.CONSOLE_TAB);
+		   }
+		   
+		   if(event.getNativeEvent().getKeyCode() == 51)
+		   {
+
+			   show(weaveUi.TILES_TAB);
+		   }
+		
+	}
 }

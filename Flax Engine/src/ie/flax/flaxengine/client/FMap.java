@@ -174,13 +174,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * Draws the map
 	 */
 	public void draw() {
-		// TODO implement camera scrolling in the map drawing	
-
+	
+		/**
+		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
+		 */
 		FCanvas canvasRef = Graphic.getCanvas("Flax");
+		FCamera cam = FlaxEngine.camera;
+		canvasRef.fillRect(0, 0, 4000, 4000);
+		double camX = cam.getX();
+		double camY = cam.getY();
+		double camXWidth = camX+cam.getWidth();
+		double camYHeight = camY+cam.getHeight();
 		
 		for(FTile temp : tiles)
 		{
-			canvasRef.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX(), temp.getY());		
+			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+			canvasRef.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX()-camX, temp.getY()-camY);		
 		}
 		
 		for(FObject obj : objects)
@@ -256,6 +265,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		int clickX = x/tileSize;
 		int clickY = y/tileSize;
 		
+		FLog.debug("Clickx before = " + clickX  + " clicky Before = " + clickY );
+		
+		clickX += FlaxEngine.camera.getX()+tileSize;
+		clickY += FlaxEngine.camera.getY()+tileSize;
+		
+		FLog.debug("Clickx after = " + clickX  + " clicky after = " + clickY );
 		
 		for(FTile obj : tiles)
 		{
@@ -437,6 +452,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@Deprecated	
 	public void setWidth(int width) {
 		this.width = width;
+		FlaxEngine.camera.setMapWidth(width);
 	}
 
 	/**
@@ -448,6 +464,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@Deprecated	
 	public void setHeight(int height) {
 		this.height = height;
+		FlaxEngine.camera.setMapHeight(height);
 	}
 	
 

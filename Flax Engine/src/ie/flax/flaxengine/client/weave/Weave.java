@@ -214,16 +214,7 @@ public class Weave {
     */
    public void onKeyDown(KeyDownEvent event) {
 	
-	   if(event.getNativeEvent().getKeyCode() == 49)
-	   {
-		   ui.show(weaveUi.CONSOLE_TAB);
-	   }
-	   
-	   if(event.getNativeEvent().getKeyCode() == 50)
-	   {
-		   ui.show(weaveUi.TILES_TAB);
-		   ui.closeAll();
-	   }
+	 ui.onKeyDown(event);
 	
    }
 	

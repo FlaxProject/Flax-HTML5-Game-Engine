@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -43,6 +44,7 @@ public abstract class FlaxEngine {
 	private int frameCount = 0;
 	private int oldMilliseconds = 0;
 	private Weave editor;
+	public static FCamera camera;
 	
 
 	/**
@@ -61,6 +63,7 @@ public abstract class FlaxEngine {
 				{		
 					//TODO Game Loop
 					//Log.info("Game Loop is looping");	
+					
 					maps.get(0).draw();
 					fpsUpdate();
 					
@@ -208,6 +211,7 @@ public abstract class FlaxEngine {
 			}
 		});
 		
+			
 		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
 		
 		initEngine(insertId,width,height);	
@@ -217,47 +221,6 @@ public abstract class FlaxEngine {
 		
 		
 	}
-	
-	
-	/**
-	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
-	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
-	 * @param insertId - id of element of which to insert the canvas
-	 * @param settingsFile
-	 */
-	/*public FlaxEngine(String[] mapPaths, String insertId, String settingsFile)
-	{
-		Graphic.init(insertId);// setup the canvas
-		
-		for(String mapPath : mapPaths)
-		{
-			maps.add(new FMap(mapPath));//Loads all the maps
-		}
-		
-		settings = new Settings(settingsFile);//loads the settings from file
-	}
-	*/
-	
-	
-	/**
-	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
-	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
-	 * @param insertId - id of element of which to insert the canvas
-	 * @param settings - HashMap<String, String>
-	 */
-	/*public FlaxEngine(String[] mapPaths, String insertId, String imgDirPath, String mapDirPath, Boolean collision)
-	{
-		Graphic.init(insertId);// setup the canvas
-		
-		for(String mapPath : mapPaths)
-		{
-			maps.add(new FMap(mapPath));//Loads all the maps
-		}
-		
-		settings = new Settings(imgDirPath, mapDirPath, true, "984756", mapDirPath);
-	}
-	*/
-	
 	
 	/**
 	 *This method initialises many different components of the engine, events, rendering, weave
@@ -297,10 +260,13 @@ public abstract class FlaxEngine {
 	
 		//String notSupported = "Sorry! Your browser doesn't support Canvas! Try a newer version.";		
 		Graphic.createCanvas("Flax", width,height);
+		camera = new FCamera(new FVector(0, 0), width, height);
+		
 		//TODO: Need to set the unsupport string into the canvas
 		
 		eventPanel.add(Graphic.getCanvas("Flax"));	//Add render element to event div
 		RootPanel.get(insertId).add(eventPanel);	// add both elements to the insertID div
+		
 	}
 	
 	
@@ -368,6 +334,8 @@ public abstract class FlaxEngine {
 	 */
 	protected  void onKeyDownEvent(KeyDownEvent event) {
 		
+		FLog.debug("Cam = H" + camera.getHeight() + " width = " + camera.getWidth() );
+		
 		event.preventDefault();
 		if(event.getNativeEvent().getKeyCode() == 220)
 		{
@@ -377,22 +345,26 @@ public abstract class FlaxEngine {
 		if(event.isUpArrow())
 		{
 			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
+			camera.incermentY(-1);
 		    
 		}
 		
 		if(event.isDownArrow())
 		{
-		getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
+		//getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
+			camera.incermentY(1);
 		}
 		
 		if(event.isLeftArrow())
 		{
-		getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
+		//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
+		camera.incermentX(-1);
 		}
 		
 		if(event.isRightArrow())
 		{
-		getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
+		//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
+		camera.incermentX(1);
 		}
 		
 		
