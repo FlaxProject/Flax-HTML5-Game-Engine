@@ -47,7 +47,7 @@ public class FObject implements JsonSerializable{
 	{
 		if(sprite != null)
 		{
-			refence.drawImage(sprite, x, y,width,height);
+			refence.drawImage(sprite, x-FlaxEngine.camera.getX(), y-FlaxEngine.camera.getY(),width,height);
 		}
 		//TODO have a thing about animation and weather or not to have that as extend feature
 	}

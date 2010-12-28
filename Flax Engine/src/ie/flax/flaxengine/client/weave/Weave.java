@@ -3,6 +3,7 @@ import ie.flax.flaxengine.client.FCanvas;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
+import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -139,9 +140,10 @@ public class Weave {
 		else
 		{
 			int tileSize = map.getTileSize();
-			int tX = x/tileSize;
-			int tY = y/tileSize;
-			//FLog.debug("New tile Object created at x=" + tX + " y= "+ tY +" with currentTile " + currentTexture );
+			int tX = (int) ((x+FlaxEngine.camera.getX())/tileSize);
+			int tY = (int) ((y+FlaxEngine.camera.getY())/tileSize);
+			
+			//FLog.debug("New tile Object created at x=" + tX + " y= "+ tY +" with currentTile " );
 			
 			map.addTile( new FTile(tX*tileSize,  tY*tileSize, false, currentTile.getTexture())  );
 		}

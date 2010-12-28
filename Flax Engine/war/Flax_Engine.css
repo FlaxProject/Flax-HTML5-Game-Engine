@@ -1,5 +1,27 @@
 /** Add css rules here for your application. */
 
+#splash
+{
+	position:absolute;
+	-webkit-transition: opacity 3.5s ease-in;
+	width:100%;
+	height:100%;
+	background: black;
+	padding:0;
+	margin:0;
+	opacity:1;
+
+	background-image:url('http://cdn.flax.ie/images/flaxLogo.png');
+	background-repeat:no-repeat;
+	background-position:center center;
+	 
+}
+
+.fade
+{
+	opacity:0;
+}
+
 body {
 	margin: 0px;
 	padding: 0;
@@ -44,7 +66,7 @@ div.tabHide
 
 div.tabShow
 {
-	height:200px;
+	height:225px;
 	position: absolute;
 	top:27px;
 	background:#eee;
@@ -73,7 +95,7 @@ div .label{
 .mapJsonTextarea 
 {
 	width: 100%;
-	height: 200px;
+	height: 70px;
 }
 
 /** Example rules used by the template application (remove for your app) */

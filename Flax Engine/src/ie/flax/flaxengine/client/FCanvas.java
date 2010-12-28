@@ -50,17 +50,17 @@ public class FCanvas extends GWTCanvas{
 	/**
 	 * Draws an image to the current canvas object
 	 * @param imagePath - This is the path to the image, which is used to reference the image lib
-	 * @param x
-	 * @param y
+	 * @param d
+	 * @param e
 	 * @param width
 	 * @param height
 	 */
-	public void drawImage(String imagePath, float x, float y, float width, float height) {
+	public void drawImage(String imagePath, double d, double e, float width, float height) {
 			
 		ImageElement img = Graphic.getImage(imagePath);
 		
 		if(img != null){
-		this.drawImage(img, x, y,width,height);
+		this.drawImage(img, d, e,width,height);
 	}else{
 		//FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
 	}

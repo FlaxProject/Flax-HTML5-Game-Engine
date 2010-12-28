@@ -344,27 +344,27 @@ public abstract class FlaxEngine {
 		
 		if(event.isUpArrow())
 		{
-			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
-			camera.incermentY(-1);
+			//this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
+			camera.incermentY(-5);
 		    
 		}
 		
 		if(event.isDownArrow())
 		{
 		//getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
-			camera.incermentY(1);
+			camera.incermentY(5);
 		}
 		
 		if(event.isLeftArrow())
 		{
 		//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
-		camera.incermentX(-1);
+		camera.incermentX(-5);
 		}
 		
 		if(event.isRightArrow())
 		{
 		//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
-		camera.incermentX(1);
+		camera.incermentX(5);
 		}
 		
 		

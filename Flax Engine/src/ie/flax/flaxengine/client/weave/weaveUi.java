@@ -52,7 +52,7 @@ public class weaveUi {
 		final Label consoleTabLabel = new Label("Console");
 		final Label closetabLabel = new Label("Close All");	
 		final Label tileSheetLabel = new Label("Tiles");
-		final Label loadSaveLabel = new Label("Map Import/Export");
+		final Label loadSaveLabel = new Label("Map");
 		
 		/**
 		 * Set menu lable
@@ -151,20 +151,25 @@ public class weaveUi {
 	}
 	
 	
-	/**
-	 * Changes the tabs in the weave menu
-	 * @param tab
-	 */
-	public void show(String tab)
-	{		
-		closeAll();
-
-	if(DOM.getElementById(tab).getClassName() == HIDE_TAB)
-		DOM.getElementById(tab).setClassName(SHOW_TAB);
-	else
-		DOM.getElementById(tab).setClassName(HIDE_TAB);
-		
-	}
+	 
+     public native void show(String tab)
+     /*-{
+             
+             var arrayOfelemnets = $doc.getElementsByTagName("div")
+     
+     for( var i = 0; i < arrayOfelemnets.length; i++)
+     {
+                     if(arrayOfelemnets[i].className == 'tabShow')
+                     arrayOfelemnets[i].className = 'tabHide';
+     
+     }
+     //TODO: Rewrite in GWT code - be faster
+     
+     if($doc.getElementById(tab).className == 'tabHide')
+     $doc.getElementById(tab).className = 'tabShow';
+     else
+     $doc.getElementById(tab).className = 'tabHide';
+     }-*/;
 	
 	
 	/**

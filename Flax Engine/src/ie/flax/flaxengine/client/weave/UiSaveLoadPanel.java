@@ -1,7 +1,10 @@
 package ie.flax.flaxengine.client.weave;
 
+import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
+import ie.flax.flaxengine.client.FObject;
+import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FileHandle;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
@@ -25,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class UiSaveLoadPanel {
 
+	private Button newMap;
 	private Button load;
 	private Button save;
 	private Button saveToServer;
@@ -36,10 +40,19 @@ public class UiSaveLoadPanel {
 	 */
 	public UiSaveLoadPanel()
 	{
-		tabDiv = new HTMLPanel("");
+		tabDiv = new HTMLPanel("<fieldset id=new><legend>New Map:</legend>" +
+				"<label>Name</label><input type=text value=mymap.json id=name ></input>" +
+				"<label>Tilesize</label><input type=text id=tileSize value=32></input>" +
+				"<lable>Unit Width</label><input type=text id=width value=10></input>" +		
+				"<lable>Unit Height</label><input type=text id=height value=10></input> " +	
+				"</fieldset><br>" +
+				"<fieldset id=load><legend>Export/Import Maps</legend>"
+				
+		);
 		tabDiv.getElement().setId(ELEMENT_ID);
 		tabDiv.setStyleName(weaveUi.HIDE_TAB);
 		
+		newMap = new Button("Create new map");
 		load = new Button("Import Map");
 		save = new Button("Export Map");
 		saveToServer = new Button("Save to server");
@@ -108,16 +121,45 @@ public class UiSaveLoadPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				jsonData.selectAll();
+			//jsonData.selectAll();
 				
 			}
 		});
 		
 		
-		tabDiv.add(load,ELEMENT_ID);
-		tabDiv.add(save, ELEMENT_ID);
+		newMap.addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				FMap tmp = Weave.getFMapReference();
+				
+				int tileSize = Integer.parseInt(tabDiv.getElementById("tileSize").getAttribute("value"));
+				int width = Integer.parseInt(tabDiv.getElementById("width").getAttribute("value"));
+				int height = Integer.parseInt(tabDiv.getElementById("height").getAttribute("value"));
+				String name = tabDiv.getElementById("name").getAttribute("value");
+				
+				/*
+				tmp.setEntities(null);
+				tmp.setTiles(null);
+				tmp.setObjects(null);
+				
+				tmp.addEntity(new FEntity(0,0,10,10,null,null));
+				tmp.addObjects( new FObject(0,0,10,10,null,null));
+				tmp.addTile(new FTile(0,0,false, 0));
+				*/
+				
+				tmp.setTileSize(tileSize);
+				tmp.setHeight(height);
+				tmp.setWidth(width);
+				tmp.setName(name);
+			}
+		});
+		
+		tabDiv.add(newMap, "new");
+		tabDiv.add(load,"load");
+		tabDiv.add(save, "load");
 		//tabDiv.add(saveToServer, ELEMENT_ID);
-		tabDiv.add(jsonData, ELEMENT_ID);
+		tabDiv.add(jsonData, "load");
 		
 	}
 	

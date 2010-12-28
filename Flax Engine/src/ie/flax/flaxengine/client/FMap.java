@@ -71,12 +71,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	}
 	
 	//TODO: fix this later, testing
-	public FMap(boolean manualConstruct)
+	public FMap(String mapName, int tileSize, int unitWidth, int unitHeight)
 	{
 		
 		
 	}
-	
+
 	/**
 	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
 	 * can work Using this method is at your own risk and will most likely break
@@ -180,7 +180,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		 */
 		FCanvas canvasRef = Graphic.getCanvas("Flax");
 		FCamera cam = FlaxEngine.camera;
-		canvasRef.fillRect(0, 0, 4000, 4000);
+		/**
+		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
+		 */
+		canvasRef.fillRect(0, 0, cam.getWidth(), cam.getHeight()); 
 		double camX = cam.getX();
 		double camY = cam.getY();
 		double camXWidth = camX+cam.getWidth();
@@ -192,14 +195,16 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			canvasRef.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX()-camX, temp.getY()-camY);		
 		}
 		
-		for(FObject obj : objects)
+		for(FObject temp : objects)
 		{
-			obj.draw(canvasRef);
+			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+			temp.draw(canvasRef);
 		}
 	
-		for(FEntity ent : entities)
+		for(FEntity temp : entities)
 		{
-				ent.draw(canvasRef);
+			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+			temp.draw(canvasRef);
 		}		
 		
 	}
@@ -211,6 +216,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	public void addEntity(FEntity entity)
 	{
+		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
 		entities.add(entity);
 	}
 	
@@ -220,6 +226,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	public void addTile(FTile tile)
 	{
+		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
 		tiles.add(tile);
 	}
 	
@@ -262,19 +269,15 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	public FTile getTile(int x, int y)
 	{
-		int clickX = x/tileSize;
-		int clickY = y/tileSize;
+		int clickX = (int) ((x+FlaxEngine.camera.getX())/tileSize);
+		int clickY = (int) ((y+FlaxEngine.camera.getY())/tileSize);
 		
-		FLog.debug("Clickx before = " + clickX  + " clicky Before = " + clickY );
-		
-		clickX += FlaxEngine.camera.getX()+tileSize;
-		clickY += FlaxEngine.camera.getY()+tileSize;
-		
-		FLog.debug("Clickx after = " + clickX  + " clicky after = " + clickY );
+		clickX *= tileSize;
+		clickY *= tileSize;
 		
 		for(FTile obj : tiles)
 		{
-			if(x == clickX && y == clickY)
+			if(obj.getX() == clickX && obj.getY() == clickY)
 				return obj;		
 			
 		}
@@ -389,8 +392,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				
 			}
 					
-			
-
 			Graphic.loadImage( tileSheet);			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			Loaded = true;
