@@ -24,6 +24,15 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.widgetideas.graphics.client.Color;
 
+
+
+/**
+ * TODO: Weave as a whole is still quite messy as I have been expierementing with GWT and how to build interfaces
+ * and modify data based on DOM events from those UI elements. So I have not defines a stardard why of adding Ui compenets.
+ * so the code is some what messy. Though it works fine and for the amount I am happy to leave it, it can all be easliy refactored 
+ * when I don't have more pressing features to implement.
+ */
+
 /**
  * Weave is the editor that allows the user to create maps.
  * @author Ciarán McCann
@@ -67,7 +76,7 @@ public class Weave {
 	
 	
 	/**
-	 * 
+	 * Runs the editor
 	 * @param currentMap
 	 */
 	public void run(FMap currentMap)
@@ -96,31 +105,14 @@ public class Weave {
 	 */
 	private void drawGrid() {
 		
-	 FCanvas display = Graphic.getCanvas("Flax");
+		FCanvas display = Graphic.getCanvas("Flax");
 	 
 		//Find the midpoints of the Canvas
 		double width = display.getCoordWidth();
 		double height = display.getCoordHeight();
 		int tileSize = map.getTileSize();
 
-
-		display.strokeRect(0, 0, height, width);
-		display.strokeRect(0, width, height, width);
-		display.strokeRect(height, 0, height, width);
-		display.strokeRect(height, width, height, width);
-		
-		for (int x = 0; x < width; x += tileSize) {
-			display.moveTo(x, 0);
-			display.lineTo(x, height);
-		}
-		
-		for (int y = 0; y < height; y+= tileSize) {
-			display.moveTo(0, y);
-			display.lineTo(width, y);
-		}
-		
-		display.setStrokeStyle(Color.BLACK);
-		display.stroke();
+		display.drawGrid(width,height,tileSize);
 	}
 
 

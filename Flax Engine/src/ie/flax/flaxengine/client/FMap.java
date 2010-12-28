@@ -66,15 +66,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public FMap(String mapPath) {		
 		name = mapPath;
 			
-		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this);
+		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
 	}
 	
 	//TODO: fix this later, testing
 	public FMap(String mapName, int tileSize, int unitWidth, int unitHeight)
 	{
-		
-		
+				
 	}
 
 	/**
@@ -84,30 +83,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * 
 	 */
 	@Deprecated	
-	public FMap() {
-		
-		/*
-		String[] audio = new String[3];
-		audio[0] = "audio.mp3";
-		this.width = this.height = 50;
-		this.tileSize = 32;
-		this.tileSheet = "c";
-		tiles = new ArrayList<FTile>(width * height);
-
-		for (int y = 0; y < height; y++) {
-			for (int x = 0; x < width; x++) {
-				tiles.add(new FTile(x * this.tileSize, y * this.tileSize, true, 1));
-				
-			}
-		}
-		entities.add(new FEntity(100,100,32,32,"http://www.freewebs.com/nightmare_gohan_dbz/nightmaregohan_single_sprite.GIF",audio));
-
-		Log.debug(entities.get(0).getAudio());
-		Log.info(this.FMapToJson());
-		
-		*/
-		
-	}
+	public FMap() {}
 		
 	/**
 	 * Gets the name of the map file which this map object was created from
@@ -171,7 +147,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	}
 
 	/**
-	 * Draws the map
+	 * This calls all the draw methods of the entities in the FMap, the tiles and checks weather they are on-screen and
+	 * if they are they are then drawn to the screen.
 	 */
 	public void draw() {
 	
@@ -191,19 +168,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		
 		for(FTile temp : tiles)
 		{
+			//check if the tile can be seen on screen before drawing
 			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
 			canvasRef.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX()-camX, temp.getY()-camY);		
 		}
 		
 		for(FObject temp : objects)
 		{
+			//check if the eneity can be seen on screen before drawing
 			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
 			temp.draw(canvasRef);
 		}
 	
 		for(FEntity temp : entities)
 		{
-			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+			//check if the eneity can be seen on screen before drawing
+			if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
 			temp.draw(canvasRef);
 		}		
 		
@@ -217,7 +197,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public void addEntity(FEntity entity)
 	{
 		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
-		entities.add(entity);
+		entities.add(entity); 
 	}
 	
 	/**
@@ -263,14 +243,20 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	
 	/**
 	 * Checks the tile from the tile array based on the given x and y 
+	 * Currently only to be used for mouse clicks but could easly be changed
 	 * @param x
 	 * @param y
 	 * @return
 	 */
-	public FTile getTile(int x, int y)
+	public FTile getTile(int xClick, int yClick)
 	{
-		int clickX = (int) ((x+FlaxEngine.camera.getX())/tileSize);
-		int clickY = (int) ((y+FlaxEngine.camera.getY())/tileSize);
+		/**
+		 * Both the camera and click values are absolute pixel values
+		 * aadding them togtheier and divding them by the tilesize and then dropping the decimal 
+		 * will get you the tile x and y such as (2,2)
+		 */
+		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
+		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
 		
 		clickX *= tileSize;
 		clickY *= tileSize;
@@ -351,7 +337,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@Override
 	public void onFileLoaded(onFileLoadedEvent e) {
 			
-					
+		//Checks it was this object that requested the file		
 		if(this.toString().equalsIgnoreCase(e.getId()))
 		{
 
@@ -361,7 +347,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			 */
 			FMap temp = JsonToFMap(e.getDataLoadedFromFile()); 
 						
-			replaceMap(temp);
+			replaceMap(temp); //op code : this = temp;
 			
 			
 			//Loops though all objects from map

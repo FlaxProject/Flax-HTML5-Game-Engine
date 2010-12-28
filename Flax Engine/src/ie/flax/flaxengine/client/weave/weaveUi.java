@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Lists the ID's of elements in the UI of weave which allows the HTML to be moddifed, without braking code
- * @author ciaran
+ * @author Ciarán McCann
  *
  */
 public class weaveUi {

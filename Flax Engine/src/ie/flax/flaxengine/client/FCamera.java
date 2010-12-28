@@ -1,5 +1,14 @@
 package ie.flax.flaxengine.client;
 
+/**
+ * FCamera contorls and stores the poistion in the map which the user is looking at
+ * and when things are been drawn to the screen they check with the camera is it visable
+ * <br><br>
+ * There should only be one camera in the engine for the momenet, though it may be useful to add more
+ * in futrue. Currently the engine camera can be referenced statically by flaxengine.camera
+ * @author Ciarán McCann
+ *
+ */
 public class FCamera {
 	
 	private FVector position;
@@ -23,8 +32,19 @@ public class FCamera {
 		this.position = position;
 		this.width = width;
 		this.height = height;
+		
+		/**
+		 * These are not set in the constructer as due to the JSON deserailing 
+		 * metho when a map is constructed it will call its set width and height.
+		 * So a call to the camera is made at that time.
+		 */
+		
+		//FIXME: Actually this needs to be chnaged, as what happens when more the one map is loaded, will do for the mo.
+		
 		//this.mapWidth = mapWidth;
 		//this.mapHeight = mapHeight;
+		
+		
 	}
 
 	/**
@@ -69,17 +89,29 @@ public class FCamera {
 		this.height = height;
 	}	
 	
-	
+	/**
+	 * Gets the cameras x postion
+	 * @return
+	 */
 	public double getX()
 	{
 		return position.x;
 	}
 	
+	/**
+	 * Gets the cameras y postition
+	 * @return
+	 */
 	public double getY()
 	{
 		return position.y;
 	}
 	
+	/**
+	 * Sets the cameras x postion, though first it checks
+	 * is the input valid
+	 * @param x
+	 */
 	public void setX(double x)
 	{
 		
@@ -88,17 +120,12 @@ public class FCamera {
 			position.x = x;
 		}
 	}
-	
-	public void incermentX(double x)
-	{		
-		setX(x+position.x);
-	}
-	
-	public void incermentY(double y)
-	{		
-		setY(y+position.y);	
-	}
 
+	/**
+	 * Sets the cameras y postion, though first it checks
+	 * is the input valid
+	 * @param y
+	 */
 	public void setY(double y) {
 		
 		if(y <= mapHeight-height&& y > 0)
@@ -108,6 +135,24 @@ public class FCamera {
 		
 	}
 	
+	
+	/**
+	 * Incerments the x postion by provided amount
+	 * @param x
+	 */
+	public void incermentX(double x)
+	{		
+		setX(x+position.x);
+	}
+	
+	/**
+	 * Incerments the y postion by provided amount
+	 * @param y
+	 */
+	public void incermentY(double y)
+	{		
+		setY(y+position.y);	
+	}
 	
 
 }

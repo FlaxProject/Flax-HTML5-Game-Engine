@@ -77,8 +77,7 @@ public class Graphic {
 				EventBus.handlerManager.fireEvent( new onImageLoadedEvent(URL));
 				FLog.info("Image " + URL + " is now loaded!");
 			}
-		});
-		
+		});		
 		
 	}
 
@@ -107,6 +106,7 @@ public class Graphic {
 	 */
 	public static boolean isComponentReady() {
 
+		//FIXME: Currently does noting, look into the imageloaded event for answer, though atm doesnt effect the engine
 		for (String key : imageLibary.keySet()) {
 			
 			if (imageLibary.get(key) == null) {
@@ -119,24 +119,6 @@ public class Graphic {
 		FLog.debug("Graphics Component is ready to go Sir!");
 		return true;
 
-	}
-
-	public native static void Offline(JavaScriptObject file)
-	/*-{		
-				  
-		alert("loadingdd");
-	 	
-		alert(window.URL.createObjectURL(file));
-	  
-	}-*/;
-	
-	public static void loadImageOffline(JavaScriptObject file)
-	{		
-		
-		 Offline(file);
-	 // imageLibary.put("g.png",  );
-	  
-	  //ImageLoader.loadImages(urls, cb)
 	}
 
 	

@@ -4,6 +4,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.widgetideas.graphics.client.Color;
 import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
 /**
@@ -96,6 +97,27 @@ public class FCanvas extends GWTCanvas{
 		} 
 	}
 	
+	/**
+	 * Draws a squared grid
+	 * @param width
+	 * @param height
+	 * @param gap
+	 */
+	public void drawGrid(double width, double height, int gap)
+	{
+		setStrokeStyle(Color.RED);				
+		for (int x = 0; x < width; x += gap) {
+			moveTo(x, 0);
+			lineTo(x, height);
+		}
+		
+		for (int y = 0; y < height; y+= gap) {
+			moveTo(0, y);
+			lineTo(width, y);
+		}
+			
+		stroke();
+	}
 	
 	/**
 	 * Allows mouse clicks to be registered on the tilesheet
