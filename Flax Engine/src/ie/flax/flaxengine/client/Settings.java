@@ -132,7 +132,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param JSON
 	 * @return
 	 */
-	public  Settings JsonToSettings(String Json) {
+	public  Settings jsonToSettings(String Json) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return (Settings) serializer.deSerialize(Json,"ie.flax.flaxengine.client.Settings");
 	}
@@ -152,7 +152,7 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler{
 	
 		if(this.toString().equalsIgnoreCase(e.getId()))
 		{
-		Settings temp = JsonToSettings(e.getDataLoadedFromFile());
+		Settings temp = jsonToSettings(e.getDataLoadedFromFile());
 		
 		this.collisionOn = temp.collisionOn;
 		this.imageDirectoryPath = temp.imageDirectoryPath;

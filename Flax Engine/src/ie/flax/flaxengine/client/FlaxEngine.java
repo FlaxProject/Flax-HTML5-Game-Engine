@@ -297,6 +297,8 @@ public abstract class FlaxEngine {
 			@Override
 			public void onClick(ClickEvent event) {
 				
+				if(!editor.isRunning())
+				editor.run(getCurrentMap());
 				//TODO: Abstract this code away into the editor and called it through a method
 				//When the editor is running a click on the map trys to select a tile
 				if(editor.isRunning())
@@ -333,8 +335,6 @@ public abstract class FlaxEngine {
 	 * @param event
 	 */
 	protected  void onKeyDownEvent(KeyDownEvent event) {
-		
-		FLog.debug("Cam = H" + camera.getHeight() + " width = " + camera.getWidth() );
 		
 		event.preventDefault();
 		if(event.getNativeEvent().getKeyCode() == 220)

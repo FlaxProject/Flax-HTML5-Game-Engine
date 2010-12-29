@@ -287,7 +287,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * @param JSON
 	 * @return
 	 */
-	public FMap JsonToFMap(String Json) {
+	public FMap fromJson(String Json) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
 	}
@@ -297,7 +297,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * 
 	 * @return String of JSON
 	 */
-	public String FMapToJson() {
+	public String toJson() {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return serializer.serialize(this);
 	}
@@ -345,7 +345,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			 * Creates a temp FMap object from the JSON string which is stored
 			 * in the event object which was pulled from the server
 			 */
-			FMap temp = JsonToFMap(e.getDataLoadedFromFile()); 
+			FMap temp = fromJson(e.getDataLoadedFromFile()); 
 						
 			replaceMap(temp); //op code : this = temp;
 			

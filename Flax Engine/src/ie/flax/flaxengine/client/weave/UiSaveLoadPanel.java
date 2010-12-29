@@ -72,7 +72,7 @@ public class UiSaveLoadPanel {
 				if(jsonData.getValue() != "")
 				{		
 					//Gets the current map and replaces it with the object form from the JSON in the textarea in the import tab
-					Weave.getFMapReference().replaceMap(Weave.getFMapReference().JsonToFMap(jsonData.getValue()));
+					Weave.getFMapReference().replaceMap(Weave.getFMapReference().fromJson(jsonData.getValue()));
 										
 				}
 				else
@@ -91,7 +91,7 @@ public class UiSaveLoadPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				jsonData.setValue(Weave.getFMapReference().FMapToJson());
+				jsonData.setValue(Weave.getFMapReference().toJson());
 			}
 		});
 		
