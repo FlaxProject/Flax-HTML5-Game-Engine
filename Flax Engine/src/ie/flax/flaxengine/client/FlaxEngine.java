@@ -237,6 +237,7 @@ public abstract class FlaxEngine {
 		if (settings.getFullscreenOn() == true) {
 			width = Window.getClientWidth();
 			height = Window.getClientHeight();
+			Window.enableScrolling(false);
 		}
 		
 		setupEventAndRenderingPanel(width,height, insertId);//inserts event panel and canvas tag
