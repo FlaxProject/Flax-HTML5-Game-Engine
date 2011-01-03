@@ -1,7 +1,12 @@
 package ie.flax.flaxengine.client;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
+
+import com.google.gwt.dom.client.ImageElement;
 
 /**
  * This class handles all the real world physics such as forces been applied to bodys,
@@ -16,7 +21,7 @@ public class Physics {
 	 * Holds references to all the objects who want to be included in the physical world caluations,
 	 * eg: movements, forces, colllisions. 
 	 */
-	private static List<FEntity> physicalWorld;
+	private static HashMap<String, FEntity> physicalWorld = new HashMap<String, FEntity>();
 	
 	
 	/**
@@ -25,7 +30,7 @@ public class Physics {
 	 * Eg: Forces applied, collisions, etc
 	 * @param objectTobeRemoved
 	 */
-	public void unregisterForPhysics(FEntity objectTobeRemoved)
+	public static void unregisterForPhysics(FEntity objectTobeRemoved)
 	{
 		physicalWorld.remove(objectTobeRemoved);
 	}
@@ -36,9 +41,9 @@ public class Physics {
 	 * Eg: Forces applied, collisions, etc
 	 * @param objectToBeRegistered
 	 */
-	public void registerForPhysics(FEntity objectToBeRegistered)
+	public static void registerForPhysics(FEntity objectToBeRegistered)
 	{
-		physicalWorld.add(objectToBeRegistered);
+		physicalWorld.put(objectToBeRegistered.toString(), objectToBeRegistered);
 	}
 
 	/**
@@ -47,7 +52,10 @@ public class Physics {
 	 */
 	public void upadate(double timePassed)
 	{
-		//TODO: Finish this class
+		//TODO: calucate velocity and direction and find new postition
+		//TODO: Caluate forces acting on object and find new position
+		
+		
 	}
 
 }

@@ -196,8 +196,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	public void addEntity(FEntity entity)
 	{
+		//TODO: add a log to tell if an enetity was added and also load entity sprite
 		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
-		entities.add(entity); 
+		{
+			entities.add(entity); 
+			FLog.info("FEntity Object loaded into map");
+		}
+		
 	}
 	
 	/**
@@ -380,6 +385,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 					
 			Graphic.loadImage( tileSheet);			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
+			
+			Graphic.loadImage("http://flax.ie/test/charizard.png");
+			addEntity(new FEntity(new FVector(32, 32), 64, 64, "http://flax.ie/test/charizard.png", null, true));
+			
+			addEntity(new FEntity(new FVector(64, 64), 64, 64, "http://flax.ie/test/charizard.png", null, true));
+			
 			Loaded = true;
 		}
 	}
