@@ -2,7 +2,7 @@ package ie.flax.flaxengine.client;
 
 
 import ie.flax.flaxengine.client.weave.Weave;
-import ie.flax.flaxengine.client.weave.weaveUi;
+import ie.flax.flaxengine.client.weave.WeaveUiManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -65,6 +64,10 @@ public abstract class FlaxEngine {
 					//Log.info("Game Loop is looping");	
 					
 					maps.get(0).draw();
+					if(editor.isRunning())
+					{
+						editor.drawGrid();
+					}
 					fpsUpdate();
 					
 				}
@@ -293,22 +296,6 @@ public abstract class FlaxEngine {
 			}
 		});
 		
-		eventPanel.addClickHandler( new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				if(!editor.isRunning())
-				editor.run(getCurrentMap());
-				//TODO: Abstract this code away into the editor and called it through a method
-				//When the editor is running a click on the map trys to select a tile
-				if(editor.isRunning())
-				{
-					editor.onClick(event);
-				}
-				
-			}
-		});
 		
 		eventPanel.addMouseMoveHandler( new MouseMoveHandler() {
 			
@@ -413,7 +400,7 @@ public abstract class FlaxEngine {
 		int currentMilliseconds = getMilliseconds();
 		
 		if (currentMilliseconds < oldMilliseconds){
-			editor.updateElement(weaveUi.FPS_COUNTER_BOTTOM_PANEL, "FPS: "+frameCount);
+			editor.updateElement(WeaveUiManager.FPS_COUNTER, "FPS: "+frameCount);
 			frameCount = 0;
 		}
 		

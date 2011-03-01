@@ -41,7 +41,7 @@ import com.google.gwt.widgetideas.graphics.client.Color;
 public class Weave {
 	
 	private static FMap map;
-	private weaveUi ui;
+	private WeaveUiManager ui;
 	private FTile currentTile;
 	
 	/**
@@ -54,26 +54,17 @@ public class Weave {
 	public Weave(String insertID)
 	{ 
 		currentTile = new FTile();
-		ui = new weaveUi(insertID);	
-		
-			//Setting up click functionality for the weave tileSheet
-			Graphic.getCanvas("Weave").addMouseHandler( new MouseDownHandler() {		
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				
-				int tileSize = Weave.map.getTileSize();
-				int numberOfTilesInaRow = (Graphic.getImage(map.getTileSheet()).getWidth())/tileSize;
-				
-				
-				int x = event.getX()/tileSize;
-				int y = event.getY()/tileSize;
-				
-				currentTile.setTexture((y*numberOfTilesInaRow)+x);
-				
-			}
-		});
+		ui = new WeaveUiManager(insertID, this);				
 	}
 	
+	/**
+	 * Gets the current tile
+	 * @return
+	 */
+	public FTile getCurrentTile()
+	{
+		return currentTile;
+	}
 	
 	/**
 	 * Runs the editor
@@ -83,9 +74,7 @@ public class Weave {
 	{
 		this.map = currentMap;
 		ui.toggleDisplay();
-		
-		drawGrid();	
-		
+				
 		Graphic.getCanvas("Weave").resize(Graphic.getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getImage(Weave.getFMapReference().getTileSheet()).getHeight());
 		Graphic.getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);	
 	}
@@ -103,7 +92,7 @@ public class Weave {
 	/**
 	 * draws a Grid over the map so its easier to edit
 	 */
-	private void drawGrid() {
+	public void drawGrid() {
 		
 		FCanvas display = Graphic.getCanvas("Flax");
 	 
@@ -146,7 +135,7 @@ public class Weave {
 	 * @return - true or false
 	 */
 	public boolean isRunning() {
-		return ui.weave.isVisible();
+		return ui.weaveUIdiv.isVisible();
 	}
 	
 	
@@ -170,30 +159,6 @@ public class Weave {
 	  ui.updateElement(id, content);
 	}
 	
-   
-   /**
-	 * Given an ID and content it appends the content into element with provided ID
-	 * To get a list of UI elements to update use UiElement.yourElementName. You should NOT raw string ID's. 
-	 * @param id
-	 * @param content
-	 */
-  public void appendElement(final String id,String content)
-	{
-	  ui.appendElement(id, content);
-	}
-  
-  /**
-   * Given an ID it inserts a widget 
-   * To get a list of UI elements to update use UiElement.yourElementName. You should NOT raw string ID's. 
-   * @param UiElement
-   * @param widget
-   */
-   public void insertWidget(final String UiElement, Widget widget)
-   {
-	   ui.insertWidget(UiElement, widget);
-   }
-
-   
    /**
     * Defines the actions the editor will take when a mouse click is registered
     * @param event
@@ -211,12 +176,10 @@ public class Weave {
 	 ui.onKeyDown(event);
 	
    }
+
+
 	
 	
-	
-	
-	
-   
    
 
 }
