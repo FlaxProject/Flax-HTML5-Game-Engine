@@ -386,11 +386,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			Graphic.loadImage( tileSheet);			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
-			Graphic.loadImage("http://flax.ie/test/charizard.png");
-			addEntity(new FEntity(new FVector(32, 32), 64, 64, "http://flax.ie/test/charizard.png", null, true));
-			
-			addEntity(new FEntity(new FVector(64, 64), 64, 64, "http://flax.ie/test/charizard.png", null, true));
-			
 			Loaded = true;
 		}
 	}

@@ -6,6 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="gwt-log-3.0.2.jar"/>
 	<classpathentry kind="lib" path="gwtprojsonserializer-1.0.0.jar"/>
-	<classpathentry kind="lib" path="/home/ciaran/Desktop/gwt-incubator-20101117-r1766.jar" sourcepath="/home/ciaran/Desktop/gwt-incubator-20101117-r1766.jar"/>
+	<classpathentry kind="lib" path="gwt-incubator-20101117-r1766.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
