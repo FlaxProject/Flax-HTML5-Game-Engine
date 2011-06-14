@@ -16,7 +16,6 @@
 
   <!-- Other module inherits                                      -->
   <!-- For logging (remove if using GWT 2.1)					  -->
-  <inherits name="com.allen_sauer.gwt.log.gwt-log-TRACE" />
   <!-- For HTTP requests										  -->
   <inherits name="com.google.gwt.http.HTTP" />
   <!-- To switch logging off, change TRACE to OFF.                -->

@@ -75,8 +75,8 @@ public class Weave {
 		this.map = currentMap;
 		ui.toggleDisplay();
 				
-		Graphic.getCanvas("Weave").resize(Graphic.getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getImage(Weave.getFMapReference().getTileSheet()).getHeight());
-		Graphic.getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);	
+		//Graphic.getSingleton().getCanvas("Weave").getCanvas().getContext2d().resize(Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getHeight());
+		Graphic.getSingleton().getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);	
 	}
 	
 	
@@ -94,11 +94,11 @@ public class Weave {
 	 */
 	public void drawGrid() {
 		
-		FCanvas display = Graphic.getCanvas("Flax");
+		FCanvas display = Graphic.getSingleton().getCanvas("Flax");
 	 
 		//Find the midpoints of the Canvas
-		double width = display.getCoordWidth();
-		double height = display.getCoordHeight();
+		double width = display.getCanvas().getCoordinateSpaceWidth();
+		double height = display.getCanvas().getCoordinateSpaceHeight();
 		int tileSize = map.getTileSize();
 
 		display.drawGrid(width,height,tileSize);

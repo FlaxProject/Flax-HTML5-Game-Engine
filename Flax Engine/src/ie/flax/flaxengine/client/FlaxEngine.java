@@ -7,12 +7,15 @@ import ie.flax.flaxengine.client.weave.WeaveUiManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
@@ -33,7 +36,9 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class FlaxEngine {
 	
-	private FocusPanel eventPanel;
+	private Canvas drawingSpace;
+	
+	
 	private static final String powerBy = "Powered By Flax Web Game Engine";
 	private List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
@@ -163,38 +168,6 @@ public abstract class FlaxEngine {
 	}-*/;
 
 
-	/**
-	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
-	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
-	 * @param insertId - id of element of which to insert the canvas
-	 */
-	public FlaxEngine(String[] mapPaths, String insertId)
-	{
-		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
-
-		initEngine(insertId,600,300);
-		for(String mapPath : mapPaths)
-		{
-			maps.add(new FMap(mapPath));//Loads all the maps
-		}
-		settings = new Settings();
-	}
-	
-	/**
-	 * This constructor initlizes the flax engine and setup default settings. Takes in an array of strings which contain the address to map files. 
-	 * @param mapPaths - array of address to maps. if the insertId is not found it will dump the canvas in the body tag
-	 * @param insertId - id of element of which to insert the canvas
-	 */
-	public FlaxEngine(String mapPaths, String insertId)
-	{
-
-		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
-
-		initEngine(insertId,600,300);	
-		maps.add(new FMap(mapPaths));//Loads all the maps
-
-		settings = new Settings();
-	}
 	
 	
 	/**
@@ -205,24 +178,13 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{	
-		GWT.setUncaughtExceptionHandler( new UncaughtExceptionHandler() {
-			
-			@Override
-			public void onUncaughtException(Throwable e) {
-				
-				FLog.error("JS error" + e.getLocalizedMessage());
-			}
-		});
-		
-			
+					
 		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
 		
 		initEngine(insertId,width,height);	
+		
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	
-			settings = new Settings();
-		
-		
 	}
 	
 	/**
@@ -243,61 +205,68 @@ public abstract class FlaxEngine {
 			Window.enableScrolling(false);
 		}
 		
-		setupEventAndRenderingPanel(width,height, insertId);//inserts event panel and canvas tag
-		
-		setupEventHandlers(); //sets the event handlers for canvas tag		
-	}
-
-
-	/**
-	 * Creates a DIV which is catchs the events, inside this DIV the rendering Element, ie the
-	 * canvas tag is place. The DIV catchs all the events for the canvas. These to elements are then inserted into the
-	 * element whos id = insertID. 
-	 * @param width
-	 * @param height
-	 * @param insertId 
-	 */
-	private void setupEventAndRenderingPanel(int width, int height, String insertId) {
-		eventPanel = new FocusPanel();//Constructs the Div, FocusPanel which catchs events
-		eventPanel.setSize(width+"px", height+"px");
-		
-	
-		//String notSupported = "Sorry! Your browser doesn't support Canvas! Try a newer version.";		
-		Graphic.createCanvas("Flax", width,height);
+		drawingSpace = (Graphic.getSingleton().createCanvas("Flax", width+"px",height+"px")).getCanvas();
 		camera = new FCamera(new FVector(0, 0), width, height);
 		
-		//TODO: Need to set the unsupport string into the canvas
-		
-		eventPanel.add(Graphic.getCanvas("Flax"));	//Add render element to event div
-		RootPanel.get(insertId).add(eventPanel);	// add both elements to the insertID div
-		
+		RootPanel.get(insertId).add(drawingSpace);
+		bindEvents(); //sets the event handlers for canvas tag		
 	}
-	
-	
-	
+
 	
 	/**
 	 * Registers the canvas for event handling
 	 */
-	private void setupEventHandlers()
+	private void bindEvents()
 	{
-		eventPanel.addKeyDownHandler( new KeyDownHandler() {
+		
+		//TODO needs cleaning up when I have a min
+			
+	drawingSpace.addKeyDownHandler( new KeyDownHandler() {
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-									
-			onKeyDownEvent(event);
+			
 			
 			 if(editor.isRunning())
              {
                 editor.onKeyDown(event);
              }
+			 
+				if(event.getNativeEvent().getKeyCode() == 220)
+				{
+					editor.run(getCurrentMap());
+				}
+				
+				if(event.isUpArrow())
+				{
+					//this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
+					camera.incermentY(-5);
+				    
+				}
+				
+				if(event.isDownArrow())
+				{
+				//getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
+					camera.incermentY(5);
+				}
+				
+				if(event.isLeftArrow())
+				{
+				//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
+				camera.incermentX(-5);
+				}
+				
+				if(event.isRightArrow())
+				{
+				//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
+				camera.incermentX(5);
+				}
 				
 			}
 		});
 		
 		
-		eventPanel.addMouseMoveHandler( new MouseMoveHandler() {
+	drawingSpace.addMouseMoveHandler( new MouseMoveHandler() {
 			
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
@@ -311,54 +280,10 @@ public abstract class FlaxEngine {
 				
 			}
 		});
-		
-		
-		//TODO: register all types of events
-	}
-	
-	
-	
-	/**
-	 * Defines logic for what happens when a key down event happens. 
-	 * @param event
-	 */
-	protected  void onKeyDownEvent(KeyDownEvent event) {
-		
-		event.preventDefault();
-		if(event.getNativeEvent().getKeyCode() == 220)
-		{
-			editor.run(this.getCurrentMap());
-		}
-		
-		if(event.isUpArrow())
-		{
-			//this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
-			camera.incermentY(-5);
-		    
-		}
-		
-		if(event.isDownArrow())
-		{
-		//getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
-			camera.incermentY(5);
-		}
-		
-		if(event.isLeftArrow())
-		{
-		//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
-		camera.incermentX(-5);
-		}
-		
-		if(event.isRightArrow())
-		{
-		//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
-		camera.incermentX(5);
-		}
-		
-		
-	}
 
+}
 	
+
 	
 	/**
 	 * Checks are all the engine componets are loaded and the data in them got from the server
@@ -381,7 +306,7 @@ public abstract class FlaxEngine {
 		 * 
 		 */
 		if(		(engineStatus == true)||
-				(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.isComponentReady() && Audio.isComponentReady())//TODO add check for audio loading
+				(maps.get(0) != null && maps.get(0).getLoaded() && Graphic.getSingleton().isComponentReady() && Audio.isComponentReady())//TODO add check for audio loading
 			)
 		{			
 			engineStatus = true;

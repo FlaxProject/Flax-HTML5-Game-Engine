@@ -38,15 +38,18 @@ public class TileSheetController extends Controller implements onImageLoadedEven
 		/**
 		 * Create canvas to view the tilesheets
 		 */
-		Graphic.createCanvas("Weave");	
+		Graphic.getSingleton().createCanvas("Weave","300px","300px");	
 		
 		//Setting up click functionality for the weave tileSheet
-		Graphic.getCanvas("Weave").addMouseHandler( new MouseDownHandler() {		
+		
+		
+		
+		Graphic.getSingleton().getCanvas("Weave").getCanvas().addMouseDownHandler( new MouseDownHandler() {		
 		@Override
 		public void onMouseDown(MouseDownEvent event) {
 			
 			int tileSize = Weave.getFMapReference().getTileSize();
-			int numberOfTilesInaRow = (Graphic.getImage(Weave.getFMapReference().getTileSheet()).getWidth())/tileSize;
+			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getWidth())/tileSize;
 			
 			
 			int x = event.getX()/tileSize;
@@ -56,6 +59,8 @@ public class TileSheetController extends Controller implements onImageLoadedEven
 			
 			}
 		});
+		
+		
 
 		//Registers to listen for on image load event
 		EventBus.handlerManager.addHandler(onImageLoadedEvent.TYPE, this);
@@ -68,7 +73,7 @@ public class TileSheetController extends Controller implements onImageLoadedEven
 				+ "<input type=text id=fileElem  size=32 >" + "</form><div id=viewer ></div>");
 		formElements.add(fileuploadButton, "uploadForm");
 		
-		formElements.add(Graphic.getCanvas("Weave"), "viewer");
+		formElements.add(Graphic.getSingleton().getCanvas("Weave").getCanvas().asWidget(), "viewer");
 		
 		
 		//Action to take when the user clicks tileSheetUploader button
@@ -77,7 +82,7 @@ public class TileSheetController extends Controller implements onImageLoadedEven
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				Graphic.loadImage(getUrl());
+				Graphic.getSingleton().loadImage(getUrl());
 				Weave.getFMapReference().setTileSheet(getUrl());
 				
 			}
@@ -114,8 +119,8 @@ public class TileSheetController extends Controller implements onImageLoadedEven
 		
 		if(e.getImageName() == Weave.getFMapReference().getTileSheet())
 		{
-		Graphic.getCanvas("Weave").resize(Graphic.getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getImage(Weave.getFMapReference().getTileSheet()).getHeight());
-		Graphic.getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);
+		//Graphic.getSingleton().getCanvas("Weave").resize(Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getHeight());
+		Graphic.getSingleton().getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);
 		}
 		
 	}

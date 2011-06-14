@@ -39,7 +39,7 @@ public class weaveUi {
 		 * Setups the image uploader and the canvas for the tilehsheet that was loaded
 		 */
 		tileSheetUploader = new UiClientFileLoader("Load Image");	
-		Graphic.createCanvas("Weave");	
+		Graphic.getSingleton().createCanvas("Weave","300px", "300px");	
 		
 		
 		
@@ -114,7 +114,7 @@ public class weaveUi {
 		 */
 		consoleTab = new HTMLPanel("");
 		consoleTab.getElement().setId(CONSOLE_TAB);
-		consoleTab.add(FLog.getWidget(), CONSOLE_TAB);
+		//consoleTab.add(FLog.getWidget(), CONSOLE_TAB);
 		consoleTab.setStyleName(HIDE_TAB);
 		weave.add(consoleTab, WEAVE);
 	
@@ -131,7 +131,7 @@ public class weaveUi {
 		 */
 		tileSheetTab = (tileSheetUploader.getElement());
 		tileSheetTab.getElement().setId(TILES_TAB);
-		tileSheetTab.add(Graphic.getCanvas("Weave"), TILES_TAB);
+		tileSheetTab.add(Graphic.getSingleton().getCanvas("Weave").getCanvas().asWidget(), TILES_TAB);
 		tileSheetTab.setStyleName(HIDE_TAB);
 		weave.add(tileSheetTab,WEAVE);
 		

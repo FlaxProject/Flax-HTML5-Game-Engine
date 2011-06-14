@@ -5,15 +5,6 @@
 
 <web-app>
 	
-	<servlet>
-		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<servlet-class>com.allen_sauer.gwt.log.server.RemoteLoggerServiceImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>remoteLoggerServiceImpl</servlet-name>
-		<url-pattern>/flax_engine/gwt-log</url-pattern>
-	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>Flax_Engine.html</welcome-file>
 	</welcome-file-list>

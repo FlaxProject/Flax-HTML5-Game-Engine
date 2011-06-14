@@ -53,7 +53,7 @@ public class UiClientFileLoader implements onImageLoadedEventHandler {
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				Graphic.loadImage(getUrl());
+				Graphic.getSingleton().loadImage(getUrl());
 				Weave.getFMapReference().setTileSheet(getUrl());
 				
 			}
@@ -86,8 +86,8 @@ public class UiClientFileLoader implements onImageLoadedEventHandler {
 		
 		if(e.getImageName() == Weave.getFMapReference().getTileSheet())
 		{
-		Graphic.getCanvas("Weave").resize(Graphic.getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getImage(Weave.getFMapReference().getTileSheet()).getHeight());
-		Graphic.getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);
+		//Graphic.getSingleton().getCanvas("Weave").resize(Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getHeight());
+		Graphic.getSingleton().getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);
 		}
 		
 	}

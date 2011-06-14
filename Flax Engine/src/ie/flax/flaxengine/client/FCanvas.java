@@ -1,9 +1,14 @@
 package ie.flax.flaxengine.client;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.graphics.client.Color;
 import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
 
@@ -12,41 +17,42 @@ import com.google.gwt.widgetideas.graphics.client.GWTCanvas;
  * @author Ciarán McCann
  *
  */
-public class FCanvas extends GWTCanvas{
-
+public class FCanvas {
 	
-	/**
-	 * Instiates the GWTCanvas
-	 * @param width
-	 * @param height
-	 */
-	public FCanvas(int width, int height) {
-		super(width,height);
-	}
-
+	//FIXME Annoying calls to getter, find out how to proberly extend Canvas thus FCanvas extend Canvas. 
+	Canvas canvas;
 	
-	public FCanvas() {
-		super();
+	
+	public FCanvas(Canvas canvas)
+	{
+		if(canvas == null)
+			GWT.log("Canvas failed to construct");
+			
+			
+		this.canvas = canvas;
 	}
-
-
+	
+	public Canvas getCanvas()
+	{
+		return canvas;
+	}
+	
+	
+	
+	//TODO Remove below code as it will not be need in near furture, due to the engine loading process
 	/**
 	 * Draws an image to the current canvas object
 	 * @param imagePath - This is the path to the image, which is used to reference the image lib
 	 * @param x 
-	 * @param y
-	 */
+	 * @param y	
+	*/
 	public void drawImage(String imagePath, float x, float y) {
 			
-		ImageElement img = Graphic.getImage(imagePath);
-		
-		if(img != null)
-		{
-		this.drawImage(img, x, y);
-		}else{
+			canvas.getContext2d().drawImage(Graphic.getSingleton().getImage(imagePath), x, y);
+	
 			//FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
-		}
 	}
+	 
 	
 	/**
 	 * Draws an image to the current canvas object
@@ -55,18 +61,13 @@ public class FCanvas extends GWTCanvas{
 	 * @param e
 	 * @param width
 	 * @param height
-	 */
-	public void drawImage(String imagePath, double d, double e, float width, float height) {
-			
-		ImageElement img = Graphic.getImage(imagePath);
-		
-		if(img != null){
-		this.drawImage(img, d, e,width,height);
-	}else{
-		//FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
-	}
-	}
+	*/
+	public void drawImage(String imagePath, double x, double y, float width, float height) {
 	
+		canvas.getContext2d().drawImage(Graphic.getSingleton().getImage(imagePath), x, y,width,height);
+	
+	}
+	 
 	
 	/**
 	 * Removed from the drawTile method to increse drawing speed
@@ -86,14 +87,14 @@ public class FCanvas extends GWTCanvas{
 	public void drawTile(String imagePath, int Texture, int tileSize, double d, double e)
 	{	
 		
-		ImageElement img = Graphic.getImage(imagePath);
+		ImageElement img = Graphic.getSingleton().getImage(imagePath);
 
-		if (img != null) {
+		if (img != null) { //TODO remove image load check soon
 			
 			numTilesWidth = (img.getWidth() / tileSize);
 			ySrc = (int) (Texture / numTilesWidth);
 			xSrc = Texture % numTilesWidth;
-			this.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, d, e, tileSize, tileSize);
+			canvas.getContext2d().drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, d, e, tileSize, tileSize);
 		} 
 	}
 	
@@ -105,27 +106,20 @@ public class FCanvas extends GWTCanvas{
 	 */
 	public void drawGrid(double width, double height, int gap)
 	{
-		setStrokeStyle(Color.RED);				
+		//canvas.getContext2d().setStrokeStyleDev(Color.RED);				
 		for (int x = 0; x < width; x += gap) {
-			moveTo(x, 0);
-			lineTo(x, height);
+			canvas.getContext2d().moveTo(x, 0);
+			canvas.getContext2d().lineTo(x, height);
 		}
 		
 		for (int y = 0; y < height; y+= gap) {
-			moveTo(0, y);
-			lineTo(width, y);
+			canvas.getContext2d().moveTo(0, y);
+			canvas.getContext2d().lineTo(width, y);
 		}
 			
-		stroke();
+		canvas.getContext2d().stroke();
 	}
 	
-	/**
-	 * Allows mouse clicks to be registered on the tilesheet
-	 * @param handler
-	 * @return
-	 */
-	public HandlerRegistration addMouseHandler(MouseDownHandler handler) {
-        return addDomHandler(handler, MouseDownEvent.getType());
-  }
+
 	
 }

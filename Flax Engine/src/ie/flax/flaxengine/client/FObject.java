@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client;
 
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
 /**

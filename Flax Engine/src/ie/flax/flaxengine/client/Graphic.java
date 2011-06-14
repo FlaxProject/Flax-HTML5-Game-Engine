@@ -5,6 +5,7 @@ import ie.flax.flaxengine.client.events.onImageLoadedEvent;
 
 import java.util.HashMap;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Window;
@@ -12,50 +13,55 @@ import com.google.gwt.widgetideas.graphics.client.ImageLoader;
 
 
 /**
- * Graphics class is a static service that works as an abstraction layer for the
- * graphics system in the engine or interface with non-technology specific
- * functionality. It stores all the loaded images in the engine and handles the
- * basic functions of drawing images to the screen.
  * 
- * @author Ciarán McCann
+ * This is basically a singlton class which loads and stores references to all the images
  * 
+ * 
+ * @author Ciaran McCann
+ *
  */
+
 public class Graphic {
 
+	private static Graphic instance;
+	
+	
+	/**
+	 * This class is a singleton
+	 * @return
+	 */
+	public static Graphic getSingleton()
+	{
+		if(instance == null)
+		{
+			instance = new Graphic();
+		}
+		
+		return instance;
+	}
+	
+	
 	/**
 	 * HashMap of JS image objects, which is indexed by the name of the image.
 	 * All images loaded into the engine are stored here.
 	 */
-	private static HashMap<String, ImageElement> imageLibary = new HashMap<String, ImageElement>();
-
+	private HashMap<String, ImageElement> imageLibary = new HashMap<String, ImageElement>();
+	
+	
 	/**
-	 * Manages the all the canvas elements
+	 * HashMap of JS image objects, which is indexed by the name of the canvas.
+	 * 
 	 */
-	private static HashMap<String, FCanvas> canvasElements = new HashMap<String, FCanvas>(1);
+	private HashMap<String, FCanvas> canvasCollection = new HashMap<String, FCanvas>();
 
-	/**
-	 * Gets a canvas
-	 * @param referenceName
-	 * @return  a reference to a canvas object
-	 */
-	public static FCanvas getCanvas(String referenceName) {
-		return canvasElements.get(referenceName);
-	}
 
-	/**
-	 * Gets the default canvas, IE the zero index canvas
-	 * @return - Returns a reference to a canvas object
-	 */
-	public static FCanvas getCanvas() {
-		return canvasElements.get(0); // TODO: ecpection handling
-	}
 
 	/**
 	 * Get image with URL refName
 	 * @param refName
 	 * @return
 	 */
-	public static ImageElement getImage(String refName) {
+	public ImageElement getImage(final String refName) {
 		
 			return imageLibary.get(refName);			
 	}
@@ -64,10 +70,10 @@ public class Graphic {
 	 * Loads images into the engine.
 	 * @param URL - path to where the image is stored
 	 */
-	public static void loadImage(final String URL) {
+	public void loadImage(final String URL) {
+		
 		String[] urls = new String[] { URL };
 		FLog.info("Currently loading image " + URL  +" - Loading...");
-
 		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
 
 			@Override
@@ -81,30 +87,13 @@ public class Graphic {
 		
 	}
 
-	
-	/**
-	 * Creates a canvas object and stores it. 
-	 * @param canvasRefName - Used to reference the canvas obj that was created
-	 * @param width - width of the canvas
-	 * @param height - height of the canvas
-	 */
-	public static void createCanvas(String canvasRefName, int width, int height) {
-		canvasElements.put(canvasRefName, new FCanvas(width, height));
-		FLog.info("Canvas with refName " + canvasRefName + " was created");
-	}
-
-	public static void createCanvas(String canvasRefName) {
-		canvasElements.put(canvasRefName, new FCanvas());
-		FLog.info("Canvas with refName " + canvasRefName + " was created");		
-	}
-	
 	/**
 	 * Checks all the images that where loaded into the imageLibary to make sure
 	 * they are completely loaded.
 	 * 
 	 * @return true or false
 	 */
-	public static boolean isComponentReady() {
+	public boolean isComponentReady() {
 
 		//FIXME: Currently does noting, look into the imageloaded event for answer, though atm doesnt effect the engine
 		for (String key : imageLibary.keySet()) {
@@ -119,6 +108,33 @@ public class Graphic {
 		FLog.debug("Graphics Component is ready to go Sir!");
 		return true;
 
+	}
+
+	/**
+	 * Creates a FCanvas and stores a reference for later use and returns the reference for use  now
+	 * @param referenceName
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public FCanvas createCanvas(final String referenceName, final String width, final String height) {
+		
+		FCanvas temp = new FCanvas(Canvas.createIfSupported());
+		temp.getCanvas().setHeight(height);
+		temp.getCanvas().setWidth(width);
+		canvasCollection.put(referenceName, temp);
+		
+		return temp;
+	}
+	
+	/**
+	 * Returns the canvas reference with name referenceName
+	 * @param referenceName
+	 * @return
+	 */
+	public FCanvas getCanvas(final String referenceName)
+	{
+		return canvasCollection.get(referenceName);
 	}
 
 	

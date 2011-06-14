@@ -52,7 +52,7 @@ public class WeaveUiManager {
 		 */
 		mapMenu = new Tab("Map", weaveUIdiv,new MapController());
 		tileSheetMenu = new Tab("Tiles", weaveUIdiv,new TileSheetController(referenceToTheEditor));
-		consoleMenu = new Tab("Console", weaveUIdiv,FLog.getWidget());
+		//consoleMenu = new Tab("Console", weaveUIdiv,FLog.getWidget());
 
 		
 		/**
