@@ -19,12 +19,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.widgetideas.graphics.client.Color;
 
-
+import ie.flax.flaxengine.client.weave.presenter.*;
+import ie.flax.flaxengine.client.weave.view.TileMenuView;
 
 /**
  * TODO: Weave as a whole is still quite messy as I have been expierementing with GWT and how to build interfaces
@@ -40,7 +42,7 @@ import com.google.gwt.widgetideas.graphics.client.Color;
  */
 public class Weave {
 	
-	private static FMap map;
+	private FMap map;
 	private FTile currentTile;
 	
 	/**
@@ -53,6 +55,11 @@ public class Weave {
 	public Weave(String insertID)
 	{ 
 		currentTile = new FTile();	
+		SimplePanel t = new SimplePanel();
+		
+		AbstractPresenter presenter = new TileMenuPresenter(new TileMenuView(), this); 
+		presenter.go(RootPanel.get(insertID));
+
 	}
 	
 	/**
@@ -82,7 +89,7 @@ public class Weave {
 	 * Gets a reference to the current map object
 	 * @return
 	 */
-	public static FMap getFMapReference()
+	public FMap getFMapReference()
 	{
 		return map;
 	}

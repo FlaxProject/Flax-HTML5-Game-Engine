@@ -1,9 +1,13 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FileHandle;
+import ie.flax.flaxengine.client.weave.Weave;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HasWidgets;
 
 public class MapImportExportPresenter extends AbstractPresenter{
 
@@ -20,6 +24,7 @@ public class MapImportExportPresenter extends AbstractPresenter{
 		HasClickHandlers getExportButton();
 		HasClickHandlers getImportButton();
 		String getMapDataString();
+		void setMapDataString(String msg);
 	}
 		
 	
@@ -31,7 +36,7 @@ public class MapImportExportPresenter extends AbstractPresenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.alert("Export Button");
-				
+				//display.setMapDataString(Weave.getFMapReference().toJson());
 			}
 		});
 		
@@ -40,14 +45,21 @@ public class MapImportExportPresenter extends AbstractPresenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				Window.alert("Import");
+
+				if (display.getMapDataString() != null) {
+					FileHandle.writeStringToFile("map.json",display.getMapDataString(), "UiSaveLoadObj");
+				} else {
+					display.setMapDataString("You need to put a JSON map string into this textarea before you can load it into the engine!");
+				}
 				
 			}
 		});
 		
 	}
 
+
 	@Override
-	public void go() {
+	public void go(HasWidgets containerElement) {
 		// TODO Auto-generated method stub
 		
 	}

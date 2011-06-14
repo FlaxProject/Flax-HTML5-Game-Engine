@@ -42,4 +42,10 @@ public class MapImportExportView extends Composite implements MapImportExportPre
 		return data.getText();
 	}
 
+	@Override
+	public void setMapDataString(String msg) {
+		data.setText(msg);
+		
+	}
+
 }

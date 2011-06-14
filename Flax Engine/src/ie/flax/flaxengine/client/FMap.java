@@ -87,7 +87,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 */
 	@Deprecated	
 	public FMap() {
-		
+		//this.addTile(new FTile(20, 20, true, 1));
 	}
 		
 	/**

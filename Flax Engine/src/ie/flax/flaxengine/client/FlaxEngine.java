@@ -2,25 +2,17 @@ package ie.flax.flaxengine.client;
 
 
 import ie.flax.flaxengine.client.weave.Weave;
-import ie.flax.flaxengine.client.weave.WeaveUiManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -227,11 +219,13 @@ public abstract class FlaxEngine {
 			public void onKeyDown(KeyDownEvent event) {
 			
 			
-			 if(editor.isRunning())
+			 //if(editor.isRunning())
              {
-                editor.onKeyDown(event);
+				// Window.alert("backslash");
+               // editor.onKeyDown(event);
              }
 			 
+			 /*
 				if(event.getNativeEvent().getKeyCode() == 220)
 				{
 					editor.run(getCurrentMap());
@@ -261,7 +255,7 @@ public abstract class FlaxEngine {
 				//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
 				camera.incermentX(5);
 				}
-				
+				*/
 			}
 		});
 		
@@ -325,7 +319,7 @@ public abstract class FlaxEngine {
 		int currentMilliseconds = getMilliseconds();
 		
 		if (currentMilliseconds < oldMilliseconds){
-			editor.updateElement(WeaveUiManager.FPS_COUNTER, "FPS: "+frameCount);
+			//editor.updateElement(WeaveUiManager.FPS_COUNTER, "FPS: "+frameCount);
 			frameCount = 0;
 		}
 		

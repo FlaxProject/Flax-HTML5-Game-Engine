@@ -1,14 +1,19 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.weave.Weave;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TileMenuPresenter extends AbstractPresenter{
 
 	private Display display;
+	private Weave model;
 		
 	public interface Display {
 		HasClickHandlers getTileCanvas();	
@@ -16,8 +21,9 @@ public class TileMenuPresenter extends AbstractPresenter{
 	}
 	
 	
-	public TileMenuPresenter(Display display)
+	public TileMenuPresenter(Display display, Weave model)
 	{
+		this.model = model;
 		this.display = display;
 	}
 	
@@ -29,16 +35,30 @@ public class TileMenuPresenter extends AbstractPresenter{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("Click on canvas");
-				
+				Window.alert("Click on canvas");				
+				//selectTile(event.getX(),event.getY());
 			}
 		});
 		
 	}
 
+	
+	private void selectTile(int clickX, int clickY)
+	{
+		int tileSize = model.getFMapReference().getTileSize();
+		int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/tileSize;
+		
+		
+		int x = clickX/tileSize;
+		int y = clickY/tileSize;
+		
+		model.getCurrentTile().setTexture((y*numberOfTilesInaRow)+x);
+	}
+	
 	@Override
-	public void go() {
-		// TODO Auto-generated method stub
+	public void go(final HasWidgets ContainerElement) {
+		bind();
+		ContainerElement.add(display.asWidget());
 		
 	}
 
