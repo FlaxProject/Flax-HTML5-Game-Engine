@@ -23,7 +23,7 @@ public class MapImportExportView extends Composite implements MapImportExportPre
 			UiBinder<Widget, MapImportExportView> {
 	}
 
-	public MapImportExportView() {
+	public MapImportExportView() {		
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
@@ -46,6 +46,12 @@ public class MapImportExportView extends Composite implements MapImportExportPre
 	public void setMapDataString(String msg) {
 		data.setText(msg);
 		
+	}
+	
+	@Override
+	public Widget asWidget()
+	{
+		return this;
 	}
 
 }

@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MapImportExportPresenter extends AbstractPresenter{
 
@@ -25,6 +26,8 @@ public class MapImportExportPresenter extends AbstractPresenter{
 		HasClickHandlers getImportButton();
 		String getMapDataString();
 		void setMapDataString(String msg);
+		
+		Widget asWidget();
 	}
 		
 	
@@ -60,7 +63,8 @@ public class MapImportExportPresenter extends AbstractPresenter{
 
 	@Override
 	public void go(HasWidgets containerElement) {
-		// TODO Auto-generated method stub
+		bind();
+		containerElement.add(display.asWidget());
 		
 	}
 

@@ -35,41 +35,39 @@ public abstract class FlaxEngine {
 	private List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
 	private boolean playing;
-	public static Settings settings;
+	public static Settings settings; //TODO CARL - Convert to singleton
+	
 	private boolean engineStatus;
 	private int frameCount = 0;
 	private int oldMilliseconds = 0;
+	
 	private Weave editor;
 	public static FCamera camera;
-	
 
 	/**
-	 * This timer implements the game loop. The timer loops every 500 millsecounds
-	 * It checks is the engineReady and then if the game is been played and then 
+	 * This timer implements the game loop. The timer loops every 500
+	 * millsecounds It checks is the engineReady and then if the game is been
+	 * played and then
 	 */
-	private Timer gameTimer = new Timer()
-	{
+	private Timer gameTimer = new Timer() {
 
 		@Override
 		public void run() {
-							
-			if(isEngineReady())
-			{
-				if(playing == true)
-				{		
-					//TODO Game Loop
-					//Log.info("Game Loop is looping");	
-					
+
+			if (isEngineReady()) {
+				if (playing == true) {
+					// TODO Game Loop
+					// Log.info("Game Loop is looping");
+
 					maps.get(0).draw();
-					if(editor.isRunning())
-					{
+					if (editor.isRunning()) {
 						editor.drawGrid();
 					}
 					fpsUpdate();
-					
+
 				}
 			}
-			
+
 		}
 	};
 		
@@ -98,21 +96,18 @@ public abstract class FlaxEngine {
 	 * Sets the current map to the given name
 	 * @param mapName
 	 */
-	public void setCurrentMap(String mapName)
-	{
+	public void setCurrentMap(String mapName) {
 		int mapIndex = 0;
-		
-		for(FMap map : maps)
-		{
-			 if(map.getName() == mapName)
-			 {
-				 currentMap = mapIndex;
-				 break;
-			 }
-				 
-				mapIndex++;
+
+		for (FMap map : maps) {
+			if (map.getName() == mapName) {
+				currentMap = mapIndex;
+				break;
+			}
+
+			mapIndex++;
 		}
-		
+
 	}
 	
 	
@@ -153,13 +148,14 @@ public abstract class FlaxEngine {
 								
 	}
 	
-	
+	/**
+	 * For FPS counter
+	 * @return
+	 */
 	protected native int getMilliseconds() /*-{
 		var currentTime = new Date();
 		return currentTime.getMilliseconds();
 	}-*/;
-
-
 	
 	
 	/**
@@ -170,112 +166,73 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{	
-					
-		editor = new Weave(insertId);//setup weave and defines its width and height - a tenth the height of the canvas					
-		
+		editor = new Weave(insertId);				
 		initEngine(insertId,width,height);	
-		
+				
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	
 	}
 	
 	/**
-	 *This method initialises many different components of the engine, events, rendering, weave
+	 * This method initialises many different components of the engine, events,
+	 * rendering, weave
+	 * 
 	 * @param insertId
 	 * @param width
 	 * @param height
 	 */
-	protected void initEngine(String insertId, int width, int height)
-	{
+	protected void initEngine(String insertId, int width, int height) {
 		if (settings == null) {
 			settings = new Settings();
 		}
-		
+
 		if (settings.getFullscreenOn() == true) {
 			width = Window.getClientWidth();
 			height = Window.getClientHeight();
 			Window.enableScrolling(false);
 		}
-		
-		drawingSpace = (Graphic.getSingleton().createCanvas("Flax", width+"px",height+"px")).getCanvas();
+
+		drawingSpace = (Graphic.getSingleton().createCanvas("Flax", width+ "px", height + "px")).getCanvas();
 		camera = new FCamera(new FVector(0, 0), width, height);
-		
-		RootPanel.get(insertId).add(drawingSpace);
-		bindEvents(); //sets the event handlers for canvas tag		
+
+		RootPanel.get(insertId).add(drawingSpace);//inser into doc
+		bindEvents(); // sets the event handlers for canvas tag
 	}
 
 	
 	/**
-	 * Registers the canvas for event handling
+	 * Registers the main game canvas for Events
 	 */
-	private void bindEvents()
-	{
-		
-		//TODO needs cleaning up when I have a min
-			
-	drawingSpace.addKeyDownHandler( new KeyDownHandler() {
-			
+	private void bindEvents() {
+
+		drawingSpace.addKeyDownHandler(new KeyDownHandler() {
+
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-			
-			
-			 //if(editor.isRunning())
-             {
-				// Window.alert("backslash");
-               // editor.onKeyDown(event);
-             }
-			 
-			 /*
-				if(event.getNativeEvent().getKeyCode() == 220)
-				{
-					editor.run(getCurrentMap());
+
+				if (event.getNativeEvent().getKeyCode() == 220) {
+					Window.alert("backslash");
+					// editor.run(getCurrentMap());
 				}
-				
-				if(event.isUpArrow())
-				{
-					//this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
-					camera.incermentY(-5);
-				    
+
+				if (editor.isRunning()) {
+					editor.keyboardControls(event);
 				}
-				
-				if(event.isDownArrow())
-				{
-				//getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
-					camera.incermentY(5);
-				}
-				
-				if(event.isLeftArrow())
-				{
-				//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
-				camera.incermentX(-5);
-				}
-				
-				if(event.isRightArrow())
-				{
-				//getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
-				camera.incermentX(5);
-				}
-				*/
-			}
-		});
-		
-		
-	drawingSpace.addMouseMoveHandler( new MouseMoveHandler() {
-			
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-				
-				//TODO: Abstract this code away into the editor and called it through a method
-				if(editor.isRunning())
-				{
-					if(event.isShiftKeyDown())
-					editor.selectedTile(event.getX(), event.getY());
-				}
-				
 			}
 		});
 
-}
+		drawingSpace.addMouseMoveHandler(new MouseMoveHandler() {
+
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+
+				if (editor.isRunning()) {
+					editor.onMouseMove(event);
+				}
+			}
+		});
+
+	}
 	
 
 	

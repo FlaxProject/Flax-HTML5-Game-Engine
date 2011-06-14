@@ -1,30 +1,15 @@
 package ie.flax.flaxengine.client.weave;
 import ie.flax.flaxengine.client.FCanvas;
-import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FileUpload;
-import com.google.gwt.widgetideas.graphics.client.Color;
-
 import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
 
@@ -151,6 +136,52 @@ public class Weave {
 	{
 		//ui.toggleDisplay();
 	}
-			
+		
+	/**
+	 * While the editor is active there will be certain keys which will do stuff, this method binds those keys to functionality
+	 * @param event
+	 */
+	public void keyboardControls(KeyDownEvent event)
+	{
+		/*
+		if(event.isUpArrow())
+		{
+			this.getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()-3);
+			camera.incermentY(-5);
+		    
+		}
+		
+		if(event.isDownArrow())
+		{
+		   getCurrentMap().getEntity(0).setY(getCurrentMap().getEntity(0).getY()+3);
+			camera.incermentY(5);
+		}
+		
+		if(event.isLeftArrow())
+		{
+		  getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()-3);
+		  camera.incermentX(-5);
+		}
+		
+		if(event.isRightArrow())
+		{
+			getCurrentMap().getEntity(0).setX(getCurrentMap().getEntity(0).getX()+3);
+			camera.incermentX(5);
+		}
+		*/
+	}
+	
+	/**
+	 * The Editor does certain things on mouse move, like tiling etc
+	 * @param event
+	 */
+	public void onMouseMove(MouseMoveEvent event)
+	{
+
+		if (this.isRunning()) {
+			if (event.isShiftKeyDown())
+				this.selectedTile(event.getX(), event.getY());
+		}
+	}
 
 }

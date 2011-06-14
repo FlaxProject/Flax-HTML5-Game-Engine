@@ -5,8 +5,10 @@
 		
 	</ui:style>
 	<g:HTMLPanel>
-		<g:Button ui:field="buttonExport">Export</g:Button>
-		<g:Button ui:field="buttonImport">Import</g:Button>
-		<g:TextArea height="273px" width="448px" ui:field="data"/>
+		<g:VerticalPanel width="452px" height="300px">
+			<g:Button ui:field="buttonExport">Export</g:Button>
+			<g:Button ui:field="buttonImport">Import</g:Button>
+			<g:TextArea height="273px" width="448px" ui:field="data"/>
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 
