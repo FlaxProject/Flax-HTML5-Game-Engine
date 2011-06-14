@@ -1,0 +1,12 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
+	<ui:style>
+		
+	</ui:style>
+	<g:HTMLPanel>
+		<g:Button ui:field="buttonExport">Export</g:Button>
+		<g:Button ui:field="buttonImport">Import</g:Button>
+		<g:TextArea height="273px" width="448px" ui:field="data"/>
+	</g:HTMLPanel>
+</ui:UiBinder> 

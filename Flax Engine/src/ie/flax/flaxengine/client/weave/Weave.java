@@ -41,7 +41,6 @@ import com.google.gwt.widgetideas.graphics.client.Color;
 public class Weave {
 	
 	private static FMap map;
-	private WeaveUiManager ui;
 	private FTile currentTile;
 	
 	/**
@@ -53,8 +52,7 @@ public class Weave {
 	 */
 	public Weave(String insertID)
 	{ 
-		currentTile = new FTile();
-		ui = new WeaveUiManager(insertID, this);				
+		currentTile = new FTile();	
 	}
 	
 	/**
@@ -73,10 +71,10 @@ public class Weave {
 	public void run(FMap currentMap)
 	{
 		this.map = currentMap;
-		ui.toggleDisplay();
+		//ui.toggleDisplay();
 				
 		//Graphic.getSingleton().getCanvas("Weave").getCanvas().getContext2d().resize(Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getWidth(), Graphic.getSingleton().getImage(Weave.getFMapReference().getTileSheet()).getHeight());
-		Graphic.getSingleton().getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);	
+		//Graphic.getSingleton().getCanvas("Weave").drawImage(Weave.getFMapReference().getTileSheet(), 0, 0);	
 	}
 	
 	
@@ -135,7 +133,7 @@ public class Weave {
 	 * @return - true or false
 	 */
 	public boolean isRunning() {
-		return ui.weaveUIdiv.isVisible();
+		return false;//ui.weaveUIdiv.isVisible();
 	}
 	
 	
@@ -144,42 +142,8 @@ public class Weave {
 	 */
 	public void toggleDisplay()
 	{
-		ui.toggleDisplay();
+		//ui.toggleDisplay();
 	}
 			
-	
-	/**
-	 * Given an ID and content it inserts the content into element with provided ID
-	 * To get a list of UI elements to update use UiElement.yourElementName. You should NOT raw string ID's. 
-	 * @param id
-	 * @param content
-	 */
-   public void updateElement(final String id,String content)
-	{
-	  ui.updateElement(id, content);
-	}
-	
-   /**
-    * Defines the actions the editor will take when a mouse click is registered
-    * @param event
-    */
-   public void onClick(ClickEvent event) {
-	  selectedTile(event.getX(), event.getY());	
-   }
-
-   /**
-    * Defines the actions the editor will take when the key is pressed
-    * @param event
-    */
-   public void onKeyDown(KeyDownEvent event) {
-	
-	 ui.onKeyDown(event);
-	
-   }
-
-
-	
-	
-   
 
 }
