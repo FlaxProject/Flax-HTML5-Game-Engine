@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import ie.flax.flaxengine.client.weave.presenter.*;
+import ie.flax.flaxengine.client.weave.view.MainEditView;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
 
 /**
@@ -39,10 +40,8 @@ public class Weave {
 	 */
 	public Weave(String insertID)
 	{ 
-		currentTile = new FTile();	
-		SimplePanel t = new SimplePanel();
-		
-		AbstractPresenter presenter = new TileMenuPresenter(new TileMenuView(), this); 
+		currentTile = new FTile();		
+		AbstractPresenter presenter = new MainEditPresenter(new MainEditView(), this, this.map); 
 		presenter.go(RootPanel.get(insertID));
 
 	}

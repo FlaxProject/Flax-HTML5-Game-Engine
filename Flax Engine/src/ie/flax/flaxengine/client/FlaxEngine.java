@@ -166,8 +166,9 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{	
-		editor = new Weave(insertId);				
+						
 		initEngine(insertId,width,height);	
+		editor = new Weave(insertId);
 				
 		maps.add(new FMap(mapPaths));//Loads all the maps
 	
@@ -210,10 +211,6 @@ public abstract class FlaxEngine {
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 
-				if (event.getNativeEvent().getKeyCode() == 220) {
-					Window.alert("backslash");
-					// editor.run(getCurrentMap());
-				}
 
 				if (editor.isRunning()) {
 					editor.keyboardControls(event);
