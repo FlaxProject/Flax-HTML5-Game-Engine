@@ -4,6 +4,9 @@ import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.ui.Image;
 
 
 /**
@@ -39,7 +42,7 @@ public class Graphic {
 	 * HashMap of JS image objects, which is indexed by the name of the image.
 	 * All images loaded into the engine are stored here.
 	 */
-	private HashMap<String, ImageElement> imageLibary = new HashMap<String, ImageElement>();
+	private HashMap<String, FImage> imageLibary = new HashMap<String, FImage>();
 	
 	
 	/**
@@ -57,7 +60,7 @@ public class Graphic {
 	 */
 	public ImageElement getImage(final String refName) {
 		
-			return imageLibary.get(refName);			
+			return imageLibary.get(refName).getImage();			
 	}
 
 	/**
@@ -66,19 +69,7 @@ public class Graphic {
 	 */
 	public void loadImage(final String URL) {
 		
-		/*String[] urls = new String[] { URL };
-		FLog.info("Currently loading image " + URL  +" - Loading...");
-		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
-
-			@Override
-			public void onImagesLoaded(ImageElement[] imageElements) { //TODO: take the imageLoader class and mod it for 404 callbacks
-	
-				imageLibary.put(URL,(imageElements[0]));
-				EventBus.handlerManager.fireEvent( new onImageLoadedEvent(URL));
-				FLog.info("Image " + URL + " is now loaded!");
-			}
-		});		
-		*/
+		imageLibary.put(URL, new FImage(URL) );
 	}
 
 	/**
@@ -88,15 +79,22 @@ public class Graphic {
 	 * @return true or false
 	 */
 	public boolean isComponentReady() {
-
+		
+	
+		if(imageLibary.size() == 0)
+			return true;
+		
+	
 		//FIXME: Currently does noting, look into the imageloaded event for answer, though atm doesnt effect the engine
 		for (String key : imageLibary.keySet()) {
 			
-			if (imageLibary.get(key) == null) {
+			
+			if (imageLibary.get(key).isLoaded() != true) {
 				
-				FLog.error("Graphics Component is not ready due to a problem with image ###########"+ key);
+				//FLog.error("Graphics Component is not ready due to a problem with image"+ key);
 				return false;
 			}
+		
 
 		}
 		FLog.debug("Graphics Component is ready to go Sir!");
@@ -111,11 +109,13 @@ public class Graphic {
 	 * @param height
 	 * @return
 	 */
-	public FCanvas createCanvas(final String referenceName, final String width, final String height) {
+	public FCanvas createCanvas(final String referenceName, int widthInteger, int heightInteger, String width, String height) {
 		
 		FCanvas temp = new FCanvas(Canvas.createIfSupported());
 		temp.getCanvas().setHeight(height);
 		temp.getCanvas().setWidth(width);
+		 temp.getCanvas().setCoordinateSpaceHeight(widthInteger);
+		    temp.getCanvas().setCoordinateSpaceWidth(heightInteger);
 		canvasCollection.put(referenceName, temp);
 		
 		return temp;

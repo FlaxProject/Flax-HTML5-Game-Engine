@@ -14,7 +14,7 @@ import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
 
-public class MainEditView implements MainEditPresenter.Display{
+public class WeaveView implements WeavePresenter.Display{
 	
 	private static final int AnimationTime = 300;
 	private static final String MAIN_PANEL_STYLE = "weavePanel";
@@ -28,12 +28,12 @@ public class MainEditView implements MainEditPresenter.Display{
 	
 	
 	
-	public MainEditView()
+	public WeaveView()
 	{
 		currentViewState = State.HIDDEN;
 				
 		northPanel = new ScrollPanel();		
-		northPanel.setHeight("40px");
+
 		northPanel.setStylePrimaryName(MAIN_PANEL_STYLE);
 		northPanel.setWidth(Window.getClientWidth()+"px");
 		FLog.debug(northPanel.getOffsetHeight()+"H");

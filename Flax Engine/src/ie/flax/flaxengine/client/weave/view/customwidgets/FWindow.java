@@ -1,47 +1,88 @@
 package ie.flax.flaxengine.client.weave.view.customwidgets;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class FWindow extends DialogBox{
+/**
+ * Draggable window, with a header and a default settings setup
+ * @param title
+ * 
+ * @author Ciarán McCann
+ *
+ */
+public class FWindow {
 
-	private HorizontalPanel headerBar;
 	private VerticalPanel mainPanel;
+	private DialogBox window;
 	
 	
 	public FWindow(String title)
 	{
 				
-		headerBar = new HorizontalPanel();
-		mainPanel = new VerticalPanel();		
+		window = new DialogBox();
+		mainPanel = new VerticalPanel();
+	
+		Button close = new Button("Close");
+		close.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				close();
+				
+			}
+		});
+		
+		mainPanel.add(close);
+		mainPanel.setCellHeight(close, "0px");
+		mainPanel.setCellWidth(close, "300px");
 		
 		
-		mainPanel.add(headerBar);
-		mainPanel.setCellHeight(headerBar, "0px");
-		mainPanel.setCellWidth(headerBar, "300px");
+		window.add(mainPanel);
+		window.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/2);
+		window.show();
+		window.setText(title);		
+		window.setGlassEnabled(true);
+		window.setAnimationEnabled(true);		
 		
-		mainPanel.add(new Button());
-		
-		this.add(mainPanel);
-		this.setPopupPosition(200, 200);
-		this.show();
-		this.setText(title);
-		
-		
-		this.setGlassEnabled(true);
-		this.setAnimationEnabled(true);
-		
-		
+		RootPanel.get().add(window,200,200);
 	}
 	
-	@Override
+	
+	/**
+	 * Adds widgets to vertical panel in digial window
+	 * @param widget
+	 */
 	public void add(Widget widget)
 	{
 		mainPanel.add(widget);
+		
 	}
 	
+	/**
+	 * Return reference to the Vertical panel in the Fwindow
+	 * @return
+	 */
+	public HasWidgets asWdidget()
+	{
+		return mainPanel;
+	}
+	
+	/**
+	 * Removes the FWindow from the RootPanel
+	 */
+	public void close()
+	{
+		window.removeFromParent();
+	}
+	
+
 }

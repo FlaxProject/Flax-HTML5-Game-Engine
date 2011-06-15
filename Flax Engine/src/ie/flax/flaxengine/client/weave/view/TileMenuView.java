@@ -17,7 +17,7 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 	
 	public TileMenuView()
 	{
-		canvas = Graphic.getSingleton().createCanvas("TileCanvas",  "80%", "100%").getCanvas();		
+		canvas = Graphic.getSingleton().createCanvas("TileCanvas",600,600,  "80%", "100%").getCanvas();		
 		initWidget(canvas);
 	}
 

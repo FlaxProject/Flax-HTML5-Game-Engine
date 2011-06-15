@@ -2,7 +2,8 @@ package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.weave.Weave;
-import ie.flax.flaxengine.client.weave.view.MainEditView;
+import ie.flax.flaxengine.client.weave.view.WeaveView;
+import ie.flax.flaxengine.client.weave.view.MainMenuView;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
 
@@ -14,7 +15,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MainEditPresenter extends AbstractPresenter{
+public class WeavePresenter extends AbstractPresenter{
 	
 	Display display;
 	
@@ -25,11 +26,13 @@ public class MainEditPresenter extends AbstractPresenter{
 		void toggle();
 	}
 	
-	public MainEditPresenter(Display display, Weave editor, FMap model)
+	public WeavePresenter(Display display, Weave editor, FMap model)
 	{
 		this.display = display;
 		AbstractPresenter TilePresenter = new TileMenuPresenter(new TileMenuView(),editor);
 		TilePresenter.go(display.getSouth());
+		
+		display.getNorth().add(new MainMenuView()); //None MVP include of UI
 	}
 
 	@Override

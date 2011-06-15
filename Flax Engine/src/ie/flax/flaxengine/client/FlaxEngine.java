@@ -166,7 +166,7 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(String mapPaths, String insertId, int width, int height)
 	{	
-						
+		Graphic.getSingleton().loadImage("http://flax.ie/test/p.png");					
 		initEngine(insertId,width,height);	
 		editor = new Weave(insertId);
 				
@@ -193,7 +193,7 @@ public abstract class FlaxEngine {
 			Window.enableScrolling(false);
 		}
 
-		drawingSpace = (Graphic.getSingleton().createCanvas("Flax", width+ "px", height + "px")).getCanvas();
+		drawingSpace = (Graphic.getSingleton().createCanvas("Flax",width,height, width+ "px", height + "px")).getCanvas();
 		camera = new FCamera(new FVector(0, 0), width, height);
 
 		RootPanel.get(insertId).add(drawingSpace);//inser into doc

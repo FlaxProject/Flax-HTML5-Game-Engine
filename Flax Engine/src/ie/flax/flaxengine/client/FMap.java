@@ -392,7 +392,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				//}
 				
 				//get the image file assoiated with said object and loads them.
-				Graphic.getSingleton().loadImage(obj.getSprite());
+				//Graphic.getSingleton().loadImage(obj.getSprite());
 			}
 			
 			
@@ -410,7 +410,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				
 			}
 					
-			Graphic.getSingleton().loadImage( tileSheet);			
+			//Graphic.getSingleton().loadImage( tileSheet);			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
 			Loaded = true;

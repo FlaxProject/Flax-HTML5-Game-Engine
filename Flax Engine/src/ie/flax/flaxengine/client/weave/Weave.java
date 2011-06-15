@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import ie.flax.flaxengine.client.weave.presenter.*;
-import ie.flax.flaxengine.client.weave.view.MainEditView;
+import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
@@ -46,10 +46,9 @@ public class Weave {
 		currentTile = new FTile();		
 
 		PopupPanel t = new PopupPanel();
-		AbstractPresenter presenter = new MainEditPresenter(new MainEditView(), this, this.map); 
+		AbstractPresenter presenter = new WeavePresenter(new WeaveView(), this, this.map); 
 		presenter.go(RootPanel.get(insertID));
 		
-		RootPanel.get().add(new FWindow("Hellone"),200,200);
 
 	}
 	

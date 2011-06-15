@@ -25,6 +25,9 @@ public class TileMenuPresenter extends AbstractPresenter{
 	{
 		this.model = model;
 		this.display = display;
+		
+		
+		Graphic.getSingleton().getCanvas("TileCanvas").drawImage("http://flax.ie/test/p.png", 0, 0);
 	}
 	
 	

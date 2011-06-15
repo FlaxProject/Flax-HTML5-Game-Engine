@@ -4,6 +4,7 @@ package ie.flax.flaxengine.client;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
+//TODO CARL do somthing cool with this
 public class FLog {
 	private static String lastmessage = "";
 	private static int msgcounter = 0;

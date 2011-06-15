@@ -11,6 +11,34 @@ body {
 
 	
 /** Weave **/
+
+.weavePanel
+{
+	//BACKGROUND:RED;
+	//border:2px blue solid;
+	
+	background: #eee;
+	border: 1px #666 solid;	
+}
+
+.weavePanel canvas{
+	border: #666 1px solid;
+	margin:6px;
+}
+
+
+/** FWindow **/
+
+.gwt-DialogBox .Caption 
+{
+	cursor:move !important;	
+}
+
+
+
+
+
+
 #weave
 {
 	height:30px;
@@ -21,11 +49,7 @@ body {
 float:right;
 }
 
-.weavePanel
-{
-	BACKGROUND:RED;
-	border:2px blue solid;
-}
+
 
 div.tabShow, div.tabHide {
    -webkit-transition: height 0.4s ease-in; 
