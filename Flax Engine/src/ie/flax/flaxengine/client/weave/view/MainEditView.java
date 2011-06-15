@@ -43,14 +43,14 @@ public class MainEditView implements MainEditPresenter.Display{
 		eastPanel.setStylePrimaryName(MAIN_PANEL_STYLE);
 		eastPanel.setWidth("200px");
 		eastPanel.setHeight(Window.getClientHeight()+"px");
-		eastPanel.add(new HTML("east Panel"));
+		//eastPanel.add(new HTML("east Panel"));
 		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
 				
 		southPanel = new SimplePanel();
 		//DOM.setIntStyleAttribute(southPanel.getElement(), "zIndex", 500);
 		southPanel.setStylePrimaryName(MAIN_PANEL_STYLE);
 		southPanel.setWidth(Window.getClientWidth()+"px");
-		southPanel.add(new HTML("south Panel"));
+		//southPanel.add(new HTML("south Panel"));
 		southPanel.setHeight("100px");
 		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
 		

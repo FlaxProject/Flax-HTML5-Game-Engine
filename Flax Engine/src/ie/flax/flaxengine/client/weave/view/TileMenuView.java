@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client.weave.view;
 
 import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.presenter.TileMenuPresenter;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -16,7 +17,7 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 	
 	public TileMenuView()
 	{
-		canvas = Graphic.getSingleton().createCanvas("TileCanvas",  "100%", "40px").getCanvas();
+		canvas = Graphic.getSingleton().createCanvas("TileCanvas",  "80%", "100%").getCanvas();		
 		initWidget(canvas);
 	}
 

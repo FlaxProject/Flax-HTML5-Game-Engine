@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MainEditView;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
+import ie.flax.flaxengine.client.weave.view.TileMenuView;
 
 import com.google.gwt.event.dom.client.HasKeyPressHandlers;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -27,8 +28,8 @@ public class MainEditPresenter extends AbstractPresenter{
 	public MainEditPresenter(Display display, Weave editor, FMap model)
 	{
 		this.display = display;
-		AbstractPresenter TilePresenter = new MapImportExportPresenter(new MapImportExportView());
-		TilePresenter.go(display.getNorth());
+		AbstractPresenter TilePresenter = new TileMenuPresenter(new TileMenuView(),editor);
+		TilePresenter.go(display.getSouth());
 	}
 
 	@Override

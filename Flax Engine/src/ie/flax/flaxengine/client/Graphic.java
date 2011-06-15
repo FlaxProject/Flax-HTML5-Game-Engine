@@ -1,15 +1,9 @@
 package ie.flax.flaxengine.client;
 
-import ie.flax.flaxengine.client.events.EventBus;
-import ie.flax.flaxengine.client.events.onImageLoadedEvent;
-
 import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.widgetideas.graphics.client.ImageLoader;
 
 
 /**
@@ -72,7 +66,7 @@ public class Graphic {
 	 */
 	public void loadImage(final String URL) {
 		
-		String[] urls = new String[] { URL };
+		/*String[] urls = new String[] { URL };
 		FLog.info("Currently loading image " + URL  +" - Loading...");
 		ImageLoader.loadImages(urls, new ImageLoader.CallBack() {
 
@@ -84,7 +78,7 @@ public class Graphic {
 				FLog.info("Image " + URL + " is now loaded!");
 			}
 		});		
-		
+		*/
 	}
 
 	/**

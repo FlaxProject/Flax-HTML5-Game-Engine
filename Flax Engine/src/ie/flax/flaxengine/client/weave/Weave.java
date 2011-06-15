@@ -8,11 +8,14 @@ import ie.flax.flaxengine.client.Graphic;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.MainEditView;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
+import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 /**
  * TODO: Weave as a whole is still quite messy as I have been expierementing with GWT and how to build interfaces
@@ -41,8 +44,12 @@ public class Weave {
 	public Weave(String insertID)
 	{ 
 		currentTile = new FTile();		
+
+		PopupPanel t = new PopupPanel();
 		AbstractPresenter presenter = new MainEditPresenter(new MainEditView(), this, this.map); 
 		presenter.go(RootPanel.get(insertID));
+		
+		RootPanel.get().add(new FWindow("Hellone"),200,200);
 
 	}
 	
