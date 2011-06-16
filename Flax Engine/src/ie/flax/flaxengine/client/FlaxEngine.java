@@ -170,7 +170,7 @@ public abstract class FlaxEngine {
 		initEngine(insertId,width,height);	
 		editor = new Weave(insertId);
 				
-		maps.add(new FMap(mapPaths));//Loads all the maps
+		maps.add(new FMap(mapPaths,drawingSpace));//Loads all the maps
 	
 	}
 	
@@ -193,7 +193,7 @@ public abstract class FlaxEngine {
 			Window.enableScrolling(false);
 		}
 
-		drawingSpace = (Graphic.getSingleton().createCanvas("Flax",width,height, width+ "px", height + "px")).getCanvas();
+		drawingSpace = (Graphic.getSingleton().createCanvas("Flax",width,height, width+ "px", height + "px"));
 		camera = new FCamera(new FVector(0, 0), width, height);
 
 		RootPanel.get(insertId).add(drawingSpace);//inser into doc

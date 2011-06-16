@@ -2,6 +2,12 @@ package ie.flax.flaxengine.client;
 
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
+/**
+ * This is the NPC, player etc type class. to be expanded
+ * 
+ * @author Ciarán McCann
+ *
+ */
 public class FEntity extends FObject implements JsonSerializable {
 
 	public FEntity(float x, float y, float width, float height, String sprite, String[] audio)

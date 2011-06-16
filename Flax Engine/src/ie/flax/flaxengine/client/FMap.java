@@ -10,6 +10,7 @@ import java.util.List;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.SerializationException;
@@ -46,6 +47,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	private int tileSize;
 	private String name;
 	private boolean Loaded; 
+	private Canvas drawingSpace;
 	
 	/**
 	 * This holds the string which is used to reference the tileSheet image in the imageLibary
@@ -66,7 +68,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 *            address to the map file to be loaded.
 	 */
 	@SuppressWarnings("deprecation")
-	public FMap(String mapPath) {		
+	public FMap(String mapPath, Canvas drawingSpace) {		
 		name = mapPath;
 			
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
@@ -160,38 +162,40 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		/**
 		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
 		 */
-		Context2d canvasRef = Graphic.getSingleton().getCanvas("Flax").getCanvas().getContext2d();
+		//Context2d canvasRef = Graphic.getSingleton().getCanvas("Flax").getContext2d();
 		FCamera cam = FlaxEngine.camera;
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
 		 */
-		canvasRef.fillRect(0, 0, cam.getWidth(), cam.getHeight()); 
+		drawingSpace.getContext2d().fillRect(0, 0, cam.getWidth(), cam.getHeight()); 
 		double camX = cam.getX();
 		double camY = cam.getY();
 		double camXWidth = camX+cam.getWidth();
 		double camYHeight = camY+cam.getHeight();
+		ImageElement tileSheetImage = Graphic.getSingleton().getImage(tileSheet);
+
 		
 		//FIXME Your sick ciarán, fix this now. I know I know, but I just need to get it compling and its not so bad. FIX IT CIARÁn
-		FCanvas canvasRef1 = Graphic.getSingleton().getCanvas("Flax");
+		
 		for(FTile temp : tiles)
 		{
 			//check if the tile can be seen on screen before drawing
 			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-			canvasRef1.drawTile(tileSheet, temp.getTexture(), this.tileSize, temp.getX()-camX, temp.getY()-camY);		
+			temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());		
 		}
 		
 		for(FObject temp : objects)
 		{
 			//check if the eneity can be seen on screen before drawing
 			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-			temp.draw(canvasRef1);
+			temp.draw(drawingSpace);
 		}
 	
 		for(FEntity temp : entities)
 		{
 			//check if the eneity can be seen on screen before drawing
 			if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
-			temp.draw(canvasRef1);
+			temp.draw(drawingSpace);
 		}		
 		
 	}
@@ -416,6 +420,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			Loaded = true;
 		}
 	}
+	
+	/**
+	 * @return the drawingSpace
+	 */
+	public Canvas getDrawingSpace() {
+		return drawingSpace;
+	}
+
+	/**
+	 * @param drawingSpace the drawingSpace to set
+	 */
+	public void setDrawingSpace(Canvas drawingSpace) {
+		this.drawingSpace = drawingSpace;
+	}
+
+
 	
 	
 	/**

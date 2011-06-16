@@ -1,21 +1,17 @@
 package ie.flax.flaxengine.client.weave;
-import ie.flax.flaxengine.client.FCanvas;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.weave.presenter.AbstractPresenter;
+import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
+import ie.flax.flaxengine.client.weave.view.WeaveView;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import ie.flax.flaxengine.client.weave.presenter.*;
-import ie.flax.flaxengine.client.weave.view.WeaveView;
-import ie.flax.flaxengine.client.weave.view.TileMenuView;
-import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 /**
  * TODO: Weave as a whole is still quite messy as I have been expierementing with GWT and how to build interfaces
@@ -89,14 +85,14 @@ public class Weave {
 	 */
 	public void drawGrid() {
 		
-		FCanvas display = Graphic.getSingleton().getCanvas("Flax");
+		Canvas display = Graphic.getSingleton().getCanvas("Flax");
 	 
 		//Find the midpoints of the Canvas
-		double width = display.getCanvas().getCoordinateSpaceWidth();
-		double height = display.getCanvas().getCoordinateSpaceHeight();
+		double width = display.getCoordinateSpaceWidth();
+		double height = display.getCoordinateSpaceHeight();
 		int tileSize = map.getTileSize();
 
-		display.drawGrid(width,height,tileSize);
+		Graphic.drawGrid(width,height,tileSize,display);
 	}
 
 

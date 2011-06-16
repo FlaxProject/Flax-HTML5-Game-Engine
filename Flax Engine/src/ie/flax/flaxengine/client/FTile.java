@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client;
 
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.ImageElement;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
 /**
@@ -30,6 +32,31 @@ public class FTile implements JsonSerializable{
 		this.y = y;
 		this.solid = solid;
 		this.texture = texture;
+	}
+	
+	
+	
+	/**
+	 * Draws an image to the canvas object passed in.
+	 * @param imagePath - This is the path to the tileSheet, which is used to reference the image lib
+	 * @param tileSize
+	 * @param d
+	 * @param e
+	 */
+	public void draw(ImageElement img, int tileSize, double x, double y, Context2d context)
+	{	
+	
+		if (img != null) {
+			
+			int numTilesWidth = 0;
+			int ySrc = 0;
+			float xSrc = 0;
+			
+			numTilesWidth = (img.getWidth() / tileSize);
+			ySrc = (int) (texture / numTilesWidth);
+			xSrc = texture % numTilesWidth;
+			context.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+		} 
 	}
 
 	

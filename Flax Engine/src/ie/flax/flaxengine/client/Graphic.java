@@ -3,6 +3,7 @@ package ie.flax.flaxengine.client;
 import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
@@ -49,7 +50,7 @@ public class Graphic {
 	 * HashMap of JS image objects, which is indexed by the name of the canvas.
 	 * 
 	 */
-	private HashMap<String, FCanvas> canvasCollection = new HashMap<String, FCanvas>();
+	private HashMap<String, Canvas> canvasCollection = new HashMap<String, Canvas>();
 
 
 
@@ -109,13 +110,13 @@ public class Graphic {
 	 * @param height
 	 * @return
 	 */
-	public FCanvas createCanvas(final String referenceName, int widthInteger, int heightInteger, String width, String height) {
+	public Canvas createCanvas(final String referenceName, int widthInteger, int heightInteger, String width, String height) {
 		
-		FCanvas temp = new FCanvas(Canvas.createIfSupported());
-		temp.getCanvas().setHeight(height);
-		temp.getCanvas().setWidth(width);
-		 temp.getCanvas().setCoordinateSpaceHeight(widthInteger);
-		    temp.getCanvas().setCoordinateSpaceWidth(heightInteger);
+		Canvas temp = Canvas.createIfSupported();
+		temp.setHeight(height);
+		temp.setWidth(width);
+		 temp.setCoordinateSpaceHeight(widthInteger);
+		    temp.setCoordinateSpaceWidth(heightInteger);
 		canvasCollection.put(referenceName, temp);
 		
 		return temp;
@@ -126,10 +127,62 @@ public class Graphic {
 	 * @param referenceName
 	 * @return
 	 */
-	public FCanvas getCanvas(final String referenceName)
+	public Canvas getCanvas(final String referenceName)
 	{
 		return canvasCollection.get(referenceName);
 	}
-
 	
+	
+
+	/**
+	 * Draws an image to the current canvas object
+	 * @param imagePath - This is the path to the image, which is used to reference the image lib
+	 * @param x 
+	 * @param y	
+	*/
+	public void drawImage(String imagePath, float x, float y, Context2d context) {
+			
+			context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y);
+	
+			//FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath +" is null");
+	}
+	 
+	
+	/**
+	 * Draws an image to the current canvas object
+	 * @param imagePath - This is the path to the image, which is used to reference the image lib
+	 * @param d
+	 * @param e
+	 * @param width
+	 * @param height
+	*/
+	public void drawImage(String imagePath, double x, double y, float width, float height, Context2d context) {
+	
+		context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y,width,height);
+	
+	}
+	 
+	
+	
+	/**
+	 * Draws a squared grid
+	 * @param width
+	 * @param height
+	 * @param gap
+	 */
+	public static void drawGrid(double width, double height, int gap, Canvas canvas)
+	{
+		//canvas.getContext2d().setStrokeStyleDev(Color.RED);				
+		for (int x = 0; x < width; x += gap) {
+			canvas.getContext2d().moveTo(x, 0);
+			canvas.getContext2d().lineTo(x, height);
+		}
+		
+		for (int y = 0; y < height; y+= gap) {
+			canvas.getContext2d().moveTo(0, y);
+			canvas.getContext2d().lineTo(width, y);
+		}
+			
+		canvas.getContext2d().stroke();
+	}
 }

@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
@@ -44,11 +45,11 @@ public class FObject implements JsonSerializable{
 	 * its passed the canvas reference to speed up rendering
 	 * @param refence
 	 */
-	public void draw(FCanvas refence)
+	public void draw(Canvas refence)
 	{
 		if(sprite != null)
 		{
-			refence.drawImage(sprite, x-FlaxEngine.camera.getX(), y-FlaxEngine.camera.getY(),width,height);
+			refence.getContext2d().drawImage(Graphic.getSingleton().getImage(sprite), x-FlaxEngine.camera.getX(), y-FlaxEngine.camera.getY(),width,height);
 		}
 		//TODO have a thing about animation and weather or not to have that as extend feature
 	}
