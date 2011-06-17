@@ -1,6 +1,6 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import com.google.gwt.canvas.client.Canvas;

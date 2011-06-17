@@ -1,4 +1,4 @@
-package ie.flax.flaxengine.client;
+package ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;

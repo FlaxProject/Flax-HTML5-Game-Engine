@@ -2,7 +2,7 @@ package ie.flax.flaxengine.client.weave;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FlaxEngine;
-import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.presenter.AbstractPresenter;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 import ie.flax.flaxengine.client.weave.view.WeaveView;

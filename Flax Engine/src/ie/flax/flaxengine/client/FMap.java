@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client;
 
+import ie.flax.flaxengine.client.Graphic.FCamera;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;

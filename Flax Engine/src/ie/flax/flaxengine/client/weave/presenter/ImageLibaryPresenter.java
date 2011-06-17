@@ -1,6 +1,6 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.TreeItem;

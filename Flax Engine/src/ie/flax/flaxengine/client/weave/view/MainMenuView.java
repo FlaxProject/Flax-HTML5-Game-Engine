@@ -6,7 +6,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
-import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 

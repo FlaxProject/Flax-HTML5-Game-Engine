@@ -1,6 +1,8 @@
 package ie.flax.flaxengine.client;
 
 
+import ie.flax.flaxengine.client.Graphic.FCamera;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import java.util.ArrayList;

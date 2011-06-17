@@ -1,7 +1,7 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.FileHandle;
-import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import com.google.gwt.event.dom.client.ClickEvent;

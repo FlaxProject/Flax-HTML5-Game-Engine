@@ -1,4 +1,6 @@
-package ie.flax.flaxengine.client;
+package ie.flax.flaxengine.client.Graphic;
+
+import ie.flax.flaxengine.client.FLog;
 
 import java.util.HashMap;
 

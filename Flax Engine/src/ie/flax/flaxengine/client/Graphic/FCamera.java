@@ -1,4 +1,6 @@
-package ie.flax.flaxengine.client;
+package ie.flax.flaxengine.client.Graphic;
+
+import ie.flax.flaxengine.client.FVector;
 
 /**
  * FCamera contorls and stores the poistion in the map which the user is looking at
