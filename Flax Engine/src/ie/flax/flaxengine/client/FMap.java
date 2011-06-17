@@ -70,7 +70,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@SuppressWarnings("deprecation")
 	public FMap(String mapPath, Canvas drawingSpace) {		
 		name = mapPath;
-			
+			tileSheet = "http://flax.ie/test/p.png";
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
 	}
@@ -157,7 +157,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	 * This calls all the draw methods of the entities in the FMap, the tiles and checks weather they are on-screen and
 	 * if they are they are then drawn to the screen.
 	 */
-	public void draw() {
+	public void draw(Canvas canvas) {
+		
+		this.drawingSpace = canvas;
 	
 		/**
 		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
@@ -174,8 +176,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		double camYHeight = camY+cam.getHeight();
 		ImageElement tileSheetImage = Graphic.getSingleton().getImage(tileSheet);
 
-		
-		//FIXME Your sick ciarán, fix this now. I know I know, but I just need to get it compling and its not so bad. FIX IT CIARÁn
+		if(tileSheetImage != null)
+		{
 		
 		for(FTile temp : tiles)
 		{
@@ -197,7 +199,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 			if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
 			temp.draw(drawingSpace);
 		}		
-		
+		}
 	}
 
 	/**
@@ -410,7 +412,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 				//}
 				
 				//get the image file assoiated with said object and loads them.
-				Graphic.getSingleton().loadImage(obj.getSprite());
+				
+				
+				//Graphic.getSingleton().loadImage(obj.getSprite());
 				
 			}
 					
@@ -424,16 +428,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	/**
 	 * @return the drawingSpace
 	 */
-	public Canvas getDrawingSpace() {
+	public final Canvas getDrawingSpace() {
 		return drawingSpace;
 	}
 
-	/**
-	 * @param drawingSpace the drawingSpace to set
-	 */
-	public void setDrawingSpace(Canvas drawingSpace) {
-		this.drawingSpace = drawingSpace;
-	}
+	
 
 
 	

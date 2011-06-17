@@ -43,7 +43,7 @@ public class FTile implements JsonSerializable{
 	 * @param d
 	 * @param e
 	 */
-	public void draw(ImageElement img, int tileSize, double x, double y, Context2d context)
+	public void draw(ImageElement img, int tileSize, double x, double y, final Context2d context)
 	{	
 	
 		if (img != null) {

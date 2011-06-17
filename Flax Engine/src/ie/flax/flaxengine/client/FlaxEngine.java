@@ -59,7 +59,8 @@ public abstract class FlaxEngine {
 					// TODO Game Loop
 					// Log.info("Game Loop is looping");
 
-					maps.get(0).draw();
+					//d
+					maps.get(0).draw(drawingSpace); //FIXME very very weird bug - some how at some stage the map canvas member gets set to null, so I did this as a quick fix, look into it when you have time.
 					if (editor.isRunning()) {
 						editor.drawGrid();
 					}
@@ -193,11 +194,12 @@ public abstract class FlaxEngine {
 			Window.enableScrolling(false);
 		}
 
-		drawingSpace = (Graphic.getSingleton().createCanvas("Flax",width,height, width+ "px", height + "px"));
+		drawingSpace = Canvas.createIfSupported();//(Graphic.getSingleton().createCanvas("Flax",width,height, width+ "px", height + "px"));
 		camera = new FCamera(new FVector(0, 0), width, height);
 
-		RootPanel.get(insertId).add(drawingSpace);//inser into doc
+	
 		bindEvents(); // sets the event handlers for canvas tag
+		RootPanel.get(insertId).add(drawingSpace);//inser into doc
 	}
 
 	

@@ -92,7 +92,7 @@ public class Weave {
 		double height = display.getCoordinateSpaceHeight();
 		int tileSize = map.getTileSize();
 
-		Graphic.drawGrid(width,height,tileSize,display);
+		Graphic.getSingleton().drawGrid(width,height,tileSize,display);
 	}
 
 

@@ -59,18 +59,26 @@ public class Graphic {
 	 * @param refName
 	 * @return
 	 */
-	public ImageElement getImage(final String refName) {
+	public final ImageElement getImage(final String refName) {
 		
-			return imageLibary.get(refName).getImage();			
+		FImage temp = imageLibary.get(refName);
+		
+		if(temp == null)
+			return null;
+		
+			return temp.getImage();			
 	}
 
 	/**
-	 * Loads images into the engine.
-	 * @param URL - path to where the image is stored
+	 * The image at the give URl is loaded into the engine.
+	 * @param URL
+	 * @return
 	 */
-	public void loadImage(final String URL) {
+	public final FImage loadImage(final String URL) {
 		
-		imageLibary.put(URL, new FImage(URL) );
+		FImage temp = new FImage(URL);
+		imageLibary.put(URL, temp);
+		return temp;
 	}
 
 	/**
@@ -127,7 +135,7 @@ public class Graphic {
 	 * @param referenceName
 	 * @return
 	 */
-	public Canvas getCanvas(final String referenceName)
+	public final Canvas getCanvas(final String referenceName)
 	{
 		return canvasCollection.get(referenceName);
 	}
@@ -140,7 +148,7 @@ public class Graphic {
 	 * @param x 
 	 * @param y	
 	*/
-	public void drawImage(String imagePath, float x, float y, Context2d context) {
+	public void drawImage(String imagePath, float x, float y,final Context2d context) {
 			
 			context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y);
 	
@@ -156,7 +164,7 @@ public class Graphic {
 	 * @param width
 	 * @param height
 	*/
-	public void drawImage(String imagePath, double x, double y, float width, float height, Context2d context) {
+	public void drawImage(String imagePath, double x, double y, float width, float height, final Context2d context) {
 	
 		context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y,width,height);
 	
@@ -170,7 +178,7 @@ public class Graphic {
 	 * @param height
 	 * @param gap
 	 */
-	public static void drawGrid(double width, double height, int gap, Canvas canvas)
+	public void drawGrid(double width, double height, int gap, final Canvas canvas)
 	{
 		//canvas.getContext2d().setStrokeStyleDev(Color.RED);				
 		for (int x = 0; x < width; x += gap) {

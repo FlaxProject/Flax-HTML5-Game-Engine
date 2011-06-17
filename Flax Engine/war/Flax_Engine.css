@@ -34,6 +34,18 @@ body {
 	cursor:move !important;	
 }
 
+.gwt-DialogBox .postive
+{
+	 -webkit-transition:background-color 0.5s linear;  
+	background: #336600;
+}
+
+.gwt-DialogBox .negative
+{
+	 -webkit-transition:background-color 0.5s linear;  
+	background: red;
+}
+
 
 
 

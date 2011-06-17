@@ -6,6 +6,7 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
+import ie.flax.flaxengine.client.Graphic;
 import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
@@ -28,19 +29,18 @@ public class MainMenuView extends MenuBar {
 
 	private void bindCommands() {
 
-		GWT.runAsync(new RunAsyncCallback() {
+		//TODO: Async this code, some reason not working atm. No bige for the mo
+		//GWT.runAsync(new RunAsyncCallback() {
 
-			@Override
-			public void onSuccess() {
 				
 
-				final AbstractPresenter exportImportPresenter = new MapImportExportPresenter(new MapImportExportView());
+				 AbstractPresenter exportImportPresenter = new MapImportExportPresenter(new MapImportExportView());
 
 				exportImport = new Command() {
 
 					@Override
 					public void execute() {
-						// TODO Auto-generated method stub
+						 Window.alert(Graphic.getSingleton().isComponentReady()+"");
 
 					}
 				};
@@ -50,20 +50,16 @@ public class MainMenuView extends MenuBar {
 					@Override
 					public void execute() {
 
+						AbstractPresenter fileuploadPresneter = new FileUploadPresenter(new FileUploadView());
 						FWindow window = new FWindow("File Upload");
-						exportImportPresenter.go(window.asWdidget());
+						fileuploadPresneter.go(window.asWdidget());
 
 					}
 				};
 
 			}
 
-			@Override
-			public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+	
 	}
 
-}
+

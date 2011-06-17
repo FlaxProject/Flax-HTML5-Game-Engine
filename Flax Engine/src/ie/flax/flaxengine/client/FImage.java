@@ -3,7 +3,9 @@ package ie.flax.flaxengine.client;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * This wrapps the GWT Image class, so that we can add isLoaded Meta data to the class
@@ -16,17 +18,18 @@ public class FImage {
 
 	private ImageElement image;
 	private boolean imageLoaded;
+	private final Image imageData;
 	
 	/**
 	 * Takes the path to the image you wish to load.
 	 * @param URL
 	 */
-	public FImage(String URL){
+	public FImage(final String URL){
 		
 		imageLoaded = false;
 		
-		Image imageData = new Image(URL);
-		image = (ImageElement)(imageData).getElement().cast();
+		imageData = new Image(URL);
+		
 		
 		/**
 		 * CallBack which marks the file as loaded
@@ -35,8 +38,22 @@ public class FImage {
 	      public void onLoad(LoadEvent event) {
 	    	  
 	        imageLoaded = true;
+	        image = (ImageElement)(imageData).getElement().cast();
+	       
 	      }
 	    });
+		
+		imageData.setVisible(false);
+	  RootPanel.get("imageBootStrap").add(imageData); // image must be on page to fire load
+	}
+	
+	/**
+	 * Do somthing when this image loads
+	 * @param handler
+	 */
+	public void addLoadHanderl(LoadHandler handler)
+	{
+		imageData.addLoadHandler(handler);
 	}
 	
 	/**
