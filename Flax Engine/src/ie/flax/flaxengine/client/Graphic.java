@@ -68,6 +68,8 @@ public class Graphic {
 		
 			return temp.getImage();			
 	}
+	
+
 
 	/**
 	 * The image at the give URl is loaded into the engine.
@@ -193,4 +195,12 @@ public class Graphic {
 			
 		canvas.getContext2d().stroke();
 	}
+
+	
+	public String[] getKeys()
+	{
+		return (String[]) imageLibary.keySet().toArray();
+	
+	}
+	
 }

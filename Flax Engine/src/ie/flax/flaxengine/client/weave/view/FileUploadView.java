@@ -18,6 +18,11 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 
 import ie.flax.flaxengine.client.weave.presenter.*;
 
+/**
+ * This is the view for the fileupload 
+ * @author Ciarán McCann
+ *
+ */
 public class FileUploadView extends Composite implements FileUploadPresenter.Display {
 
 	private static FileUploadViewUiBinder uiBinder = GWT
@@ -33,10 +38,6 @@ public class FileUploadView extends Composite implements FileUploadPresenter.Dis
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public FileUploadView(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		UploadButton.setText(firstName);
-	}
 
 	@Override
 	public HasClickHandlers getUploadButton() {
@@ -62,6 +63,16 @@ public class FileUploadView extends Composite implements FileUploadPresenter.Dis
 	@Override
 	public HasKeyPressHandlers getUrlBox() {
 		return urlBox;
+	}
+
+	@Override
+	public HasClickHandlers getUrlBoxClick() {
+		return urlBox;
+	}
+
+	@Override
+	public void clearUrlBox() {
+		urlBox.setText("");
 	}
 
 

@@ -23,6 +23,7 @@ public class FWindow {
 
 	private VerticalPanel mainPanel;
 	private DialogBox window;
+	private Button close;
 	
 	
 	public FWindow(String title)
@@ -31,7 +32,7 @@ public class FWindow {
 		window = new DialogBox();
 		mainPanel = new VerticalPanel();
 	
-		Button close = new Button("Close");
+		 close = new Button("Close");
 		close.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -41,10 +42,12 @@ public class FWindow {
 			}
 		});
 		
-		mainPanel.add(close);
-		mainPanel.setCellHeight(close, "0px");
-		mainPanel.setCellWidth(close, "300px");
+		window.setAutoHideEnabled(true);
 		
+		mainPanel.add(close);
+		mainPanel.setCellHeight(close, "100px");
+		mainPanel.setCellWidth(close, "0px");
+	
 		
 		window.add(mainPanel);
 		window.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/2);
@@ -63,8 +66,7 @@ public class FWindow {
 	 */
 	public void add(Widget widget)
 	{
-		mainPanel.add(widget);
-		
+		mainPanel.add(widget);		
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic;
+import ie.flax.flaxengine.client.weave.view.ImageLibaryView;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,6 +14,7 @@ import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -29,8 +31,10 @@ public class FileUploadPresenter extends AbstractPresenter {
 	{
 		HasClickHandlers getUploadButton();
 		HasKeyPressHandlers getUrlBox();
+		HasClickHandlers getUrlBoxClick();
 		void setFeedback(String msg, String styleName);
 		String getUrl();
+		void clearUrlBox();
 	
 		Widget asWidgets();
 	}
@@ -64,6 +68,15 @@ public class FileUploadPresenter extends AbstractPresenter {
 			}
 		});
 		
+		display.getUrlBoxClick().addClickHandler( new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				display.clearUrlBox();
+				
+			}
+		});
+		
 		
 	}
 
@@ -86,6 +99,9 @@ public class FileUploadPresenter extends AbstractPresenter {
 				public void onLoad(LoadEvent event) {
 			
 					display.setFeedback("Image Loaded", SUCESSFUL_LOAD);
+					
+					AbstractPresenter ImageLibaryPresenter = new ImageLibaryPresenter( new ImageLibaryView() );
+					ImageLibaryPresenter.go(RootPanel.get());
 					
 				}
 			});

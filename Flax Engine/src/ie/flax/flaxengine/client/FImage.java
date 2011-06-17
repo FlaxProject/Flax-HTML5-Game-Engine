@@ -26,8 +26,7 @@ public class FImage {
 	 */
 	public FImage(final String URL){
 		
-		imageLoaded = false;
-		
+		imageLoaded = false;		
 		imageData = new Image(URL);
 		
 		
@@ -44,6 +43,8 @@ public class FImage {
 	    });
 		
 		imageData.setVisible(false);
+		
+		//FIXME: The imageBootStrap div is hardcoded, should be inserted programmically
 	  RootPanel.get("imageBootStrap").add(imageData); // image must be on page to fire load
 	}
 	
