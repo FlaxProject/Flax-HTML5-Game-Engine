@@ -168,13 +168,10 @@ public class Graphic {
 	 * @param width
 	 * @param height
 	*/
-	public void drawImage(String imagePath, double x, double y, float width, float height, final Context2d context) {
-	
-		context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y,width,height);
-	
+	public void drawImage(String imagePath, double x, double y, float width, float height, final Context2d context) {	
+		context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y,width,height);	
 	}
-	 
-	
+
 	
 	/**
 	 * Draws a squared grid
@@ -199,9 +196,13 @@ public class Graphic {
 	}
 
 	
-	public String[] getKeys()
+	/**
+	 * Gets all the FImage objects in the libary.
+	 * @return
+	 */
+	public HashMap<String, FImage> getImagesHashMap()
 	{
-		return (String[]) imageLibary.keySet().toArray();
+		return imageLibary;
 	
 	}
 	

@@ -45,7 +45,7 @@ public class FWindow {
 		window.setAutoHideEnabled(true);
 		
 		mainPanel.add(close);
-		mainPanel.setCellHeight(close, "100px");
+		mainPanel.setCellHeight(close, "0px");
 		mainPanel.setCellWidth(close, "0px");
 	
 		

@@ -1,7 +1,7 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
-import ie.flax.flaxengine.client.weave.view.ImageLibaryView;
+import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,9 +12,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -26,6 +24,8 @@ public class FileUploadPresenter extends AbstractPresenter {
 	
 	private final String SUCESSFUL_LOAD = "postive";
 	private Display display;
+	
+	AbstractPresenter ImageLibaryPresenter;
 	
 	public interface Display
 	{
@@ -39,10 +39,14 @@ public class FileUploadPresenter extends AbstractPresenter {
 		Widget asWidgets();
 	}
 	
-	
+	/*
+	 * This Presneter handles the upload view and also inserts an imageLibView into the widget, which
+	 * is updated when a new image is uploaded
+	 */
 	public FileUploadPresenter(Display display)
 	{
 		this.display = display;
+		ImageLibaryPresenter = new ImageLibPresenter();		
 	}
 
 	@Override
@@ -83,15 +87,16 @@ public class FileUploadPresenter extends AbstractPresenter {
 	@Override
 	public void go(HasWidgets containerElement) {
 		bind();
-		containerElement.add(display.asWidgets());
-		
+		containerElement.add(display.asWidgets()); //The first view is inserted into the top of the window
+		ImageLibaryPresenter.go(containerElement); //Secound below it.	
 	}
 	
 	private void loadprocess()
 	{
+		
 		if(display.getUrl() != null)
 		{
-			
+
 			display.setFeedback("Image Loading...",""); 
 			Graphic.getSingleton().loadImage(display.getUrl()).addLoadHanderl( new LoadHandler() {
 				
@@ -99,10 +104,8 @@ public class FileUploadPresenter extends AbstractPresenter {
 				public void onLoad(LoadEvent event) {
 			
 					display.setFeedback("Image Loaded", SUCESSFUL_LOAD);
-					
-					AbstractPresenter ImageLibaryPresenter = new ImageLibaryPresenter( new ImageLibaryView() );
-					ImageLibaryPresenter.go(RootPanel.get());
-					
+					((ImageLibPresenter) ImageLibaryPresenter).populate();
+
 				}
 			});
 		}
