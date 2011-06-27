@@ -80,7 +80,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				
-				/*if(model.getFMapReference().getTileSheet() != null)
+				if(model.getFMapReference().getTileSheet() != null)
 				{
 				
 					int tileSize = model.getFMapReference().getTileSize();
@@ -91,7 +91,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 				
 					display.getTileCanvas().getContext2d().fillRect(x, y, tileSize, tileSize);
 				}
-				*/
+				
 			}
 		});
 		
@@ -122,7 +122,6 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		if(e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET)
 		{
 			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()), 0, 0);
-			Window.alert("event" + e.getImageUrl());
 		}
 		
 		

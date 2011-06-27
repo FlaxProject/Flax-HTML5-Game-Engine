@@ -18,7 +18,7 @@ public class WeaveView implements WeavePresenter.Display{
 	
 	private static final int AnimationTime = 300;
 	private static final String MAIN_PANEL_STYLE = "weavePanel";
-	private ScrollPanel northPanel;
+	private SimplePanel northPanel;
 	private SimplePanel southPanel;
 	private SimplePanel eastPanel;	
 	private AnimationSlide northAnimate, southAnimate, eastAnimate;		
@@ -32,7 +32,7 @@ public class WeaveView implements WeavePresenter.Display{
 	{
 		currentViewState = State.HIDDEN;
 				
-		northPanel = new ScrollPanel();		
+		northPanel = new SimplePanel();		
 
 		northPanel.setStylePrimaryName(MAIN_PANEL_STYLE);
 		northPanel.setWidth(Window.getClientWidth()+"px");
@@ -51,7 +51,7 @@ public class WeaveView implements WeavePresenter.Display{
 		southPanel.setStylePrimaryName(MAIN_PANEL_STYLE);
 		southPanel.setWidth(Window.getClientWidth()+"px");
 		//southPanel.add(new HTML("south Panel"));
-		southPanel.setHeight("100px");
+		southPanel.setHeight("140px");
 		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
 		
 		

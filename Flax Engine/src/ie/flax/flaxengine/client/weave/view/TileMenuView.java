@@ -7,6 +7,8 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -24,19 +26,23 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 	public TileMenuView()
 	{
 		canvas = Canvas.createIfSupported();
-		canvas.setWidth("80%");
-		canvas.setHeight("100%");		
-		canvas.setCoordinateSpaceHeight(canvas.getOffsetHeight());
-		canvas.setCoordinateSpaceWidth(canvas.getOffsetWidth());
+		canvas.setWidth("1000px");
+		canvas.setHeight("1000px");		
+		canvas.setCoordinateSpaceHeight(1000);
+		canvas.setCoordinateSpaceWidth(1000);
 		
 		//canvas.getContext2d().drawImage(Graphic, dx, dy)
 		
 		selectImageButton = new Button("Select TitleSheet");
 		
+		
+		ScrollPanel canvasScrollPanel = new ScrollPanel(canvas);
+		canvasScrollPanel.setWidth("100%");
+		canvasScrollPanel.setHeight("135px");
 		HorizontalPanel panel = new HorizontalPanel();
 		
 		panel.add(selectImageButton);
-		panel.add(canvas);
+		panel.add(canvasScrollPanel);
 		
 		initWidget(panel);
 		

@@ -3,6 +3,8 @@ import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent;
+import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.presenter.AbstractPresenter;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
@@ -25,7 +27,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * @author Ciarán McCann
  *
  */
-public class Weave {
+public class Weave implements ImageSelectionEventHandler{
 	
 	private FMap map;
 	private FTile currentTile;
@@ -183,6 +185,16 @@ public class Weave {
 			if (event.isShiftKeyDown())
 				this.selectedTile(event.getX(), event.getY());
 		}
+	}
+
+	@Override
+	public void onImageSelection(ImageSelectionEvent e) {
+		
+		if(e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET)
+		{
+			map.setTileSheet(e.getImageUrl());
+		}
+		
 	}
 
 }
