@@ -1,6 +1,10 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
+import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.view.ImageLibView;
 import ie.flax.flaxengine.client.weave.view.Impl.*;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
@@ -12,18 +16,20 @@ import com.google.gwt.user.client.ui.HasWidgets;
  * currently loaded into the engine and can be used to select an image to use as lets say the current tilesheet
  * or if selecting a sprite for an entity etc.
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public class ImageLibPresenter extends AbstractPresenter implements ImageLibView.presenter {
 
 	private ImageLibView display;
 	private String currentImage;
+	private Idenfiter typeOfImage;
 	
-	public ImageLibPresenter()
+	public ImageLibPresenter(Idenfiter tileSheet)
 	{
-		this.display = new ImageLibViewImpl(this);		
+		this.display = new ImageLibViewImpl(this);
 		populate();
+		typeOfImage = tileSheet;
 	}
 	
 	/**
@@ -38,6 +44,8 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 	@Override
 	public void setImageToBeUsed(String imageName) {
 				this.currentImage = imageName;
+				
+				EventBus.handlerManager.fireEvent(new ImageSelectionEvent(imageName,typeOfImage));
 	}
 
 	@Override

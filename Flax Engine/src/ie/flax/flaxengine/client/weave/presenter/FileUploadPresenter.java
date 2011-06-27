@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,7 +47,7 @@ public class FileUploadPresenter extends AbstractPresenter {
 	public FileUploadPresenter(Display display)
 	{
 		this.display = display;
-		ImageLibaryPresenter = new ImageLibPresenter();		
+		ImageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);		
 	}
 
 	@Override

@@ -1,7 +1,12 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent;
+import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.Weave;
+import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
+import ie.flax.flaxengine.client.weave.view.*;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -20,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Ciarán McCann
  *
  */
-public class TileMenuPresenter extends AbstractPresenter{
+public class TileMenuPresenter extends AbstractPresenter implements ImageSelectionEventHandler{
 
 	private Display display;
 	private Weave model;
@@ -36,12 +41,14 @@ public class TileMenuPresenter extends AbstractPresenter{
 	public TileMenuPresenter(Display display, Weave model)
 	{
 		this.model = model;
-		this.display = display;		
+		this.display = display;
+		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 	}
 	
 	
 	@Override
 	public void bind() {
+		
 		
 		display.getTileCanvas().addClickHandler(new ClickHandler() {
 			
@@ -56,7 +63,11 @@ public class TileMenuPresenter extends AbstractPresenter{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("Select Button");
+
+				AbstractPresenter imageLibPresenter = new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
+				FWindow window = new FWindow("Select TileSheet");
+				imageLibPresenter.go(window.asWdidget());
+							
 				
 			}
 		});
@@ -69,7 +80,7 @@ public class TileMenuPresenter extends AbstractPresenter{
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 				
-				if(model.getFMapReference().getTileSheet() != null)
+				/*if(model.getFMapReference().getTileSheet() != null)
 				{
 				
 					int tileSize = model.getFMapReference().getTileSize();
@@ -80,7 +91,7 @@ public class TileMenuPresenter extends AbstractPresenter{
 				
 					display.getTileCanvas().getContext2d().fillRect(x, y, tileSize, tileSize);
 				}
-				
+				*/
 			}
 		});
 		
@@ -102,6 +113,18 @@ public class TileMenuPresenter extends AbstractPresenter{
 	public void go(final HasWidgets ContainerElement) {
 		bind();
 		ContainerElement.add(display.asWidget());
+		
+	}
+
+
+	@Override
+	public void onImageSelection(ImageSelectionEvent e) {
+		if(e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET)
+		{
+			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()), 0, 0);
+			Window.alert("event" + e.getImageUrl());
+		}
+		
 		
 	}
 

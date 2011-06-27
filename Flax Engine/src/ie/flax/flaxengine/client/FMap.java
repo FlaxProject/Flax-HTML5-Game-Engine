@@ -13,6 +13,8 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.SerializationException;
@@ -42,7 +44,7 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  * @author Ciaran McCann
  * 
  */
-public class FMap implements JsonSerializable, onFileLoadedEventHandler {
+public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 
 	private int width;
 	private int height;
@@ -72,7 +74,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	@SuppressWarnings("deprecation")
 	public FMap(String mapPath, Canvas drawingSpace) {		
 		name = mapPath;
-			tileSheet = "http://flax.ie/test/p.png";
+		tileSheet = "http://flax.ie/test/p.png";
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
 	}
@@ -155,6 +157,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 		return tileSheet;
 	}
 
+	
 	/**
 	 * This calls all the draw methods of the entities in the FMap, the tiles and checks weather they are on-screen and
 	 * if they are they are then drawn to the screen.
@@ -553,7 +556,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler {
 	public void setLoaded(boolean loaded) {
 		Loaded = loaded;
 	}
-
 
 	
 }

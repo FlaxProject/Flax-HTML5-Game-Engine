@@ -6,6 +6,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -28,8 +29,17 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 		canvas.setCoordinateSpaceHeight(canvas.getOffsetHeight());
 		canvas.setCoordinateSpaceWidth(canvas.getOffsetWidth());
 		
+		//canvas.getContext2d().drawImage(Graphic, dx, dy)
+		
 		selectImageButton = new Button("Select TitleSheet");
-		initWidget(canvas);
+		
+		HorizontalPanel panel = new HorizontalPanel();
+		
+		panel.add(selectImageButton);
+		panel.add(canvas);
+		
+		initWidget(panel);
+		
 	}
 
 	@Override
