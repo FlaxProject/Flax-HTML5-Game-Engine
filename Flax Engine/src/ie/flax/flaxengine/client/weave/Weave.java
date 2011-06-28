@@ -54,22 +54,7 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 		
-		/**
-		 * Toggle Editor
-		 */
-		KeyPressHandler keyPressHandle = new KeyPressHandler() {
-			
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-					
-				 if(event.getNativeEvent().getKeyCode() == 92)
-				 {
-					 ((WeavePresenter) presenter).toggleDisplay();				 					
-					  running = !running; 
-				 }				
-			}
-		};		
-		RootPanel.get().addDomHandler(keyPressHandle, KeyPressEvent.getType());
+		
 	}
 	
 	/**

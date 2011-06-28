@@ -9,6 +9,8 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 import ie.flax.flaxengine.client.weave.view.*;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -30,7 +32,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	private Display display;
 	private Weave model;
 
-		
+	
 	public interface Display {
 		Canvas getTileCanvas();	//MVP - I'm sorry buts its never not going to be a canvas
 		HasClickHandlers getSelectImageButton();
@@ -53,9 +55,8 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		display.getTileCanvas().addClickHandler(new ClickHandler() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("Click on canvas");				
-				//selectTile(event.getX(),event.getY());
+			public void onClick(ClickEvent event) {		
+				selectTile(event.getX(),event.getY());
 			}
 		});
 		
@@ -79,17 +80,27 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-				
+
 				if(model.getFMapReference().getTileSheet() != null)
 				{
-				
-					int tileSize = model.getFMapReference().getTileSize();
-					int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/tileSize;
+					display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()), 0, 0);
+					int tileSize = 32;//TODO change back once canvas back online model.getFMapReference().getTileSize();
+					int tileSheetWidth = Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth();
+					int numberOfTilesInaRow = tileSheetWidth/tileSize;
 						
 					int x = (event.getX()/tileSize)*tileSize;
 					int y = (event.getY()/tileSize)*tileSize;
 				
-					display.getTileCanvas().getContext2d().fillRect(x, y, tileSize, tileSize);
+					Context2d temp = display.getTileCanvas().getContext2d();
+					
+					temp.setStrokeStyle("#CD0000");
+					temp.beginPath();
+					temp.moveTo(x, y);
+					temp.lineTo(x+tileSize, y);
+					temp.lineTo(x+tileSize, y+tileSize);
+					temp.lineTo(x, y+tileSize);
+					temp.closePath();
+					temp.stroke();
 				}
 				
 			}
@@ -97,16 +108,23 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		
 	}
 
-	
+	/**
+	 * This gets the tile which the user has just clicked on and sets it as the current tile to be used when tilting
+	 * @param clickX
+	 * @param clickY
+	 */
 	private void selectTile(int clickX, int clickY)
 	{
-		int tileSize = model.getFMapReference().getTileSize();
-		int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/tileSize;
-				
-		int x = clickX/tileSize;
-		int y = clickY/tileSize;
-		
-		model.getCurrentTile().setTexture((y*numberOfTilesInaRow)+x);
+		if(model.getFMapReference().getTileSheet() != null)
+		{
+			int tileSize = 32; //TODO change back when map object working again model.getFMapReference().getTileSize();
+			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/tileSize;
+					
+			int x = clickX/tileSize;
+			int y = clickY/tileSize;
+			
+			model.getCurrentTile().setTexture((y*numberOfTilesInaRow)+x);
+		}
 	}
 	
 	@Override

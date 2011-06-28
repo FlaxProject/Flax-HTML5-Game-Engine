@@ -7,6 +7,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
@@ -15,8 +16,11 @@ public class MainMenuView extends MenuBar {
 	MenuBar file;
 	Command uploadFile;
 	Command exportImport;
+	Weave model;
 
-	public MainMenuView() {
+	public MainMenuView(Weave model) {
+		
+		this.model = model;
 		file = new MenuBar();
 		bindCommands();
 
@@ -34,13 +38,16 @@ public class MainMenuView extends MenuBar {
 
 				
 
-				 AbstractPresenter exportImportPresenter = new MapImportExportPresenter(new MapImportExportView());
+				// AbstractPresenter exportImportPresenter = new MapImportExportPresenter(new MapImportExportView(),model);
 
 				exportImport = new Command() {
 
 					@Override
 					public void execute() {
-						 Window.alert(Graphic.getSingleton().isComponentReady()+"");
+						 //Window.alert(Graphic.getSingleton().isComponentReady()+"");
+						FWindow window = new FWindow("Import/Export Map");
+						//AbstractPresenter presenter = new MapImportExportPresenter( new MapImportExportView(),model);
+						//presenter.go(window.asWdidget());
 
 					}
 				};

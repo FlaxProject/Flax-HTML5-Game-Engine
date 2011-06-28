@@ -9,6 +9,12 @@ body {
 	color: #000000;
 }
 
+/** Absolute positioning fixes the canvas on top of everything bug, look at this later **/
+#nameFieldContainer canvas{	
+	z-index:-1;
+	position: absolute; left: 0px; top: 0px;
+}
+
 	
 /** Weave **/
 

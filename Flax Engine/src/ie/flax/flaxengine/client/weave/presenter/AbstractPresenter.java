@@ -19,5 +19,4 @@ public abstract class AbstractPresenter {
 	 * @param containerElement
 	 */
 	public abstract void go(final HasWidgets containerElement);
-
 }
