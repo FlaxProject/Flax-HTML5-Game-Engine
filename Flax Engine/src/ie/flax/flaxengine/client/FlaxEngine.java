@@ -58,14 +58,9 @@ public abstract class FlaxEngine {
 
 			if (isEngineReady()) {
 				if (playing == true) {
-					// TODO Game Loop
-					// Log.info("Game Loop is looping");
-						maps.get(0).draw(); 
-					if (editor.isRunning()) {
-						editor.drawGrid();
-					}
-					fpsUpdate();
 
+					maps.get(0).draw(); 
+					fpsUpdate();
 				}
 			}
 
