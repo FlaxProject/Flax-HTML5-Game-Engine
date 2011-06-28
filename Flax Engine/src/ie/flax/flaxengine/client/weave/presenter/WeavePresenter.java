@@ -44,12 +44,11 @@ public class WeavePresenter extends AbstractPresenter{
 				 {
 					 display.toggle();
 					 //((WeavePresenter) presenter).toggleDisplay();				 					
-					//  running = !running; 
+					 // running = !running; 
 				 }				
 			}
 		};		
 		RootPanel.get().addDomHandler(keyPressHandle, KeyPressEvent.getType());
-			
 	}
 	
 

@@ -54,7 +54,6 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 		
-		
 	}
 	
 	/**
@@ -127,7 +126,7 @@ public class Weave implements ImageSelectionEventHandler{
 	 * @return - true or false
 	 */
 	public boolean isRunning() {
-		return running;
+		return true;
 	}
 	
 

@@ -84,7 +84,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 */
 	@Deprecated	
 	public FMap() {
-		//c
+		
 	}
 		
 	/**
