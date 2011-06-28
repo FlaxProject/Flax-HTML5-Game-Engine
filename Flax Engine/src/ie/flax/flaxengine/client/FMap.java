@@ -10,14 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
-import com.kfuntak.gwt.json.serialization.client.SerializationException;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 
 /**
@@ -73,17 +69,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 */
 	@SuppressWarnings("deprecation")
 	public FMap(String mapPath, Canvas drawingSpace) {		
+		this.drawingSpace = drawingSpace;
 		name = mapPath;
-		tileSheet = "http://flax.ie/test/p.png";
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
 	}
 	
-	//TODO: fix this later, testing
-	public FMap(String mapName, int tileSize, int unitWidth, int unitHeight)
-	{
-				
-	}
 
 	/**
 	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
@@ -93,7 +84,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 */
 	@Deprecated	
 	public FMap() {
-		//this.addTile(new FTile(20, 20, true, 1));
+		
 	}
 		
 	/**
@@ -162,15 +153,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * This calls all the draw methods of the entities in the FMap, the tiles and checks weather they are on-screen and
 	 * if they are they are then drawn to the screen.
 	 */
-	public void draw(Canvas canvas) {
-		
-		this.drawingSpace = canvas;
-	
+	public void draw() {	
 		/**
 		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
 		 */
 		//Context2d canvasRef = Graphic.getSingleton().getCanvas("Flax").getContext2d();
-		FCamera cam = FlaxEngine.camera;
+		FCamera cam = FlaxEngine.camera; //TODO: CARL make Camera singleton and have it initliazed in Flax Engine
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
 		 */
@@ -184,26 +172,28 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		if(tileSheetImage != null)
 		{
 		
-		for(FTile temp : tiles)
-		{
-			//check if the tile can be seen on screen before drawing
-			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-			temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());		
-		}
+			for(FTile temp :  tiles)
+			{
+				//check if the tile can be seen on screen before drawing
+				if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+					temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());
+			
+
+			}
+			
+			for(FObject temp : objects)
+			{
+				//check if the eneity can be seen on screen before drawing
+				if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+				temp.draw(drawingSpace);
+			}
 		
-		for(FObject temp : objects)
-		{
-			//check if the eneity can be seen on screen before drawing
-			if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-			temp.draw(drawingSpace);
-		}
-	
-		for(FEntity temp : entities)
-		{
-			//check if the eneity can be seen on screen before drawing
-			if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
-			temp.draw(drawingSpace);
-		}		
+			for(FEntity temp : entities)
+			{
+				//check if the eneity can be seen on screen before drawing
+				if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
+				temp.draw(drawingSpace);
+			}		
 		}
 	}
 
@@ -287,8 +277,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		for(FTile obj : tiles)
 		{
 			if(obj.getX() == clickX && obj.getY() == clickY)
-				return obj;		
-			
+				return obj;					
 		}
 		return null;
 	}
@@ -312,26 +301,17 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 */
 	public FMap fromJson(String Json) {
 		
-		FMap temp = new FMap();
-		try {
-			
-			
-			Serializer serializer = (Serializer) GWT.create(Serializer.class);
+		//TODO put in proper fix for corrupt data in the map file
 		
-			
-			//if(serializer != null)
-				//temp = (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");
-			////else
-			//	FLog.error("fromJSON - serializer was null");
-			
-			
-		} catch (SerializationException e) {
-			// TODO: handle exception
-			FLog.error("fuckkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk   " + e.getCause() + "          " + e.getMessage());
-	
+		FMap temp = null;		
+		try {
+			Serializer serializer = (Serializer) GWT.create(Serializer.class);		
+			 temp = (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");			
+		} catch (Exception e) {
+			Window.alert(e + "\n\n" + e.getCause() + "\n\n" );		
 		}
 		
-			//temp.addTile(new FTile(0, 0, true, 3));
+	
 		return temp;
 	}
 
@@ -389,8 +369,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			 * in the event object which was pulled from the server
 			 */
 			FMap temp = fromJson(e.getDataLoadedFromFile()); 
-						
+			
+			//FIXME when JSON loading again
 			replaceMap(temp); //op code : this = temp;
+			
+			//this.addTile(new FTile(2, 2, true, 1));
+			//tileSize = 32;
+			//this.setWidth(5000);
+			//this.setHeight(5000);
 			
 			
 			//Loops though all objects from map

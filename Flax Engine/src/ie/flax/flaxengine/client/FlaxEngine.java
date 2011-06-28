@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 
 /**
@@ -31,8 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public abstract class FlaxEngine {
 	
 	private Canvas drawingSpace;
-	
-	
+		
 	private static final String powerBy = "Powered By Flax Web Game Engine";
 	private List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
@@ -60,9 +60,7 @@ public abstract class FlaxEngine {
 				if (playing == true) {
 					// TODO Game Loop
 					// Log.info("Game Loop is looping");
-
-					//d
-					maps.get(0).draw(drawingSpace); //FIXME very very weird bug - some how at some stage the map canvas member gets set to null, so I did this as a quick fix, look into it when you have time.
+						maps.get(0).draw(); 
 					if (editor.isRunning()) {
 						editor.drawGrid();
 					}
@@ -174,6 +172,7 @@ public abstract class FlaxEngine {
 		editor = new Weave(insertId);
 				
 		maps.add(new FMap(mapPaths,drawingSpace));//Loads all the maps
+		editor.run(drawingSpace,getCurrentMap()); //FIXME again that canvas been null problem is causing problems
 	
 	}
 	
@@ -197,6 +196,13 @@ public abstract class FlaxEngine {
 		}
 
 		drawingSpace = Canvas.createIfSupported();//(Graphic.getSingleton().createCanvas("Flax",width,height, width+ "px", height + "px"));
+		
+		//FIXME in the below code window width and height is used, this will not be good when embedding a game
+		drawingSpace.setWidth(Window.getClientWidth()+"px");
+		drawingSpace.setHeight(Window.getClientHeight()+"px");		
+		drawingSpace.setCoordinateSpaceHeight(Window.getClientHeight());
+		drawingSpace.setCoordinateSpaceWidth(Window.getClientWidth());
+		
 		camera = new FCamera(new FVector(0, 0), width, height);
 
 	
