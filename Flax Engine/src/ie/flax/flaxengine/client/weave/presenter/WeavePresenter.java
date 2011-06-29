@@ -1,57 +1,39 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MainMenuView;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
+import ie.flax.flaxengine.client.weave.view.WeaveView;
 
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * This is the main presenter which control the Main View which is called the WeaveView.
+ * @author Ciarán McCann
+ *
+ */
 public class WeavePresenter extends AbstractPresenter{
 	
-	Display display;
+	private TileMenuPresenter TilePresenter;
+	private WeaveView display;
+	private Weave editor;
 	
-	public interface Display {
-		HasWidgets getNorth();
-		HasWidgets getSouth();
-		HasWidgets getEast();
-		void toggle();
-	}
 	
-	public WeavePresenter(Display display, Weave editor, FMap model)
+	public WeavePresenter(WeaveView display, Weave editor)
 	{
 		this.display = display;
-		AbstractPresenter TilePresenter = new TileMenuPresenter(new TileMenuView(),editor);
-		TilePresenter.go(display.getSouth());
+		TilePresenter = new TileMenuPresenter(new TileMenuView(),editor);
+		display.addToSouth(TilePresenter.asWidget(), "TileMenu");
 		
-		display.getNorth().add(new MainMenuView(editor)); //None MVP include of UI
+			
+		display.addToNorth(new MainMenuView(editor).asWidget()); //None MVP include of UI
 	}
 
 	@Override
 	public void bind() {
-		/**
-		 * Toggle Editor
-		 */
-		KeyPressHandler keyPressHandle = new KeyPressHandler() {
-			
-			@Override
-			public void onKeyPress(KeyPressEvent event) {
-					
-				 if(event.getNativeEvent().getKeyCode() == 92)
-				 {
-					 display.toggle();
-					 //((WeavePresenter) presenter).toggleDisplay();				 					
-					 // running = !running; 
-				 }				
-			}
-		};		
-		RootPanel.get().addDomHandler(keyPressHandle, KeyPressEvent.getType());
+		
 	}
 	
-
 	public void toggleDisplay() {
 		display.toggle();
 		

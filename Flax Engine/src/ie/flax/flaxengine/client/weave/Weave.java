@@ -8,10 +8,11 @@ import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.presenter.AbstractPresenter;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
-import ie.flax.flaxengine.client.weave.view.WeaveView;
+import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -32,62 +33,115 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Weave implements ImageSelectionEventHandler{
 	
+	private final int cameraPanSpeed = 32;
+	
 	private FMap map;
 	private FTile currentTile;
 	private Canvas drawingSpace;
 	private boolean running;
+	private final WeavePresenter WeavePresenter;
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
 	 * which you have provided the ID to.
 	 * @param insertID
+	 * @param map 
+	 * @param drawingSpace 
 	 * @param width
 	 * @param height
 	 */
-	public Weave(String insertID)
+	public Weave(final String insertID, Canvas drawingSpace, FMap map)
 	{ 
-		currentTile = new FTile();	
+		this.drawingSpace = drawingSpace;
+		this.map = map;
+		this.currentTile = new FTile();	
+		
 
-		PopupPanel t = new PopupPanel();
-		final AbstractPresenter presenter = new WeavePresenter(new WeaveView(), this, this.map); 
-		presenter.go(RootPanel.get(insertID));
+		WeavePresenter = new WeavePresenter(new WeaveViewImpl(), this); 
+		WeavePresenter.go(RootPanel.get(insertID));
 		
-		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
+		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this); //Register to listen for event
 		
+		bind(); //Key and Mouse Events
 	}
+		
+	
+	public final FTile getCurrentTile(){return currentTile;}		
+	public final FMap getFMapReference(){return map;}
 	
 	/**
-	 * Gets the current tile
-	 * @return
+	 * Is weave running or not
+	 * @return - true or false
 	 */
-	public FTile getCurrentTile()
-	{
-		return currentTile;
-	}
-	
-	/**
-	 * Runs the editor
-	 * @param drawingSpace2 
-	 * @param currentMap
-	 */
-	public void run(Canvas drawingSpace2, FMap currentMap)
-	{
-		this.map = currentMap;
-		this.drawingSpace = drawingSpace2;
+	public boolean isRunning() {
+		return running;
 	}
 	
 	
 	/**
-	 * Gets a reference to the current map object
-	 * @return
+	 * This binds the goble key events for the editor, such as the backslash.
+	 * Though in furture the canvas keyevents may be changed to goble rootpanel events and thus
+	 * this method will handle all them as well.
 	 */
-	public FMap getFMapReference()
+	public void bind()
 	{
-		return map;
+		/**
+		 * Editor Camera Moving
+		 */
+		KeyDownHandler keyDownHandle = new KeyDownHandler() {
+			
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+					
+				if(running)
+				{
+					event.preventDefault();
+					
+					if(event.isUpArrow())
+						FlaxEngine.camera.incermentY(-cameraPanSpeed);		    
+					
+					if(event.isDownArrow())
+						FlaxEngine.camera.incermentY(cameraPanSpeed);
+					
+					if(event.isLeftArrow())
+						FlaxEngine.camera.incermentX(-cameraPanSpeed);
+					
+					
+					if(event.isRightArrow())
+						FlaxEngine.camera.incermentX(cameraPanSpeed);
+										
+				}
+			}
+		};
+			
+		
+		/**
+		 * Toggle Editor
+		 */
+		KeyPressHandler keyPressHandle = new KeyPressHandler() {
+			
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+					
+				 if(event.getNativeEvent().getKeyCode() == 92)
+				 {
+					 WeavePresenter.toggleDisplay();
+					 running = !running;
+				 }				
+			}
+		};		
+		
+		/**
+		 * RootPanel  
+		 */
+		RootPanel.get().addDomHandler(keyPressHandle, KeyPressEvent.getType());
+		RootPanel.get().addDomHandler(keyDownHandle, KeyDownEvent.getType());
 	}
+	
 	
 	/**
 	 * draws a Grid over the map so its easier to edit
+	 * FIXME: last time I tried this frame rate was killed, look into in furture.
 	 */
 	public void drawGrid() {
 	 
@@ -120,15 +174,7 @@ public class Weave implements ImageSelectionEventHandler{
 			map.addTile( new FTile(tX*tileSize,  tY*tileSize, false, currentTile.getTexture())  );
 		}
 	}
-	
-	/**
-	 * Is weave running or not
-	 * @return - true or false
-	 */
-	public boolean isRunning() {
-		return true;
-	}
-	
+		
 
 	/**
 	 * While the editor is active there will be certain keys which will do stuff, this method binds those keys to functionality
@@ -136,20 +182,7 @@ public class Weave implements ImageSelectionEventHandler{
 	 */
 	public void keyboardControls(KeyDownEvent event)
 	{
-		
-		if(event.isUpArrow())
-			FlaxEngine.camera.incermentY(-5);		    
-		
-		if(event.isDownArrow())
-			FlaxEngine.camera.incermentY(5);
-		
-		if(event.isLeftArrow())
-			FlaxEngine.camera.incermentX(-5);
-		
-		
-		if(event.isRightArrow())
-			FlaxEngine.camera.incermentX(5);
-
+				//Will be used in future, so don't remove me or I will slap you!		
 	}
 	
 	/**
@@ -158,7 +191,6 @@ public class Weave implements ImageSelectionEventHandler{
 	 */
 	public void onMouseMove(MouseMoveEvent event)
 	{
-
 		if (this.isRunning()) {
 			if (event.isShiftKeyDown())
 				this.selectedTile(event.getX(), event.getY());

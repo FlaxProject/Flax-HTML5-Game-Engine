@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
@@ -24,7 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Controls the logic of the tilesheet view
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public class TileMenuPresenter extends AbstractPresenter implements ImageSelectionEventHandler{
@@ -45,6 +46,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		this.model = model;
 		this.display = display;
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
+		bind();
 	}
 	
 	
@@ -64,7 +66,6 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			
 			@Override
 			public void onClick(ClickEvent event) {
-
 				AbstractPresenter imageLibPresenter = new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
 				FWindow window = new FWindow("Select TileSheet");
 				imageLibPresenter.go(window.asWdidget());
@@ -83,24 +84,27 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 
 				if(model.getFMapReference().getTileSheet() != null)
 				{
-					display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()), 0, 0);
+					Context2d ctx = display.getTileCanvas().getContext2d();
+					
+					
+					ctx.fillRect(0, 0, display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
+					ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()), 0, 0);
 					int tileSize = 32;//TODO change back once canvas back online model.getFMapReference().getTileSize();
 					int tileSheetWidth = Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth();
 					int numberOfTilesInaRow = tileSheetWidth/tileSize;
 						
 					int x = (event.getX()/tileSize)*tileSize;
 					int y = (event.getY()/tileSize)*tileSize;
-				
-					Context2d temp = display.getTileCanvas().getContext2d();
+								
 					
-					temp.setStrokeStyle("#CD0000");
-					temp.beginPath();
-					temp.moveTo(x, y);
-					temp.lineTo(x+tileSize, y);
-					temp.lineTo(x+tileSize, y+tileSize);
-					temp.lineTo(x, y+tileSize);
-					temp.closePath();
-					temp.stroke();
+					ctx.setStrokeStyle("#CD0000");
+					ctx.beginPath();
+					ctx.moveTo(x, y);
+					ctx.lineTo(x+tileSize, y);
+					ctx.lineTo(x+tileSize, y+tileSize);
+					ctx.lineTo(x, y+tileSize);
+					ctx.closePath();
+					ctx.stroke();
 				}
 				
 			}
@@ -117,7 +121,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	{
 		if(model.getFMapReference().getTileSheet() != null)
 		{
-			int tileSize = 32; //TODO change back when map object working again model.getFMapReference().getTileSize();
+			int tileSize = model.getFMapReference().getTileSize();
 			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/tileSize;
 					
 			int x = clickX/tileSize;
@@ -127,11 +131,17 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		}
 	}
 	
-	@Override
+	@Deprecated
 	public void go(final HasWidgets ContainerElement) {
-		bind();
+		
 		ContainerElement.add(display.asWidget());
 		
+	}
+	
+	//TODO This method should be in abstractPresenter
+	public Widget asWidget()
+	{
+		return display.asWidget();
 	}
 
 
@@ -139,6 +149,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	public void onImageSelection(ImageSelectionEvent e) {
 		if(e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET)
 		{
+			display.getTileCanvas().getContext2d().fillRect(0, 0, display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
 			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()), 0, 0);
 		}
 		

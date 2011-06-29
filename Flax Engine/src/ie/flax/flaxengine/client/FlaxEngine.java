@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 
 /**
@@ -26,7 +25,7 @@ import com.sun.java.swing.plaf.windows.resources.windows;
  * <br><br>
  * This class is abstract so it most be extended by the developers main game class
  * 
- * @author Ciarán McCann
+ * @author Ciarán McCann 
  * 
  */
 public abstract class FlaxEngine {
@@ -48,7 +47,7 @@ public abstract class FlaxEngine {
 
 	/**
 	 * This timer implements the game loop. The timer loops every 500
-	 * millsecounds It checks is the engineReady and then if the game is been
+	 * Milliseconds It checks is the engineReady and then if the game is been
 	 * played and then
 	 */
 	private Timer gameTimer = new Timer() {
@@ -140,18 +139,8 @@ public abstract class FlaxEngine {
 	public void run()
 	{
 		playing = true;	
-		gameTimer.scheduleRepeating(41);
-								
+		gameTimer.scheduleRepeating(41);								
 	}
-	
-	/**
-	 * For FPS counter
-	 * @return
-	 */
-	protected native int getMilliseconds() /*-{
-		var currentTime = new Date();
-		return currentTime.getMilliseconds();
-	}-*/;
 	
 	
 	/**
@@ -160,15 +149,11 @@ public abstract class FlaxEngine {
 	 * @param insertId - id of element of which to insert the canvas
 	 * @param CSSclass 
 	 */
-	public FlaxEngine(String mapPaths, String insertId, int width, int height)
-	{	
-		Graphic.getSingleton().loadImage("http://flax.ie/test/p.png");					
-		initEngine(insertId,width,height);	
-		editor = new Weave(insertId);
-				
+	public FlaxEngine(final String mapPaths, final String insertId, int width, int height)
+	{					
+		initEngine(insertId,width,height);					
 		maps.add(new FMap(mapPaths,drawingSpace));//Loads all the maps
-		editor.run(drawingSpace,getCurrentMap()); //FIXME again that canvas been null problem is causing problems
-	
+		editor = new Weave(insertId,drawingSpace,getCurrentMap());
 	}
 	
 	/**
@@ -201,7 +186,7 @@ public abstract class FlaxEngine {
 		camera = new FCamera(new FVector(0, 0), width, height);
 
 	
-		bindEvents(); // sets the event handlers for canvas tag
+		bind(); // sets the event handlers for canvas tag
 		RootPanel.get(insertId).add(drawingSpace);//inser into doc
 	}
 
@@ -209,7 +194,7 @@ public abstract class FlaxEngine {
 	/**
 	 * Registers the main game canvas for Events
 	 */
-	private void bindEvents() {
+	private void bind() {
 
 		drawingSpace.addKeyDownHandler(new KeyDownHandler() {
 
@@ -285,6 +270,16 @@ public abstract class FlaxEngine {
 		oldMilliseconds = currentMilliseconds;
 	}
 
+
+	/**
+	 * For FPS counter
+	 * @return
+	 */
+	protected native int getMilliseconds() /*-{
+		var currentTime = new Date();
+		return currentTime.getMilliseconds();
+	}-*/;
+	
 	
 	
 

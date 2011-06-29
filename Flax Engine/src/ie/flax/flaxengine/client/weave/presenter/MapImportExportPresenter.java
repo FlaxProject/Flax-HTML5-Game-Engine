@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FileHandle;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
@@ -11,13 +12,21 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * This class handles the Export and Import view in the editor. 
+ * 
+ * @author Ciarán McCann
+ *
+ */
 public class MapImportExportPresenter extends AbstractPresenter{
 
 	private Display display;
+	private Weave model;
 	
-	public MapImportExportPresenter(Display view)
+	public MapImportExportPresenter(Display view, Weave model)
 	{
 		this.display = view;
+		this.model = model;
 	}
 	
 	
@@ -40,8 +49,7 @@ public class MapImportExportPresenter extends AbstractPresenter{
 			@Override
 			public void onClick(ClickEvent event) {
 					
-				//Window.alert("Export Button");
-				//display.setMapDataString(Weave.getFMapReference().toJson());
+				display.setMapDataString(FMap.toJson(model.getFMapReference()));
 			}
 		});
 		
@@ -49,10 +57,14 @@ public class MapImportExportPresenter extends AbstractPresenter{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("Import");
-
+			
 				if (display.getMapDataString() != null) {
-					FileHandle.writeStringToFile("map.json",display.getMapDataString(), "UiSaveLoadObj");
+										
+					//TODO Create copy constructor for the FMap class and remove the replaceMap function
+					   model.getFMapReference().replaceMap( FMap.fromJson(display.getMapDataString()));
+					  			  
+					
+					//FileHandle.writeStringToFile("map.json",display.getMapDataString(), "UiSaveLoadObj");
 				} else {
 					display.setMapDataString("You need to put a JSON map string into this textarea before you can load it into the engine!");
 				}

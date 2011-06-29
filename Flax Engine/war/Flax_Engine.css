@@ -1,5 +1,7 @@
 /** Add css rules here for your application. */
 
+
+
 body {
 	margin: 0px;
 	padding: 0;
@@ -15,18 +17,11 @@ body {
 	position: absolute; left: 0px; top: 0px;
 }
 
+.gwt-TabPanelBottom {
+	background: white !important;
+}
 	
 /** Weave **/
-
-.weavePanel
-{
-	//BACKGROUND:RED;
-	//border:2px blue solid;
-	
-	background: #eee;
-	border: 1px #666 solid;	
-}
-
 .weavePanel canvas{
 	border: #666 1px solid;
 	margin:6px;
@@ -51,72 +46,3 @@ body {
 	 -webkit-transition:background-color 0.5s linear;  
 	background: red;
 }
-
-
-
-
-
-
-#weave
-{
-	height:30px;
-	}
-
-#weave #fps
-{
-float:right;
-}
-
-
-
-div.tabShow, div.tabHide {
-   -webkit-transition: height 0.4s ease-in; 
-   border: #DCDCD0 1px solid;
-   width:100%;  
-   
-   overflow: scroll;
-}
-
-div.tabHide
-{
-	
-	height:0px;	
-	position: absolute;
-	top:27px;
-	background:#eee;
-}
-
-div.tabShow
-{
-	height:225px;
-	position: absolute;
-	top:27px;
-	background:#eee;
-}
-
-#menu
-{
-	background: #F3F1E5;
-	width:100%;
-	border: #DCDCD0 1px solid;
-	border-bottom:none;
-	overflow: none;
-	
-}
-
-div .label{
-	
-	border-right: #DCDCD0 1px solid;
-	padding-left:10px;
-	padding-right:10px;
-	font-size:20px;
-	float:left;
-	
-}
-
-.mapJsonTextarea 
-{
-	width: 100%;
-	height: 70px;
-}
-

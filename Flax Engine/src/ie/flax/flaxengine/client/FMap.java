@@ -3,6 +3,8 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 
@@ -12,6 +14,8 @@ import java.util.List;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
@@ -157,7 +161,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		/**
 		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
 		 */
-		//Context2d canvasRef = Graphic.getSingleton().getCanvas("Flax").getContext2d();
 		FCamera cam = FlaxEngine.camera; //TODO: CARL make Camera singleton and have it initliazed in Flax Engine
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
@@ -177,8 +180,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				//check if the tile can be seen on screen before drawing
 				if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
 					temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());
-			
-
 			}
 			
 			for(FObject temp : objects)
@@ -299,7 +300,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param JSON
 	 * @return
 	 */
-	public FMap fromJson(String Json) {
+	public static FMap fromJson(String Json) {
 		
 		//TODO put in proper fix for corrupt data in the map file
 		
@@ -308,7 +309,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			Serializer serializer = (Serializer) GWT.create(Serializer.class);		
 			 temp = (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");			
 		} catch (Exception e) {
-			Window.alert(e + "\n\n" + e.getCause() + "\n\n" );		
+			Window.alert(e + "\n\n" + e.getCause() + "\n\n" + "Map data corrupt");		
 		}
 		
 	
@@ -320,9 +321,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * 
 	 * @return String of JSON
 	 */
-	public String toJson() {
+	public static String toJson(FMap map) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
-		return serializer.serialize(this);
+		return serializer.serialize(map);
 	}
 	
 	/**
@@ -369,14 +370,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			 * in the event object which was pulled from the server
 			 */
 			FMap temp = fromJson(e.getDataLoadedFromFile()); 
-			
-			//FIXME when JSON loading again
 			replaceMap(temp); //op code : this = temp;
-			
-			//this.addTile(new FTile(2, 2, true, 1));
-			//tileSize = 32;
-			//this.setWidth(5000);
-			//this.setHeight(5000);
 			
 			
 			//Loops though all objects from map
@@ -405,11 +399,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				//get the image file assoiated with said object and loads them.
 				
 				
-				//Graphic.getSingleton().loadImage(obj.getSprite());
-				
+				//Graphic.getSingleton().loadImage(obj.getSprite());			
 			}
-					
-			//Graphic.getSingleton().loadImage( tileSheet);			
+				
+			
+			/**
+			 * Loads the tilesheet of the map, waits for the onLoad call back and fires a ImageSelection 
+			 * event which will load the tilesheet into the tileMenuView
+			 */
+			Graphic.getSingleton().loadImage(tileSheet).addLoadHanderl( new LoadHandler() {
+				
+				@Override
+				public void onLoad(LoadEvent event) {
+					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Idenfiter.TILE_SHEET));				
+				}
+			});			
+			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
 			Loaded = true;

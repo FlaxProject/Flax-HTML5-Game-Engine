@@ -31,11 +31,8 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 		canvas.setCoordinateSpaceHeight(1000);
 		canvas.setCoordinateSpaceWidth(1000);
 		
-		//canvas.getContext2d().drawImage(Graphic, dx, dy)
 		
-		selectImageButton = new Button("Select TitleSheet");
-		
-		
+		selectImageButton = new Button("Select TitleSheet");	
 		ScrollPanel canvasScrollPanel = new ScrollPanel(canvas);
 		canvasScrollPanel.setWidth("100%");
 		canvasScrollPanel.setHeight("135px");
