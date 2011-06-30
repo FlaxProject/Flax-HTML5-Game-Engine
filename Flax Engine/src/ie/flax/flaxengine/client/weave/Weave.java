@@ -95,7 +95,8 @@ public class Weave implements ImageSelectionEventHandler{
 					
 				if(running)
 				{
-					event.preventDefault();
+					//TODO bug, when the camera moves up so does the tilesheet panel
+					//event.preventDefault();
 					
 					if(event.isUpArrow())
 						FlaxEngine.camera.incermentY(-cameraPanSpeed);		    
