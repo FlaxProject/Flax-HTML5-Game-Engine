@@ -15,6 +15,8 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -233,6 +235,17 @@ public abstract class FlaxEngine {
 				
 				if(editor.isRunning())
 					editor.onMouseDown(event);
+				
+			}
+		});
+		
+		
+		drawingSpace.addMouseUpHandler(new MouseUpHandler() {
+			
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				if(editor.isRunning())
+					editor.onMouseUp(event);
 				
 			}
 		});

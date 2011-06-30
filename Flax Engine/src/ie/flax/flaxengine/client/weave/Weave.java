@@ -9,6 +9,7 @@ import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
+import ie.flax.flaxengine.client.weave.controls.TileRegion;
 import ie.flax.flaxengine.client.weave.presenter.AbstractPresenter;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
@@ -23,6 +24,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -227,54 +229,6 @@ public class Weave implements ImageSelectionEventHandler{
 					
 					//getTilesInRegion
 
-					int tilesize = map.getTileSize();
-					
-					int newX =  (int) (event.getClientX() - startPos.x)/tilesize ;
-					int newY =  (int) (event.getClientY() - startPos.y)/tilesize ;
-					
-					int startX = (int) startPos.x/tilesize;
-					int startY = (int) startPos.y/tilesize;
-					
-					/*
-					newX *= tilesize;
-					newY *= tilesize;
-					startX *= tilesize;
-					startY *= tilesize;
-					
-					
-					for (FTile tile : map.getTiles()) {
-						
-						if( tile.getX() >= startX && tile.getX() <= newX && tile.getY() >= startY && tile.getY() <= newY)
-						{
-							tile.setTexture(2);
-						}
-					}
-					*/
-					
-					int startXCopy = startX;
-					
-					while(startY >= newY)
-					{
-						while(startX >= newX)
-						{
-							map.addTile(new FTile(startX*tilesize, startY*tilesize, true, 2));
-							startX++;		
-						}
-						startX = startXCopy;
-						startY++;
-					}
-						
-						
-						
-					//while
-					
-					int index = ( startY * map.getWidth() ) + startX;
-					
-					System.out.print(index + "\n ");
-					
-					
-					
-				
 					
 								
 					drawRegionBox(event.getClientX(),event.getClientY());
@@ -318,14 +272,60 @@ public class Weave implements ImageSelectionEventHandler{
 
 	public void onMouseDown(MouseDownEvent event)
 	{
-		mouseState = MouseState.MOUSE_DOWN;
+		
 		
 		if (event.isShiftKeyDown())
 		{
+			
+			mouseState = MouseState.MOUSE_DOWN;		
+		
 			startPos = new FVector(event.getX(), event.getY());
 		}
 		
 	}
+	
+	public void onMouseUp(MouseUpEvent event) {
+		
+		mouseState = MouseState.MOUSE_UP;
+		
+		int tilesize = map.getTileSize();
+		
+		int newX =  (int) (event.getClientX())/tilesize ;
+		int newY =  (int) (event.getClientY())/tilesize ;
+		
+		int startX = (int) startPos.x/tilesize;
+		int startY = (int) startPos.y/tilesize;
+		
+		
+		int startXCopy = startX;
+		
+		while(startY <= newY)
+		{
+			while(startX <= newX)
+			{
+				
+				FTile tile = map.getTile(startX*tilesize, startY*tilesize);
+				
+				if(tile == null)
+				{
+				
+					map.addTile(new FTile(startX*tilesize, startY*tilesize, true, currentTile.getTexture()));
+				
+				}
+				else
+				{
+					tile.setTexture(currentTile.getTexture());
+				}
+				
+				
+				startX++;		
+			}
+			startX = startXCopy;
+			startY++;
+		}
+		
+	}
+
 
 	
 	/**
@@ -341,4 +341,6 @@ public class Weave implements ImageSelectionEventHandler{
 		
 	}
 
+
+	
 }
