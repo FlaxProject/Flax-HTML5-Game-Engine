@@ -1,30 +1,21 @@
 package ie.flax.flaxengine.client.weave.view.Impl;
 
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.HasKeyPressHandlers;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.StackLayoutPanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
-import com.google.gwt.user.client.ui.TabPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 import ie.flax.flaxengine.client.FLog;
-import ie.flax.flaxengine.client.weave.presenter.*;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
+
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class WeaveViewImpl implements WeaveView{
 	
 	private static final int AnimationTime = 300;
-	private static final String MAIN_PANEL_STYLE = "weavePanel";
 	private SimplePanel northPanel;
 	private TabPanel southPanel;
 	private StackLayoutPanel eastPanel;	

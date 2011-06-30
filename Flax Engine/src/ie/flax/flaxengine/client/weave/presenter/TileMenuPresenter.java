@@ -1,24 +1,19 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
-import ie.flax.flaxengine.client.weave.view.*;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -91,7 +86,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 					ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()), 0, 0);
 					int tileSize = 32;//TODO change back once canvas back online model.getFMapReference().getTileSize();
 					int tileSheetWidth = Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth();
-					int numberOfTilesInaRow = tileSheetWidth/tileSize;
+			
 						
 					int x = (event.getX()/tileSize)*tileSize;
 					int y = (event.getY()/tileSize)*tileSize;

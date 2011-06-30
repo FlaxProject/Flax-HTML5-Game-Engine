@@ -3,7 +3,6 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
 /**

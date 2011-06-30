@@ -1,15 +1,12 @@
 package ie.flax.flaxengine.client.weave.view;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.MenuBar;
-
-import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
-import ie.flax.flaxengine.client.weave.presenter.*;
+import ie.flax.flaxengine.client.weave.presenter.AbstractPresenter;
+import ie.flax.flaxengine.client.weave.presenter.FileUploadPresenter;
+import ie.flax.flaxengine.client.weave.presenter.MapImportExportPresenter;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
 
 public class MainMenuView extends MenuBar {
 

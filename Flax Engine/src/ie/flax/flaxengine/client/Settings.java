@@ -5,10 +5,6 @@ import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Text;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.XMLParser;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 

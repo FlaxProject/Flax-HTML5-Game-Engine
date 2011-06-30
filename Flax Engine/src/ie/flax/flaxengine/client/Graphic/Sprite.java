@@ -1,6 +1,5 @@
 package ie.flax.flaxengine.client.Graphic;
 
-import com.google.gwt.user.client.ui.Image;
 
 /**
  * This class handles the sprite for objects, like NPC , Characters etc.

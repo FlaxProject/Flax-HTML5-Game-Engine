@@ -2,7 +2,6 @@ package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
-import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

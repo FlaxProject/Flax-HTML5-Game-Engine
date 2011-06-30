@@ -1,12 +1,6 @@
 package ie.flax.flaxengine.client;
 
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
-import com.google.gwt.dom.client.ImageElement;
 
 /**
  * This class handles all the real world physics such as forces been applied to bodys,

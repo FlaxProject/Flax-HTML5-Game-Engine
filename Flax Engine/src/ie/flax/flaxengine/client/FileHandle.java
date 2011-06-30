@@ -3,8 +3,12 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.http.client.*;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 
 /**
  * This class handles files (surprise!). Essentially, it sends HTTP requests to the PHP backend.
