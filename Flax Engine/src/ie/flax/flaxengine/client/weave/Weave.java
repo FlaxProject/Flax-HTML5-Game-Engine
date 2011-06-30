@@ -217,20 +217,16 @@ public class Weave implements ImageSelectionEventHandler{
 	public void onMouseMove(MouseMoveEvent event)
 	{
 		if (this.isRunning()) {
-			
-			
-			
+						
 			if (event.isShiftKeyDown())
 			{
 
 				if(mouseState == MouseState.MOUSE_DOWN)
 				{
-					
-					
+										
 					//getTilesInRegion
 
-					
-								
+												
 					drawRegionBox(event.getClientX(),event.getClientY());
 					
 	
@@ -339,6 +335,11 @@ public class Weave implements ImageSelectionEventHandler{
 			map.setTileSheet(e.getImageUrl());
 		}
 		
+	}
+
+
+	public Canvas getdrawingSpace() {
+		return drawingSpace;
 	}
 
 
