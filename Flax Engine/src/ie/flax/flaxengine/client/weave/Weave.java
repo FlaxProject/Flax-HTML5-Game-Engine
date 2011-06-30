@@ -1,6 +1,9 @@
 package ie.flax.flaxengine.client.weave;
+import java.io.Console;
+
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
+import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
@@ -11,11 +14,16 @@ import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -41,6 +49,19 @@ public class Weave implements ImageSelectionEventHandler{
 	private boolean running;
 	private final WeavePresenter WeavePresenter;
 	
+	private enum MouseState
+	{
+		MOUSE_CLICKED,
+		MOUSE_DOWN,
+		MOUSE_UP,
+	}
+	
+	private FVector startPos;
+
+	
+	
+	private MouseState mouseState;
+	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
 	 * which you have provided the ID to.
@@ -55,7 +76,7 @@ public class Weave implements ImageSelectionEventHandler{
 		this.drawingSpace = drawingSpace;
 		this.map = map;
 		this.currentTile = new FTile();	
-		
+		this.mouseState = MouseState.MOUSE_UP;
 
 		WeavePresenter = new WeavePresenter(new WeaveViewImpl(), this); 
 		WeavePresenter.go(RootPanel.get(insertID));
@@ -85,6 +106,7 @@ public class Weave implements ImageSelectionEventHandler{
 	 */
 	public void bind()
 	{
+				
 		/**
 		 * Editor Camera Moving
 		 */
@@ -193,9 +215,116 @@ public class Weave implements ImageSelectionEventHandler{
 	public void onMouseMove(MouseMoveEvent event)
 	{
 		if (this.isRunning()) {
+			
+			
+			
 			if (event.isShiftKeyDown())
+			{
+
+				if(mouseState == MouseState.MOUSE_DOWN)
+				{
+					
+					
+					//getTilesInRegion
+
+					int tilesize = map.getTileSize();
+					
+					int newX =  (int) (event.getClientX() - startPos.x)/tilesize ;
+					int newY =  (int) (event.getClientY() - startPos.y)/tilesize ;
+					
+					int startX = (int) startPos.x/tilesize;
+					int startY = (int) startPos.y/tilesize;
+					
+					/*
+					newX *= tilesize;
+					newY *= tilesize;
+					startX *= tilesize;
+					startY *= tilesize;
+					
+					
+					for (FTile tile : map.getTiles()) {
+						
+						if( tile.getX() >= startX && tile.getX() <= newX && tile.getY() >= startY && tile.getY() <= newY)
+						{
+							tile.setTexture(2);
+						}
+					}
+					*/
+					
+					int startXCopy = startX;
+					
+					while(startY >= newY)
+					{
+						while(startX >= newX)
+						{
+							map.addTile(new FTile(startX*tilesize, startY*tilesize, true, 2));
+							startX++;		
+						}
+						startX = startXCopy;
+						startY++;
+					}
+						
+						
+						
+					//while
+					
+					int index = ( startY * map.getWidth() ) + startX;
+					
+					System.out.print(index + "\n ");
+					
+					
+					
+				
+					
+								
+					drawRegionBox(event.getClientX(),event.getClientY());
+					
+	
+				}
+				else
+				{
+				
 				this.selectedTile(event.getX(), event.getY());
+				}
+			}
+			
+			
 		}
+	}
+	
+	
+	private void drawRegionBox(int clientX, int clientY) {
+		
+
+		double newX =  clientX - startPos.x;
+		double newY =  clientY - startPos.y;
+		
+		Context2d ctx = drawingSpace.getContext2d();				
+		
+		ctx.setStrokeStyle("#CD0000");
+		ctx.beginPath();
+		
+		ctx.moveTo(startPos.x, startPos.y);
+		ctx.lineTo(startPos.x+newX, startPos.y);
+		
+		ctx.lineTo(startPos.x+newX, startPos.y+newY);
+		ctx.lineTo(startPos.x, startPos.y+newY);
+		
+		ctx.closePath();
+		ctx.stroke();
+		
+	}
+
+
+	public void onMouseDown(MouseDownEvent event)
+	{
+		mouseState = MouseState.MOUSE_DOWN;
+		
+		if (event.isShiftKeyDown())
+		{
+			startPos = new FVector(event.getX(), event.getY());
+		}
+		
 	}
 
 	

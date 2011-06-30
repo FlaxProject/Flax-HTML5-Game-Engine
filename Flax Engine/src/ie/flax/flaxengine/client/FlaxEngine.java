@@ -11,6 +11,8 @@ import java.util.List;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.Timer;
@@ -196,6 +198,10 @@ public abstract class FlaxEngine {
 	 */
 	private void bind() {
 
+		
+		//TODO Very strange bug which will not allow the attaching of these handlers
+		// inside the weave object. The drawingSpace reference is passed in, but 
+		// crazy stuff happens like stackover flow. Leaving them here for the meantime as its no bigy
 		drawingSpace.addKeyDownHandler(new KeyDownHandler() {
 
 			@Override
@@ -216,6 +222,18 @@ public abstract class FlaxEngine {
 				if (editor.isRunning()) {
 					editor.onMouseMove(event);
 				}
+			}
+		});
+		
+		
+		drawingSpace.addMouseDownHandler(new MouseDownHandler() {
+			
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				
+				if(editor.isRunning())
+					editor.onMouseDown(event);
+				
 			}
 		});
 

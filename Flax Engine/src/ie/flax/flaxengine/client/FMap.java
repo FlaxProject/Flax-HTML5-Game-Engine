@@ -221,7 +221,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	public void addTile(FTile tile)
 	{
 		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
-		tiles.add(tile);
+		{
+			tiles.add(tile);
+		}
 	}
 	
 	/**
@@ -272,6 +274,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
 		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
 		
+		
+		//TODO ciaran fix this, you don't need to do the below loop
 		clickX *= tileSize;
 		clickY *= tileSize;
 		
