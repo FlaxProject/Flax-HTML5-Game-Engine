@@ -44,29 +44,33 @@ public abstract class TileRegion implements IControlTileRegion {
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		
-		mouseState = MouseState.MOUSE_UP;
-				
-		int tilesize = editor.getFMapReference().getTileSize();
-		
-		int newX =  (int) (FlaxEngine.camera.getX() + event.getClientX())/tilesize ;
-		int newY =  (int) (FlaxEngine.camera.getY() + event.getClientY())/tilesize ;
-		
-		int startX = (int) ((int) FlaxEngine.camera.getX()/tilesize + startPos.x/tilesize);
-		int startY = (int) ((int) FlaxEngine.camera.getY()/tilesize + startPos.y/tilesize);
-		
-		
-		int startXCopy = startX;
-		
-		while(startY <= newY)
+		if(mouseState == MouseState.MOUSE_DOWN)
 		{
-			while(startX <= newX)
+				
+			int tilesize = editor.getFMapReference().getTileSize();
+			
+			int newX =  (int) (FlaxEngine.camera.getX() + event.getClientX())/tilesize ;
+			int newY =  (int) (FlaxEngine.camera.getY() + event.getClientY())/tilesize ;
+			
+			int startX = (int) ((int) FlaxEngine.camera.getX()/tilesize + startPos.x/tilesize);
+			int startY = (int) ((int) FlaxEngine.camera.getY()/tilesize + startPos.y/tilesize);
+			
+			
+			int startXCopy = startX;
+			
+			while(startY <= newY)
 			{
-								 
-				this.doTileRegionLogic(startX, startY);
-				startX++;		
+				while(startX <= newX)
+				{
+									 
+					this.doTileRegionLogic(startX, startY);
+					startX++;		
+				}
+				startX = startXCopy;
+				startY++;
 			}
-			startX = startXCopy;
-			startY++;
+			
+			mouseState = MouseState.MOUSE_UP;
 		}
 		
 	}
@@ -87,6 +91,7 @@ public abstract class TileRegion implements IControlTileRegion {
 	public void onMouseMove(MouseMoveEvent event) {
 		
 		if (event.isShiftKeyDown()) {
+			
 			if (mouseState == MouseState.MOUSE_DOWN) {
 				drawRegionBox(event.getClientX(), event.getClientY());
 			}

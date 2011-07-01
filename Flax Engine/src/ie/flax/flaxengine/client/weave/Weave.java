@@ -204,7 +204,7 @@ public class Weave implements ImageSelectionEventHandler{
 				//TODO define control system for just single typing
 				//this.selectedTile(event.getX(), event.getY());
 				
-			}
+		}
 			
 		
 	}
