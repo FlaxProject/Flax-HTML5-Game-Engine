@@ -19,19 +19,18 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class WeavePresenter extends AbstractPresenter {
 	
-	//private final MiniMapPresenter MiniPresenter;
+	private final MiniMapPresenter MiniPresenter;
 	private final TileMenuPresenter TilePresenter;
 	private final WeaveView display;
 
 	public WeavePresenter(Weave editor) {
 		display = new WeaveViewImpl();
 		TilePresenter = new TileMenuPresenter(new TileMenuView(), editor);
-		//MiniPresenter = new MiniMapPresenter(editor);
+		MiniPresenter = new MiniMapPresenter(editor);
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
 		display.addToSouth(FLog.getWidget(), "Console");
-		
-		//Temp disbale of min-map for testing
-		//display.addToSouth(MiniPresenter.getView(), "Min-Map Experiment");
+
+		display.addToSouth(MiniPresenter.getView(), "Min-Map Experiment");
 
 		// TODO Carl Create some kind of strings/help file class for this string and others like it.
 

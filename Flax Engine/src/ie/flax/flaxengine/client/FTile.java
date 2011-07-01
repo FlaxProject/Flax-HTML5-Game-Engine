@@ -14,7 +14,6 @@ public class FTile implements JsonSerializable{
 
 	private int x;
 	private int y;
-	private boolean solid;
 	private int texture;
 		
 	/**
@@ -28,9 +27,9 @@ public class FTile implements JsonSerializable{
 
 	public FTile(int x, int y, boolean solid, int texture) {
 		super();
+		
 		this.x = x;
 		this.y = y;
-		this.solid = solid;
 		this.texture = texture;
 	}
 	
@@ -112,22 +111,6 @@ public class FTile implements JsonSerializable{
 		this.y = y;
 	}
 
-
-	/**
-	 * Ture or false is the tile collideable or not
-	 * @return
-	 */
-	public boolean getSolid() {
-		return solid;
-	}
-
-	/**
-	 * Ture or false is the tile collideable or not
-	 * @param solid
-	 */
-	public void setSolid(boolean solid) {
-		this.solid = solid;
-	}
 
 	/**
 	 * Sets the texture of the tile which is the location on the tilesheet to used when drawing the tile
