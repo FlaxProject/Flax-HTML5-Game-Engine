@@ -1,9 +1,9 @@
 package ie.flax.flaxengine.client.weave.controls;
 
-import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.weave.Weave;
+
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -60,10 +60,8 @@ public abstract class TileRegion implements IControlTileRegion {
 		{
 			while(startX <= newX)
 			{
-				
-				 
-				//this.doTileRegionLogic();							
-				
+								 
+				this.doTileRegionLogic(startX, startY);
 				startX++;		
 			}
 			startX = startXCopy;
@@ -135,7 +133,8 @@ public abstract class TileRegion implements IControlTileRegion {
 		else
 		{
 			tile.setTexture(editor.getCurrentTile().getTexture());
-		}
+			tile = null;
+		}						
 	}
 
 

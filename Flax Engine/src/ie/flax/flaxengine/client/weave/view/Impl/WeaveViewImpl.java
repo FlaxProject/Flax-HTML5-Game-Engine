@@ -6,7 +6,6 @@ import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
@@ -41,18 +40,13 @@ public class WeaveViewImpl implements WeaveView{
 		eastPanel.setAnimationDuration(AnimationTime);
 		eastPanel.setHeight(Window.getClientHeight()+"px");
 		eastPanel.setHeight(Window.getClientHeight()+"px");
-		
-		//TODO Remove code - only for demo look
-		eastPanel.add(new Label("Widget - 1"), "Create Entity Type", 2);
-		eastPanel.add(new Label("Widget - 2"), "Entity Type List", 2);
-		eastPanel.add(new Label("Widget - 3"), "Entity List", 2);
-		
 		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
 		
 				
 		southPanel = new TabPanel();
 		southPanel.setWidth( (Window.getClientWidth()- eastPanel.getOffsetWidth()) +"px");
 		southPanel.setHeight("140px");
+		southPanel.setAnimationEnabled(true);
 		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
 		
 		

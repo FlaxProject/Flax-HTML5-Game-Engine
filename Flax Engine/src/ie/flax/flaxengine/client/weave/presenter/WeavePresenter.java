@@ -6,6 +6,7 @@ import ie.flax.flaxengine.client.weave.view.TileMenuView;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
 
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * This is the main presenter which control the Main View which is called the WeaveView.
@@ -16,14 +17,21 @@ public class WeavePresenter extends AbstractPresenter{
 	
 	private TileMenuPresenter TilePresenter;
 	private WeaveView display;
-	private Weave editor;
-	
+		
 	
 	public WeavePresenter(WeaveView display, Weave editor)
 	{
 		this.display = display;
 		TilePresenter = new TileMenuPresenter(new TileMenuView(),editor);
+		
 		display.addToSouth(TilePresenter.asWidget(), "TileMenu");
+		display.addToSouth(new Label("Insert logging widget here"), "Console");
+		
+		
+		display.addToEast(new Label("Widget - 1"), "Help Menu");
+		display.addToEast(new Label("Widget - 1"), "Create Entity Type");
+		display.addToEast(new Label("Widget - 2"), "Entity Type List");
+		display.addToEast(new Label("Widget - 3"), "Entity List");
 		
 			
 		display.addToNorth(new MainMenuView(editor).asWidget()); //None MVP include of UI

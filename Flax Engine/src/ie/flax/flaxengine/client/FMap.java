@@ -71,7 +71,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param mapPath
 	 *            address to the map file to be loaded.
 	 */
-	@SuppressWarnings("deprecation")
 	public FMap(String mapPath, Canvas drawingSpace) {		
 		this.drawingSpace = drawingSpace;
 		name = mapPath;

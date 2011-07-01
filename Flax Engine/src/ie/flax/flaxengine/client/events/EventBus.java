@@ -13,7 +13,6 @@ public class EventBus {
 	/**
 	 * This is the events hanlder which is used for firing and registering events.
 	 */
-	@SuppressWarnings("deprecation")
 	public static HandlerManager handlerManager = new HandlerManager(null);
 
 }

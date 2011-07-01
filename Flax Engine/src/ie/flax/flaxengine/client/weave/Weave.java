@@ -1,7 +1,6 @@
 package ie.flax.flaxengine.client.weave;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
-import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
@@ -12,7 +11,6 @@ import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -20,7 +18,6 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
