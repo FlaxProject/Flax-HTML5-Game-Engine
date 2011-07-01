@@ -42,6 +42,7 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  * and entitys they can do so. Though the map object requires the xml file for
  * at-lest the tiles of the map.
  * 
+ * 
  * @author Ciaran McCann
  * 
  */
@@ -146,9 +147,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		 */
 		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
 		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
-		
-		
-		//TODO ciaran fix this, you don't need to do the below loop
+
 		clickX *= tileSize;
 		clickY *= tileSize;
 		
