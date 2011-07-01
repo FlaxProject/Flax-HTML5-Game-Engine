@@ -27,6 +27,7 @@ public class FTile implements JsonSerializable{
 
 	public FTile(int x, int y, boolean solid, int texture) {
 		super();
+		
 		this.x = x;
 		this.y = y;
 		this.texture = texture;
