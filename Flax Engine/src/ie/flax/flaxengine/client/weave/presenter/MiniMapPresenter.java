@@ -9,7 +9,6 @@ import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
 
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MiniMapPresenter extends AbstractPresenter implements
@@ -37,20 +36,9 @@ public class MiniMapPresenter extends AbstractPresenter implements
 	}
 
 	@Override
-	public void bind() {
-		// TODO Auto-generated method stub
-
-	}
-
 	public Widget getView() {
 		// TODO Auto-generated method stub
 		return v.getWidget();
-	}
-
-	@Override
-	public void go(HasWidgets containerElement) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

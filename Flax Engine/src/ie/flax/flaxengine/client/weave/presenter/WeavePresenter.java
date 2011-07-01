@@ -7,7 +7,6 @@ import ie.flax.flaxengine.client.weave.view.TileMenuView;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -18,15 +17,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Ciarán McCann
  * 
  */
-public class WeavePresenter extends AbstractPresenter{
+public class WeavePresenter extends AbstractPresenter {
 	private final MiniMapPresenter MiniPresenter;
-	private TileMenuPresenter TilePresenter;
-	private WeaveView display;
-		
-	
-	public WeavePresenter(Weave editor)
-	{
-		this.display = new WeaveViewImpl(); 
+	private final TileMenuPresenter TilePresenter;
+	private final WeaveView display;
+
+	public WeavePresenter(Weave editor) {
+		display = new WeaveViewImpl();
 		TilePresenter = new TileMenuPresenter(new TileMenuView(), editor);
 		MiniPresenter = new MiniMapPresenter(editor);
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
@@ -51,11 +48,14 @@ public class WeavePresenter extends AbstractPresenter{
 																	// of UI
 	}
 
-
-
 	@Override
 	public Widget getView() {
 		return null;
+	}
+
+	public void toggleDisplay() {
+		display.toggle();
+
 	}
 
 }
