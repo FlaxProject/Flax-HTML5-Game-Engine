@@ -24,6 +24,7 @@ public class MapImportExportPresenter extends AbstractPresenter{
 	{
 		this.display = view;
 		this.model = model;
+		bind();
 	}
 	
 	
@@ -38,7 +39,7 @@ public class MapImportExportPresenter extends AbstractPresenter{
 	}
 		
 	
-	@Override
+	
 	public void bind() {
 		
 		display.getExportButton().addClickHandler(new ClickHandler() {
@@ -73,10 +74,8 @@ public class MapImportExportPresenter extends AbstractPresenter{
 
 
 	@Override
-	public void go(HasWidgets containerElement) {
-		bind();
-		containerElement.add(display.asWidget());
-		
+	public Widget getView() {
+		return display.asWidget();
 	}
 
 	

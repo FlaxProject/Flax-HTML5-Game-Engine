@@ -46,10 +46,11 @@ public class FileUploadPresenter extends AbstractPresenter {
 	public FileUploadPresenter(Display display)
 	{
 		this.display = display;
-		ImageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);		
+		ImageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);	
+		bind();
 	}
 
-	@Override
+	
 	public void bind() {
 		
 		display.getUploadButton().addClickHandler(new ClickHandler() {
@@ -84,11 +85,12 @@ public class FileUploadPresenter extends AbstractPresenter {
 		
 	}
 
-	@Override
+	
 	public void go(HasWidgets containerElement) {
 		bind();
 		containerElement.add(display.asWidgets()); //The first view is inserted into the top of the window
-		ImageLibaryPresenter.go(containerElement); //Secound below it.	
+		
+		//ImageLibaryPresenter.go(containerElement); //Secound below it.	
 	}
 	
 	private void loadprocess()
@@ -110,6 +112,12 @@ public class FileUploadPresenter extends AbstractPresenter {
 			});
 		}
 	
+	}
+
+
+	@Override
+	public Widget getView() {
+		return display.asWidgets();
 	}
 
 }

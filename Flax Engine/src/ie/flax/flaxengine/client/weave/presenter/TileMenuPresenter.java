@@ -27,6 +27,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 
 	private Display display;
 	private Weave model;
+	private FWindow window;
 
 	
 	public interface Display {
@@ -42,10 +43,11 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		this.display = display;
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 		bind();
+		window = new FWindow("Window");
 	}
 	
 	
-	@Override
+	
 	public void bind() {
 		
 		
@@ -61,9 +63,13 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				AbstractPresenter imageLibPresenter = new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
-				FWindow window = new FWindow("Select TileSheet");
-				imageLibPresenter.go(window.asWdidget());
+				 window.setTitle("Select TileSheet");
+				 
+				 window.clear();
+				 window.add(imageLibPresenter.getView());
+				 window.show();
 							
 				
 			}
@@ -126,18 +132,6 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		}
 	}
 	
-	@Deprecated
-	public void go(final HasWidgets ContainerElement) {
-		
-		ContainerElement.add(display.asWidget());
-		
-	}
-	
-	//TODO This method should be in abstractPresenter
-	public Widget asWidget()
-	{
-		return display.asWidget();
-	}
 
 
 	@Override
@@ -149,6 +143,13 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		}
 		
 		
+	}
+
+
+
+	@Override
+	public Widget getView() {
+		return display.asWidget();
 	}
 
 }

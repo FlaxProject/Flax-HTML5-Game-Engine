@@ -8,6 +8,7 @@ import ie.flax.flaxengine.client.weave.view.ImageLibView;
 import ie.flax.flaxengine.client.weave.view.Impl.ImageLibViewImpl;
 
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This Presneter is responisable for the ImageLibView which displays all the images which are 
@@ -41,22 +42,9 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 	
 	@Override
 	public void setImageToBeUsed(String imageName) {
-				this.currentImage = imageName;
-				
+				this.currentImage = imageName;				
 				EventBus.handlerManager.fireEvent(new ImageSelectionEvent(imageName,typeOfImage));
 	}
-
-	@Override
-	public void bind() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void go(HasWidgets containerElement) {
-		containerElement.add(display.asWidget());
-	}
-	
 	
 	/**
 	 * Populates the tree with updated information from the graphics lib.
@@ -69,6 +57,11 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 		{		
 			display.addItem(image);
 		}
+	}
+
+	@Override
+	public Widget getView() {
+		return display.asWidget();
 	}
 
 }

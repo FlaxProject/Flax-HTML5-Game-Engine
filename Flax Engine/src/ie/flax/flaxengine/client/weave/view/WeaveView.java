@@ -8,4 +8,6 @@ public interface WeaveView {
 		void addToSouth(Widget widgetToInsert, String tabText);
 		void addToEast(Widget widgetToInsert, String headerText);
 		void toggle();
+		
+		Widget getWidget();
 }

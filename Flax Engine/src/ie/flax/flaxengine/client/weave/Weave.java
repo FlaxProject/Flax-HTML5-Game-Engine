@@ -71,8 +71,8 @@ public class Weave implements ImageSelectionEventHandler{
 		};
 	
 
-		WeavePresenter = new WeavePresenter(new WeaveViewImpl(), this); 
-		WeavePresenter.go(RootPanel.get(insertID));
+		WeavePresenter = new WeavePresenter(this); 
+		//RootPanel.get(insertID).add(WeavePresenter.getView());
 		
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this); //Register to listen for event
 		

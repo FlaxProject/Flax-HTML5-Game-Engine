@@ -10,10 +10,11 @@ import com.google.gwt.user.client.ui.MenuBar;
 
 public class MainMenuView extends MenuBar {
 
-	MenuBar file;
-	Command uploadFile;
-	Command exportImport;
-	Weave model;
+	private MenuBar file;
+	private Command uploadFile;
+	private Command exportImport;
+	private Weave model;
+	private FWindow window;
 
 	public MainMenuView(Weave model) {
 		
@@ -26,6 +27,7 @@ public class MainMenuView extends MenuBar {
 		this.addItem("Export/Import Map", exportImport);
 
 		this.setAnimationEnabled(true);
+		window = new FWindow("Window");
 	}
 
 	private void bindCommands() {
@@ -42,9 +44,11 @@ public class MainMenuView extends MenuBar {
 					@Override
 					public void execute() {
 	
-						FWindow window = new FWindow("Import/Export Map");
+
+						window.setTitle("Import/Export Map");
 						AbstractPresenter presenter = new MapImportExportPresenter( new MapImportExportView(),model);
-						presenter.go(window.asWdidget());
+						window.add(presenter.getView());
+						window.show();
 
 					}
 				};
@@ -55,8 +59,9 @@ public class MainMenuView extends MenuBar {
 					public void execute() {
 
 						AbstractPresenter fileuploadPresneter = new FileUploadPresenter(new FileUploadView());
-						FWindow window = new FWindow("File Upload");
-						fileuploadPresneter.go(window.asWdidget());
+						window.setTitle("Import/Export Map");					
+						window.add(fileuploadPresneter.getView());
+						window.show();
 
 					}
 				};

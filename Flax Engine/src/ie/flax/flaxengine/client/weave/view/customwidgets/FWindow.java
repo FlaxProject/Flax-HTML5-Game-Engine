@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client.weave.view.customwidgets;
 
+import ie.flax.flaxengine.client.FLog;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -49,10 +51,12 @@ public class FWindow {
 		
 		window.add(mainPanel);
 		window.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/2);
-		window.show();
+		window.hide();
 		window.setText(title);		
 		window.setGlassEnabled(true);
 		window.setAnimationEnabled(true);		
+		
+		FLog.debug("FWindow with title ["+ title  +"] was created");
 		
 		RootPanel.get().add(window,200,200);
 	}
@@ -81,7 +85,25 @@ public class FWindow {
 	 */
 	public void close()
 	{
-		window.removeFromParent();
+
+		window.hide();
+	}
+	
+	
+	public void show()
+	{
+		window.show();
+	}
+	
+	public void setTitle(String title)
+	{
+		window.setTitle(title);
+	}
+
+
+	public void clear() {
+		//window.clear();
+		
 	}
 	
 

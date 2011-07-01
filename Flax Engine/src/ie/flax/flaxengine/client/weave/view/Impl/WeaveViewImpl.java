@@ -6,6 +6,7 @@ import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
@@ -19,7 +20,8 @@ public class WeaveViewImpl implements WeaveView{
 	private TabPanel southPanel;
 	private StackLayoutPanel eastPanel;	
 	private AnimationSlide northAnimate, southAnimate, eastAnimate;		
-	private enum State {SHOW,HIDDEN}	
+	private enum State {SHOW,HIDDEN}
+	
 	
 	private State currentViewState;
 	
@@ -29,6 +31,7 @@ public class WeaveViewImpl implements WeaveView{
 	// when the editor is involved.
 	public WeaveViewImpl()
 	{
+		
 		currentViewState = State.HIDDEN;
 				
 		northPanel = new SimplePanel();		
@@ -105,6 +108,13 @@ public class WeaveViewImpl implements WeaveView{
 	@Override
 	public void addToEast(Widget widgetToInsert, String headerText) {
 		eastPanel.add(widgetToInsert, headerText, 2);
+	}
+
+
+	@Override
+	public Widget getWidget() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
