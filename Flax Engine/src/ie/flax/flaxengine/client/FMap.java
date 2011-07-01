@@ -79,17 +79,17 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
 	}
 	
-
 	
 	/**
 	 * This calls all the draw methods of the entities in the FMap, the tiles and checks weather they are on-screen and
 	 * if they are they are then drawn to the screen.
 	 */
-	public void draw() {	
+	public void draw(FCamera cam, Canvas drawingSpace) {
+		if (drawingSpace == null)
+			drawingSpace = this.drawingSpace;
 		/**
 		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
 		 */
-		FCamera cam = FlaxEngine.camera; //TODO: CARL make Camera singleton and have it initliazed in Flax Engine
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
 		 */

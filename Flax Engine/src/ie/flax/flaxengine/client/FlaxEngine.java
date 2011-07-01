@@ -33,289 +33,290 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class FlaxEngine {
 
-    private Canvas drawingSpace;
-    private static final String powerBy = "Powered By Flax Web Game Engine";
-    private final List<FMap> maps = new ArrayList<FMap>();
-    private int currentMap;
-    private boolean playing;
-    public static Settings settings;
+	private Canvas drawingSpace;
+	private static final String powerBy = "Powered By Flax Web Game Engine";
+	private final List<FMap> maps = new ArrayList<FMap>();
+	private int currentMap;
+	private boolean playing;
+	public static Settings settings;
 
-    private boolean engineStatus;
-    private int frameCount = 0;
-    private int oldMilliseconds = 0;
+	private boolean engineStatus;
+	private int frameCount = 0;
+	private int oldMilliseconds = 0;
 
-    private final Weave editor;
-    public static FCamera camera;
+	private final Weave editor;
+	public static FCamera camera;
 
-    /**
-     * This is technically the game loop. It tells requestAnimationFrame to call
-     * it. Draw, update, etc should be in here.
-     */
-    private final TimerCallback gameTimer = new TimerCallback() {
+	/**
+	 * This is technically the game loop. It tells requestAnimationFrame to call
+	 * it. Draw, update, etc should be in here.
+	 */
+	private final TimerCallback gameTimer = new TimerCallback() {
 
-        @Override
-        public void fire() {
-            Graphic.getSingleton().requestAnimationFrame(this);
-            if (isEngineReady()) {
-                if (playing == true) {
+		@Override
+		public void fire() {
+			Graphic.getSingleton().requestAnimationFrame(this);
+			if (isEngineReady()) {
+				if (playing == true) {
 
-                    maps.get(0).draw();
-                    fpsUpdate();
+					maps.get(0).draw(camera, null);
+					fpsUpdate();
 
-                }
-            }
+				}
+			}
 
-        }
-    };
+		}
+	};
 
-    /**
-     * This constructor initlizes the flax engine and setup default settings.
-     * Takes in an array of strings which contain the address to map files.
-     * 
-     * @param mapPaths
-     *            - array of address to maps. if the insertId is not found it
-     *            will dump the canvas in the body tag
-     * @param insertId
-     *            - id of element of which to insert the canvas
-     * @param CSSclass
-     */
-    public FlaxEngine(final String mapPaths, final String insertId) {
-        FLog.init();
-        initEngine(insertId);
-        maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
-        editor = new Weave(insertId, drawingSpace, getCurrentMap());
-    }
+	/**
+	 * This constructor initlizes the flax engine and setup default settings.
+	 * Takes in an array of strings which contain the address to map files.
+	 * 
+	 * @param mapPaths
+	 *            - array of address to maps. if the insertId is not found it
+	 *            will dump the canvas in the body tag
+	 * @param insertId
+	 *            - id of element of which to insert the canvas
+	 * @param CSSclass
+	 */
+	public FlaxEngine(final String mapPaths, final String insertId) {
+		FLog.init();
+		initEngine(insertId);
+		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
+		editor = new Weave(insertId, drawingSpace, getCurrentMap());
+	}
 
-    /**
-     * Returns the current map which can the be used to modify the information
-     * in the map
-     * 
-     * @return
-     */
-    public FMap getCurrentMap() {
-        return maps.get(currentMap);
-    }
+	/**
+	 * Returns the current map which can the be used to modify the information
+	 * in the map
+	 * 
+	 * @return
+	 */
+	public FMap getCurrentMap() {
+		return maps.get(currentMap);
+	}
 
-    /**
-     * Gets a map with given ID
-     * 
-     * @param mapID
-     * @return
-     */
-    public FMap getMap(int mapID) {
-        return maps.get(mapID);
-    }
+	/**
+	 * Gets a map with given ID
+	 * 
+	 * @param mapID
+	 * @return
+	 */
+	public FMap getMap(int mapID) {
+		return maps.get(mapID);
+	}
 
-    /**
-     * Searchs though the list of maps and return the one with supplied name
-     * 
-     * @param mapName
-     * @return
-     */
-    public FMap getMap(String mapName) {
-        for (FMap map : maps) {
-            if (map.getName() == mapName) return map;
-        }
-        return null;
-    }
+	/**
+	 * Searchs though the list of maps and return the one with supplied name
+	 * 
+	 * @param mapName
+	 * @return
+	 */
+	public FMap getMap(String mapName) {
+		for (FMap map : maps) {
+			if (map.getName() == mapName)
+				return map;
+		}
+		return null;
+	}
 
-    /**
-     * The run method starts the game loop
-     */
-    public void run() {
-        playing = true;
-        Graphic.getSingleton().requestAnimationFrame(gameTimer);
-    }
+	/**
+	 * The run method starts the game loop
+	 */
+	public void run() {
+		playing = true;
+		Graphic.getSingleton().requestAnimationFrame(gameTimer);
+	}
 
-    /**
-     * The currentMap by setting the index
-     * 
-     * @param setIndex
-     */
-    public void setCurrentMap(int setIndex) {
-        currentMap = setIndex;
-    }
+	/**
+	 * The currentMap by setting the index
+	 * 
+	 * @param setIndex
+	 */
+	public void setCurrentMap(int setIndex) {
+		currentMap = setIndex;
+	}
 
-    /**
-     * Sets the current map to the given name
-     * 
-     * @param mapName
-     */
-    public void setCurrentMap(String mapName) {
-        int mapIndex = 0;
+	/**
+	 * Sets the current map to the given name
+	 * 
+	 * @param mapName
+	 */
+	public void setCurrentMap(String mapName) {
+		int mapIndex = 0;
 
-        for (FMap map : maps) {
-            if (map.getName() == mapName) {
-                currentMap = mapIndex;
-                break;
-            }
+		for (FMap map : maps) {
+			if (map.getName() == mapName) {
+				currentMap = mapIndex;
+				break;
+			}
 
-            mapIndex++;
-        }
+			mapIndex++;
+		}
 
-    }
+	}
 
-    /**
-     * Registers the main game canvas for Events
-     */
-    private void bind() {
+	/**
+	 * Registers the main game canvas for Events
+	 */
+	private void bind() {
 
-        // TODO Very strange bug which will not allow the attaching of these
-        // handlers
-        // inside the weave object. The drawingSpace reference is passed in, but
-        // crazy stuff happens like stackover flow. Leaving them here for the
-        // meantime as its no bigy
-        drawingSpace.addKeyDownHandler(new KeyDownHandler() {
+		// TODO Very strange bug which will not allow the attaching of these
+		// handlers
+		// inside the weave object. The drawingSpace reference is passed in, but
+		// crazy stuff happens like stackover flow. Leaving them here for the
+		// meantime as its no bigy
+		drawingSpace.addKeyDownHandler(new KeyDownHandler() {
 
-            @Override
-            public void onKeyDown(KeyDownEvent event) {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
 
-                if (editor.isRunning()) {
-                    editor.keyboardControls(event);
-                }
-            }
-        });
+				if (editor.isRunning()) {
+					editor.keyboardControls(event);
+				}
+			}
+		});
 
-        drawingSpace.addMouseMoveHandler(new MouseMoveHandler() {
+		drawingSpace.addMouseMoveHandler(new MouseMoveHandler() {
 
-            @Override
-            public void onMouseMove(MouseMoveEvent event) {
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
 
-                if (editor.isRunning()) {
-                    editor.onMouseMove(event);
-                }
-            }
-        });
+				if (editor.isRunning()) {
+					editor.onMouseMove(event);
+				}
+			}
+		});
 
-        drawingSpace.addMouseDownHandler(new MouseDownHandler() {
+		drawingSpace.addMouseDownHandler(new MouseDownHandler() {
 
-            @Override
-            public void onMouseDown(MouseDownEvent event) {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
 
-                if (editor.isRunning()) {
-                    editor.onMouseDown(event);
-                }
+				if (editor.isRunning()) {
+					editor.onMouseDown(event);
+				}
 
-            }
-        });
+			}
+		});
 
-        drawingSpace.addMouseUpHandler(new MouseUpHandler() {
+		drawingSpace.addMouseUpHandler(new MouseUpHandler() {
 
-            @Override
-            public void onMouseUp(MouseUpEvent event) {
-                if (editor.isRunning()) {
-                    editor.onMouseUp(event);
-                }
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				if (editor.isRunning()) {
+					editor.onMouseUp(event);
+				}
 
-            }
-        });
+			}
+		});
 
-    }
+	}
 
-    /**
-     * This updates the fps counter, and logs the frames every second or so.
-     * Known bugs: if a frame takes longer than a second (ie >=1001 milliseconds
-     * to draw, the FPS recorded is incorrect.
-     */
-    private void fpsUpdate() {
-        frameCount++;
-        int currentMilliseconds = getMilliseconds();
+	/**
+	 * This updates the fps counter, and logs the frames every second or so.
+	 * Known bugs: if a frame takes longer than a second (ie >=1001 milliseconds
+	 * to draw, the FPS recorded is incorrect.
+	 */
+	private void fpsUpdate() {
+		frameCount++;
+		int currentMilliseconds = getMilliseconds();
 
-        if (currentMilliseconds < oldMilliseconds) {
-            // editor.updateElement(WeaveUiManager.FPS_COUNTER,
-            // "FPS: "+frameCount);
-            frameCount = 0;
-        }
+		if (currentMilliseconds < oldMilliseconds) {
+			// editor.updateElement(WeaveUiManager.FPS_COUNTER,
+			// "FPS: "+frameCount);
+			frameCount = 0;
+		}
 
-        oldMilliseconds = currentMilliseconds;
-    }
+		oldMilliseconds = currentMilliseconds;
+	}
 
-    /**
-     * For FPS counter
-     * 
-     * @return
-     */
-    protected native int getMilliseconds() /*-{
+	/**
+	 * For FPS counter
+	 * 
+	 * @return
+	 */
+	protected native int getMilliseconds() /*-{
 		var currentTime = new Date();
 		return currentTime.getMilliseconds();
-    }-*/;
+	}-*/;
 
-    /**
-     * This method initialises many different components of the engine, events,
-     * rendering, weave
-     * 
-     * @param insertId
-     * @param width
-     * @param height
-     */
-    protected void initEngine(String insertId) {
+	/**
+	 * This method initialises many different components of the engine, events,
+	 * rendering, weave
+	 * 
+	 * @param insertId
+	 * @param width
+	 * @param height
+	 */
+	protected void initEngine(String insertId) {
 
-        if (settings == null) {
-            settings = new Settings();
-        }
+		if (settings == null) {
+			settings = new Settings();
+		}
 
-        int width = settings.getWidth();
-        int height = settings.getHeight();
+		int width = settings.getWidth();
+		int height = settings.getHeight();
 
-        if (settings.getFullscreen() == true) {
-            // width = Window.getClientWidth(); // FIXME CARL - Width and height
-            // should be setting members as
-            // they are needed though out the
-            // project
-            // height = Window.getClientHeight();
-            Window.enableScrolling(false);
-        } else {
-            // width = RootPanel.get(insertId).getOffsetWidth();
-            // height = RootPanel.get(insertId).getOffsetHeight();
-        }
+		if (settings.getFullscreen() == true) {
+			// width = Window.getClientWidth(); // FIXME CARL - Width and height
+			// should be setting members as
+			// they are needed though out the
+			// project
+			// height = Window.getClientHeight();
+			Window.enableScrolling(false);
+		} else {
+			// width = RootPanel.get(insertId).getOffsetWidth();
+			// height = RootPanel.get(insertId).getOffsetHeight();
+		}
 
-        drawingSpace = Canvas.createIfSupported();
-        drawingSpace.setWidth(width + "px");
-        drawingSpace.setHeight(height + "px");
-        drawingSpace.setCoordinateSpaceWidth(width);
-        drawingSpace.setCoordinateSpaceHeight(height);
+		drawingSpace = Canvas.createIfSupported();
+		drawingSpace.setWidth(width + "px");
+		drawingSpace.setHeight(height + "px");
+		drawingSpace.setCoordinateSpaceWidth(width);
+		drawingSpace.setCoordinateSpaceHeight(height);
 
-        camera = new FCamera(new FVector(0, 0), width, height);
+		camera = new FCamera(new FVector(0, 0), width, height);
 
-        bind(); // sets the event handlers for canvas tag
-        RootPanel.get(insertId).add(drawingSpace);// inser into doc
+		bind(); // sets the event handlers for canvas tag
+		RootPanel.get(insertId).add(drawingSpace);// inser into doc
 
-        /**
-         * This is the boot strap loader for images in the engine. When an image
-         * is loaded by an FImage object, it inserts the image into this div
-         * which is display none and this triggers a DOM load image
-         */
-        RootPanel.get(insertId).add(FImage.getBootStrapDiv());
-    }
+		/**
+		 * This is the boot strap loader for images in the engine. When an image
+		 * is loaded by an FImage object, it inserts the image into this div
+		 * which is display none and this triggers a DOM load image
+		 */
+		RootPanel.get(insertId).add(FImage.getBootStrapDiv());
+	}
 
-    /**
-     * Checks are all the engine componets are loaded and the data in them got
-     * from the server
-     * 
-     * @return
-     */
-    protected boolean isEngineReady() {
+	/**
+	 * Checks are all the engine componets are loaded and the data in them got
+	 * from the server
+	 * 
+	 * @return
+	 */
+	protected boolean isEngineReady() {
 
-        /**
-         * Understand the below if() statment. The first condtion which is
-         * checked is the status of the engine which is, by default, false. As
-         * this method is called in the main loop we don't want all the checks
-         * been excuted so we store the status of true once we get it In the
-         * secound condtional statement this happens -> If first checks is the
-         * first map in the map list null and then the secound check it indexes
-         * that object and asks for a member Loaded. Which if true will then
-         * move onto checking if the graphics componet is ready This only checks
-         * if the first map is loaded, this is going on the idea that all other
-         * maps will load by the time they are needed
-         */
-        if ((engineStatus == true)
-                || ((maps.get(0) != null) && maps.get(0).getLoaded()
-                        && Graphic.getSingleton().isComponentReady() && Audio
-                            .isComponentReady())) {
-            engineStatus = true;
-        }
+		/**
+		 * Understand the below if() statment. The first condtion which is
+		 * checked is the status of the engine which is, by default, false. As
+		 * this method is called in the main loop we don't want all the checks
+		 * been excuted so we store the status of true once we get it In the
+		 * secound condtional statement this happens -> If first checks is the
+		 * first map in the map list null and then the secound check it indexes
+		 * that object and asks for a member Loaded. Which if true will then
+		 * move onto checking if the graphics componet is ready This only checks
+		 * if the first map is loaded, this is going on the idea that all other
+		 * maps will load by the time they are needed
+		 */
+		if ((engineStatus == true)
+				|| ((maps.get(0) != null) && maps.get(0).getLoaded()
+						&& Graphic.getSingleton().isComponentReady() && Audio
+							.isComponentReady())) {
+			engineStatus = true;
+		}
 
-        return engineStatus;
-    }
+		return engineStatus;
+	}
 
 }
