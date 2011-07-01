@@ -28,7 +28,15 @@ public class WeavePresenter extends AbstractPresenter{
 		display.addToSouth(new Label("Insert logging widget here"), "Console");
 		
 		
-		display.addToEast(new Label("Widget - 1"), "Help Menu");
+		//TODO Carl Create some kind of strings/help file class for this string and others like it.
+		
+		String quickInstructions = "To tile a region, whole down shift and click on the map"
+				+ "Then dragg out from that piont, you will see a red box form"
+				+ "When you let go the tiles will be textured with the current texture"
+				+ "in that region";
+				
+		
+		display.addToEast(new Label(quickInstructions), "Help Menu");
 		display.addToEast(new Label("Widget - 1"), "Create Entity Type");
 		display.addToEast(new Label("Widget - 2"), "Entity Type List");
 		display.addToEast(new Label("Widget - 3"), "Entity List");

@@ -3,8 +3,13 @@ package ie.flax.flaxengine.client.Graphic;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This wrapps the GWT Image class, so that we can add isLoaded Meta data to the class
@@ -18,6 +23,7 @@ public class FImage {
 	private ImageElement image;
 	private boolean imageLoaded;
 	private final Image imageData;
+	private final static FlowPanel BOOT_STRAP_DIV = new FlowPanel();
 	
 	/**
 	 * Takes the path to the image you wish to load.
@@ -43,8 +49,7 @@ public class FImage {
 		
 		imageData.setVisible(false);
 		
-		//FIXME: The imageBootStrap div is hardcoded, should be inserted programmically
-	  RootPanel.get("imageBootStrap").add(imageData); // image must be on page to fire load
+		BOOT_STRAP_DIV.add(imageData);
 	}
 	
 	/**
@@ -72,6 +77,11 @@ public class FImage {
 	public ImageElement getImage()
 	{
 		return image;
+	}
+	
+	public static Widget getBootStrapDiv()
+	{
+		return BOOT_STRAP_DIV;
 	}
 }
 

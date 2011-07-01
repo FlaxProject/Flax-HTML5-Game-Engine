@@ -199,32 +199,14 @@ public class Weave implements ImageSelectionEventHandler{
 		if (this.isRunning()) {
 			
 			
-			tileRegionControl.onMouseMove(event);
-			
-			/*
-						
-			if (event.isShiftKeyDown())
-			{
+				tileRegionControl.onMouseMove(event);
 
-				if(mouseState == MouseState.MOUSE_DOWN)
-				{
-										
-					//getTilesInRegion
-
-												
-					drawRegionBox(event.getClientX(),event.getClientY());
-					
-	
-				}
-				else
-				{
+				//TODO define control system for just single typing
+				//this.selectedTile(event.getX(), event.getY());
 				
-				this.selectedTile(event.getX(), event.getY());
-				}
 			}
 			
-			*/
-		}
+		
 	}
 	
 	
