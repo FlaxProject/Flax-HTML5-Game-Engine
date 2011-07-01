@@ -1,67 +1,88 @@
 package ie.flax.flaxengine.client;
 
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.logging.client.ConsoleLogHandler;
+import com.google.gwt.logging.client.HasWidgetsLogHandler;
+import com.google.gwt.logging.client.HtmlLogFormatter;
+import com.google.gwt.logging.client.SystemLogHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTMLPanel;
 
-//TODO CARL do somthing cool with this
 public class FLog {
-	private static String lastmessage = "";
-	private static int msgcounter = 0;
-	
-	public static void debug(String msg) {
-		//if (shouldPrintMessage(msg) == true) Log.debug(msg);
-		GWT.log(msg);
-	}
-	
-	public static void trace(String msg) {
-		//if (shouldPrintMessage(msg) == true) Log.trace(msg);
-		GWT.log(msg);
-	}
-	
-	public static void info(String msg) {
-		//if (shouldPrintMessage(msg) == true) Log.info(msg);
-		GWT.log(msg);
-	}
-	
-	public static void error(String msg) {
-		//if (shouldPrintMessage(msg) == true) Log.error(msg);
-		GWT.log(msg);
-	}
-	
-	public static void fatal(String msg) {
-		//if (shouldPrintMessage(msg) == true) Log.fatal(msg);
-		GWT.log(msg);
-	}
-	
-	public static void warn(String msg) {
-		//if (shouldPrintMessage(msg) == true) Log.warn(msg);
-		GWT.log(msg);
-	}
-	
-	/*
-	 * This checks if msg has been printed to the log recently
-	 * 
-	 
-	private static Boolean shouldPrintMessage(String msg) {
-		if (msg != lastmessage) {
-			lastmessage = msg;
-			msgcounter = 0;
-			return true;
-		} else if (msg == lastmessage) {
-			msgcounter++;
-			if (msgcounter > 5) {
-				return false;
-			} 
-			return true;
-		}
-		
-		//if it hits here, something's wrong
-		Log.warn("Problem with logger");
-		return true;
-	}
-	
-	public static Widget getWidget() {
-		return Log.getLogger(DivLogger.class).getWidget();
-	}
-	*/
+
+    private static final Logger l = Logger.getLogger("FLog");
+    private static HTMLPanel logWidget = new HTMLPanel("");
+    private static boolean inited = false;
+
+    public static void debug(String string) {
+        if (inited) {
+            l.log(new LogRecord(Level.FINE, string));
+        }
+    }
+
+    public static void error(String string) {
+        if (inited) {
+            l.log(new LogRecord(Level.SEVERE, string));
+        }
+    }
+
+    public static HTMLPanel getWidget() {
+        return logWidget;
+    }
+
+    public static void info(String string) {
+        if (inited) {
+            l.log(new LogRecord(Level.INFO, string));
+        }
+    }
+
+    public static void init() {
+        if (!inited) {
+            l.setUseParentHandlers(false);
+
+            l.addHandler(new ConsoleLogHandler());
+            l.addHandler(new SystemLogHandler());
+            HasWidgetsLogHandler hwlh = new HasWidgetsLogHandler(logWidget);
+
+            hwlh.setFormatter(new FLogFormatter(true));
+
+            l.addHandler(hwlh);
+            inited = true;
+        } else if (inited) {
+            // is it bad practice to log something here? ;)
+            Window.alert("You've called FLog.init() twice. "
+                    + "This is not something you should do. "
+                    + "Initialising FLog to the second call. ");
+            inited = false;
+            for (Handler i : l.getHandlers()) {
+                i.flush();
+                i.close();
+                l.removeHandler(i);
+            }
+            init();
+        }
+    }
+
+    public static void trace(String string) {
+        if (inited) {
+            l.log(new LogRecord(Level.FINEST, string));
+        }
+    }
+
+    public static void warn(String string) {
+        if (inited) {
+            l.log(new LogRecord(Level.WARNING, string));
+        }
+    }
+}
+
+class FLogFormatter extends HtmlLogFormatter {
+
+    public FLogFormatter(boolean showStackTraces) {
+        super(showStackTraces);
+    }
 }
