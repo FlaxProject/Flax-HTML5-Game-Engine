@@ -19,6 +19,7 @@ body {
 
 .gwt-TabPanelBottom {
 	background: white !important;
+	min-height:140px;
 }
 	
 /** Weave **/

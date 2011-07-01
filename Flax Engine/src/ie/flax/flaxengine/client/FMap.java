@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client;
 
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.Graphic.Sprite;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
@@ -79,78 +80,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	}
 	
 
-	/**
-	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated	
-	public FMap() {
-		
-	}
-		
-	/**
-	 * Gets the name of the map file which this map object was created from
-	 * @return String name of map
-	 */
-	public String getName() {
-		return name;
-	}
-
-	
-	/**
-	 * Sets the tileSize of the map 
-	 * @param tileSize
-	 */
-	public void setTileSize(int tileSize) {
-		this.tileSize = tileSize;
-	}
-
-
-	/**
-	 * Gets the tileSize used by the current map
-	 * @return int tilesize
-	 */
-	public int getTileSize() {
-		return tileSize;
-	}
-
-	
-	/**
-	 * Sets the tileSheet of the engine
-	 * @param tileSheet
-	 */
-	public void setTileSheet(String tileSheet) {
-		this.tileSheet = tileSheet;
-	}
-
-	/**
-	 * 
-	 * @return width (int)
-	 */
-	public int getWidth() {
-		return width;
-	}
-
-	/**
-	 * 
-	 * @return height (int)
-	 */
-	public int getHeight() {
-		return height;
-	}
-
-	/**
-	 * This is used to reference the imageLibary with the name of the tileSheet
-	 * eg. imageLibary.get("myTileSheet")
-	 * 
-	 * @return tileSheet name
-	 */
-	public String getTileSheet() {
-		return tileSheet;
-	}
-
 	
 	/**
 	 * This calls all the draw methods of the entities in the FMap, the tiles and checks weather they are on-screen and
@@ -197,65 +126,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		}
 	}
 
-	/**
-	 * This adds the given FEntity object or objects that are derived from FEntity
-	 * to the map object.
-	 * @param entity
-	 */
-	public void addEntity(FEntity entity)
-	{
-		//TODO: add a log to tell if an enetity was added and also load entity sprite
-		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
-		{
-			entities.add(entity); 
-			FLog.info("FEntity Object loaded into map");
-		}
-		
-	}
-	
-	/**
-	 * Adds the given tile to the map
-	 * @param tile
-	 */
-	public void addTile(FTile tile)
-	{
-		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
-		{
-			tiles.add(tile);
-		}
-	}
-	
-	/**
-	 * This adds the given FObject object or objects that are derived from FObject
-	 * to the map object.
-	 * @param FObject 
-	 */
-	public void addObjects(FObject object)
-	{
-		objects.add(object);
-	}
-	
-	/**
-	 * This allows the user to select and modify the enitiy
-	 * @param id
-	 * @return
-	 */
-	public FEntity getEntity(int id)
-	{
-		return entities.get(id);
-	}
-	
-	
-	/**
-	 * This allows the user to select and modify the enitiy
-	 * @param id
-	 * @return
-	 */
-	public FEntity getEntity(int x, int y)
-	{
-		return entities.get(0); //TODO: fix this
-	}
-	
+
 	/**
 	 * Checks the tile from the tile array based on the given x and y 
 	 * Currently only to be used for mouse clicks but could easly be changed
@@ -397,7 +268,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				//for(String audioPath : obj.getAudio())
 				//{
 				//	Audio.loadHtml(audioPath);
-				//}
+				//}\\
 				
 				//get the image file assoiated with said object and loads them.
 				
@@ -416,7 +287,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				public void onLoad(LoadEvent event) {
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Idenfiter.TILE_SHEET));				
 				}
-			});			
+			});		
+			
+			//addEntity( new FEntity(30, 30, 32, 32, new Sprite(, height, height), audio))
 			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
@@ -424,15 +297,147 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		}
 	}
 	
+	
+	/**
+	 * This adds the given FEntity object or objects that are derived from FEntity
+	 * to the map object.
+	 * @param entity
+	 */
+	public void addEntity(FEntity entity)
+	{
+		//TODO: add a log to tell if an enetity was added and also load entity sprite
+		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
+		{
+			entities.add(entity); 
+			FLog.info("FEntity Object loaded into map");
+		}
+		
+	}
+	
+	/**
+	 * Adds the given tile to the map
+	 * @param tile
+	 */
+	public void addTile(FTile tile)
+	{
+		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
+		{
+			tiles.add(tile);
+		}
+	}
+	
+	/**
+	 * This adds the given FObject object or objects that are derived from FObject
+	 * to the map object.
+	 * @param FObject 
+	 */
+	public void addObjects(FObject object)
+	{
+		objects.add(object);
+	}
+	
+	/**
+	 * This allows the user to select and modify the enitiy
+	 * @param id
+	 * @return
+	 */
+	public FEntity getEntity(int id)
+	{
+		return entities.get(id);
+	}
+	
+	
+	/**
+	 * This allows the user to select and modify the enitiy
+	 * @param id
+	 * @return
+	 */
+	public FEntity getEntity(int x, int y)
+	{
+		return entities.get(0); //TODO: fix this
+	}
+	
+	
 	/**
 	 * @return the drawingSpace
 	 */
 	public final Canvas getDrawingSpace() {
 		return drawingSpace;
 	}
-
 	
 
+
+	/**
+	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public FMap() {
+		
+	}
+		
+	/**
+	 * Gets the name of the map file which this map object was created from
+	 * @return String name of map
+	 */
+	public String getName() {
+		return name;
+	}
+
+	
+	/**
+	 * Sets the tileSize of the map 
+	 * @param tileSize
+	 */
+	public void setTileSize(int tileSize) {
+		this.tileSize = tileSize;
+	}
+
+
+	/**
+	 * Gets the tileSize used by the current map
+	 * @return int tilesize
+	 */
+	public int getTileSize() {
+		return tileSize;
+	}
+
+	
+	/**
+	 * Sets the tileSheet of the engine
+	 * @param tileSheet
+	 */
+	public void setTileSheet(String tileSheet) {
+		this.tileSheet = tileSheet;
+	}
+
+	/**
+	 * 
+	 * @return width (int)
+	 */
+	public int getWidth() {
+		return width;
+	}
+
+	/**
+	 * 
+	 * @return height (int)
+	 */
+	public int getHeight() {
+		return height;
+	}
+
+	/**
+	 * This is used to reference the imageLibary with the name of the tileSheet
+	 * eg. imageLibary.get("myTileSheet")
+	 * 
+	 * @return tileSheet name
+	 */
+	public String getTileSheet() {
+		return tileSheet;
+	}
 
 	
 	
