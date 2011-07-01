@@ -28,12 +28,15 @@ public abstract class TileRegion implements IControlTileRegion {
 	private FVector startPos;
 	private MouseState mouseState;
 	private Weave editor;
+	private FTile tile;
+
 	
 	public TileRegion(Weave editor)
 	{
 		startPos = new FVector(0, 0);
 		mouseState = MouseState.MOUSE_UP;
 		this.editor = editor;
+		tile = null;		
 	}
 
 
@@ -41,10 +44,8 @@ public abstract class TileRegion implements IControlTileRegion {
 	public void onMouseUp(MouseUpEvent event) {
 		
 		mouseState = MouseState.MOUSE_UP;
-		FMap map = editor.getFMapReference();
-		FTile tile = null;
-		
-		int tilesize = map.getTileSize();
+				
+		int tilesize = editor.getFMapReference().getTileSize();
 		
 		int newX =  (int) (event.getClientX())/tilesize ;
 		int newY =  (int) (event.getClientY())/tilesize ;
@@ -60,19 +61,8 @@ public abstract class TileRegion implements IControlTileRegion {
 			while(startX <= newX)
 			{
 				
-				 tile = map.getTile(startX*tilesize, startY*tilesize);
-				
-				if(tile == null)
-				{
-				
-					map.addTile(new FTile(startX*tilesize, startY*tilesize, true, editor.getCurrentTile().getTexture()));
-				
-				}
-				else
-				{
-					tile.setTexture(editor.getCurrentTile().getTexture());
-				}
-				
+				 
+				//this.doTileRegionLogic();							
 				
 				startX++;		
 			}
@@ -129,6 +119,24 @@ public abstract class TileRegion implements IControlTileRegion {
 		
 	}
 
+	
+	protected void tileSelectedRegion(int startX, int startY)
+	{
+		int tilesize = editor.getFMapReference().getTileSize();
+		
+		tile = editor.getFMapReference().getTile(startX*tilesize, startY*tilesize);
+		
+		if(tile == null)
+		{
+		
+			editor.getFMapReference().addTile(new FTile(startX*tilesize, startY*tilesize, true, editor.getCurrentTile().getTexture()));
+		
+		}
+		else
+		{
+			tile.setTexture(editor.getCurrentTile().getTexture());
+		}
+	}
 
 
 	

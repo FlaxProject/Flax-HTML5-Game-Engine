@@ -7,6 +7,7 @@ import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
+import ie.flax.flaxengine.client.weave.controls.TileRegion;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
@@ -19,6 +20,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -42,19 +44,8 @@ public class Weave implements ImageSelectionEventHandler{
 	private Canvas drawingSpace;
 	private boolean running;
 	private final WeavePresenter WeavePresenter;
-	
-	private enum MouseState
-	{
-		MOUSE_CLICKED,
-		MOUSE_DOWN,
-		MOUSE_UP,
-	}
-	
-	private FVector startPos;
+	private final TileRegion tileRegionControl;
 
-	
-	
-	private MouseState mouseState;
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
@@ -70,7 +61,18 @@ public class Weave implements ImageSelectionEventHandler{
 		this.drawingSpace = drawingSpace;
 		this.map = map;
 		this.currentTile = new FTile();	
-		this.mouseState = MouseState.MOUSE_UP;
+		
+		//Controls the select region of tiles operations
+		tileRegionControl = new TileRegion(this) {
+			
+			@Override
+			public void doTileRegionLogic(int startX, int startY) {
+				
+				this.tileSelectedRegion(startX, startY);
+				
+			}
+		};
+	
 
 		WeavePresenter = new WeavePresenter(new WeaveViewImpl(), this); 
 		WeavePresenter.go(RootPanel.get(insertID));
@@ -80,18 +82,7 @@ public class Weave implements ImageSelectionEventHandler{
 		bind(); //Key and Mouse Events
 	}
 		
-	
-	public final FTile getCurrentTile(){return currentTile;}		
-	public final FMap getFMapReference(){return map;}
-	
-	/**
-	 * Is weave running or not
-	 * @return - true or false
-	 */
-	public boolean isRunning() {
-		return running;
-	}
-	
+
 	
 	/**
 	 * This binds the goble key events for the editor, such as the backslash.
@@ -209,6 +200,11 @@ public class Weave implements ImageSelectionEventHandler{
 	public void onMouseMove(MouseMoveEvent event)
 	{
 		if (this.isRunning()) {
+			
+			
+			tileRegionControl.onMouseMove(event);
+			
+			/*
 						
 			if (event.isShiftKeyDown())
 			{
@@ -230,88 +226,22 @@ public class Weave implements ImageSelectionEventHandler{
 				}
 			}
 			
-			
+			*/
 		}
 	}
 	
 	
-	private void drawRegionBox(int clientX, int clientY) {
-		
-
-		double newX =  clientX - startPos.x;
-		double newY =  clientY - startPos.y;
-		
-		Context2d ctx = drawingSpace.getContext2d();				
-		
-		ctx.setStrokeStyle("#CD0000");
-		ctx.beginPath();
-		
-		ctx.moveTo(startPos.x, startPos.y);
-		ctx.lineTo(startPos.x+newX, startPos.y);
-		
-		ctx.lineTo(startPos.x+newX, startPos.y+newY);
-		ctx.lineTo(startPos.x, startPos.y+newY);
-		
-		ctx.closePath();
-		ctx.stroke();
-		
-	}
-
 
 	public void onMouseDown(MouseDownEvent event)
 	{
-		
-		
-		if (event.isShiftKeyDown())
-		{
-			
-			mouseState = MouseState.MOUSE_DOWN;		
-		
-			startPos = new FVector(event.getX(), event.getY());
-		}
+				
+		tileRegionControl.onMouseDown(event);
 		
 	}
 	
 	public void onMouseUp(MouseUpEvent event) {
 		
-		mouseState = MouseState.MOUSE_UP;
-		
-		int tilesize = map.getTileSize();
-		
-		int newX =  (int) (event.getClientX())/tilesize ;
-		int newY =  (int) (event.getClientY())/tilesize ;
-		
-		int startX = (int) startPos.x/tilesize;
-		int startY = (int) startPos.y/tilesize;
-		
-		
-		int startXCopy = startX;
-		
-		while(startY <= newY)
-		{
-			while(startX <= newX)
-			{
-				
-				FTile tile = map.getTile(startX*tilesize, startY*tilesize);
-				
-				if(tile == null)
-				{
-				
-					map.addTile(new FTile(startX*tilesize, startY*tilesize, true, currentTile.getTexture()));
-				
-				}
-				else
-				{
-					tile.setTexture(currentTile.getTexture());
-				}
-				
-				
-				startX++;		
-			}
-			startX = startXCopy;
-			startY++;
-		}
-		
+		tileRegionControl.onMouseUp(event);
 	}
 
 
@@ -330,10 +260,16 @@ public class Weave implements ImageSelectionEventHandler{
 	}
 
 
-	public Canvas getdrawingSpace() {
-		return drawingSpace;
+	public Canvas getdrawingSpace() {return drawingSpace;}
+	public final FTile getCurrentTile(){return currentTile;}		
+	public final FMap getFMapReference(){return map;}
+	
+	/**
+	 * Is weave running or not
+	 * @return - true or false
+	 */
+	public boolean isRunning() {
+		return running;
 	}
-
-
 	
 }
