@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class WeavePresenter extends AbstractPresenter{
-	
+	private final MiniMapPresenter MiniPresenter;
 	private TileMenuPresenter TilePresenter;
 	private WeaveView display;
 		
