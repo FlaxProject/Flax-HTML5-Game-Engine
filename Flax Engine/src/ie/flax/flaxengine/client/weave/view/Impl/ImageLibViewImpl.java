@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This view consists of a list of items and a button.
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public class ImageLibViewImpl extends Composite implements ImageLibView{
@@ -30,10 +30,7 @@ public class ImageLibViewImpl extends Composite implements ImageLibView{
 
 	public ImageLibViewImpl(ImageLibView.presenter presenter) {
 		initWidget(uiBinder.createAndBindUi(this));	
-		this.presenter = presenter;
-		
-		apply.setVisible(false);
-		title.setVisible(false);
+		this.presenter = presenter;		
 	}
 
 	@UiHandler("apply")
@@ -42,11 +39,8 @@ public class ImageLibViewImpl extends Composite implements ImageLibView{
 	}
 
 	@Override
-	public void addItem(String imageName) {		
-		collection.addItem(imageName, imageName);
-		
-		apply.setVisible(true);
-		title.setVisible(true);
+	public void addItem(String imageName) {				
+		collection.addItem(imageName, imageName);		
 	}
 
 	@Override

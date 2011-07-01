@@ -24,9 +24,9 @@ public class FileUploadPresenter extends AbstractPresenter {
 	
 	private final String SUCESSFUL_LOAD = "postive";
 	private Display display;
+	private ImageLibPresenter imageLibaryPresenter;
 	
-	AbstractPresenter ImageLibaryPresenter;
-	
+	//TODO Finish convert to new MVP
 	public interface Display
 	{
 		HasClickHandlers getUploadButton();
@@ -46,7 +46,7 @@ public class FileUploadPresenter extends AbstractPresenter {
 	public FileUploadPresenter(Display display)
 	{
 		this.display = display;
-		ImageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);	
+		imageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);	
 		bind();
 	}
 
@@ -68,31 +68,21 @@ public class FileUploadPresenter extends AbstractPresenter {
 			public void onKeyPress(KeyPressEvent event) {
 				
 				if(event.getCharCode() == KeyCodes.KEY_ENTER)
-					loadprocess();
-				
-			}
+					loadprocess();			
+				}
 		});
 		
 		display.getUrlBoxClick().addClickHandler( new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				display.clearUrlBox();
-				
+				display.clearUrlBox();			
 			}
 		});
 		
 		
 	}
 
-	
-	public void go(HasWidgets containerElement) {
-		bind();
-		containerElement.add(display.asWidgets()); //The first view is inserted into the top of the window
-		
-		//ImageLibaryPresenter.go(containerElement); //Secound below it.	
-	}
-	
 	private void loadprocess()
 	{
 		
@@ -106,12 +96,10 @@ public class FileUploadPresenter extends AbstractPresenter {
 				public void onLoad(LoadEvent event) {
 			
 					display.setFeedback("Image Loaded", SUCESSFUL_LOAD);
-					((ImageLibPresenter) ImageLibaryPresenter).populate();
-
+					imageLibaryPresenter.populate();
 				}
 			});
-		}
-	
+		}	
 	}
 
 

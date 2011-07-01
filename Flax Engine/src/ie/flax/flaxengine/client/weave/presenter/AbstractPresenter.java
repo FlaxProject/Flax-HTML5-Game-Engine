@@ -1,24 +1,17 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
-
 
 /**
  * This is base Presenter which all presenter must implementent
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public abstract class AbstractPresenter {
 	
 	/**
-	 * This bind method will be phased out as the MVP model been used is now bi-directional
-	 */
-	//public abstract void bind();
-	
-	/**
-	 * The widget passed in will be the widget which the view is inserted into
-	 * @param containerElement
+	 * This method will get the view which the presenter manages and give it to you to inject
+	 * @return
 	 */
 	public abstract Widget getView();
 }

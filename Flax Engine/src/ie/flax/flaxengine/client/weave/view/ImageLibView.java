@@ -3,7 +3,7 @@ package ie.flax.flaxengine.client.weave.view;
 import com.google.gwt.user.client.ui.Widget;
 /**
  * This is allows for bi-directional commuication between the ImageLib ViewImpl and Presenter
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public interface ImageLibView {

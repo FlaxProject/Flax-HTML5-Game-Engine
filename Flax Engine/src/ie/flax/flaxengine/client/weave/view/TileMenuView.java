@@ -32,6 +32,8 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 		
 		
 		selectImageButton = new Button("Select TitleSheet");	
+		
+		
 		ScrollPanel canvasScrollPanel = new ScrollPanel(canvas);
 		canvasScrollPanel.setWidth("100%");
 		canvasScrollPanel.setHeight("135px");
@@ -41,6 +43,7 @@ public class TileMenuView extends Composite implements TileMenuPresenter.Display
 		panel.add(canvasScrollPanel);
 		
 		initWidget(panel);
+		selectImageButton.setVisible(true);
 		
 	}
 

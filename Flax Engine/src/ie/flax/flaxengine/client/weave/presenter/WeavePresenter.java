@@ -14,24 +14,26 @@ import com.google.gwt.user.client.ui.Widget;
  * This is the main presenter which control the Main View which is called the
  * WeaveView.
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  * 
  */
 public class WeavePresenter extends AbstractPresenter {
-	private final MiniMapPresenter MiniPresenter;
+	
+	//private final MiniMapPresenter MiniPresenter;
 	private final TileMenuPresenter TilePresenter;
 	private final WeaveView display;
 
 	public WeavePresenter(Weave editor) {
 		display = new WeaveViewImpl();
 		TilePresenter = new TileMenuPresenter(new TileMenuView(), editor);
-		MiniPresenter = new MiniMapPresenter(editor);
+		//MiniPresenter = new MiniMapPresenter(editor);
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
 		display.addToSouth(FLog.getWidget(), "Console");
-		display.addToSouth(MiniPresenter.getView(), "Min-Map Experiment");
+		
+		//Temp disbale of min-map for testing
+		//display.addToSouth(MiniPresenter.getView(), "Min-Map Experiment");
 
-		// TODO Carl Create some kind of strings/help file class for this string
-		// and others like it.
+		// TODO Carl Create some kind of strings/help file class for this string and others like it.
 
 		String quickInstructions = "To tile a region, whole down shift and click on the map"
 				+ "Then dragg out from that piont, you will see a red box form"
@@ -43,9 +45,7 @@ public class WeavePresenter extends AbstractPresenter {
 		display.addToEast(new Label("Widget - 2"), "Entity Type List");
 		display.addToEast(new Label("Widget - 3"), "Entity List");
 
-		display.addToNorth(new MainMenuView(editor).asWidget()); // None MVP
-																	// include
-																	// of UI
+		display.addToNorth(new MainMenuView(editor).asWidget()); // None MVP include of UI
 	}
 
 	@Override
@@ -53,6 +53,9 @@ public class WeavePresenter extends AbstractPresenter {
 		return null;
 	}
 
+	/**
+	 * Toggles the 3 main weave panels to the north, south and east
+	 */
 	public void toggleDisplay() {
 		display.toggle();
 

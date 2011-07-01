@@ -7,7 +7,6 @@ import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
 import ie.flax.flaxengine.client.weave.view.ImageLibView;
 import ie.flax.flaxengine.client.weave.view.Impl.ImageLibViewImpl;
 
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 /**

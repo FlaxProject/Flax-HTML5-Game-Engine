@@ -14,11 +14,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Controls the logic of the tilesheet view
+ * Controls the logic of the tilesheet view. It contains a canvas which displays the current tilesheet and is updated by
+ * the event ImageSelection. It also has a button which when clicked displays a diolog box which allows the user
+ * to select an image for the current tilesheet from the currently loaded images
  * 
  * @author Ciaran McCann
  *
@@ -28,6 +29,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	private Display display;
 	private Weave model;
 	private FWindow window;
+	private AbstractPresenter imageLibPresenter;
 
 	
 	public interface Display {
@@ -42,8 +44,12 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		this.model = model;
 		this.display = display;
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
+		
 		bind();
-		window = new FWindow("Window");
+		
+		window = new FWindow("Window Tile");		
+		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
+		
 	}
 	
 	
@@ -64,10 +70,8 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			@Override
 			public void onClick(ClickEvent event) {
 				
-				AbstractPresenter imageLibPresenter = new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
-				 window.setTitle("Select TileSheet");
-				 
-				 window.clear();
+				
+				 window.setTitle("Select TileSheet");				 
 				 window.add(imageLibPresenter.getView());
 				 window.show();
 							
@@ -86,18 +90,14 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 				if(model.getFMapReference().getTileSheet() != null)
 				{
 					Context2d ctx = display.getTileCanvas().getContext2d();
-					
-					
+										
 					ctx.fillRect(0, 0, display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
 					ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()), 0, 0);
 					int tileSize = 32;//TODO change back once canvas back online model.getFMapReference().getTileSize();
-					int tileSheetWidth = Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth();
-			
-						
+													
 					int x = (event.getX()/tileSize)*tileSize;
 					int y = (event.getY()/tileSize)*tileSize;
-								
-					
+													
 					ctx.setStrokeStyle("#CD0000");
 					ctx.beginPath();
 					ctx.moveTo(x, y);
@@ -140,11 +140,8 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		{
 			display.getTileCanvas().getContext2d().fillRect(0, 0, display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
 			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()), 0, 0);
-		}
-		
-		
+		}				
 	}
-
 
 
 	@Override

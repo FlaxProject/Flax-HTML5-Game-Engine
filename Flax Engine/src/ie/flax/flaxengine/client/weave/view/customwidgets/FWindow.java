@@ -32,7 +32,7 @@ public class FWindow {
 		window = new DialogBox();
 		mainPanel = new VerticalPanel();
 	
-		 close = new Button("Close");
+		close = new Button("Close");
 		close.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -42,23 +42,21 @@ public class FWindow {
 			}
 		});
 		
-		window.setAutoHideEnabled(true);
-		
 		mainPanel.add(close);
 		mainPanel.setCellHeight(close, "0px");
 		mainPanel.setCellWidth(close, "0px");
 	
-		
+	
 		window.add(mainPanel);
 		window.setPopupPosition(Window.getClientWidth()/2, Window.getClientHeight()/2);
-		window.hide();
 		window.setText(title);		
 		window.setGlassEnabled(true);
-		window.setAnimationEnabled(true);		
+		window.setAnimationEnabled(true);
+		window.hide();
 		
-		FLog.debug("FWindow with title ["+ title  +"] was created");
 		
-		RootPanel.get().add(window,200,200);
+		FLog.debug("FWindow with title ["+ title  +"] was created");		
+		RootPanel.get().add(window,200,200);		
 	}
 	
 	
@@ -67,8 +65,8 @@ public class FWindow {
 	 * @param widget
 	 */
 	public void add(Widget widget)
-	{
-		mainPanel.add(widget);		
+	{		
+			mainPanel.add(widget);		
 	}
 	
 	/**
@@ -97,14 +95,14 @@ public class FWindow {
 	
 	public void setTitle(String title)
 	{
-		window.setTitle(title);
+		window.setText(title);
 	}
 
 
 	public void clear() {
-		//window.clear();
 		
+		mainPanel.clear();
+		mainPanel.add(close);
 	}
-	
 
 }
