@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client.weave.controls;
 
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
+import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -47,11 +48,11 @@ public abstract class TileRegion implements IControlTileRegion {
 				
 		int tilesize = editor.getFMapReference().getTileSize();
 		
-		int newX =  (int) (event.getClientX())/tilesize ;
-		int newY =  (int) (event.getClientY())/tilesize ;
+		int newX =  (int) (FlaxEngine.camera.getX() + event.getClientX())/tilesize ;
+		int newY =  (int) (FlaxEngine.camera.getY() + event.getClientY())/tilesize ;
 		
-		int startX = (int) startPos.x/tilesize;
-		int startY = (int) startPos.y/tilesize;
+		int startX = (int) ((int) FlaxEngine.camera.getX()/tilesize + startPos.x/tilesize);
+		int startY = (int) ((int) FlaxEngine.camera.getY()/tilesize + startPos.y/tilesize);
 		
 		
 		int startXCopy = startX;
