@@ -36,7 +36,7 @@ public class WeaveViewImpl implements WeaveView{
 		RootPanel.get().add(northPanel, 0, -44 );
 		
 		eastPanel = new StackLayoutPanel(Unit.PC); 
-		eastPanel.setWidth("200px");
+		eastPanel.setWidth("250px");
 		eastPanel.setAnimationDuration(AnimationTime);
 		eastPanel.setHeight(Window.getClientHeight()+"px");
 		eastPanel.setHeight(Window.getClientHeight()+"px");
@@ -47,6 +47,7 @@ public class WeaveViewImpl implements WeaveView{
 		southPanel.setWidth( (Window.getClientWidth()- eastPanel.getOffsetWidth()) +"px");
 		southPanel.setHeight("140px");
 		southPanel.setAnimationEnabled(true);
+	
 		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
 		
 		
@@ -72,8 +73,8 @@ public class WeaveViewImpl implements WeaveView{
 			currentViewState = State.HIDDEN;
 			
 		}else{
-			//showing code
 			
+			//showing code			
 			northAnimate.slideTo(0, 0, AnimationTime);
 			southAnimate.slideTo(0, Window.getClientHeight()-southPanel.getOffsetHeight(), AnimationTime);
 			eastAnimate.slideTo(Window.getClientWidth()-eastPanel.getOffsetWidth(), 0, AnimationTime);
