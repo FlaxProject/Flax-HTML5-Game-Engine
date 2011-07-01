@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MainMenuView;
 import ie.flax.flaxengine.client.weave.view.TileMenuView;
@@ -25,7 +26,8 @@ public class WeavePresenter extends AbstractPresenter{
 		TilePresenter = new TileMenuPresenter(new TileMenuView(),editor);
 		
 		display.addToSouth(TilePresenter.asWidget(), "TileMenu");
-		display.addToSouth(new Label("Insert logging widget here"), "Console");
+		display.addToSouth(FLog.getWidget(), "Console");
+		display.addToSouth(new Label("MinMap experiment tab"), "Min-Map Experiment");
 		
 		
 		//TODO Carl Create some kind of strings/help file class for this string and others like it.

@@ -68,6 +68,21 @@ public class Graphic {
 			return temp.getImage();			
 	}
 	
+	/**
+	 * Get image with URL refName
+	 * @param refName
+	 * @return
+	 */
+	public final FImage getFImage(final String refName) {
+		
+		FImage temp = imageLibary.get(refName);
+		
+		if(temp == null)
+			return null;
+		
+			return temp;			
+	}
+	
 
 
 	/**

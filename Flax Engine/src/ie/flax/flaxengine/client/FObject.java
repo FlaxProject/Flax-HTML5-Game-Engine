@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.Graphic.Sprite;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
@@ -17,7 +18,7 @@ public class FObject implements JsonSerializable{
 	private float y;
 	private float width;
 	private float height;
-	private String sprite;
+	private Sprite sprite;
 	private String audio;
 	
 
@@ -29,7 +30,7 @@ public class FObject implements JsonSerializable{
 	 * @param width
 	 * @param height
 	 */
-	public FObject(float x, float y, float width, float height, String sprite, String[] audio) {
+	public FObject(float x, float y, float width, float height, Sprite sprite, String[] audio) {
 
 		this.x = x;
 		this.y = y;
@@ -50,9 +51,9 @@ public class FObject implements JsonSerializable{
 	{
 		if(sprite != null)
 		{
-			refence.getContext2d().drawImage(Graphic.getSingleton().getImage(sprite), x-FlaxEngine.camera.getX(), y-FlaxEngine.camera.getY(),width,height);
+			//TODO convert to vectors, maybe the Vec2 class from box2D when we introduce the physics
+			sprite.draw(refence, new FVector(x, y));
 		}
-		//TODO have a thing about animation and weather or not to have that as extend feature
 	}
 	
 	
@@ -77,11 +78,11 @@ public class FObject implements JsonSerializable{
 
 
 	
-	public String getSprite() {
+	public Sprite getSprite() {
 		return sprite;
 	}
 
-	public void setSprite(String sprite) {
+	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 	
