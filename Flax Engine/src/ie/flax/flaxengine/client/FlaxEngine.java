@@ -3,6 +3,7 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.Graphic.TimerCallback;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import java.util.ArrayList;
@@ -17,7 +18,6 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -38,7 +38,7 @@ public abstract class FlaxEngine {
     private final List<FMap> maps = new ArrayList<FMap>();
     private int currentMap;
     private boolean playing;
-    public static Settings settings; // TODO CARL - Convert to singleton
+    public static Settings settings;
 
     private boolean engineStatus;
     private int frameCount = 0;
@@ -48,20 +48,20 @@ public abstract class FlaxEngine {
     public static FCamera camera;
 
     /**
-     * This timer implements the game loop. The timer loops every 500
-     * Milliseconds It checks is the engineReady and then if the game is been
-     * played and then
+     * This is technically the game loop. It tells requestAnimationFrame to call
+     * it. Draw, update, etc should be in here.
      */
-    private final Timer gameTimer = new Timer() {
+    private final TimerCallback gameTimer = new TimerCallback() {
 
         @Override
-        public void run() {
-
+        public void fire() {
+            Graphic.getSingleton().requestAnimationFrame(this);
             if (isEngineReady()) {
                 if (playing == true) {
 
                     maps.get(0).draw();
                     fpsUpdate();
+
                 }
             }
 
@@ -124,7 +124,7 @@ public abstract class FlaxEngine {
      */
     public void run() {
         playing = true;
-        gameTimer.scheduleRepeating(41); // TODO CARL abstract into settings
+        Graphic.getSingleton().requestAnimationFrame(gameTimer);
     }
 
     /**
@@ -254,19 +254,19 @@ public abstract class FlaxEngine {
             settings = new Settings();
         }
 
-        int width = 0;
-        int height = 0;
+        int width = settings.getWidth();
+        int height = settings.getHeight();
 
-        if (settings.getFullscreenOn() == true) {
-            width = Window.getClientWidth(); // FIXME CARL - Width and height
-                                             // should be setting members as
-                                             // they are needed though out the
-                                             // project
-            height = Window.getClientHeight();
+        if (settings.getFullscreen() == true) {
+            // width = Window.getClientWidth(); // FIXME CARL - Width and height
+            // should be setting members as
+            // they are needed though out the
+            // project
+            // height = Window.getClientHeight();
             Window.enableScrolling(false);
         } else {
-            width = RootPanel.get(insertId).getOffsetWidth();
-            height = RootPanel.get(insertId).getOffsetHeight();
+            // width = RootPanel.get(insertId).getOffsetWidth();
+            // height = RootPanel.get(insertId).getOffsetHeight();
         }
 
         drawingSpace = Canvas.createIfSupported();
@@ -297,23 +297,21 @@ public abstract class FlaxEngine {
     protected boolean isEngineReady() {
 
         /**
-         * Understand the below if() statment. The frist condtion which is check
-         * is the status of the engine which is by default to false. As this
-         * method is called in the main loop we don't want all the checks been
-         * excuted so we store the status of true once we get it In the secound
-         * condtional statement this happens -> If first checks is the first map
-         * in the map list null and then the secound check it indexes that
-         * object and asks for a memeber Loaded. Which if true will then move
-         * onto checking if the graphics componet is ready This only checks if
-         * the first map is loaded, this is going on the idea that all other
+         * Understand the below if() statment. The first condtion which is
+         * checked is the status of the engine which is, by default, false. As
+         * this method is called in the main loop we don't want all the checks
+         * been excuted so we store the status of true once we get it In the
+         * secound condtional statement this happens -> If first checks is the
+         * first map in the map list null and then the secound check it indexes
+         * that object and asks for a member Loaded. Which if true will then
+         * move onto checking if the graphics componet is ready This only checks
+         * if the first map is loaded, this is going on the idea that all other
          * maps will load by the time they are needed
          */
         if ((engineStatus == true)
                 || ((maps.get(0) != null) && maps.get(0).getLoaded()
                         && Graphic.getSingleton().isComponentReady() && Audio
-                            .isComponentReady())// TODO add check for audio
-                                                // loading
-        ) {
+                            .isComponentReady())) {
             engineStatus = true;
         }
 

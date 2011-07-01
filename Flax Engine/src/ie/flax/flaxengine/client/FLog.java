@@ -1,6 +1,5 @@
 package ie.flax.flaxengine.client;
 
-import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -9,7 +8,6 @@ import com.google.gwt.logging.client.ConsoleLogHandler;
 import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.logging.client.HtmlLogFormatter;
 import com.google.gwt.logging.client.SystemLogHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTMLPanel;
 
 public class FLog {
@@ -52,18 +50,6 @@ public class FLog {
 
             l.addHandler(hwlh);
             inited = true;
-        } else if (inited) {
-            // is it bad practice to log something here? ;)
-            Window.alert("You've called FLog.init() twice. "
-                    + "This is not something you should do. "
-                    + "Initialising FLog to the second call. ");
-            inited = false;
-            for (Handler i : l.getHandlers()) {
-                i.flush();
-                i.close();
-                l.removeHandler(i);
-            }
-            init();
         }
     }
 
