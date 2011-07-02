@@ -1,3 +1,0 @@
-# Module flax_engine
-# RPC service class, partial path of RPC policy file
-com.google.gwt.logging.shared.RemoteLoggingService, 1A64CF15B1B86545E5D93E24268D6306.gwt.rpc
