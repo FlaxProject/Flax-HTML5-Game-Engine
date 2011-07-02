@@ -8,7 +8,6 @@ import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.controls.TileRegion;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
-import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.KeyDownEvent;

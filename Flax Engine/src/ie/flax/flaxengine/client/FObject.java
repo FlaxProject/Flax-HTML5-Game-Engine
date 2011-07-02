@@ -1,6 +1,5 @@
 package ie.flax.flaxengine.client;
 
-import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.Graphic.Sprite;
 
 import com.google.gwt.canvas.client.Canvas;

@@ -22,12 +22,16 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 	private ImageLibView display;
 	private String currentImage;
 	private Idenfiter typeOfImage;
+	private FileUploadPresenter uploadPresenter;
 	
 	public ImageLibPresenter(Idenfiter tileSheet)
 	{
 		this.display = new ImageLibViewImpl(this);
 		populate();
 		typeOfImage = tileSheet;
+		
+		uploadPresenter = new FileUploadPresenter();
+		//FIXME Ciaran sort out the nested view/presenter stuff for the new MVP model
 	}
 	
 	/**
@@ -60,6 +64,7 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 
 	@Override
 	public Widget getView() {
+		populate();
 		return display.asWidget();
 	}
 

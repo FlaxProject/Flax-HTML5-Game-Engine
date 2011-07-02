@@ -41,7 +41,7 @@ public class MainMenuView extends MenuBar {
 		
 		window = new FWindow("Window");
 	
-		fileuploadPresneter = new FileUploadPresenter(new FileUploadView());
+		fileuploadPresneter = new FileUploadPresenter();
 		ImportExportPresenter = new MapImportExportPresenter( new MapImportExportView(),model);
 	}
 

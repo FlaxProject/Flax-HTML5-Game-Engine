@@ -6,13 +6,12 @@ import ie.flax.flaxengine.client.weave.Weave;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This class handles the Export and Import view in the editor. 
  * 
- * @author Ciarán McCann
+ * @author Ciarï¿½n McCann
  *
  */
 public class MapImportExportPresenter extends AbstractPresenter{

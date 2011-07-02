@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
+import ie.flax.flaxengine.client.weave.view.FileUploadView;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,7 +13,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -43,9 +43,9 @@ public class FileUploadPresenter extends AbstractPresenter {
 	 * This Presneter handles the upload view and also inserts an imageLibView into the widget, which
 	 * is updated when a new image is uploaded
 	 */
-	public FileUploadPresenter(Display display)
+	public FileUploadPresenter()
 	{
-		this.display = display;
+		this.display = new FileUploadView();
 		imageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);	
 		bind();
 	}
