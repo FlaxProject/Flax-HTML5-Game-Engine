@@ -17,6 +17,10 @@ public class MiniMapPresenter extends AbstractPresenter implements
 	private final Weave model;
 	private final FCamera cam;
 	private final MiniMapView v;
+	
+	//FIXME CARL - Before starting work remeber we need to remove the hidden files gwt-log 
+	// from the tracking and also make your classpath match mine. I have removed all other files that
+	// I can though the EGIT interface
 
 	TimerCallback drawLoop = new TimerCallback() {
 

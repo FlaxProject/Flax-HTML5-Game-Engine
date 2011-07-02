@@ -10,7 +10,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  * @author Ciaran McCann
  *
  */
-public class FTile implements JsonSerializable{
+public class FTile implements JsonSerializable, Comparable<FTile>{
 
 	private int x;
 	private int y;
@@ -126,6 +126,13 @@ public class FTile implements JsonSerializable{
 	 */
 	public void setTexture(int texture) {
 		this.texture = texture;
+	}
+
+
+
+	@Override
+	public int compareTo(FTile arg0) {
+		return (arg0.getX() + arg0.getY()*FMap.mapwidth < x + y*FMap.mapwidth) ? 1 : -1;
 	}
 
 }

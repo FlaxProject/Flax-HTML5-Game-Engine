@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public abstract class FlaxEngine {
 
 	private Canvas drawingSpace;
+	private Canvas editorOverLay;
 	private static final String powerBy = "Powered By Flax Web Game Engine";
 	private final List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
@@ -83,8 +84,154 @@ public abstract class FlaxEngine {
 		FLog.init();
 		initEngine(insertId);
 		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
-		editor = new Weave(insertId, drawingSpace, getCurrentMap());
+		editor = new Weave(insertId, drawingSpace, editorOverLay, getCurrentMap());
 	}
+
+
+	/**
+	 * Registers the main game canvas for Events
+	 */
+	private void bind() {
+
+		// TODO Very strange bug which will not allow the attaching of these
+		// handlers
+		// inside the weave object. The drawingSpace reference is passed in, but
+		// crazy stuff happens like stackover flow. Leaving them here for the
+		// meantime as its no bigy
+		editorOverLay.addKeyDownHandler(new KeyDownHandler() {
+
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+
+				if (editor.isRunning()) {
+					editor.keyboardControls(event);
+				}
+			}
+		});
+
+		editorOverLay.addMouseMoveHandler(new MouseMoveHandler() {
+
+			@Override
+			public void onMouseMove(MouseMoveEvent event) {
+
+				if (editor.isRunning()) {
+					editor.onMouseMove(event);
+				}
+			}
+		});
+
+		editorOverLay.addMouseDownHandler(new MouseDownHandler() {
+
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+
+				if (editor.isRunning()) {
+					editor.onMouseDown(event);
+				}
+
+			}
+		});
+
+		editorOverLay.addMouseUpHandler(new MouseUpHandler() {
+
+			@Override
+			public void onMouseUp(MouseUpEvent event) {
+				if (editor.isRunning()) {
+					editor.onMouseUp(event);
+				}
+
+			}
+		});
+
+	}
+
+	
+	/**
+	 * This method initialises many different components of the engine, events,
+	 * rendering, weave
+	 * 
+	 * @param insertId
+	 * @param width
+	 * @param height
+	 */
+	protected void initEngine(String insertId) {
+
+		if (settings == null) {
+			settings = new Settings();
+		}
+
+		int width = settings.getWidth();
+		int height = settings.getHeight();
+
+		if (settings.getFullscreen() == true) {
+			// width = Window.getClientWidth(); // FIXME CARL - Width and height
+			// should be setting members as
+			// they are needed though out the
+			// project
+			// height = Window.getClientHeight();
+			Window.enableScrolling(false);
+		} else {
+			// width = RootPanel.get(insertId).getOffsetWidth();
+			// height = RootPanel.get(insertId).getOffsetHeight();
+		}
+
+		drawingSpace = Canvas.createIfSupported();
+		drawingSpace.setWidth(width + "px");
+		drawingSpace.setHeight(height + "px");
+		drawingSpace.setCoordinateSpaceWidth(width);
+		drawingSpace.setCoordinateSpaceHeight(height);
+		
+		editorOverLay = Canvas.createIfSupported();
+		editorOverLay.setWidth(width + "px");
+		editorOverLay.setHeight(height + "px");
+		editorOverLay.setCoordinateSpaceWidth(width);
+		editorOverLay.setCoordinateSpaceHeight(height);
+
+		camera = new FCamera(new FVector(0, 0), width, height);
+
+		bind(); // sets the event handlers for canvas tag
+		
+		RootPanel.get(insertId).add(drawingSpace);// inser into doc		
+		RootPanel.get(insertId).add(editorOverLay, 0,0); 
+		
+
+		/**
+		 * This is the boot strap loader for images in the engine. When an image
+		 * is loaded by an FImage object, it inserts the image into this div
+		 * which is display none and this triggers a DOM load image
+		 */
+		RootPanel.get(insertId).add(FImage.getBootStrapDiv());
+	}
+
+	/**
+	 * Checks are all the engine componets are loaded and the data in them got
+	 * from the server
+	 * 
+	 * @return
+	 */
+	protected boolean isEngineReady() {
+
+		/**
+		 * Understand the below if() statment. The first condtion which is
+		 * checked is the status of the engine which is, by default, false. As
+		 * this method is called in the main loop we don't want all the checks
+		 * been excuted so we store the status of true once we get it In the
+		 * secound condtional statement this happens -> If first checks is the
+		 * first map in the map list null and then the secound check it indexes
+		 * that object and asks for a member Loaded. Which if true will then
+		 * move onto checking if the graphics componet is ready This only checks
+		 * if the first map is loaded, this is going on the idea that all other
+		 * maps will load by the time they are needed
+		 */
+		if ((engineStatus == true)
+		|| ((maps.get(0) != null) && maps.get(0).getLoaded()
+		&& Graphic.getSingleton().isComponentReady() && Audio.isComponentReady())) {
+			engineStatus = true;
+		}
+
+		return engineStatus;
+	}
+	
 
 	/**
 	 * Returns the current map which can the be used to modify the information
@@ -153,65 +300,8 @@ public abstract class FlaxEngine {
 
 			mapIndex++;
 		}
-
 	}
 
-	/**
-	 * Registers the main game canvas for Events
-	 */
-	private void bind() {
-
-		// TODO Very strange bug which will not allow the attaching of these
-		// handlers
-		// inside the weave object. The drawingSpace reference is passed in, but
-		// crazy stuff happens like stackover flow. Leaving them here for the
-		// meantime as its no bigy
-		drawingSpace.addKeyDownHandler(new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-
-				if (editor.isRunning()) {
-					editor.keyboardControls(event);
-				}
-			}
-		});
-
-		drawingSpace.addMouseMoveHandler(new MouseMoveHandler() {
-
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-
-				if (editor.isRunning()) {
-					editor.onMouseMove(event);
-				}
-			}
-		});
-
-		drawingSpace.addMouseDownHandler(new MouseDownHandler() {
-
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-
-				if (editor.isRunning()) {
-					editor.onMouseDown(event);
-				}
-
-			}
-		});
-
-		drawingSpace.addMouseUpHandler(new MouseUpHandler() {
-
-			@Override
-			public void onMouseUp(MouseUpEvent event) {
-				if (editor.isRunning()) {
-					editor.onMouseUp(event);
-				}
-
-			}
-		});
-
-	}
 
 	/**
 	 * This updates the fps counter, and logs the frames every second or so.
@@ -240,83 +330,5 @@ public abstract class FlaxEngine {
 		var currentTime = new Date();
 		return currentTime.getMilliseconds();
 	}-*/;
-
-	/**
-	 * This method initialises many different components of the engine, events,
-	 * rendering, weave
-	 * 
-	 * @param insertId
-	 * @param width
-	 * @param height
-	 */
-	protected void initEngine(String insertId) {
-
-		if (settings == null) {
-			settings = new Settings();
-		}
-
-		int width = settings.getWidth();
-		int height = settings.getHeight();
-
-		if (settings.getFullscreen() == true) {
-			// width = Window.getClientWidth(); // FIXME CARL - Width and height
-			// should be setting members as
-			// they are needed though out the
-			// project
-			// height = Window.getClientHeight();
-			Window.enableScrolling(false);
-		} else {
-			// width = RootPanel.get(insertId).getOffsetWidth();
-			// height = RootPanel.get(insertId).getOffsetHeight();
-		}
-
-		drawingSpace = Canvas.createIfSupported();
-		drawingSpace.setWidth(width + "px");
-		drawingSpace.setHeight(height + "px");
-		drawingSpace.setCoordinateSpaceWidth(width);
-		drawingSpace.setCoordinateSpaceHeight(height);
-
-		camera = new FCamera(new FVector(0, 0), width, height);
-
-		bind(); // sets the event handlers for canvas tag
-		RootPanel.get(insertId).add(drawingSpace);// inser into doc
-
-		/**
-		 * This is the boot strap loader for images in the engine. When an image
-		 * is loaded by an FImage object, it inserts the image into this div
-		 * which is display none and this triggers a DOM load image
-		 */
-		RootPanel.get(insertId).add(FImage.getBootStrapDiv());
-	}
-
-	/**
-	 * Checks are all the engine componets are loaded and the data in them got
-	 * from the server
-	 * 
-	 * @return
-	 */
-	protected boolean isEngineReady() {
-
-		/**
-		 * Understand the below if() statment. The first condtion which is
-		 * checked is the status of the engine which is, by default, false. As
-		 * this method is called in the main loop we don't want all the checks
-		 * been excuted so we store the status of true once we get it In the
-		 * secound condtional statement this happens -> If first checks is the
-		 * first map in the map list null and then the secound check it indexes
-		 * that object and asks for a member Loaded. Which if true will then
-		 * move onto checking if the graphics componet is ready This only checks
-		 * if the first map is loaded, this is going on the idea that all other
-		 * maps will load by the time they are needed
-		 */
-		if ((engineStatus == true)
-				|| ((maps.get(0) != null) && maps.get(0).getLoaded()
-						&& Graphic.getSingleton().isComponentReady() && Audio
-							.isComponentReady())) {
-			engineStatus = true;
-		}
-
-		return engineStatus;
-	}
 
 }

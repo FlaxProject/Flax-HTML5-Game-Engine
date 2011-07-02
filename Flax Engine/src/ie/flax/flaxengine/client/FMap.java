@@ -10,6 +10,7 @@ import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -48,8 +49,18 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  */
 public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 
+	/**
+	 * This varible is extremely valueable to optimizting tile Region operations
+	 * for the editor once the tile count its 20,000. And thus why I am making a static copy for the mo
+	 */
+	public static int mapwidth; 
+	
+	/**
+	 * Map width and height most be a multplie of the tilesize
+	 */
 	private int width;
 	private int height;
+	
 	private int tileSize;
 	private String name;
 	private boolean Loaded; 
@@ -77,7 +88,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		this.drawingSpace = drawingSpace;
 		name = mapPath;
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
-		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file			
+		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file
+		
 	}
 	
 
@@ -151,6 +163,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		clickX *= tileSize;
 		clickY *= tileSize;
 		
+		
+		
+		
 		for(FTile obj : tiles)
 		{
 			if(obj.getX() == clickX && obj.getY() == clickY)
@@ -223,8 +238,24 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
-		this.width = newMapObj.width;
-		this.height = newMapObj.height;
+						
+		if( (newMapObj.width % tileSize != 0) || (newMapObj.height % tileSize != 0) )
+		{
+			this.width = newMapObj.width/tileSize;
+			this.height = newMapObj.height/tileSize;
+			
+			this.width *=tileSize;
+			this.height *=tileSize;
+			
+			Window.alert("Error in map data" + "\n\n" + "Map width and height are not multiples of the tilesize, I rounded them down for you to \n\n" + width + " by " + height + "\n" + " Everything is sorted :D");
+		
+		}else
+		{
+			this.width = newMapObj.width;
+			this.height = newMapObj.height;
+		}
+		
+		FMap.mapwidth = newMapObj.width;
 	}
 
 	/**
@@ -326,6 +357,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		{
 			tiles.add(tile);
 		}
+	}
+	
+	/**
+	 * This sorts the tile list and in furture the entity list, to make for faster editing.
+	 */
+	public void optimizeCollections()
+	{
+		Collections.sort(tiles);
 	}
 	
 	/**

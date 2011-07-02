@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.controls;
 
+import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
@@ -13,11 +14,11 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 /**
  * This defines a generic class which allows for TileRegion operations
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  * 
  *
  */
-public abstract class TileRegion implements IControlTileRegion {
+public class TileRegion {
 
 	private enum MouseState
 	{
@@ -30,6 +31,9 @@ public abstract class TileRegion implements IControlTileRegion {
 	private MouseState mouseState;
 	private Weave editor;
 	private FTile tile;
+	private int tilesize;
+	private FMap map;
+	private int texture;
 
 	
 	public TileRegion(Weave editor)
@@ -37,18 +41,17 @@ public abstract class TileRegion implements IControlTileRegion {
 		startPos = new FVector(0, 0);
 		mouseState = MouseState.MOUSE_UP;
 		this.editor = editor;
-		tile = null;		
+		tile = null;	
+		map = editor.getFMapReference();
+		texture = editor.getCurrentTile().getTexture();
 	}
 
 
-	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		
 		if(mouseState == MouseState.MOUSE_DOWN)
 		{
-				
-			int tilesize = editor.getFMapReference().getTileSize();
-			
+
 			int newX =  (int) (FlaxEngine.camera.getX() + event.getClientX())/tilesize ;
 			int newY =  (int) (FlaxEngine.camera.getY() + event.getClientY())/tilesize ;
 			
@@ -63,7 +66,7 @@ public abstract class TileRegion implements IControlTileRegion {
 				while(startX <= newX)
 				{
 									 
-					this.doTileRegionLogic(startX, startY);
+					tileSelectedRegion(startX, startY);
 					startX++;		
 				}
 				startX = startXCopy;
@@ -71,23 +74,31 @@ public abstract class TileRegion implements IControlTileRegion {
 			}
 			
 			mouseState = MouseState.MOUSE_UP;
+			editor.getEditorOverLay().getContext2d().clearRect(0, 0, editor.getEditorOverLay().getOffsetWidth(), editor.getEditorOverLay().getOffsetHeight()); 
+			map.optimizeCollections();
 		}
 		
 	}
 
-	@Override
+
 	public void onMouseDown(MouseDownEvent event) {
+		
+		//event.stopPropagation();
 		
 		if (event.isShiftKeyDown())
 		{			
+			tilesize = editor.getFMapReference().getTileSize();
+			map = editor.getFMapReference();
 			mouseState = MouseState.MOUSE_DOWN;				
 			startPos = new FVector(event.getX(), event.getY());
+			texture = editor.getCurrentTile().getTexture();
+			
 		}
 		
 		
 	}
 
-	@Override
+	
 	public void onMouseMove(MouseMoveEvent event) {
 		
 		if (event.isShiftKeyDown()) {
@@ -103,11 +114,11 @@ public abstract class TileRegion implements IControlTileRegion {
 
 	private void drawRegionBox(int clientX, int clientY) {
 		
-
-		double newX =  clientX - startPos.x;
-		double newY =  clientY - startPos.y;
+		Context2d ctx = editor.getEditorOverLay().getContext2d();	
+		ctx.clearRect(0, 0, editor.getEditorOverLay().getOffsetWidth(), editor.getEditorOverLay().getOffsetHeight()); 
 		
-		Context2d ctx = editor.getdrawingSpace().getContext2d();				
+		double newX =  clientX - startPos.x;
+		double newY =  clientY - startPos.y;				
 		
 		ctx.setStrokeStyle("#CD0000");
 		ctx.beginPath();
@@ -124,23 +135,23 @@ public abstract class TileRegion implements IControlTileRegion {
 	}
 
 	
-	protected void tileSelectedRegion(int startX, int startY)
-	{
-		int tilesize = editor.getFMapReference().getTileSize();
+	private void tileSelectedRegion(int startX, int startY)
+	{	
+		startX *= tilesize;
+		startY *= tilesize;
 		
-		tile = editor.getFMapReference().getTile(startX*tilesize, startY*tilesize);
+		tile = map.getTile(startX,startY);
 		
 		if(tile == null)
-		{
-		
-			editor.getFMapReference().addTile(new FTile(startX*tilesize, startY*tilesize, true, editor.getCurrentTile().getTexture()));
-		
+		{		
+			map.addTile(new FTile(startX,startY, true, texture));		
 		}
 		else
 		{
-			tile.setTexture(editor.getCurrentTile().getTexture());
+			tile.setTexture(texture );
 			tile = null;
-		}						
+		}		
+		
 	}
 
 

@@ -43,6 +43,8 @@ public class Weave implements ImageSelectionEventHandler{
 	private final WeavePresenter WeavePresenter;
 	private final TileRegion tileRegionControl;
 
+	private Canvas editorOverLay;
+
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
@@ -50,25 +52,19 @@ public class Weave implements ImageSelectionEventHandler{
 	 * @param insertID
 	 * @param map 
 	 * @param drawingSpace 
+	 * @param editorOverLay 
 	 * @param width
 	 * @param height
 	 */
-	public Weave(final String insertID, Canvas drawingSpace, FMap map)
+	public Weave(final String insertID, Canvas drawingSpace, Canvas editorOverLay, FMap map)
 	{ 
+		this.editorOverLay = editorOverLay;
 		this.drawingSpace = drawingSpace;
 		this.map = map;
 		this.currentTile = new FTile();	
 		
 		//Controls the select region of tiles operations
-		tileRegionControl = new TileRegion(this) {
-			
-			@Override
-			public void doTileRegionLogic(int startX, int startY) {
-				
-				this.tileSelectedRegion(startX, startY);
-				
-			}
-		};
+		tileRegionControl = new TileRegion(this);
 	
 
 		WeavePresenter = new WeavePresenter(this); 
@@ -79,8 +75,6 @@ public class Weave implements ImageSelectionEventHandler{
 		bind(); //Key and Mouse Events
 	}
 		
-
-	
 	/**
 	 * This binds the goble key events for the editor, such as the backslash.
 	 * Though in furture the canvas keyevents may be changed to goble rootpanel events and thus
@@ -250,5 +244,13 @@ public class Weave implements ImageSelectionEventHandler{
 	public boolean isRunning() {
 		return running;
 	}
+	
+	
+	public final Canvas getEditorOverLay() {
+		return editorOverLay;
+	}
+
+
+
 	
 }
