@@ -45,7 +45,7 @@ public abstract class FlaxEngine {
 	private int frameCount = 0;
 	private int oldMilliseconds = 0;
 
-	private Weave editor;
+	private final Weave editor;
 	public static FCamera camera;
 
 	/**
@@ -83,7 +83,7 @@ public abstract class FlaxEngine {
 	public FlaxEngine(final String mapPaths, final String insertId) {
 		FLog.init();
 		initEngine(insertId);
-		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps	
+		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
 		editor = new Weave(insertId, drawingSpace, editorOverLay, getCurrentMap());
 	}
 

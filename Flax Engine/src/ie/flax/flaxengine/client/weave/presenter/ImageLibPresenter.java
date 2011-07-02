@@ -22,7 +22,7 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 	private ImageLibView display;
 	private String currentImage;
 	private Idenfiter typeOfImage;
-	private FileUploadPresenter uploadPresenter;
+	//private FileUploadPresenter uploadPresenter;
 	
 	public ImageLibPresenter(Idenfiter tileSheet)
 	{
@@ -30,7 +30,7 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 		populate();
 		typeOfImage = tileSheet;
 		
-		uploadPresenter = new FileUploadPresenter();
+		//uploadPresenter = new FileUploadPresenter();
 		//FIXME Ciaran sort out the nested view/presenter stuff for the new MVP model
 	}
 	
