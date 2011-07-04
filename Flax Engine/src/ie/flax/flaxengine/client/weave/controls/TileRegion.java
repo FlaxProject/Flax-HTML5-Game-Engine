@@ -18,9 +18,9 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
  * 
  *
  */
-public class TileRegion {
+public class TileRegion implements IControl {
 
-	private enum MouseState
+	public enum MouseState
 	{
 		MOUSE_CLICKED,
 		MOUSE_DOWN,
@@ -82,20 +82,13 @@ public class TileRegion {
 
 
 	public void onMouseDown(MouseDownEvent event) {
-		
-		//event.stopPropagation();
-		
-		if (event.isShiftKeyDown())
-		{			
+			
 			tilesize = editor.getFMapReference().getTileSize();
 			map = editor.getFMapReference();
 			mouseState = MouseState.MOUSE_DOWN;				
 			startPos = new FVector(event.getX(), event.getY());
 			texture = editor.getCurrentTile().getTexture();
-			
-		}
-		
-		
+	
 	}
 
 	
@@ -155,6 +148,9 @@ public class TileRegion {
 	}
 
 
-	
+	public MouseState getMouseState()
+	{
+		return mouseState;
+	}
 
 }
