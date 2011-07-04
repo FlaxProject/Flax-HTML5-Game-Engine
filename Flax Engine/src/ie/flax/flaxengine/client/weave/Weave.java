@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Weave implements ImageSelectionEventHandler{
 	
-	private final int cameraPanSpeed = 32;
+	private final int cameraPanSpeed = 31;
 	
 	private FMap map;
 	private FTile currentTile;
@@ -268,6 +268,11 @@ public class Weave implements ImageSelectionEventHandler{
 	
 	public final Canvas getEditorOverLay() {
 		return editorOverLay;
+	}
+
+	public void toggle() {
+		running = !running;
+		WeavePresenter.toggleDisplay();
 	}
 
 
