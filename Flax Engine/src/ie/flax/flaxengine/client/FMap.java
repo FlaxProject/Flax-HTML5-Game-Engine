@@ -2,7 +2,6 @@ package ie.flax.flaxengine.client;
 
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
-import ie.flax.flaxengine.client.Graphic.Sprite;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
@@ -109,7 +108,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
 		 */
-		drawingSpace.getContext2d().fillRect(0, 0, cam.getWidth(), cam.getHeight()); 
+		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
 		double camX = cam.getX();
 		double camY = cam.getY();
 		double camXWidth = camX+cam.getWidth();

@@ -49,7 +49,7 @@ public class WeaveViewImpl implements WeaveView{
 		eastPanel.setWidth("250px");
 		eastPanel.setHeight(Window.getClientHeight()+"px");
 		eastPanel.add(eastStackPanel);
-		eastPanel.setCellHeight(eastStackPanel, "86%");
+		eastPanel.setCellHeight(eastStackPanel, "80%");
 		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
 				
 		
@@ -122,7 +122,7 @@ public class WeaveViewImpl implements WeaveView{
 	public void addToSouthEastCornor(Widget widgetToInsert) {
 		
 			eastPanel.add(widgetToInsert);
-			eastPanel.setCellHeight(widgetToInsert, "15%");
+			eastPanel.setCellHeight(widgetToInsert, "20%");
 	}
 
 

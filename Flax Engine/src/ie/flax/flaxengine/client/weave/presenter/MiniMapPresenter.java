@@ -20,8 +20,7 @@ public class MiniMapPresenter extends AbstractPresenter implements
 	Timer timer = new Timer() {
 		@Override
 		public void run() {
-			v.getCanvas().getContext2d().setFillStyle("#0F0");
-			v.getCanvas().getContext2d().fillRect(0, 0, v.getCanvas().getOffsetWidth(), v.getCanvas().getOffsetHeight());
+			clear();
 			
 			if (v.getCanvas().getCoordinateSpaceHeight() == 0) {
 				v.getCanvas().setCoordinateSpaceHeight(
@@ -32,9 +31,9 @@ public class MiniMapPresenter extends AbstractPresenter implements
 						.scale(1.0 / inverseScale, 1.0 / inverseScale);
 			}
 			
+			
 			model.getFMapReference().draw(cam, v.getCanvas());
 			drawCurrentCameraRectangle();
-			
 		}
 	};
 
@@ -42,7 +41,7 @@ public class MiniMapPresenter extends AbstractPresenter implements
 		this.model = model;
 		v = new MiniMapViewImpl(this);
 		cam = new FCamera(new FVector(0, 0), FlaxEngine.camera.getWidth()
-				* inverseScale, FlaxEngine.camera.getHeight());
+				* inverseScale, FlaxEngine.camera.getHeight() *inverseScale);
 		v.getCanvas().getContext2d()
 				.scale(1.0 / inverseScale, 1.0 / inverseScale);
 
@@ -56,7 +55,7 @@ public class MiniMapPresenter extends AbstractPresenter implements
 		 */
 
 		// TODO Carl change to event-based?
-		timer.scheduleRepeating(1000);
+		timer.scheduleRepeating(50);
 	}
 
 	@Override
@@ -67,18 +66,24 @@ public class MiniMapPresenter extends AbstractPresenter implements
 	@Override
 	public void moveMapCamera(int x, int y) {
 		// divided by two to offset the move. TODO Carl make this better
-		FlaxEngine.camera.setX((x / 2) * inverseScale);
-		FlaxEngine.camera.setY((y / 2) * inverseScale);
+		FlaxEngine.camera.setX((x * inverseScale) / 2);
+		FlaxEngine.camera.setY((y * inverseScale) / 2);
 	}
 
 	@Override
 	public void drawCurrentCameraRectangle() {
 		v.getCanvas().getContext2d().setStrokeStyle("#F00");
-		v.getCanvas().getContext2d().rect(
+		v.getCanvas().getContext2d().setLineWidth(8.0);
+		v.getCanvas().getContext2d().strokeRect(
 				FlaxEngine.camera.getX(), 
 				FlaxEngine.camera.getY(), 
 				FlaxEngine.camera.getWidth(), 
 				FlaxEngine.camera.getHeight());
-		v.getCanvas().getContext2d().stroke();
+	}
+	
+	private void clear() {
+		v.getCanvas().getContext2d().fillRect(0, 0,
+				v.getCanvas().getCoordinateSpaceWidth()*inverseScale,
+				v.getCanvas().getCoordinateSpaceHeight()*inverseScale);
 	}
 }
