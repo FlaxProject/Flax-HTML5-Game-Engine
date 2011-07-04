@@ -219,7 +219,11 @@ public class Weave implements ImageSelectionEventHandler{
 		if (event.isShiftKeyDown())
 		{				
 			tileRegion.onMouseDown(event);	
-		}			
+		}	
+		else
+		{
+			this.selectedTile(event.getX(), event.getY());
+		}
 		
 	}
 	
