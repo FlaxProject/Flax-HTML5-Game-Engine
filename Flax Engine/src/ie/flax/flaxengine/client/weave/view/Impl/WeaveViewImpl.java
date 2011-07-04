@@ -122,7 +122,7 @@ public class WeaveViewImpl implements WeaveView{
 	public void addToSouthEastCornor(Widget widgetToInsert) {
 		
 			eastPanel.add(widgetToInsert);
-			//eastPanel.setCellHeight(widgetToInsert, "15%");
+			eastPanel.setCellHeight(widgetToInsert, "15%");
 	}
 
 
