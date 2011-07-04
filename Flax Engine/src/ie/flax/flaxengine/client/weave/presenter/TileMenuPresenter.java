@@ -22,131 +22,147 @@ import com.google.gwt.user.client.ui.Widget;
  * to select an image for the current tilesheet from the currently loaded images
  * 
  * @author Ciaran McCann
- *
+ * 
  */
-public class TileMenuPresenter extends AbstractPresenter implements ImageSelectionEventHandler{
+public class TileMenuPresenter extends AbstractPresenter implements
+		ImageSelectionEventHandler {
 
-	private Display display;
-	private Weave model;
-	private FWindow window;
-	private AbstractPresenter imageLibPresenter;
-
-	
 	public interface Display {
-		Canvas getTileCanvas();	//MVP - I'm sorry buts its never not going to be a canvas
-		HasClickHandlers getSelectImageButton();
 		Widget asWidget();
+
+		HasClickHandlers getSelectImageButton();
+
+		Canvas getTileCanvas(); // MVP - I'm sorry buts its never not going to
+								// be a canvas
 	}
-	
-	
-	public TileMenuPresenter(Display display, Weave model)
-	{
+
+	private final Display display;
+	private final Weave model;
+	private final FWindow window;
+
+	private final AbstractPresenter imageLibPresenter;
+
+	public TileMenuPresenter(Display display, Weave model) {
 		this.model = model;
 		this.display = display;
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
-		
+
 		bind();
-		
-		window = new FWindow("Window Tile");		
-		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
-		
+
+		window = new FWindow("Window Tile");
+		imageLibPresenter = new ImageLibPresenter(
+				ImageSelectionEvent.Idenfiter.TILE_SHEET);
+
 	}
-	
-	
-	
+
 	public void bind() {
-		
-		
+
 		display.getTileCanvas().addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {		
-				selectTile(event.getX(),event.getY());
-			}
-		});
-		
-		display.getSelectImageButton().addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
+				selectTile(event.getX(), event.getY());
+			}
+		});
+
+		display.getSelectImageButton().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+
+				window.setTitle("Select TileSheet");
+				window.add(imageLibPresenter.getView());
+				window.show();
+
 				
 				
-				 window.setTitle("Select TileSheet");				 
+				 window.setTitle("Select TileSheet");	
+				 window.add(uploadPresenter.getView());
 				 window.add(imageLibPresenter.getView());
 				 window.show();
 							
 				
 			}
 		});
-		
+
 		/**
-		 * Its cool, draws the rect around the tiles when you mouse over the titlesheet
+		 * Its cool, draws the rect around the tiles when you mouse over the
+		 * titlesheet
 		 */
 		display.getTileCanvas().addMouseMoveHandler(new MouseMoveHandler() {
-			
+
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 
-				if(model.getFMapReference().getTileSheet() != null)
-				{
+				if (model.getFMapReference().getTileSheet() != null) {
 					Context2d ctx = display.getTileCanvas().getContext2d();
-										
-					ctx.fillRect(0, 0, display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
-					ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()), 0, 0);
-					int tileSize = 32;//TODO change back once canvas back online model.getFMapReference().getTileSize();
-													
-					int x = (event.getX()/tileSize)*tileSize;
-					int y = (event.getY()/tileSize)*tileSize;
-													
+
+					ctx.fillRect(0, 0,
+							display.getTileCanvas().getOffsetWidth(), display
+									.getTileCanvas().getOffsetHeight());
+					ctx.drawImage(
+							Graphic.getSingleton().getImage(
+									model.getFMapReference().getTileSheet()),
+							0, 0);
+					int tileSize = model.getFMapReference().getTileSize();
+
+					int x = (event.getX() / tileSize) * tileSize;
+					int y = (event.getY() / tileSize) * tileSize;
+
 					ctx.setStrokeStyle("#CD0000");
 					ctx.beginPath();
 					ctx.moveTo(x, y);
-					ctx.lineTo(x+tileSize, y);
-					ctx.lineTo(x+tileSize, y+tileSize);
-					ctx.lineTo(x, y+tileSize);
+					ctx.lineTo(x + tileSize, y);
+					ctx.lineTo(x + tileSize, y + tileSize);
+					ctx.lineTo(x, y + tileSize);
 					ctx.closePath();
 					ctx.stroke();
 				}
-				
+
 			}
 		});
-		
+
 	}
-
-	/**
-	 * This gets the tile which the user has just clicked on and sets it as the current tile to be used when tilting
-	 * @param clickX
-	 * @param clickY
-	 */
-	private void selectTile(int clickX, int clickY)
-	{
-		if(model.getFMapReference().getTileSheet() != null)
-		{
-			int tileSize = model.getFMapReference().getTileSize();
-			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/tileSize;
-					
-			int x = clickX/tileSize;
-			int y = clickY/tileSize;
-			
-			model.getCurrentTile().setTexture((y*numberOfTilesInaRow)+x);
-		}
-	}
-	
-
-
-	@Override
-	public void onImageSelection(ImageSelectionEvent e) {
-		if(e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET)
-		{
-			display.getTileCanvas().getContext2d().fillRect(0, 0, display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
-			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()), 0, 0);
-		}				
-	}
-
 
 	@Override
 	public Widget getView() {
 		return display.asWidget();
+	}
+
+	@Override
+	public void onImageSelection(ImageSelectionEvent e) {
+		if (e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET) {
+			display.getTileCanvas()
+					.getContext2d()
+					.fillRect(0, 0, display.getTileCanvas().getOffsetWidth(),
+							display.getTileCanvas().getOffsetHeight());
+			display.getTileCanvas()
+					.getContext2d()
+					.drawImage(
+							Graphic.getSingleton().getImage(e.getImageUrl()),
+							0, 0);
+		}
+	}
+
+	/**
+	 * This gets the tile which the user has just clicked on and sets it as the
+	 * current tile to be used when tilting
+	 * 
+	 * @param clickX
+	 * @param clickY
+	 */
+	private void selectTile(int clickX, int clickY) {
+		if (model.getFMapReference().getTileSheet() != null) {
+			int tileSize = model.getFMapReference().getTileSize();
+			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(
+					model.getFMapReference().getTileSheet()).getWidth())
+					/ tileSize;
+
+			int x = clickX / tileSize;
+			int y = clickY / tileSize;
+
+			model.getCurrentTile().setTexture((y * numberOfTilesInaRow) + x);
+		}
 	}
 
 }
