@@ -30,7 +30,7 @@ public class WeavePresenter extends AbstractPresenter {
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
 		display.addToSouth(FLog.getWidget(), "Console");
 
-		display.addToSouth(MiniPresenter.getView(), "Min-Map Experiment");
+		display.addToSouthEastCornor(MiniPresenter.getView());
 
 		// TODO Carl Create some kind of strings/help file class for this string and others like it.
 

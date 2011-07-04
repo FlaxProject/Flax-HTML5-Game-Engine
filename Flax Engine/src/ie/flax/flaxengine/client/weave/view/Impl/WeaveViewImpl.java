@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class WeaveViewImpl implements WeaveView{
@@ -17,7 +18,8 @@ public class WeaveViewImpl implements WeaveView{
 	private static final int AnimationTime = 300;
 	private SimplePanel northPanel;
 	private TabPanel southPanel;
-	private StackLayoutPanel eastPanel;	
+	private VerticalPanel eastPanel;	
+	private StackLayoutPanel eastStackPanel;	
 	private AnimationSlide northAnimate, southAnimate, eastAnimate;		
 	private enum State {SHOW,HIDDEN}
 	
@@ -37,12 +39,19 @@ public class WeaveViewImpl implements WeaveView{
 		northPanel.setWidth(Window.getClientWidth()+"px");
 		RootPanel.get().add(northPanel, 0, -44 );
 		
-		eastPanel = new StackLayoutPanel(Unit.PC); 
+		eastStackPanel = new StackLayoutPanel(Unit.PX);
+		eastStackPanel.setAnimationDuration(AnimationTime);		
+		eastStackPanel.setWidth("250px");
+		eastStackPanel.setHeight("100%");
+	
+		
+		eastPanel = new VerticalPanel(); 
 		eastPanel.setWidth("250px");
-		eastPanel.setAnimationDuration(AnimationTime);
 		eastPanel.setHeight(Window.getClientHeight()+"px");
-		eastPanel.setHeight(Window.getClientHeight()+"px");
+		eastPanel.add(eastStackPanel);
+		eastPanel.setCellHeight(eastStackPanel, "86%");
 		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
+				
 		
 				
 		southPanel = new TabPanel();
@@ -106,7 +115,14 @@ public class WeaveViewImpl implements WeaveView{
 
 	@Override
 	public void addToEast(Widget widgetToInsert, String headerText) {
-		eastPanel.add(widgetToInsert, headerText, 2);
+		eastStackPanel.add(widgetToInsert, headerText, 30);
+	}
+	
+	@Override
+	public void addToSouthEastCornor(Widget widgetToInsert) {
+		
+			eastPanel.add(widgetToInsert);
+			//eastPanel.setCellHeight(widgetToInsert, "15%");
 	}
 
 
@@ -116,6 +132,8 @@ public class WeaveViewImpl implements WeaveView{
 		return null;
 	}
 
+
+	
 
 	
 	

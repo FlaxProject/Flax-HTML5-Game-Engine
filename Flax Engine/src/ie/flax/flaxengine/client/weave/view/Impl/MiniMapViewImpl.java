@@ -15,10 +15,11 @@ public class MiniMapViewImpl implements MiniMapView {
         presenter = pres;
         // create the canvas here
         minimap = Canvas.createIfSupported();
-        minimap.setSize("100%", "100%");
-        minimap.setCoordinateSpaceHeight(1500);
-        minimap.setCoordinateSpaceWidth(1500);
+       // minimap.setSize("100%", "100%");
+        minimap.setCoordinateSpaceHeight(150);
+        minimap.setCoordinateSpaceWidth(150); //FIXME need to find away to make this relative. \
 
+     
         minimap.addClickHandler(new ClickHandler() {
 
             @Override
