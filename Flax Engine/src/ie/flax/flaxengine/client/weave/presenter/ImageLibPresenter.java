@@ -3,6 +3,8 @@ package ie.flax.flaxengine.client.weave.presenter;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
+import ie.flax.flaxengine.client.events.onImageLoadedEvent;
+import ie.flax.flaxengine.client.events.onImageLoadedEventHandler;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
 import ie.flax.flaxengine.client.weave.view.ImageLibView;
 import ie.flax.flaxengine.client.weave.view.Impl.ImageLibViewImpl;
@@ -17,7 +19,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Ciaran McCann
  *
  */
-public class ImageLibPresenter extends AbstractPresenter implements ImageLibView.presenter {
+public class ImageLibPresenter extends AbstractPresenter implements ImageLibView.presenter , onImageLoadedEventHandler{
 
 	private ImageLibView display;
 	private String currentImage;
@@ -30,8 +32,12 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 		populate();
 		typeOfImage = tileSheet;
 		
+		EventBus.handlerManager.addHandler(onImageLoadedEvent.TYPE, this); //Register to recive onImageLoadedEvent
+		
 		//uploadPresenter = new FileUploadPresenter();
 		//FIXME Ciaran sort out the nested view/presenter stuff for the new MVP model
+		
+		//FIXME CIARAN you really really need to finished the convert from old MVP, and remove bugs
 	}
 	
 	/**
@@ -66,6 +72,12 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 	public Widget getView() {
 		populate();
 		return display.asWidget();
+	}
+
+	@Override
+	public void onImageLoaded(onImageLoadedEvent e) {
+		populate();
+		
 	}
 
 }

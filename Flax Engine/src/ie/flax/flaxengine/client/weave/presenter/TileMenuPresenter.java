@@ -30,6 +30,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	private Weave model;
 	private FWindow window;
 	private AbstractPresenter imageLibPresenter;
+	private FileUploadPresenter uploadPresenter;
 
 	
 	public interface Display {
@@ -43,13 +44,15 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	{
 		this.model = model;
 		this.display = display;
+		
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 		
 		bind();
 		
 		window = new FWindow("Window Tile");		
+		uploadPresenter = new FileUploadPresenter();
 		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
-		
+			
 	}
 	
 	
@@ -71,7 +74,8 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			public void onClick(ClickEvent event) {
 				
 				
-				 window.setTitle("Select TileSheet");				 
+				 window.setTitle("Select TileSheet");	
+				 window.add(uploadPresenter.getView());
 				 window.add(imageLibPresenter.getView());
 				 window.show();
 							

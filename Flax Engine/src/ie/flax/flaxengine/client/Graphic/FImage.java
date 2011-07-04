@@ -1,5 +1,9 @@
 package ie.flax.flaxengine.client.Graphic;
 
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.onImageLoadedEvent;
+
+import com.gargoylesoftware.htmlunit.javascript.host.Event;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
@@ -39,6 +43,8 @@ public class FImage {
 	    	  
 	        imageLoaded = true;
 	        image = (ImageElement)(imageData).getElement().cast();
+	        
+	        EventBus.handlerManager.fireEvent(new onImageLoadedEvent(URL)); //lets all listeing compoments that a file is loaded
 	       
 	      }
 	    });
