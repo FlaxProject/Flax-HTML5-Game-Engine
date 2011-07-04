@@ -1,8 +1,5 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import org.apache.commons.digester.rss.Image;
-
-import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
@@ -12,7 +9,6 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -69,6 +65,7 @@ public class TileMenuPresenter extends AbstractPresenter implements
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				selectTile(event.getX(), event.getY());
 			}
 		});

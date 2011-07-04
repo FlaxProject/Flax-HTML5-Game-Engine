@@ -5,6 +5,8 @@ import ie.flax.flaxengine.client.weave.view.MiniMapView;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -27,6 +29,7 @@ public class MiniMapViewImpl implements MiniMapView {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				presenter.moveMapCamera(
 						event.getRelativeX(minimap.getElement()),
 						event.getRelativeY(minimap.getElement()));
@@ -37,8 +40,18 @@ public class MiniMapViewImpl implements MiniMapView {
 			
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
+				//event.preventDefault();
+				//event.stopPropagation();
 				//presenter.drawCameraRectangle(event.getRelativeX(minimap.getElement()),
 				//		event.getRelativeY(minimap.getElement()));
+			}
+		});
+		
+		minimap.addMouseDownHandler(new MouseDownHandler() {
+			
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				event.preventDefault();
 			}
 		});
 	}

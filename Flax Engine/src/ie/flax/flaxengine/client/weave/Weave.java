@@ -6,7 +6,6 @@ import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
-import ie.flax.flaxengine.client.weave.controls.IControl;
 import ie.flax.flaxengine.client.weave.controls.TileRegion;
 import ie.flax.flaxengine.client.weave.controls.TileRegion.MouseState;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
@@ -195,6 +194,7 @@ public class Weave implements ImageSelectionEventHandler{
 	 */
 	public void onMouseMove(MouseMoveEvent event)
 	{
+		
 		if (this.isRunning()) {
 			
 			if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
@@ -215,6 +215,11 @@ public class Weave implements ImageSelectionEventHandler{
 	
 	public void onMouseDown(MouseDownEvent event)
 	{		
+		/*
+		 * I know, preventDefault is bad in general, but it's
+		 * necessary here. This is to stop the selection happening (of widgets etc).
+		 */
+		event.preventDefault();
 		
 		if (event.isShiftKeyDown())
 		{				
@@ -227,7 +232,7 @@ public class Weave implements ImageSelectionEventHandler{
 		
 	}
 	
-	public void onMouseUp(MouseUpEvent event) {		
+	public void onMouseUp(MouseUpEvent event) {	
 		
 		if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
 		{	
