@@ -20,7 +20,7 @@ public class MiniMapPresenter extends AbstractPresenter implements
 	Timer timer = new Timer() {
 		@Override
 		public void run() {
-			v.getCanvas().getContext2d().setFillStyle("#00F");
+			v.getCanvas().getContext2d().setFillStyle("#0F0");
 			v.getCanvas().getContext2d().fillRect(0, 0, v.getCanvas().getOffsetWidth(), v.getCanvas().getOffsetHeight());
 			
 			if (v.getCanvas().getCoordinateSpaceHeight() == 0) {
