@@ -1,5 +1,8 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import org.apache.commons.digester.rss.Image;
+
+import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
@@ -9,6 +12,7 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -101,13 +105,8 @@ public class TileMenuPresenter extends AbstractPresenter implements
 				if (model.getFMapReference().getTileSheet() != null) {
 					Context2d ctx = display.getTileCanvas().getContext2d();
 
-					ctx.fillRect(0, 0,
-							display.getTileCanvas().getOffsetWidth(), display
-									.getTileCanvas().getOffsetHeight());
-					ctx.drawImage(
-							Graphic.getSingleton().getImage(
-									model.getFMapReference().getTileSheet()),
-							0, 0);
+					ctx.fillRect(0, 0,display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
+					ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()),0, 0);
 					int tileSize = model.getFMapReference().getTileSize();
 
 					int x = (event.getX() / tileSize) * tileSize;
@@ -136,15 +135,13 @@ public class TileMenuPresenter extends AbstractPresenter implements
 	@Override
 	public void onImageSelection(ImageSelectionEvent e) {
 		if (e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET) {
-			display.getTileCanvas()
-					.getContext2d()
-					.fillRect(0, 0, display.getTileCanvas().getOffsetWidth(),
-							display.getTileCanvas().getOffsetHeight());
-			display.getTileCanvas()
-					.getContext2d()
-					.drawImage(
-							Graphic.getSingleton().getImage(e.getImageUrl()),
-							0, 0);
+			display.getTileCanvas().getContext2d().fillRect(0, 0, display.getTileCanvas().getOffsetWidth(),
+			display.getTileCanvas().getOffsetHeight());
+			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()),0, 0);
+			
+			//ImageElement temp = Graphic.getSingleton().getImage(e.getImageUrl());			
+			//display.getTileCanvas().setWidth(temp.getWidth()+"px");
+			//display.getTileCanvas().setHeight(temp.getHeight()+"px");
 		}
 	}
 
@@ -157,10 +154,9 @@ public class TileMenuPresenter extends AbstractPresenter implements
 	 */
 	private void selectTile(int clickX, int clickY) {
 		if (model.getFMapReference().getTileSheet() != null) {
+			
 			int tileSize = model.getFMapReference().getTileSize();
-			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(
-					model.getFMapReference().getTileSheet()).getWidth())
-					/ tileSize;
+			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/ tileSize;
 
 			int x = clickX / tileSize;
 			int y = clickY / tileSize;

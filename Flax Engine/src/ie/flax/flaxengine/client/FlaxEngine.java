@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.Graphic.TimerCallback;
+import ie.flax.flaxengine.client.gamewidgets.SplashScreen;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import java.util.ArrayList;
@@ -46,7 +47,10 @@ public abstract class FlaxEngine {
 	private int oldMilliseconds = 0;
 
 	private final Weave editor;
+	private final SplashScreen splashScreen;
 	public static FCamera camera;
+	
+	private final String insertId;
 
 	/**
 	 * This is technically the game loop. It tells requestAnimationFrame to call
@@ -57,6 +61,7 @@ public abstract class FlaxEngine {
 		@Override
 		public void fire() {
 			Graphic.getSingleton().requestAnimationFrame(this);
+			
 			if (isEngineReady()) {
 				if (playing == true) {
 
@@ -81,6 +86,11 @@ public abstract class FlaxEngine {
 	 * @param CSSclass
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
+		
+		this.insertId = insertId;
+		splashScreen = new SplashScreen();
+		RootPanel.get(insertId).add(splashScreen, 0, 0);
+		
 		FLog.init();
 		initEngine(insertId);
 		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
@@ -223,10 +233,15 @@ public abstract class FlaxEngine {
 		 * if the first map is loaded, this is going on the idea that all other
 		 * maps will load by the time they are needed
 		 */
-		if ((engineStatus == true)
-		|| ((maps.get(0) != null) && maps.get(0).getLoaded()
-		&& Graphic.getSingleton().isComponentReady() && Audio.isComponentReady())) {
+		if (engineStatus == true)
+				return true;
+	
+		if ((maps.get(0) != null) && maps.get(0).getLoaded()
+		&& Graphic.getSingleton().isComponentReady() && Audio.isComponentReady()) {
+			
 			engineStatus = true;
+			RootPanel.get(insertId).remove(splashScreen);
+			editor.toggle();
 		}
 
 		return engineStatus;
