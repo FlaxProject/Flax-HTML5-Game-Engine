@@ -27,6 +27,16 @@ import com.google.gwt.user.client.ui.Widget;
 public class TileMenuPresenter extends AbstractPresenter implements
 		ImageSelectionEventHandler {
 
+<<<<<<< HEAD
+=======
+	private Display display;
+	private Weave model;
+	private FWindow window;
+	private AbstractPresenter imageLibPresenter;
+	private FileUploadPresenter uploadPresenter;
+
+	
+>>>>>>> branch 'master' of https://CarlQLange@github.com/CiaranMcCann/Flax-HTML5-Game-Engine.git
 	public interface Display {
 		Widget asWidget();
 
@@ -45,14 +55,23 @@ public class TileMenuPresenter extends AbstractPresenter implements
 	public TileMenuPresenter(Display display, Weave model) {
 		this.model = model;
 		this.display = display;
+		
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 
 		bind();
+<<<<<<< HEAD
 
 		window = new FWindow("Window Tile");
 		imageLibPresenter = new ImageLibPresenter(
 				ImageSelectionEvent.Idenfiter.TILE_SHEET);
 
+=======
+		
+		window = new FWindow("Window Tile");		
+		uploadPresenter = new FileUploadPresenter();
+		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
+			
+>>>>>>> branch 'master' of https://CarlQLange@github.com/CiaranMcCann/Flax-HTML5-Game-Engine.git
 	}
 
 	public void bind() {

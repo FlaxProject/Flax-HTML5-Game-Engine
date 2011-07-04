@@ -6,7 +6,9 @@ import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
+import ie.flax.flaxengine.client.weave.controls.IControl;
 import ie.flax.flaxengine.client.weave.controls.TileRegion;
+import ie.flax.flaxengine.client.weave.controls.TileRegion.MouseState;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -40,8 +42,8 @@ public class Weave implements ImageSelectionEventHandler{
 	private Canvas drawingSpace;
 	private boolean running;
 	private final WeavePresenter WeavePresenter;
-	private final TileRegion tileRegionControl;
-
+	
+	private TileRegion tileRegion;
 	private Canvas editorOverLay;
 
 	
@@ -63,7 +65,7 @@ public class Weave implements ImageSelectionEventHandler{
 		this.currentTile = new FTile();	
 		
 		//Controls the select region of tiles operations
-		tileRegionControl = new TileRegion(this);
+		tileRegion = new TileRegion(this);
 	
 
 		WeavePresenter = new WeavePresenter(this); 
@@ -152,11 +154,12 @@ public class Weave implements ImageSelectionEventHandler{
 
 
 	/**
-	 * Finds the tile the user clicked on
+	 * Finds the tile the user clicked on, if there is not one there it will create one with the currrent tile info
+	 * and add it to the map. It then retuns the tile
 	 * @param x
 	 * @param y
 	 */
-	public void selectedTile(int x, int y)
+	public FTile selectedTile(int x, int y) 
 	{
 		FTile tile = map.getTile(x, y);
 		
@@ -169,8 +172,11 @@ public class Weave implements ImageSelectionEventHandler{
 			int tileSize = map.getTileSize();
 			int tX = (int) ((x+FlaxEngine.camera.getX())/tileSize);
 			int tY = (int) ((y+FlaxEngine.camera.getY())/tileSize);
-			map.addTile( new FTile(tX*tileSize,  tY*tileSize, false, currentTile.getTexture())  );
+			tile = new FTile(tX*tileSize,  tY*tileSize, false, currentTile.getTexture()) ;
+			map.addTile(tile );//TODO refactor into more generic
 		}
+		
+		return tile;
 	}
 		
 
@@ -191,29 +197,40 @@ public class Weave implements ImageSelectionEventHandler{
 	{
 		if (this.isRunning()) {
 			
-			
-				tileRegionControl.onMouseMove(event);
-
-				//TODO define control system for just single typing
-				//this.selectedTile(event.getX(), event.getY());
+			if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
+			{	
+					
+				tileRegion.onMouseMove(event);
 				
-		}
-			
+			}
+			else if(event.isShiftKeyDown())
+			{
+				this.selectedTile(event.getX(), event.getY());
+			}
+		}		
 		
+	
 	}
 	
 	
-
 	public void onMouseDown(MouseDownEvent event)
-	{
-				
-		tileRegionControl.onMouseDown(event);
+	{		
+		
+		if (event.isShiftKeyDown())
+		{				
+			tileRegion.onMouseDown(event);	
+		}			
 		
 	}
 	
-	public void onMouseUp(MouseUpEvent event) {
+	public void onMouseUp(MouseUpEvent event) {		
 		
-		tileRegionControl.onMouseUp(event);
+		if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
+		{	
+		
+			tileRegion.onMouseUp(event);
+		
+		}
 	}
 
 
