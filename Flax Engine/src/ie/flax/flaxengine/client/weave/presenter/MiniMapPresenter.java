@@ -16,7 +16,7 @@ public class MiniMapPresenter extends AbstractPresenter implements
 	private final Weave model;
 	private final FCamera cam;
 	private final MiniMapView v;
-	private final int inverseScale = 8; // eg 8 if you want 1/8 scale
+	private final int inverseScale = 12; // eg 8 if you want 1/8 scale
 	Timer timer = new Timer() {
 		@Override
 		public void run() {
