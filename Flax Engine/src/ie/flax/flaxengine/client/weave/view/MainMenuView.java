@@ -34,7 +34,7 @@ public class MainMenuView extends MenuBar {
 		file = new MenuBar();
 		bindCommands();
 
-		this.addItem("File", file);
+		//this.addItem("File", file);
 		this.addItem("File Upload", uploadFile);
 		this.addItem("Export/Import Map", exportImport);
 		this.setAnimationEnabled(true);

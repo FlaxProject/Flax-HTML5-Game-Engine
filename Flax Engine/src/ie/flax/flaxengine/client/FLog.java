@@ -10,27 +10,31 @@ import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.logging.client.HtmlLogFormatter;
 import com.google.gwt.logging.client.SystemLogHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class FLog {
 
 	private static final Logger l = Logger.getLogger("FLog");
+	private static ScrollPanel topPanel = new ScrollPanel();
 	private static HTMLPanel logWidget = new HTMLPanel("");
 	private static boolean inited = false;
 
 	public static void debug(String string) {
 		if (inited) {
+			topPanel.scrollToBottom();
 			l.log(new LogRecord(Level.FINE, string));
 		}
 	}
 
 	public static void error(String string) {
 		if (inited) {
+			topPanel.scrollToBottom();
 			l.log(new LogRecord(Level.SEVERE, string));
 		}
 	}
 
-	public static HTMLPanel getWidget() {
-		return logWidget;
+	public static ScrollPanel getWidget() {
+		return topPanel;
 	}
 
 	public static void info(String string) {
@@ -50,6 +54,9 @@ public class FLog {
 			hwlh.setFormatter(new FLogFormatter());
 
 			l.addHandler(hwlh);
+			
+			topPanel.setHeight("140px");
+			topPanel.add(logWidget);
 			inited = true;
 		}
 	}
@@ -62,6 +69,7 @@ public class FLog {
 
 	public static void warn(String string) {
 		if (inited) {
+			topPanel.scrollToBottom();
 			l.log(new LogRecord(Level.WARNING, string));
 		}
 	}

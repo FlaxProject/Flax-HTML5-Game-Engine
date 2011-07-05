@@ -35,6 +35,7 @@ public class WeavePresenter extends AbstractPresenter {
 
 		// TODO Carl Create some kind of strings/help file class for this string and others like it.
 		// TODO Shoudn't really be using plain html in strings.
+		String logo = "<a href='http://flax.ie'><img style='padding-bottom:5px' src='http://flax.ie/images/flaxLogo.png' width='100%'/></a>";
 		String quickInstructions;
 		String tiling = "<strong>Tiling: </strong> To tile, select a tile from the tilesheet below " +
 				"and click on the map on the left. You can use any image as a tilesheet, just press " +
@@ -44,10 +45,14 @@ public class WeavePresenter extends AbstractPresenter {
 		String regions = "<strong>Tiling regions:</strong> To tile a region, hold down shift and click on the map. "
 				+ "Then drag out from that point. You'll see a red box form. "
 				+ "When you let go, the tiles in that box will be textured with the current texture.";
-		quickInstructions = tiling + "<br/>" + move + "<br/>" + regions;
+		String twitterPlug = "<br/><p style='text-align:center'>You should follow us on Twitter " +
+				"<a href='http://twitter.com/flaxproject'>here</a>.";
+		String sitePlug = "Read more about this project at <a href='http://flax.ie'>flax.ie</a>!</p>";
+		
+		quickInstructions = logo + "<br/>" + tiling + "<br/>" + move + "<br/>" + regions + "<br/>" + twitterPlug + "<br/>" + sitePlug;
 		display.addToEast(new HTML(quickInstructions), "Help Menu");
 		display.addToEast(new Label("Next iteration, sorry!"), "Create Entity Type");
-		display.addToEast(new Label("Next iteration, sorry!"), "Entity Type List");
+		//display.addToEast(new Label("Next iteration, sorry!"), "Entity Type List");
 		display.addToEast(new Label("Next iteration, sorry!"), "Entity List");
 
 		display.addToNorth(new MainMenuView(editor).asWidget()); // None MVP include of UI
