@@ -14,7 +14,6 @@ import com.google.gwt.dom.client.ImageElement;
  * 
  * @author Ciaran McCann
  */
-
 public class Graphic {
 
     private static Graphic instance;
@@ -39,42 +38,17 @@ public class Graphic {
     private final HashMap<String, FImage> imageLibary = new HashMap<String, FImage>();
 
     /**
-     * HashMap of JS image objects, which is indexed by the name of the canvas.
-     */
-    private final HashMap<String, Canvas> canvasCollection = new HashMap<String, Canvas>();
-
-    /**
-     * Creates a FCanvas and stores a reference for later use and returns the
-     * reference for use now
-     * 
-     * @param referenceName
-     * @param width
-     * @param height
-     * @return
-     */
-    public Canvas createCanvas(final String referenceName, int widthInteger,
-            int heightInteger, String width, String height) {
-
-        Canvas temp = Canvas.createIfSupported();
-        temp.setHeight(height);
-        temp.setWidth(width);
-        temp.setCoordinateSpaceHeight(widthInteger);
-        temp.setCoordinateSpaceWidth(heightInteger);
-        canvasCollection.put(referenceName, temp);
-
-        return temp;
-    }
-
-    /**
      * Draws a squared grid
      * 
      * @param width
      * @param height
      * @param gap
      */
-    public void drawGrid(double width, double height, int gap,
-            final Canvas canvas) {
-        // canvas.getContext2d().setStrokeStyleDev(Color.RED);
+    public void drawGrid(double width, double height, int gap,final Canvas canvas) {
+       
+    	
+    	//TODO fix this for better optimixation
+    	// canvas.getContext2d().setStrokeStyleDev(Color.RED);
         for (int x = 0; x < width; x += gap) {
             canvas.getContext2d().moveTo(x, 0);
             canvas.getContext2d().lineTo(x, height);
@@ -114,23 +88,8 @@ public class Graphic {
      * @param x
      * @param y
      */
-    public void drawImage(String imagePath, float x, float y,
-            final Context2d context) {
-
+    public void drawImage(String imagePath, float x, float y,final Context2d context) {
         context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y);
-
-        // FLog.warn("DrawImage: Unable to drawImage as the image "+ imagePath
-        // +" is null");
-    }
-
-    /**
-     * Returns the canvas reference with name referenceName
-     * 
-     * @param referenceName
-     * @return
-     */
-    public final Canvas getCanvas(final String referenceName) {
-        return canvasCollection.get(referenceName);
     }
 
     /**
@@ -187,8 +146,7 @@ public class Graphic {
         // answer, though atm doesnt effect the engine
         for (String key : imageLibary.keySet()) {
 
-            if (imageLibary.get(key).isLoaded() != true) // FLog.error("Graphics Component is not ready due to a problem with image"+
-                                                         // key);
+            if (imageLibary.get(key).isLoaded() != true) 
                 return false;
 
         }

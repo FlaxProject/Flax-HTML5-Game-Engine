@@ -36,7 +36,7 @@ public abstract class FlaxEngine {
 
 	private Canvas drawingSpace;
 	private Canvas editorOverLay;
-	private static final String powerBy = "Powered By Flax Web Game Engine";
+
 	private final List<FMap> maps = new ArrayList<FMap>();
 	private int currentMap;
 	private boolean playing;
