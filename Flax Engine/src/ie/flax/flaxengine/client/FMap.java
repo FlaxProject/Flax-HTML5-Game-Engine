@@ -52,7 +52,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * This varible is extremely valueable to optimizting tile Region operations
 	 * for the editor once the tile count its 20,000. And thus why I am making a static copy for the mo
 	 */
-	public static int mapwidth; 
+	public static int mapwidth; //TODO REMOVED THIS ITS NOT NEEDED, plus what happens when you have more the one map
 	
 	/**
 	 * Map width and height most be a multplie of the tilesize
@@ -87,8 +87,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		this.drawingSpace = drawingSpace;
 		name = mapPath;
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
-		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file
-		
+		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file	
 	}
 	
 
@@ -163,8 +162,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		clickY *= tileSize;
 		
 		
-		
-		
 		for(FTile obj : tiles)
 		{
 			if(obj.getX() == clickX && obj.getY() == clickY)
@@ -191,18 +188,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @return
 	 */
 	public static FMap fromJson(String Json) {
-		
-		//TODO put in proper fix for corrupt data in the map file
-		
 		FMap temp = null;		
 		try {
 			Serializer serializer = (Serializer) GWT.create(Serializer.class);		
 			 temp = (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");			
 		} catch (Exception e) {
 			Window.alert(e + "\n\n" + e.getCause() + "\n\n" + "Map data corrupt");		
-		}
-		
-	
+		}	
 		return temp;
 	}
 
@@ -248,8 +240,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			
 			Window.alert("Error in map data" + "\n\n" + "Map width and height are not multiples of the tilesize, I rounded them down for you to \n\n" + width + " by " + height + "\n" + " Everything is sorted :D");
 		
-		}else
-		{
+		}else{
 			this.width = newMapObj.width;
 			this.height = newMapObj.height;
 		}
@@ -319,10 +310,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				public void onLoad(LoadEvent event) {
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Idenfiter.TILE_SHEET));				
 				}
-			});		
+			});	
 			
-			//addEntity( new FEntity(30, 30, 32, 32, new Sprite(, height, height), audio))
-			
+			//load another tilesheet by default	
+			Graphic.getSingleton().loadImage("http://flax.ie/test/tiles.png");		
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
 			Loaded = true;
@@ -342,8 +333,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		{
 			entities.add(entity); 
 			FLog.info("FEntity Object loaded into map");
-		}
-		
+		}		
 	}
 	
 	/**
