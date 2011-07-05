@@ -1,7 +1,4 @@
 /** Add css rules here for your application. */
-
-
-
 body {
 	margin: 0px;
 	padding: 0;
@@ -15,6 +12,11 @@ body {
 #nameFieldContainer canvas{	
 	z-index:-1;
 	position: absolute; left: 0px; top: 0px;
+}
+
+.gwt-TabBar {
+	opacity: 0.7;
+	background: #EEE;
 }
 
 .gwt-TabPanelBottom {

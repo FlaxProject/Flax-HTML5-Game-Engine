@@ -89,7 +89,7 @@ public abstract class FlaxEngine {
 		
 		this.insertId = insertId;
 		splashScreen = new SplashScreen();
-		//RootPanel.get(insertId).add(splashScreen, 0, 0);
+		RootPanel.get(insertId).add(splashScreen, 0, 0);
 		
 		FLog.init();
 		initEngine(insertId);
@@ -236,7 +236,7 @@ public abstract class FlaxEngine {
 		&& Graphic.getSingleton().isComponentReady() && Audio.isComponentReady()) {
 			
 			engineStatus = true;
-			//RootPanel.get(insertId).remove(splashScreen);
+			RootPanel.get(insertId).remove(splashScreen);
 			editor.toggle();
 		}
 

@@ -90,6 +90,7 @@ public class Weave implements ImageSelectionEventHandler{
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
+				
 					
 				if(running)
 				{
@@ -198,18 +199,14 @@ public class Weave implements ImageSelectionEventHandler{
 		if (this.isRunning()) {
 			
 			if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
-			{	
-					
-				tileRegion.onMouseMove(event);
-				
+			{						
+				tileRegion.onMouseMove(event);				
 			}
 			else if(event.isShiftKeyDown())
 			{
 				this.selectedTile(event.getX(), event.getY());
 			}
-		}		
-		
-	
+		}			
 	}
 	
 	
@@ -234,11 +231,9 @@ public class Weave implements ImageSelectionEventHandler{
 	
 	public void onMouseUp(MouseUpEvent event) {	
 		
-		if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
-		{	
-		
-			tileRegion.onMouseUp(event);
-		
+		if (tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
+		{		
+			tileRegion.onMouseUp(event);		
 		}
 	}
 
