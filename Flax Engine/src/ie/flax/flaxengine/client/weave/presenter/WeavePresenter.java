@@ -7,6 +7,7 @@ import ie.flax.flaxengine.client.weave.view.TileMenuView;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,16 +34,21 @@ public class WeavePresenter extends AbstractPresenter {
 		display.addToSouthEastCornor(MiniPresenter.getView());
 
 		// TODO Carl Create some kind of strings/help file class for this string and others like it.
-
-		String quickInstructions = "To tile a region, whole down shift and click on the map"
-				+ "Then dragg out from that piont, you will see a red box form"
-				+ "When you let go the tiles will be textured with the current texture"
-				+ "in that region";
-
-		display.addToEast(new Label(quickInstructions), "Help Menu");
-		display.addToEast(new Label("Widget - 1"), "Create Entity Type");
-		display.addToEast(new Label("Widget - 2"), "Entity Type List");
-		display.addToEast(new Label("Widget - 3"), "Entity List");
+		// TODO Shoudn't really be using plain html in strings.
+		String quickInstructions;
+		String tiling = "<strong>Tiling: </strong> To tile, select a tile from the tilesheet below " +
+				"and click on the map on the left. You can use any image as a tilesheet, just press " +
+				"<em>Select Tilesheet</em> at the bottom left.";
+		String move = "<strong>Tiling on move:</strong> To tile where your mouse is moving to, hold down shift and " +
+				"simply move your mouse. Don't forget to select a tile!";
+		String regions = "<strong>Tiling regions:</strong> To tile a region, hold down shift and click on the map. "
+				+ "Then drag out from that point. You'll see a red box form. "
+				+ "When you let go, the tiles in that box will be textured with the current texture.";
+		quickInstructions = tiling + "<br/>" + move + "<br/>" + regions;
+		display.addToEast(new HTML(quickInstructions), "Help Menu");
+		display.addToEast(new Label("Next iteration, sorry!"), "Create Entity Type");
+		display.addToEast(new Label("Next iteration, sorry!"), "Entity Type List");
+		display.addToEast(new Label("Next iteration, sorry!"), "Entity List");
 
 		display.addToNorth(new MainMenuView(editor).asWidget()); // None MVP include of UI
 	}

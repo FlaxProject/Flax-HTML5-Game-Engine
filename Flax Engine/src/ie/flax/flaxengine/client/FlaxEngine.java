@@ -174,13 +174,9 @@ public abstract class FlaxEngine {
 		int height = settings.getHeight();
 
 		if (settings.getFullscreen() == true) {
-			// width = Window.getClientWidth(); // FIXME CARL - Width and height
-			// should be setting members as
-			// they are needed though out the
-			// project
-			// height = Window.getClientHeight();
 			Window.enableScrolling(false);
 		} else {
+			// TODO CARL make this work from settings
 			// width = RootPanel.get(insertId).getOffsetWidth();
 			// height = RootPanel.get(insertId).getOffsetHeight();
 		}
