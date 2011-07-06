@@ -1,14 +1,15 @@
 package ie.flax.flaxengine.client;
 
 import java.util.Date;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import com.google.gwt.logging.client.ConsoleLogHandler;
 import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.logging.client.HtmlLogFormatter;
 import com.google.gwt.logging.client.SystemLogHandler;
+import com.google.gwt.logging.client.TextLogFormatter;
 import com.google.gwt.logging.impl.FormatterImpl;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -50,7 +51,7 @@ public class FLog {
 
 			l.addHandler(new SystemLogHandler());
 			
-			ConsoleLogHandler clh = new ConsoleLogHandler();
+			FLogConsoleLogHandler clh = new FLogConsoleLogHandler();
 			
 			clh.setFormatter(new FLogConsoleFormatter());
 			
@@ -161,8 +162,9 @@ class FLogHtmlFormatter extends HtmlLogFormatter {
 	@Override
 	protected String getRecordInfo(LogRecord event, String newline) {
 		Date date = new Date(event.getMillis());
+		String time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
 		StringBuilder s = new StringBuilder();
-		s.append(date.toString());
+		s.append(time);
 		s.append(" ");
 		s.append(newline);
 		s.append(getName(event.getLevel().getName()));
@@ -170,6 +172,85 @@ class FLogHtmlFormatter extends HtmlLogFormatter {
 		return s.toString();
 	}
 }
+
+class FLogConsoleLogHandler extends Handler {
+
+	  public FLogConsoleLogHandler() {
+	    setFormatter(new TextLogFormatter(true));
+	    setLevel(Level.ALL);
+	  }
+	  
+	  @Override
+	  public void close() {
+	    // No action needed
+	  }
+
+	  @Override
+	  public void flush() {
+	    // No action needed
+	  }
+
+	  @Override
+	  public void publish(LogRecord record) {
+	    if (!isSupported() || !isLoggable(record)) {
+	      return;
+	    }
+	    String msg = getFormatter().format(record);
+	    
+	    String n = getName(record.getLevel().getName());
+	    if ((n == "TRACE") || (n == "DEBUG") || (n == "INFO")){
+	    	nlDebug(msg);
+	    } else if (n == "WARN") {
+	    	nlWarn(msg);
+	    } else if (n == "ERROR") {
+	    	nlErr(msg);
+	    } else {
+	    	log(msg);
+	    }
+	  }
+
+	  private String getName(String name) {
+			String r = "";
+			if (name.equalsIgnoreCase("finest")) {
+				r = "TRACE";
+			} else if (name.equalsIgnoreCase("finer")) {
+				r = "TRACE";
+			} else if (name.equalsIgnoreCase("fine")) {
+				r = "TRACE";
+			} else if (name.equalsIgnoreCase("config")) {
+				r = "DEBUG";
+			} else if (name.equalsIgnoreCase("info")) {
+				r = "INFO";
+			} else if (name.equalsIgnoreCase("warning")) {
+				r = "WARN";
+			} else if (name.equalsIgnoreCase("severe")) {
+				r = "ERROR";
+			}
+			return r;
+		}
+	  
+	  private native boolean isSupported() /*-{
+	    return ((window.console != null) &&
+	            (window.console.firebug == null) && 
+	            (window.console.log != null) &&
+	            (typeof(window.console.log) == 'function'));
+	  }-*/;
+
+	  private native void log(String message) /*-{
+	    window.console.log(message);
+	  }-*/;
+	  private native void nlDebug(String message) /*-{
+	    window.console.debug(message);
+	  }-*/;
+	  private native void nlWarn(String message) /*-{
+	    window.console.warn(message);
+	  }-*/;
+	  private native void nlErr(String message) /*-{
+	    window.console.error(message);
+	  }-*/;
+
+	}
+
 
 class FLogConsoleFormatter extends FormatterImpl {
 	
@@ -205,8 +286,9 @@ class FLogConsoleFormatter extends FormatterImpl {
 	@Override
 	protected String getRecordInfo(LogRecord event, String newline) {
 		Date date = new Date(event.getMillis());
+		String time = date.getHours()+":"+date.getMinutes()+":"+date.getSeconds();
 		StringBuilder s = new StringBuilder();
-		s.append(date.toString());
+		s.append(time);
 		s.append(" ");
 		s.append(newline);
 		s.append(getName(event.getLevel().getName()));
@@ -214,3 +296,5 @@ class FLogConsoleFormatter extends FormatterImpl {
 		return s.toString();
 	}
 }
+
+
