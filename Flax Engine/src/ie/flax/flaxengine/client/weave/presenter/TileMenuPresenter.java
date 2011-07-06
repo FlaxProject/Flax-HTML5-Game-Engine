@@ -9,6 +9,7 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -48,6 +49,7 @@ public class TileMenuPresenter extends AbstractPresenter implements
 	public TileMenuPresenter(Display display, Weave model) {
 		this.model = model;
 		this.display = display;
+
 		
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
 
@@ -109,14 +111,9 @@ public class TileMenuPresenter extends AbstractPresenter implements
 					int x = (event.getX() / tileSize) * tileSize;
 					int y = (event.getY() / tileSize) * tileSize;
 
-					ctx.setStrokeStyle("#CD0000");
-					ctx.beginPath();
-					ctx.moveTo(x, y);
-					ctx.lineTo(x + tileSize, y);
-					ctx.lineTo(x + tileSize, y + tileSize);
-					ctx.lineTo(x, y + tileSize);
-					ctx.closePath();
-					ctx.stroke();
+
+					display.getTileCanvas().getContext2d().setStrokeStyle("#CD0000");
+					ctx.strokeRect(x, y, tileSize, tileSize);
 				}
 
 			}
@@ -132,13 +129,20 @@ public class TileMenuPresenter extends AbstractPresenter implements
 	@Override
 	public void onImageSelection(ImageSelectionEvent e) {
 		if (e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET) {
+			
+			
+			ImageElement temp = Graphic.getSingleton().getImage(e.getImageUrl());			
+			if (temp.getWidth() != display.getTileCanvas().getCoordinateSpaceWidth()){
+				display.getTileCanvas().setWidth(temp.getWidth()+"px");
+				display.getTileCanvas().setHeight(temp.getHeight()+"px");
+				display.getTileCanvas().setCoordinateSpaceWidth(temp.getWidth());
+				display.getTileCanvas().setCoordinateSpaceHeight(temp.getHeight());
+			}
+			
 			display.getTileCanvas().getContext2d().fillRect(0, 0, display.getTileCanvas().getOffsetWidth(),
 			display.getTileCanvas().getOffsetHeight());
 			display.getTileCanvas().getContext2d().drawImage(Graphic.getSingleton().getImage(e.getImageUrl()),0, 0);
-			
-			//ImageElement temp = Graphic.getSingleton().getImage(e.getImageUrl());			
-			//display.getTileCanvas().setWidth(temp.getWidth()+"px");
-			//display.getTileCanvas().setHeight(temp.getHeight()+"px");
+					
 		}
 	}
 
