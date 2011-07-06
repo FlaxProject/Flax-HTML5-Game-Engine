@@ -52,48 +52,18 @@ public class TileRegion implements IControl {
 		
 		if(mouseState == MouseState.MOUSE_DOWN)
 		{
-			/*
-			double xn = event.getClientX() + FlaxEngine.camera.getX();
-			double yn =  event.getClientY() + FlaxEngine.camera.getY();
-			
-			double xs = startPos.x + FlaxEngine.camera.getX();
-			double ys =  startPos.y + FlaxEngine.camera.getY();
-			
 
-			int newX =  (int) xn/tilesize ;
-			int newY =  (int) yn/tilesize ;
+			
+			double newX =  event.getClientX();
+			double newY =  event.getClientY();
 			
 			
-			int startX = (int) (xs/tilesize);
-			int startY = (int) (ys/tilesize);
-			
-			*/
-			
-
-			int xPos = (int) event.getX()/tilesize;
-			xPos *= tilesize;
-			
-			int yPos = (int) event.getY()/tilesize;
-			yPos *= tilesize;
-			
-			int xCam = (int) FlaxEngine.camera.getX()/tilesize;
-			xCam *= tilesize;
-			
-			int yCam = (int) FlaxEngine.camera.getY()/tilesize;
-			yCam *= tilesize;
+			int startX = (int)startPos.x;
+			int startY = (int)startPos.y;
 			
 			
 			
-			int newX =  xPos+xCam;
-			int newY =  yPos+yCam;
-			
-			
-			int startX = (int) startPos.x;
-			int startY = (int) startPos.y;
-			
-			
-			
-			int startXCopy = startX;
+			int startXCopy = (int)startX;
 			
 			//start is when the click is started down and then new is got from the current position of the mouse, when moving
 			while(startY <= newY)
@@ -122,19 +92,8 @@ public class TileRegion implements IControl {
 			map = editor.getFMapReference();
 			mouseState = MouseState.MOUSE_DOWN;		
 			
-			int xPos = (int) event.getX()/tilesize;
-			xPos *= tilesize;
-			
-			int yPos = (int) event.getY()/tilesize;
-			yPos *= tilesize;
-			
-			int xCam = (int) FlaxEngine.camera.getX()/tilesize;
-			xCam *= tilesize;
-			
-			int yCam = (int) FlaxEngine.camera.getY()/tilesize;
-			yCam *= tilesize;
-			
-			startPos = new FVector(xPos+xCam,yPos+yCam);
+					
+			startPos = new FVector(event.getClientX(),event.getClientY());
 			texture = editor.getCurrentTile().getTexture();
 	
 	}
@@ -145,7 +104,7 @@ public class TileRegion implements IControl {
 		if (event.isShiftKeyDown()) {
 			
 			if (mouseState == MouseState.MOUSE_DOWN) {
-				drawRegionBox(event.getX(), event.getY());
+				drawRegionBox(event.getClientX(),event.getClientY());
 			}
 		 
 		}
@@ -157,16 +116,10 @@ public class TileRegion implements IControl {
 		
 		Context2d ctx = editor.getEditorOverLay().getContext2d();	
 		ctx.clearRect(0, 0, editor.getEditorOverLay().getOffsetWidth(), editor.getEditorOverLay().getOffsetHeight()); 
+
 		
-		int xCam = (int) FlaxEngine.camera.getX()/tilesize;
-		xCam *= tilesize;
-		
-		int yCam = (int) FlaxEngine.camera.getY()/tilesize;
-		yCam *= tilesize;
-		
-		
-		double newX =  clientX - (startPos.x-xCam);
-		double newY =  clientY - (startPos.y-yCam);	
+		double newX =  clientX - (startPos.x);
+		double newY =  clientY - (startPos.y);	
 		
 		
 		ctx.setStrokeStyle("#CD0000");
