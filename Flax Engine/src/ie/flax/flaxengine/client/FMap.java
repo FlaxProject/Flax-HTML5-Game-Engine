@@ -148,8 +148,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param y
 	 * @return
 	 */
-	public FTile getTile(int xClick, int yClick)
+	public FTile getTile(int xClick, int yClick) //absolute values
 	{
+		
+		FLog.debug(" (" + xClick + " "+ yClick + ")");
 		/**
 		 * Both the camera and click values are absolute pixel values
 		 * aadding them togtheier and divding them by the tilesize and then dropping the decimal 
@@ -165,8 +167,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		for(FTile obj : tiles)
 		{
 			if(obj.getX() == clickX && obj.getY() == clickY)
-				return obj;					
+			{
+				FLog.debug("getTile(" + clickX + " "+ clickY + ")");
+				return obj;			
+			}
 		}
+		
+		FLog.debug("getTile(" + clickX + " "+ clickY + ") NOT FOUND");
 		return null;
 	}
 	

@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.controls;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
@@ -44,7 +45,6 @@ public class TileRegion implements IControl {
 		tile = null;	
 		map = editor.getFMapReference();
 		texture = editor.getCurrentTile().getTexture();
-		FlaxEngine.camera.incermentX(32);
 	}
 
 
@@ -52,6 +52,7 @@ public class TileRegion implements IControl {
 		
 		if(mouseState == MouseState.MOUSE_DOWN)
 		{
+			/*
 			double xn = event.getClientX() + FlaxEngine.camera.getX();
 			double yn =  event.getClientY() + FlaxEngine.camera.getY();
 			
@@ -66,6 +67,30 @@ public class TileRegion implements IControl {
 			int startX = (int) (xs/tilesize);
 			int startY = (int) (ys/tilesize);
 			
+			*/
+			
+
+			int xPos = (int) event.getX()/tilesize;
+			xPos *= tilesize;
+			
+			int yPos = (int) event.getY()/tilesize;
+			yPos *= tilesize;
+			
+			int xCam = (int) FlaxEngine.camera.getX()/tilesize;
+			xCam *= tilesize;
+			
+			int yCam = (int) FlaxEngine.camera.getY()/tilesize;
+			yCam *= tilesize;
+			
+			
+			
+			int newX =  xPos+xCam;
+			int newY =  yPos+yCam;
+			
+			
+			int startX = (int) startPos.x;
+			int startY = (int) startPos.y;
+			
 			
 			
 			int startXCopy = startX;
@@ -77,10 +102,10 @@ public class TileRegion implements IControl {
 				{
 									 
 					tileSelectedRegion(startX, startY);
-					startX++;		
+					startX += tilesize;		
 				}
 				startX = startXCopy;
-				startY++;
+				startY += tilesize;
 			}
 			
 			mouseState = MouseState.MOUSE_UP;
@@ -95,8 +120,21 @@ public class TileRegion implements IControl {
 			
 			tilesize = editor.getFMapReference().getTileSize();
 			map = editor.getFMapReference();
-			mouseState = MouseState.MOUSE_DOWN;				
-			startPos = new FVector(event.getX(), event.getY());
+			mouseState = MouseState.MOUSE_DOWN;		
+			
+			int xPos = (int) event.getX()/tilesize;
+			xPos *= tilesize;
+			
+			int yPos = (int) event.getY()/tilesize;
+			yPos *= tilesize;
+			
+			int xCam = (int) FlaxEngine.camera.getX()/tilesize;
+			xCam *= tilesize;
+			
+			int yCam = (int) FlaxEngine.camera.getY()/tilesize;
+			yCam *= tilesize;
+			
+			startPos = new FVector(xPos+xCam,yPos+yCam);
 			texture = editor.getCurrentTile().getTexture();
 	
 	}
@@ -107,7 +145,7 @@ public class TileRegion implements IControl {
 		if (event.isShiftKeyDown()) {
 			
 			if (mouseState == MouseState.MOUSE_DOWN) {
-				drawRegionBox(event.getClientX(), event.getClientY());
+				drawRegionBox(event.getX(), event.getY());
 			}
 		 
 		}
@@ -120,8 +158,16 @@ public class TileRegion implements IControl {
 		Context2d ctx = editor.getEditorOverLay().getContext2d();	
 		ctx.clearRect(0, 0, editor.getEditorOverLay().getOffsetWidth(), editor.getEditorOverLay().getOffsetHeight()); 
 		
-		double newX =  clientX - startPos.x;
-		double newY =  clientY - startPos.y;				
+		int xCam = (int) FlaxEngine.camera.getX()/tilesize;
+		xCam *= tilesize;
+		
+		int yCam = (int) FlaxEngine.camera.getY()/tilesize;
+		yCam *= tilesize;
+		
+		
+		double newX =  clientX - (startPos.x-xCam);
+		double newY =  clientY - (startPos.y-yCam);	
+		
 		
 		ctx.setStrokeStyle("#CD0000");
 		ctx.beginPath();
@@ -140,9 +186,6 @@ public class TileRegion implements IControl {
 	
 	private void tileSelectedRegion(int startX, int startY)
 	{	
-		startX *= tilesize;
-		startY *= tilesize;
-		
 		tile = map.getTile(startX,startY);
 		
 		if(tile == null)

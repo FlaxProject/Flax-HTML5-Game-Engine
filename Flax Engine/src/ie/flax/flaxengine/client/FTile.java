@@ -32,6 +32,8 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 		this.x = x;
 		this.y = y;
 		this.texture = texture;
+		
+		FLog.debug("New TILE at x = " + x + "  y = " + y );
 	}
 	
 	
