@@ -8,7 +8,6 @@ import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -48,15 +47,30 @@ public class WeavePresenter extends AbstractPresenter {
 				+ "Then drag out from that point. You'll see a red box form. "
 				+ "When you let go, the tiles in that box will be textured with the current texture.";
 		
+		String cam = "<strong>Moving the camera:</strong> To move the camera, use the arrow keys or click on the minimap below.";
+		
 		String twitterPlug = "<br/><p style='text-align:center'>You should follow us on Twitter " +
 				"<a href='http://twitter.com/flaxproject' target='_blank'>here</a>.";
 		
 		String sitePlug = "Read more about this project at <a href='http://flax.ie' target='_blank'>flax.ie</a>!</p>";
 		
-		quickInstructions = logo + "<br/>" + tiling + "<br/>" + move + "<br/>" + regions + "<br/>" + twitterPlug + "<br/>" + sitePlug;
+		String line = "<br/>";
+		quickInstructions = logo + line + tiling + line + move + line + regions + line + cam +line + twitterPlug + line + sitePlug;
 		
 		display.addToEast(new HTML(quickInstructions), "Help Menu");
-		display.addToEast(new Label("Next iteration, sorry!"), "Create Entity Type");
+		
+		String aboutFlax = "The Flax Project is a blog, centring primarily on the development of the Flax HTML5 game engine" +
+				". Flax has expanded to blog posts from other games development students, " +
+				"ranging from articles on gameplay mechanics to Windows Phone 7 game development.";
+		String aboutUs = "The Flax project began with Ciar&aacute;n McCann and Carl Lange in Summer 2010." +
+				" McCann and Lange are third year Computer Games Development students at IT Carlow, in the southeast of Ireland. " +
+				"Flax begun when IT Carlow gave the two students office space for the summer of 2010. They needed a good " +
+				"project to work on, and, having realised that social networks were done already, " +
+				"they settled on a HTML5 game engine. This is the demo of its map editor.";
+		
+		String about = logo + line + aboutFlax + line + aboutUs + line + twitterPlug + line + sitePlug;
+		
+		display.addToEast(new HTML(about), "About");
 		//display.addToEast(new Label("Next iteration, sorry!"), "Entity Type List");
 		//display.addToEast(new Label("Next iteration, sorry!"), "Entity List");
 

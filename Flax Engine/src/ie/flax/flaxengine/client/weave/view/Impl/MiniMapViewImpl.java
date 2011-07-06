@@ -1,6 +1,5 @@
 package ie.flax.flaxengine.client.weave.view.Impl;
 
-import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -30,7 +29,6 @@ public class MiniMapViewImpl implements MiniMapView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				FLog.error(event.getClientX()+"");
 				presenter.moveMapCamera(
 						event.getRelativeX(minimap.getElement()),
 						event.getRelativeY(minimap.getElement()));
