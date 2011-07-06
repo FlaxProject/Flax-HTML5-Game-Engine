@@ -48,8 +48,7 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	public void draw(ImageElement img, int tileSize, double x, double y, final Context2d context)
 	{	
 				
-		try {
-			
+
 			if (img != null) {
 						
 				int numTilesWidth = 0;
@@ -59,13 +58,15 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 				numTilesWidth = (img.getWidth() / tileSize);
 				ySrc = (int) (texture / numTilesWidth);
 				xSrc = texture % numTilesWidth;
+				
+				if(ySrc > img.getHeight())
+					ySrc = 0;
+				
+				if(xSrc > img.getWidth())
+					xSrc = 0;
+				
 				context.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
-			} 
-			
-		} catch (Exception e) {
-			Window.alert("Catch - " + e.getMessage() + " W " + img.getWidth() + "  H " + img.getHeight() );
-		}
-	
+			}
 
 	}
 
