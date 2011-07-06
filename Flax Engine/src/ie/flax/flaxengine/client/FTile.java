@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client;
 
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
 /**
@@ -44,18 +45,26 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	 */
 	public void draw(ImageElement img, int tileSize, double x, double y, final Context2d context)
 	{	
+				
+		try {
+			
+			if (img != null) {
+						
+				int numTilesWidth = 0;
+				int ySrc = 0;
+				float xSrc = 0;
+				
+				numTilesWidth = (img.getWidth() / tileSize);
+				ySrc = (int) (texture / numTilesWidth);
+				xSrc = texture % numTilesWidth;
+				context.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
+			} 
+			
+		} catch (Exception e) {
+			Window.alert("Catch - " + e.getMessage() + " W " + img.getWidth() + "  H " + img.getHeight() );
+		}
 	
-		if (img != null) {
-			
-			int numTilesWidth = 0;
-			int ySrc = 0;
-			float xSrc = 0;
-			
-			numTilesWidth = (img.getWidth() / tileSize);
-			ySrc = (int) (texture / numTilesWidth);
-			xSrc = texture % numTilesWidth;
-			context.drawImage(img, (float) xSrc * tileSize, (float) ySrc*tileSize, tileSize, tileSize, x, y, tileSize, tileSize);
-		} 
+
 	}
 
 	
