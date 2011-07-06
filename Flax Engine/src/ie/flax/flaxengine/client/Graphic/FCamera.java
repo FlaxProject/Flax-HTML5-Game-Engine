@@ -1,5 +1,8 @@
 package ie.flax.flaxengine.client.Graphic;
 
+import javax.crypto.spec.PSource;
+
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 
 /**
@@ -34,6 +37,7 @@ public class FCamera {
 		this.position = position;
 		this.width = width;
 		this.height = height;
+		
 		
 		/**
 		 * These are not set in the constructer as due to the JSON deserailing 
@@ -75,6 +79,7 @@ public class FCamera {
 	 */
 	public  void setWidth(int width) {
 		this.width = width;
+		FLog.trace(this.toString() + " setWidth(int " + this.width + ") PX ");
 	}
 
 	/**
@@ -89,6 +94,7 @@ public class FCamera {
 	 */
 	public void setHeight(int height)  {
 		this.height = height;
+		FLog.trace(this.toString() + " setHeight(int " + this.height + ") PX ");
 	}	
 	
 	/**
@@ -115,11 +121,11 @@ public class FCamera {
 	 * @param x
 	 */
 	public void setX(double x)
-	{
-		
+	{		
 		if(x <= mapWidth-width&& x > 0)
 		{
 			position.x = x;
+			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 		}
 	}
 
@@ -133,6 +139,7 @@ public class FCamera {
 		if(y <= mapHeight-height&& y > 0)
 		{
 			position.y = y;
+			FLog.trace(this.toString() + " setY(double " + position.y + ") ");
 		}
 		
 	}

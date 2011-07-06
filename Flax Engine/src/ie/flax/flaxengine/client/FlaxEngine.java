@@ -192,6 +192,10 @@ public abstract class FlaxEngine {
 		editorOverLay.setHeight(height + "px");
 		editorOverLay.setCoordinateSpaceWidth(width);
 		editorOverLay.setCoordinateSpaceHeight(height);
+		
+		if (drawingSpace == null) {
+		      Window.alert("Sorry, your browser doesn't support the HTML5 Canvas element\n\n" + "Please upgrade to a new version of Chrome");
+		   }
 
 		camera = new FCamera(new FVector(0, 0), width, height);
 

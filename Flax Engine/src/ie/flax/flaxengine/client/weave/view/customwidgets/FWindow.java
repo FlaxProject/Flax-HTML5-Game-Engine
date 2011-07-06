@@ -42,12 +42,11 @@ public class FWindow {
 		});
 
 		mainPanel.add(close);
-		mainPanel.setCellHeight(close, "0px");
-		mainPanel.setCellWidth(close, "0px");
+
 
 		window.add(mainPanel);
-		window.setPopupPosition(Window.getClientWidth() / 2,
-				Window.getClientHeight() / 2);
+		window.setPopupPosition(Window.getClientWidth() / 2,Window.getClientHeight() / 2);
+		
 		window.setText(title);
 		window.setGlassEnabled(true);
 		window.setAnimationEnabled(true);

@@ -6,6 +6,7 @@ import ie.flax.flaxengine.client.events.onImageLoadedEvent;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -21,14 +22,16 @@ public class FImage {
 
 	private ImageElement image;
 	private boolean imageLoaded;
-	private final Image imageData;
-	private final static FlowPanel BOOT_STRAP_DIV = new FlowPanel();
+	private Image imageData;
+	private static FlowPanel BOOT_STRAP_DIV = new FlowPanel();
 	
 	/**
 	 * Takes the path to the image you wish to load.
 	 * @param URL
 	 */
 	public FImage(final String URL){
+		
+		BOOT_STRAP_DIV.setStylePrimaryName("boot");
 		
 		imageLoaded = false;		
 		imageData = new Image(URL);
@@ -42,6 +45,14 @@ public class FImage {
 	    	  
 	        imageLoaded = true;
 	        image = (ImageElement)(imageData).getElement().cast();
+	       
+	        
+	        	//FIXME Problem with IE not getting widths and heights from image. 
+	        	// ppl say to set the containing element to visibality: hidden, though doesnt system to work, will look into it more later
+	        	//Window.alert("W " + imageData.getWidth() );
+	        	//image.setWidth(imageData.getWidth());
+	        	//image.setHeight(imageData.getHeight());
+	        
 	        
 	        EventBus.handlerManager.fireEvent(new onImageLoadedEvent(URL)); //lets all listeing compoments that a file is loaded
 	       
@@ -49,8 +60,10 @@ public class FImage {
 	    });
 		
 		imageData.setVisible(false);
+	
 		
 		BOOT_STRAP_DIV.add(imageData);
+		
 	}
 	
 	/**
