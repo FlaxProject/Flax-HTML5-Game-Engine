@@ -44,6 +44,7 @@ public class TileRegion implements IControl {
 		tile = null;	
 		map = editor.getFMapReference();
 		texture = editor.getCurrentTile().getTexture();
+		FlaxEngine.camera.incermentX(32);
 	}
 
 
@@ -51,16 +52,25 @@ public class TileRegion implements IControl {
 		
 		if(mouseState == MouseState.MOUSE_DOWN)
 		{
-
-			int newX =  (int) (FlaxEngine.camera.getX() + event.getClientX())/tilesize ;
-			int newY =  (int) (FlaxEngine.camera.getY() + event.getClientY())/tilesize ;
+			double xn = event.getClientX() + FlaxEngine.camera.getX();
+			double yn =  event.getClientY() + FlaxEngine.camera.getY();
 			
-			int startX = (int) ((int) FlaxEngine.camera.getX()/tilesize + startPos.x/tilesize);
-			int startY = (int) ((int) FlaxEngine.camera.getY()/tilesize + startPos.y/tilesize);
+			double xs = startPos.x + FlaxEngine.camera.getX();
+			double ys =  startPos.y + FlaxEngine.camera.getY();
+			
+
+			int newX =  (int) xn/tilesize ;
+			int newY =  (int) yn/tilesize ;
+			
+			
+			int startX = (int) (xs/tilesize);
+			int startY = (int) (ys/tilesize);
+			
 			
 			
 			int startXCopy = startX;
 			
+			//start is when the click is started down and then new is got from the current position of the mouse, when moving
 			while(startY <= newY)
 			{
 				while(startX <= newX)
@@ -137,7 +147,8 @@ public class TileRegion implements IControl {
 		
 		if(tile == null)
 		{		
-			map.addTile(new FTile(startX,startY, true, texture));		
+			map.addTile(new FTile(startX,startY, true, texture));	
+	
 		}
 		else
 		{
