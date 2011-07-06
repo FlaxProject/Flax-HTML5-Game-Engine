@@ -1,7 +1,5 @@
 package ie.flax.flaxengine.client.Graphic;
 
-import javax.crypto.spec.PSource;
-
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 

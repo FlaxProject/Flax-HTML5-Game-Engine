@@ -32,7 +32,7 @@
 	</ui:style>
 	<g:HTMLPanel styleName="{style.splashScreen}">
 		<g:Label styleName="{style.splashScreenText}">	
-		Loading...		
+	Version 0.1 - Loading...		
 	
 		</g:Label>
 	</g:HTMLPanel>

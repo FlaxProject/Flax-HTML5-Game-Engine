@@ -55,7 +55,7 @@ public class WeavePresenter extends AbstractPresenter {
 		String sitePlug = "Read more about this project at <a href='http://flax.ie' target='_blank'>flax.ie</a>!</p>";
 		
 		String line = "<br/>";
-		quickInstructions = logo + line + tiling + line + move + line + regions + line + cam +line + twitterPlug + line + sitePlug;
+		quickInstructions = logo + line + " Version 0.1 "+ line+ line + tiling + line + line+ move + line  + line + cam +line + twitterPlug + line + sitePlug;
 		
 		display.addToEast(new HTML(quickInstructions), "Help Menu");
 		
@@ -68,7 +68,7 @@ public class WeavePresenter extends AbstractPresenter {
 				"project to work on, and, having realised that social networks were done already, " +
 				"they settled on a HTML5 game engine. This is the demo of its map editor.";
 		
-		String about = logo + line + aboutFlax + line + aboutUs + line + twitterPlug + line + sitePlug;
+		String about = logo + line + " Version 0.1 <br>"+ line + aboutFlax + line + aboutUs + line + twitterPlug + line + sitePlug;
 		
 		display.addToEast(new HTML(about), "About");
 		//display.addToEast(new Label("Next iteration, sorry!"), "Entity Type List");
