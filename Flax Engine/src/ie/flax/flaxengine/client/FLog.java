@@ -9,6 +9,7 @@ import com.google.gwt.logging.client.ConsoleLogHandler;
 import com.google.gwt.logging.client.HasWidgetsLogHandler;
 import com.google.gwt.logging.client.HtmlLogFormatter;
 import com.google.gwt.logging.client.SystemLogHandler;
+import com.google.gwt.logging.impl.FormatterImpl;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -47,12 +48,17 @@ public class FLog {
 		if (!inited) {
 			l.setUseParentHandlers(false);
 
-			l.addHandler(new ConsoleLogHandler());
 			l.addHandler(new SystemLogHandler());
+			
+			ConsoleLogHandler clh = new ConsoleLogHandler();
+			
+			clh.setFormatter(new FLogConsoleFormatter());
+			
 			HasWidgetsLogHandler hwlh = new HasWidgetsLogHandler(logWidget);
 
-			hwlh.setFormatter(new FLogFormatter());
+			hwlh.setFormatter(new FLogHtmlFormatter());
 
+			l.addHandler(clh);
 			l.addHandler(hwlh);
 			
 			topPanel.setHeight("140px");
@@ -75,11 +81,11 @@ public class FLog {
 	}
 }
 
-class FLogFormatter extends HtmlLogFormatter {
+class FLogHtmlFormatter extends HtmlLogFormatter {
 
 	private static String newline = "__GWT_LOG_FORMATTER_BR__";
 
-	public FLogFormatter() {
+	public FLogHtmlFormatter() {
 		super(false);
 	}
 
@@ -152,6 +158,50 @@ class FLogFormatter extends HtmlLogFormatter {
 		return prefix.toString();
 	}
 
+	@Override
+	protected String getRecordInfo(LogRecord event, String newline) {
+		Date date = new Date(event.getMillis());
+		StringBuilder s = new StringBuilder();
+		s.append(date.toString());
+		s.append(" ");
+		s.append(newline);
+		s.append(getName(event.getLevel().getName()));
+		s.append(": ");
+		return s.toString();
+	}
+}
+
+class FLogConsoleFormatter extends FormatterImpl {
+	
+
+	@Override
+	public String format(LogRecord event) {
+		StringBuilder html = new StringBuilder();
+		html.append(getRecordInfo(event, " "));
+		html.append(event.getMessage());
+		return html.toString();
+	}
+
+	private String getName(String name) {
+		String r = "";
+		if (name.equalsIgnoreCase("finest")) {
+			r = "TRACE";
+		} else if (name.equalsIgnoreCase("finer")) {
+			r = "TRACE";
+		} else if (name.equalsIgnoreCase("fine")) {
+			r = "TRACE";
+		} else if (name.equalsIgnoreCase("config")) {
+			r = "DEBUG";
+		} else if (name.equalsIgnoreCase("info")) {
+			r = "INFO";
+		} else if (name.equalsIgnoreCase("warning")) {
+			r = "WARN";
+		} else if (name.equalsIgnoreCase("severe")) {
+			r = "ERROR";
+		}
+		return r;
+	}
+	
 	@Override
 	protected String getRecordInfo(LogRecord event, String newline) {
 		Date date = new Date(event.getMillis());
