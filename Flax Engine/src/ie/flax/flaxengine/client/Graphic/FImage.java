@@ -1,19 +1,19 @@
 package ie.flax.flaxengine.client.Graphic;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onImageLoadedEvent;
 
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This wrapps the GWT Image class, so that we can add isLoaded Meta data to the class
- * @author Ciarán McCann
+ * @author Ciaran McCann
  * @since Jun 16th 12:05AM
  * @
  *
@@ -53,17 +53,14 @@ public class FImage {
 	        	//image.setWidth(imageData.getWidth());
 	        	//image.setHeight(imageData.getHeight());
 	        
-	        
+	        FLog.info("Image " + URL + " has loaded ");
 	        EventBus.handlerManager.fireEvent(new onImageLoadedEvent(URL)); //lets all listeing compoments that a file is loaded
 	       
 	      }
 	    });
 		
-		imageData.setVisible(false);
-	
-		
-		BOOT_STRAP_DIV.add(imageData);
-		
+		imageData.setVisible(false);		
+		BOOT_STRAP_DIV.add(imageData);		
 	}
 	
 	/**
@@ -93,6 +90,10 @@ public class FImage {
 		return image;
 	}
 	
+	/**
+	 * Gives the widget in which the images will be loaded
+	 * @return
+	 */
 	public static Widget getBootStrapDiv()
 	{
 		return BOOT_STRAP_DIV;

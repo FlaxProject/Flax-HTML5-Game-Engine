@@ -10,7 +10,7 @@ import com.google.gwt.dom.client.ImageElement;
 
 /**
  * This is basically a singlton class which loads and stores references to all
- * the images
+ * the images. It also has some useful ultilty drawing classes
  * 
  * @author Ciaran McCann
  */
@@ -73,10 +73,8 @@ public class Graphic {
      * @param width
      * @param height
      */
-    public void drawImage(String imagePath, double x, double y, float width,
-            float height, final Context2d context) {
-        context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y,
-                width, height);
+    public void drawImage(String imagePath, double x, double y, float width, float height, final Context2d context) { 
+    	context.drawImage(Graphic.getSingleton().getImage(imagePath), x, y,width, height);
     }
 
     /**
@@ -99,12 +97,7 @@ public class Graphic {
      * @return
      */
     public final FImage getFImage(final String refName) {
-
-        FImage temp = imageLibary.get(refName);
-
-        if (temp == null) return null;
-
-        return temp;
+         return imageLibary.get(refName);
     }
 
     /**
@@ -116,7 +109,6 @@ public class Graphic {
     public final ImageElement getImage(final String refName) {
 
         FImage temp = imageLibary.get(refName);
-
         if (temp == null) return null;
 
         return temp.getImage();

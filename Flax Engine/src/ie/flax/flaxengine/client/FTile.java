@@ -11,7 +11,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  * @author Ciaran McCann
  *
  */
-public class FTile implements JsonSerializable, Comparable<FTile>{
+public class FTile implements JsonSerializable{
 
 	private int x;
 	private int y;
@@ -33,7 +33,7 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 		this.y = y;
 		this.texture = texture;
 		
-		FLog.debug("New TILE at x = " + x + "  y = " + y );
+		FLog.debug( this + " was created width  ( "+ x + "x, " +  y + "y )" );
 	}
 	
 	
@@ -47,8 +47,7 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	 */
 	public void draw(ImageElement img, int tileSize, double x, double y, final Context2d context)
 	{	
-				
-
+		
 			if (img != null) {
 						
 				int numTilesWidth = 0;
@@ -87,7 +86,7 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	 * Gets the X postion of the tile
 	 * @return int X
 	 */
-	public int getX() {
+	public final int getX() {
 		return x;
 	}
 
@@ -95,7 +94,7 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	 * Gets the Y postion of the tile
 	 * @return int Y
 	 */
-	public int getY() {
+	public final int getY() {
 		return y;
 	}
 
@@ -128,7 +127,7 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	 * Sets the texture of the tile which is the location on the tilesheet to used when drawing the tile
 	 * @return int texture number reference
 	 */
-	public int getTexture() {
+	public final int getTexture() {
 		return texture;
 	}
 
@@ -138,13 +137,6 @@ public class FTile implements JsonSerializable, Comparable<FTile>{
 	 */
 	public void setTexture(int texture) {
 		this.texture = texture;
-	}
-
-
-
-	@Override
-	public int compareTo(FTile arg0) {
-		return (arg0.getX() + arg0.getY()*FMap.mapwidth < x + y*FMap.mapwidth) ? 1 : -1;
 	}
 
 }

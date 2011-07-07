@@ -1,10 +1,8 @@
 package ie.flax.flaxengine.client.weave.controls;
 
-import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
-import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -80,7 +78,6 @@ public class TileRegion implements IControl {
 			
 			mouseState = MouseState.MOUSE_UP;
 			editor.getEditorOverLay().getContext2d().clearRect(0, 0, editor.getEditorOverLay().getOffsetWidth(), editor.getEditorOverLay().getOffsetHeight()); 
-			map.optimizeCollections();
 		}
 		
 	}
@@ -105,13 +102,16 @@ public class TileRegion implements IControl {
 			
 			if (mouseState == MouseState.MOUSE_DOWN) {
 				drawRegionBox(event.getClientX(),event.getClientY());
-			}
-		 
-		}
-		
+			}		 
+		}		
 	}
 
 
+	/**
+	 * Draws a Box from the start positon to the new posiotn of the mouse
+	 * @param clientX
+	 * @param clientY
+	 */
 	private void drawRegionBox(int clientX, int clientY) {
 		
 		Context2d ctx = editor.getEditorOverLay().getContext2d();	
@@ -155,6 +155,10 @@ public class TileRegion implements IControl {
 	}
 
 
+	/**
+	 * Gets the mouse state, i.e MOUSE_UP MOUSE_DOWN 
+	 * @return
+	 */
 	public MouseState getMouseState()
 	{
 		return mouseState;

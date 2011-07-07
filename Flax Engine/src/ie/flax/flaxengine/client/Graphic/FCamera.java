@@ -4,12 +4,10 @@ import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 
 /**
- * FCamera contorls and stores the poistion in the map which the user is looking at
- * and when things are been drawn to the screen they check with the camera is it visable
- * <br><br>
- * There should only be one camera in the engine for the momenet, though it may be useful to add more
- * in futrue. Currently the engine camera can be referenced statically by flaxengine.camera
- * @author Ciarán McCann
+ * FCamera controls the viewport of a map. It allows for only what the user is looking at to be rendered instead of the whole
+ * map making for good performance bust.
+ * 
+ * @author Ciaran McCann
  *
  */
 public class FCamera {
@@ -36,6 +34,7 @@ public class FCamera {
 		this.width = width;
 		this.height = height;
 		
+		FLog.trace(this.toString() + " Was created ");
 		
 		/**
 		 * These are not set in the constructer as due to the JSON deserailing 
@@ -46,9 +45,7 @@ public class FCamera {
 		//FIXME: Actually this needs to be chnaged, as what happens when more the one map is loaded, will do for the mo.
 		
 		//this.mapWidth = mapWidth;
-		//this.mapHeight = mapHeight;
-		
-		
+		//this.mapHeight = mapHeight;		
 	}
 
 	/**

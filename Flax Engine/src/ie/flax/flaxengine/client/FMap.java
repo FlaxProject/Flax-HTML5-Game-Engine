@@ -49,12 +49,6 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
 public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 
 	/**
-	 * This varible is extremely valueable to optimizting tile Region operations
-	 * for the editor once the tile count its 20,000. And thus why I am making a static copy for the mo
-	 */
-	public static int mapwidth; //TODO REMOVED THIS ITS NOT NEEDED, plus what happens when you have more the one map
-	
-	/**
 	 * Map width and height most be a multplie of the tilesize
 	 */
 	private int width;
@@ -84,6 +78,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 *            address to the map file to be loaded.
 	 */
 	public FMap(String mapPath, Canvas drawingSpace) {		
+		
 		this.drawingSpace = drawingSpace;
 		name = mapPath;
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
@@ -252,7 +247,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			this.height = newMapObj.height;
 		}
 		
-		FMap.mapwidth = newMapObj.width;
 	}
 
 	/**
@@ -335,11 +329,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 */
 	public void addEntity(FEntity entity)
 	{
-		//TODO: add a log to tell if an enetity was added and also load entity sprite
 		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
 		{
 			entities.add(entity); 
-			FLog.info("FEntity Object loaded into map");
+			FLog.trace(entity + " was created and added to " + this);
 		}		
 	}
 	
@@ -352,16 +345,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
 		{
 			tiles.add(tile);
+			FLog.trace(tile + " was created and added to " + this);
 		}
 	}
-	
-	/**
-	 * This sorts the tile list and in furture the entity list, to make for faster editing.
-	 */
-	public void optimizeCollections()
-	{
-		Collections.sort(tiles);
-	}
+
 	
 	/**
 	 * This adds the given FObject object or objects that are derived from FObject
