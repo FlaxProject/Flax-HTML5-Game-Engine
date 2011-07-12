@@ -3,6 +3,7 @@ package ie.flax.flaxengine.client.weave.view.Impl;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
+import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
@@ -22,7 +23,6 @@ public class WeaveViewImpl implements WeaveView{
 	private StackLayoutPanel eastStackPanel;	
 	private AnimationSlide northAnimate, southAnimate, eastAnimate;		
 	private enum State {SHOW,HIDDEN}
-	
 	
 	private State currentViewState;
 	

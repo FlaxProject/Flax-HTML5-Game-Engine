@@ -17,10 +17,13 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @param title
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  * 
  */
 public class FWindow {
+	
+	//FIXME CARL - Dialog panel needs to be changed to somthing else, so we can get an X in top right or somthing.
+	// maybe even mac style slide down sheet. what ever.
 
 	private final VerticalPanel mainPanel;
 	private final DialogBox window;
@@ -56,6 +59,7 @@ public class FWindow {
 		FLog.debug("FWindow with title [" + title + "] was created");
 		RootPanel.get().add(window, 200, 200);
 	}
+	
 
 	/**
 	 * Adds widgets to vertical panel in digial window
@@ -75,17 +79,11 @@ public class FWindow {
 		return mainPanel;
 	}
 
-	public void clear() {
-
-		mainPanel.clear();
-		mainPanel.add(close);
-	}
 
 	/**
 	 * Removes the FWindow from the RootPanel
 	 */
 	public void close() {
-
 		window.hide();
 	}
 

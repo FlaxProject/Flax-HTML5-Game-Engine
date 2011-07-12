@@ -42,7 +42,7 @@ public class MainMenuView extends MenuBar {
 		window = new FWindow("Window");
 	
 		fileuploadPresneter = new FileUploadPresenter();
-		ImportExportPresenter = new MapImportExportPresenter( new MapImportExportView(),model);
+		ImportExportPresenter = new MapImportExportPresenter(model);
 	}
 
 	/**
@@ -57,7 +57,6 @@ public class MainMenuView extends MenuBar {
 					@Override
 					public void execute() {
 	
-						window.clear();
 						window.setTitle("Import/Export Map");	
 						window.add(ImportExportPresenter.getView());
 						window.show();
@@ -70,7 +69,6 @@ public class MainMenuView extends MenuBar {
 					@Override
 					public void execute() {
 					
-							window.clear();
 							window.setTitle("Import/Export Map");								
 							window.add(fileuploadPresneter.getView());						
 							window.show();
