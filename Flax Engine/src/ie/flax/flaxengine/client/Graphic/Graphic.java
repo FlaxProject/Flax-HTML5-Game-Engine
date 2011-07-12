@@ -174,7 +174,7 @@ public class Graphic {
 		} else if ($wnd.webkitRequestAnimationFrame) {
 			$wnd.webkitRequestAnimationFrame(fn);
 		} else {
-			$wnd.setTimeout(fn, 1000 / 60); //60fps if fallback necessary
+			$wnd.setTimeout(fn, 1000 / 24); //60fps if fallback necessary
 		}
     }-*/;
 }
