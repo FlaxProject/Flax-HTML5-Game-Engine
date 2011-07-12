@@ -44,7 +44,7 @@ public abstract class FlaxEngine {
 
 	private boolean engineStatus;
 	private int frameCount = 0;
-	private int oldMilliseconds = 0;
+	private double oldMilliseconds = 0;
 
 	private final Weave editor;
 	private final SplashScreen splashScreen;
@@ -61,15 +61,24 @@ public abstract class FlaxEngine {
 		@Override
 		public void fire() {
 			Graphic.getSingleton().requestAnimationFrame(this);
+
+			frameCount++;
+			double currentMilliseconds = getMilliseconds();
+			
 			
 			if (isEngineReady()) {
 				if (playing == true) {
-
 					maps.get(0).draw(null, null);
-					fpsUpdate();
-
 				}
 			}
+			
+
+			if (currentMilliseconds < oldMilliseconds) {
+				FLog.updateFps(frameCount);
+				frameCount = 0;
+			}
+
+			oldMilliseconds = currentMilliseconds;
 
 		}
 	};
@@ -317,31 +326,12 @@ public abstract class FlaxEngine {
 		}
 	}
 
-
-	/**
-	 * This updates the fps counter, and logs the frames every second or so.
-	 * Known bugs: if a frame takes longer than a second (ie >=1001 milliseconds
-	 * to draw, the FPS recorded is incorrect.
-	 */
-	private void fpsUpdate() {
-		frameCount++;
-		int currentMilliseconds = getMilliseconds();
-
-		if (currentMilliseconds < oldMilliseconds) {
-			// editor.updateElement(WeaveUiManager.FPS_COUNTER,
-			// "FPS: "+frameCount);
-			frameCount = 0;
-		}
-
-		oldMilliseconds = currentMilliseconds;
-	}
-
 	/**
 	 * For FPS counter
 	 * 
 	 * @return
 	 */
-	protected native int getMilliseconds() /*-{
+	protected native double getMilliseconds() /*-{
 		var currentTime = new Date();
 		return currentTime.getMilliseconds();
 	}-*/;

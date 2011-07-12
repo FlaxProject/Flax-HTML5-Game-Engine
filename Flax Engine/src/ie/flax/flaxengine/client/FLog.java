@@ -11,32 +11,41 @@ import com.google.gwt.logging.client.HtmlLogFormatter;
 import com.google.gwt.logging.client.SystemLogHandler;
 import com.google.gwt.logging.client.TextLogFormatter;
 import com.google.gwt.logging.impl.FormatterImpl;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class FLog {
 
 	private static final Logger l = Logger.getLogger("FLog");
-	private static ScrollPanel topPanel = new ScrollPanel();
+	private static HorizontalPanel topPanel = new HorizontalPanel();
+	private static ScrollPanel scrollPanel = new ScrollPanel();
 	private static HTMLPanel logWidget = new HTMLPanel("");
 	private static boolean inited = false;
-
+	private static HTMLPanel fpsPanel = new HTMLPanel("");
+	private static HTML fpsHtml = new HTML("");
+	
 	public static void debug(String string) {
 		if (inited) {
-			topPanel.scrollToBottom();
+			scrollPanel.scrollToBottom();
 			l.log(new LogRecord(Level.FINE, string));
 		}
 	}
 
 	public static void error(String string) {
 		if (inited) {
-			topPanel.scrollToBottom();
+			scrollPanel.scrollToBottom();
 			l.log(new LogRecord(Level.SEVERE, string));
 		}
 	}
 
-	public static ScrollPanel getWidget() {
+	public static HorizontalPanel getWidget() {
 		return topPanel;
+	}
+	
+	public static HTMLPanel getFpsPanel(){
+		return fpsPanel;
 	}
 
 	public static void info(String string) {
@@ -62,8 +71,13 @@ public class FLog {
 			l.addHandler(clh);
 			l.addHandler(hwlh);
 			
-			topPanel.setHeight("140px");
-			topPanel.add(logWidget);
+			scrollPanel.setHeight("140px");
+			scrollPanel.add(logWidget);
+			topPanel.add(scrollPanel);
+			
+			topPanel.add(fpsPanel);
+			topPanel.setCellWidth(fpsPanel, "50px");
+			
 			inited = true;
 		}
 	}
@@ -76,9 +90,19 @@ public class FLog {
 
 	public static void warn(String string) {
 		if (inited) {
-			topPanel.scrollToBottom();
+			scrollPanel.scrollToBottom();
 			l.log(new LogRecord(Level.WARNING, string));
 		}
+	}
+
+	/*
+	 * This is really only here because I couldn't think of another place.
+	 * TODO: remove fps stuff from Flog.
+	 */
+	public static void updateFps(int frameCount) {
+		fpsPanel.remove(fpsHtml);
+		fpsHtml = new HTML("FPS: " + frameCount);
+		fpsPanel.add(fpsHtml);
 	}
 }
 
