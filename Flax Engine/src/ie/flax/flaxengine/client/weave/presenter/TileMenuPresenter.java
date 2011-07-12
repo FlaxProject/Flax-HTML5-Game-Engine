@@ -5,6 +5,8 @@ import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
 import ie.flax.flaxengine.client.weave.Weave;
+import ie.flax.flaxengine.client.weave.view.TileMenuView;
+import ie.flax.flaxengine.client.weave.view.Impl.TileMenuViewImpl;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -25,106 +27,66 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Ciaran McCann
  * 
  */
-public class TileMenuPresenter extends AbstractPresenter implements
-		ImageSelectionEventHandler {
+public class TileMenuPresenter extends AbstractPresenter implements ImageSelectionEventHandler, TileMenuView.presenter {
 
 
-	private Display display;
+	private TileMenuView display;
 	private Weave model;
 	private FWindow window;
+	
 	private AbstractPresenter imageLibPresenter;
 	private FileUploadPresenter uploadPresenter;
 
 
-	public interface Display {
-		Widget asWidget();
-
-		HasClickHandlers getSelectImageButton();
-
-		Canvas getTileCanvas(); // MVP - I'm sorry buts its never not going to
-								// be a canvas
-	}
-
-
-	public TileMenuPresenter(Display display, Weave model) {
+	public TileMenuPresenter(Weave model) {
+		
 		this.model = model;
-		this.display = display;
-
+		this.display = new TileMenuViewImpl(this);	
 		
-		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this);
-
-		bind();
 		
+		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this); //Register for ImageSelection event
+
 		window = new FWindow("Window Tile");		
 		uploadPresenter = new FileUploadPresenter();
-		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);
-			
+		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);			
 	}
 
-	public void bind() {
-
-		display.getTileCanvas().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				
-				selectTile(event.getX(), event.getY());
-			}
-		});
-
-		display.getSelectImageButton().addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				window.setTitle("Select TileSheet");
-				window.add(imageLibPresenter.getView());
-				window.show();
-
-				
-				
-				 window.setTitle("Select TileSheet");	
-				 window.add(uploadPresenter.getView());
-				 window.add(imageLibPresenter.getView());
-				 window.show();
-							
-				
-			}
-		});
-
-		/**
-		 * Its cool, draws the rect around the tiles when you mouse over the
-		 * titlesheet
-		 */
-		display.getTileCanvas().addMouseMoveHandler(new MouseMoveHandler() {
-
-			@Override
-			public void onMouseMove(MouseMoveEvent event) {
-
-				if (model.getFMapReference().getTileSheet() != null) {
-					Context2d ctx = display.getTileCanvas().getContext2d();
-
-					ctx.fillRect(0, 0,display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
-					ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()),0, 0);
-					int tileSize = model.getFMapReference().getTileSize();
-
-					int x = (event.getX() / tileSize) * tileSize;
-					int y = (event.getY() / tileSize) * tileSize;
-
-
-					display.getTileCanvas().getContext2d().setStrokeStyle("#CD0000");
-					ctx.strokeRect(x, y, tileSize, tileSize);
-				}
-
-			}
-		});
-
-	}
-
+	
+	/**
+	 * Brings up a window which the upload and image libary views are inserted into
+	 */
 	@Override
-	public Widget getView() {
-		return display.asWidget();
+	public void displayTileSelectionMenu()
+	{
+		 window.setTitle("Select TileSheet");	
+		 window.add(uploadPresenter.getView());
+		 window.add(imageLibPresenter.getView());
+		 window.show();
 	}
+	
+	/**
+	 * Its cool, draws the rect around the tiles when you mouse over the
+	 * titlesheet
+	 */
+	@Override
+	public void onCanvasMouseMove(MouseMoveEvent event)
+	{
+		if (model.getFMapReference().getTileSheet() != null) {
+			Context2d ctx = display.getTileCanvas().getContext2d();
+
+			ctx.fillRect(0, 0,display.getTileCanvas().getOffsetWidth(), display.getTileCanvas().getOffsetHeight());
+			ctx.drawImage(Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()),0, 0);
+			int tileSize = model.getFMapReference().getTileSize();
+
+			int x = (event.getX() / tileSize) * tileSize;
+			int y = (event.getY() / tileSize) * tileSize;
+
+
+			display.getTileCanvas().getContext2d().setStrokeStyle("#CD0000");
+			ctx.strokeRect(x, y, tileSize, tileSize);
+		}
+	}
+	
 
 	@Override
 	public void onImageSelection(ImageSelectionEvent e) {
@@ -153,7 +115,7 @@ public class TileMenuPresenter extends AbstractPresenter implements
 	 * @param clickX
 	 * @param clickY
 	 */
-	private void selectTile(int clickX, int clickY) {
+	public void selectTile(int clickX, int clickY) {
 		if (model.getFMapReference().getTileSheet() != null) {
 			
 			int tileSize = model.getFMapReference().getTileSize();
@@ -164,6 +126,13 @@ public class TileMenuPresenter extends AbstractPresenter implements
 
 			model.getCurrentTile().setTexture((y * numberOfTilesInaRow) + x);
 		}
+	}
+
+
+
+	@Override
+	public Widget getView() {
+		return display.asWidget();
 	}
 
 }

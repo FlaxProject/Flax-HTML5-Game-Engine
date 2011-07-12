@@ -25,7 +25,7 @@ public class WeavePresenter extends AbstractPresenter {
 
 	public WeavePresenter(Weave editor) {
 		display = new WeaveViewImpl();
-		TilePresenter = new TileMenuPresenter(new TileMenuView(), editor);
+		TilePresenter = new TileMenuPresenter(editor);
 		MiniPresenter = new MiniMapPresenter(editor);
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
 		display.addToSouth(FLog.getWidget(), "Console");
