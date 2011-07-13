@@ -228,7 +228,7 @@ public abstract class FlaxEngine {
 	 * 
 	 * @return
 	 */
-	protected boolean isEngineReady() {
+	public boolean isEngineReady() {
 
 		/**
 		 * Understand the below if() statment. The first condtion which is
@@ -266,6 +266,11 @@ public abstract class FlaxEngine {
 	public FMap getCurrentMap() {
 		return maps.get(currentMap);
 	}
+
+	public Weave getEditor() {
+		return editor;
+	}
+
 
 	/**
 	 * Gets a map with given ID
@@ -335,5 +340,6 @@ public abstract class FlaxEngine {
 		var currentTime = new Date();
 		return currentTime.getMilliseconds();
 	}-*/;
+
 
 }

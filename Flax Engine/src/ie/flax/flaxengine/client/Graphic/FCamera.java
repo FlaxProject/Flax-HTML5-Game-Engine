@@ -3,8 +3,7 @@ package ie.flax.flaxengine.client.Graphic;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.events.EventBus;
-import ie.flax.flaxengine.client.events.MiniMapUpdateEvent;
-import ie.flax.flaxengine.client.events.MiniMapUpdateEventHandler;
+import ie.flax.flaxengine.client.events.MapUpdateEvent;
 
 /**
  * FCamera controls the viewport of a map. It allows for only what the user is looking at to be rendered instead of the whole
@@ -101,7 +100,6 @@ public class FCamera {
 	 */
 	public double getX()
 	{
-		EventBus.handlerManager.fireEvent(new MiniMapUpdateEvent()); 
 		return position.x;
 	}
 	
@@ -111,7 +109,6 @@ public class FCamera {
 	 */
 	public double getY()
 	{
-		EventBus.handlerManager.fireEvent(new MiniMapUpdateEvent()); 
 		return position.y;
 	}
 	
@@ -124,6 +121,8 @@ public class FCamera {
 	{		
 		if(x <= mapWidth-width&& x > 0)
 		{
+			EventBus.handlerManager.fireEvent(new MapUpdateEvent()); 
+			
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 		}
@@ -138,6 +137,8 @@ public class FCamera {
 		
 		if(y <= mapHeight-height&& y > 0)
 		{
+
+			EventBus.handlerManager.fireEvent(new MapUpdateEvent()); 
 			position.y = y;
 			FLog.trace(this.toString() + " setY(double " + position.y + ") ");
 		}
