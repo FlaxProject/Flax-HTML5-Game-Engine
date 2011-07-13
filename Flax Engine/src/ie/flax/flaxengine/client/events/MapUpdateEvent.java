@@ -13,7 +13,7 @@ public class MapUpdateEvent extends GwtEvent<MapUpdateEventHandler> {
 	
 	@Override
 	protected void dispatch(MapUpdateEventHandler handler) {
-		handler.onMiniMapUpdate(this);
+		handler.onMapUpdate(this);
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.FCamera;
+import ie.flax.flaxengine.client.events.CameraUpdateEvent;
+import ie.flax.flaxengine.client.events.CameraUpdateEventHandler;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.events.MapUpdateEventHandler;
@@ -13,7 +16,7 @@ import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.presenter, MapUpdateEventHandler {
+public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.presenter, MapUpdateEventHandler, CameraUpdateEventHandler {
 
 	private final Weave model;
 	private final FCamera cam;
@@ -28,15 +31,13 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	
 	
 	@Override
-	public void onMiniMapUpdate(MapUpdateEvent e) {
+	public void onMapUpdate(MapUpdateEvent e) {
 		
 		if(model.isRunning()) //all ways check to see if weave is running before doing anything intensive
 		{
-		
-		//FIXME CARL - drawing code should go here and also check out the below link
-		//http://stackoverflow.com/questions/3318565/any-way-to-clone-html5-canvas-element-with-its-content
+			//clear();
+			//drawCurrentCameraRectangle();
 			draw();
-			//FLog.debug("Draw");
 		}
 		
 	}
@@ -53,18 +54,7 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		view.getCanvas().getContext2d().scale(1.0 / inverseScale, 1.0 / inverseScale);
 		
 		EventBus.handlerManager.addHandler(MapUpdateEvent.TYPE, this);
-
-		/*
-		 * Once, I used requestAnimationFrame here. However, there are two
-		 * things wrong with this. One is that this _doesn't need to refresh
-		 * that often_. Users won't notice. The other is that it makes much more
-		 * sense to just update the minimap when and only when the main map is
-		 * changed. Compromise for the moment - timer that refreshes every
-		 * second.
-		 */
-
-		// TODO Carl change to event-based?
-		//timer.scheduleRepeating(50);
+		EventBus.handlerManager.addHandler(CameraUpdateEvent.TYPE, this);
 	}
 
 	@Override
@@ -74,7 +64,6 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 
 	@Override
 	public void moveMapCamera(int x, int y) {
-		// divided by two to offset the move. TODO Carl make this better
 		FlaxEngine.camera.setX((x * inverseScale) / 2);
 		FlaxEngine.camera.setY((y * inverseScale) / 2);
 	}
@@ -91,17 +80,13 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	}
 	
 	private void clear() {
+		FLog.error("clear");
 		view.getCanvas().getContext2d().fillRect(0, 0,
 				view.getCanvas().getCoordinateSpaceWidth()*inverseScale,
 				view.getCanvas().getCoordinateSpaceHeight()*inverseScale);
 	}
 
-
-
-
 	private void draw() {
-		clear();
-		
 		if (view.getCanvas().getCoordinateSpaceHeight() == 0) {
 			view.getCanvas().setCoordinateSpaceHeight(
 					view.getCanvas().getCanvasElement().getClientHeight());
@@ -113,8 +98,18 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		
 		
 		model.getFMapReference().draw(cam, view.getCanvas());
+	}
+
+
+
+
+	@Override
+	public void onCameraUpdate(CameraUpdateEvent e) {
+		if (model.isRunning()){
+		clear();
+		draw();
 		drawCurrentCameraRectangle();
-		
+		}
 	}
 
 

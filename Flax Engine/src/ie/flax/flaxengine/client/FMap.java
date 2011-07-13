@@ -2,15 +2,16 @@ package ie.flax.flaxengine.client;
 
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.events.CameraUpdateEvent;
+import ie.flax.flaxengine.client.events.CameraUpdateEventHandler;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
-import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
+import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -47,7 +48,7 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  * @author Ciaran McCann
  * 
  */
-public class FMap implements JsonSerializable, onFileLoadedEventHandler{
+public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraUpdateEventHandler{
 
 	/**
 	 * Map width and height most be a multplie of the tilesize
@@ -82,7 +83,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		
 		this.drawingSpace = drawingSpace;
 		name = mapPath;
+		
+		EventBus.handlerManager.addHandler(CameraUpdateEvent.TYPE, this);
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
+		
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file	
 	}
 	
@@ -103,7 +107,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
 		 */
-		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
 		double camX = cam.getX();
 		double camY = cam.getY();
 		double camXWidth = camX+cam.getWidth();
@@ -580,6 +583,15 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	@Deprecated	
 	public void setLoaded(boolean loaded) {
 		Loaded = loaded;
+	}
+
+
+
+	@Override
+	public void onCameraUpdate(CameraUpdateEvent e) {
+		drawingSpace.getContext2d().fillRect(0, 0, 
+				drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
+		draw(null, null);
 	}
 
 	
