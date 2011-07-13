@@ -148,7 +148,7 @@ public class Graphic {
     }
 
     /**
-     * The image at the give URl is loaded into the engine.
+     * The image at the give URL is loaded into the engine.
      * 
      * @param URL
      * @return
@@ -162,19 +162,22 @@ public class Graphic {
 
     /*
      * This code snippet taken from the ForPlay source, under Apache.
+     * 
+     * We're not using requestAnimationFrame for the moment. We will use
+     * it later, but currently it's just too spotty for performance.
      */
     public native void requestAnimationFrame(TimerCallback callback) /*-{
 		var fn = function() {
 			callback.@ie.flax.flaxengine.client.Graphic.TimerCallback::fire()();
 		};
-		if ($wnd.requestAnimationFrame) {
-			$wnd.requestAnimationFrame(fn);
-		} else if ($wnd.mozRequestAnimationFrame) {
-			$wnd.mozRequestAnimationFrame(fn);
-		} else if ($wnd.webkitRequestAnimationFrame) {
-			$wnd.webkitRequestAnimationFrame(fn);
-		} else {
-			$wnd.setTimeout(fn, 1000 / 24); //60fps if fallback necessary
-		}
+//		if ($wnd.requestAnimationFrame) {
+//			$wnd.requestAnimationFrame(fn);
+//		} else if ($wnd.mozRequestAnimationFrame) {
+//			$wnd.mozRequestAnimationFrame(fn);
+//		} else if ($wnd.webkitRequestAnimationFrame) {
+//			$wnd.webkitRequestAnimationFrame(fn);
+//		} else {
+			$wnd.setTimeout(fn, 1000 / 24); //24fps if fallback necessary
+//		}
     }-*/;
 }

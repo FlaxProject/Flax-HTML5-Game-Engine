@@ -6,6 +6,8 @@ import ie.flax.flaxengine.client.weave.presenter.FileUploadPresenter;
 import ie.flax.flaxengine.client.weave.presenter.MapImportExportPresenter;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 
@@ -38,6 +40,14 @@ public class MainMenuView extends MenuBar {
 		this.addItem("File Upload", uploadFile);
 		this.addItem("Export/Import Map", exportImport);
 		this.setAnimationEnabled(true);
+		
+		this.addHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+			}
+		}, ClickEvent.getType());
 		
 		window = new FWindow("Window");
 	
@@ -75,7 +85,13 @@ public class MainMenuView extends MenuBar {
 
 					}
 				};
-			}	
+			}
+	
+	@Override
+	public void focus() {
+		//ignore anything that gives focus
+		//super.focus();
 	}
+}
 
 
