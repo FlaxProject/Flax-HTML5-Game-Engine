@@ -3,6 +3,8 @@ package ie.flax.flaxengine.client.weave.presenter;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.FCamera;
+import ie.flax.flaxengine.client.events.MiniMapUpdateEvent;
+import ie.flax.flaxengine.client.events.MiniMapUpdateEventHandler;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
@@ -10,8 +12,7 @@ import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MiniMapPresenter extends AbstractPresenter implements
-		MiniMapView.presenter {
+public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.presenter, MiniMapUpdateEventHandler {
 
 	private final Weave model;
 	private final FCamera cam;
@@ -36,6 +37,23 @@ public class MiniMapPresenter extends AbstractPresenter implements
 			drawCurrentCameraRectangle();
 		}
 	};
+	
+	
+	@Override
+	public void onMiniMapUpdate(MiniMapUpdateEvent e) {
+		
+		if(model.isRunning()) //all ways check to see if weave is running before doing anything intensive
+		{
+		
+		//FIXME CARL - drawing code should go here and also check out the below link
+		//http://stackoverflow.com/questions/3318565/any-way-to-clone-html5-canvas-element-with-its-content
+		
+		}
+		
+	}
+	
+	
+	
 
 	public MiniMapPresenter(Weave model) {
 		this.model = model;
@@ -86,4 +104,6 @@ public class MiniMapPresenter extends AbstractPresenter implements
 				v.getCanvas().getCoordinateSpaceWidth()*inverseScale,
 				v.getCanvas().getCoordinateSpaceHeight()*inverseScale);
 	}
+
+
 }

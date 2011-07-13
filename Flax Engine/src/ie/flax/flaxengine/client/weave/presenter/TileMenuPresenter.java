@@ -115,6 +115,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	 * @param clickX
 	 * @param clickY
 	 */
+	@Override
 	public void selectTile(int clickX, int clickY) {
 		if (model.getFMapReference().getTileSheet() != null) {
 			

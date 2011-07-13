@@ -19,6 +19,7 @@ public interface TileMenuView  {
 		
 		void displayTileSelectionMenu();
 		void onCanvasMouseMove(MouseMoveEvent event);
+		void selectTile(int clickX, int clickY);
 	}
 
 }
