@@ -3,6 +3,7 @@ package ie.flax.flaxengine.client.weave.controls;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
+import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -143,12 +144,13 @@ public class TileRegion implements IControl {
 		
 		if(tile == null)
 		{		
-			map.addTile(new FTile(startX,startY, true, texture));	
+			map.addTile(new FTile(startX,startY, texture, Graphic.getSingleton().getImage(map.getTileSheet()), map.getTileSize()));	
 	
 		}
-		else
+		else			
 		{
-			tile.setTexture(texture );
+			//FIXME CIARAN - uncomment when getting tileregion back
+			//tile.setTexture(texture );
 			tile = null;
 		}		
 		

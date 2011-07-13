@@ -165,14 +165,14 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		if(tile != null) 
 		{
-			tile.setTexture(currentTile.getTexture());	
+			tile.setTileTexture(currentTile.getTexture(), Graphic.getSingleton().getImage(map.getTileSheet()), map.getTileSize() );	
 		}
 		else
 		{
 			int tileSize = map.getTileSize();
 			int tX = (int) ((x+FlaxEngine.camera.getX())/tileSize);
 			int tY = (int) ((y+FlaxEngine.camera.getY())/tileSize);
-			tile = new FTile(tX*tileSize,  tY*tileSize, false, currentTile.getTexture()) ;
+			tile = new FTile(tX*tileSize,  tY*tileSize, currentTile.getTexture(), Graphic.getSingleton().getImage(map.getTileSheet()), map.getTileSize()) ;
 			map.addTile(tile );//TODO refactor into more generic
 		}
 		

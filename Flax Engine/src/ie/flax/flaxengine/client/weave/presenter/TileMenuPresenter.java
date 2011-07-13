@@ -120,12 +120,13 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 		if (model.getFMapReference().getTileSheet() != null) {
 			
 			int tileSize = model.getFMapReference().getTileSize();
-			int numberOfTilesInaRow = (Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet()).getWidth())/ tileSize;
+			ImageElement img = Graphic.getSingleton().getImage(model.getFMapReference().getTileSheet());
+			int numberOfTilesInaRow = (img.getWidth())/ tileSize;
 
 			int x = clickX / tileSize;
 			int y = clickY / tileSize;
 
-			model.getCurrentTile().setTexture((y * numberOfTilesInaRow) + x);
+			model.getCurrentTile().setTileTexture((y * numberOfTilesInaRow) + x, img , tileSize);
 		}
 	}
 
