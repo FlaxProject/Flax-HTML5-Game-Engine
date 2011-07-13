@@ -7,12 +7,15 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.xml.internal.ws.org.objectweb.asm.Label;
 
 public class WeaveViewImpl implements WeaveView{
 	
@@ -109,9 +112,13 @@ public class WeaveViewImpl implements WeaveView{
 		{
 			southPanel.selectTab(0);
 		}
-		
 	}
 
+	@Override
+	public void addToSouth(IsWidget widgetToInsert, Widget tabWidget) {
+
+		southPanel.add(widgetToInsert, tabWidget);	
+	}
 
 	@Override
 	public void addToEast(Widget widgetToInsert, String headerText) {

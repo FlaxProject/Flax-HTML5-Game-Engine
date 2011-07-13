@@ -1,1 +1,1 @@
-{"width":8000, "height":8000, "tileSize":32, "name":"map.json", "Loaded":true, "tileSheet":"http://flax.ie/test/p.png", "tiles":[], "objects":[], "entities":[], "class":"ie.flax.flaxengine.client.FMap"}
+{"width":120, "height":120, "tileSize":32, "name":"map.json", "Loaded":true, "tileSheet":"http://flax.ie/test/p.png", "tiles":[], "objects":[], "entities":[], "class":"ie.flax.flaxengine.client.FMap"}

@@ -77,7 +77,7 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		 */
 
 		// TODO Carl change to event-based?
-		timer.scheduleRepeating(50);
+		//timer.scheduleRepeating(50);
 	}
 
 	@Override

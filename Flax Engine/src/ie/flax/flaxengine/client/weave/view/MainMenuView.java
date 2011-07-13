@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.MenuBar;
  * This is the menu bar in the north panel of Weave.
  * Its not really done in MVP, may want to look into converting it sometime soon
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public class MainMenuView extends MenuBar {

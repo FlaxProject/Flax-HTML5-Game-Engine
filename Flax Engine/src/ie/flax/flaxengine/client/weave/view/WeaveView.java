@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.view;
 
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 public interface WeaveView {
@@ -11,4 +12,5 @@ public interface WeaveView {
 		void toggle();
 		
 		Widget getWidget();
+		void addToSouth(IsWidget widgetToInsert, Widget tabWidget);
 }

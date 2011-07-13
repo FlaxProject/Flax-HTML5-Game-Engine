@@ -98,7 +98,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		/**
 		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
 		 */
-		if (cam==null)  cam = FlaxEngine.camera; //TODO: CARL make Camera singleton and have it initliazed in Flax Engine
+		if (cam==null)  cam = FlaxEngine.camera; 
 		if (drawingSpace==null) drawingSpace = this.drawingSpace;
 		/**
 		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
@@ -113,11 +113,40 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		if(tileSheetImage != null)
 		{
 		
-			for(FTile temp :  tiles)
-			{
+			//for(FTile temp :  tiles)
+			//{
 				//check if the tile can be seen on screen before drawing
-				if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-					temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());
+				//if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
+					//temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());				
+			//}
+			
+			
+			int camXRelative = (int) (cam.getX()/tileSize);
+			int camYRelative = (int) (cam.getY()/tileSize);
+			int camXAndWidth = (int) (camXRelative)+cam.getWidth()/tileSize;
+			int camYAndHeight = (int) (camYRelative)+cam.getHeight()/tileSize;
+			int mapWidthRelative = (int) width;
+		
+			int camXRelativeCopy = camXRelative;
+			int camYRelativeCopy = camYRelative;
+			
+			
+			// all in tiles - relative
+			while(camYRelative < camYAndHeight)
+			{
+				// in number of tiles - relative
+				while( camXRelative < camXAndWidth )
+				{
+					int index = camXRelative + (camYRelative *  mapWidthRelative );
+					FTile t = tiles.get(index );					
+					t.draw(Graphic.getSingleton().getImage(tileSheet), tileSize, ( t.getX()*tileSize - camXRelativeCopy*tileSize ) , ( t.getY()*tileSize - camYRelativeCopy*tileSize ), drawingSpace.getContext2d());					
+					camXRelative++;
+					
+				}
+				
+				 camXRelative = camXRelativeCopy; //rest the X to intial
+				
+				 camYRelative++;				
 			}
 			
 			for(FObject temp : objects)
@@ -147,7 +176,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	public FTile getTile(int xClick, int yClick) //absolute values
 	{
 		
-		FLog.debug(" (" + xClick + " "+ yClick + ")");
+		
 		/**
 		 * Both the camera and click values are absolute pixel values
 		 * aadding them togtheier and divding them by the tilesize and then dropping the decimal 
@@ -155,22 +184,26 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		 */
 		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
 		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
+		int mapWidthRelative = width;
+		
+		int index = clickX + (clickY*mapWidthRelative) ;
+		
+		FLog.debug(" (" + xClick + " "+ yClick + ") index" + index);
+		
+		return tiles.get( index );
 
-		clickX *= tileSize;
-		clickY *= tileSize;
-		
-		
-		for(FTile obj : tiles)
-		{
-			if(obj.getX() == clickX && obj.getY() == clickY)
-			{
-				FLog.debug("getTile(" + clickX + " "+ clickY + ")");
-				return obj;			
-			}
-		}
-		
-		FLog.debug("getTile(" + clickX + " "+ clickY + ") NOT FOUND");
-		return null;
+//		
+//		for(FTile obj : tiles)
+//		{
+//			if(obj.getX() == clickX && obj.getY() == clickY)
+//			{
+//				FLog.debug("getTile(" + clickX + " "+ clickY + ")");
+//				return obj;			
+//			}
+//		}
+//		
+//		FLog.debug("getTile(" + clickX + " "+ clickY + ") NOT FOUND");
+		//return null;
 	}
 	
 	
@@ -228,25 +261,43 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		 * well with the ID's etc.
 		 */
 		this.entities = newMapObj.entities;
-		this.tiles = newMapObj.tiles;
+	//	this.tiles = newMapObj.tiles;
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
-						
-		if( (newMapObj.width % tileSize != 0) || (newMapObj.height % tileSize != 0) )
-		{
-			this.width = newMapObj.width/tileSize;
-			this.height = newMapObj.height/tileSize;
-			
-			this.width *=tileSize;
-			this.height *=tileSize;
-			
-			Window.alert("Error in map data" + "\n\n" + "Map width and height are not multiples of the tilesize, I rounded them down for you to \n\n" + width + " by " + height + "\n" + " Everything is sorted :D");
 		
-		}else{
-			this.width = newMapObj.width;
-			this.height = newMapObj.height;
+		int y =0;
+		int x =0;
+		
+		this.width = newMapObj.width;
+		this.height = newMapObj.height;
+		
+		while ( y < height)
+		{
+			while( x < width)
+			{
+				tiles.add( new FTile(x, y, 3, Graphic.getSingleton().getImage(tileSheet), tileSize));
+				x++;
+			}
+			
+			x = 0;
+			
+			y++;
 		}
+//						
+//		if( (newMapObj.width % tileSize != 0) || (newMapObj.height % tileSize != 0) )
+//		{
+//			this.width = newMapObj.width/tileSize;
+//			this.height = newMapObj.height/tileSize;
+//			
+//			this.width  *=tileSize;
+//			this.height *=tileSize;
+//			
+//			Window.alert("Error in map data" + "\n\n" + "Map width and height are not multiples of the tilesize, I rounded them down for you to \n\n" + width + " by " + height + "\n" + " Everything is sorted :D");
+//		
+//		}else{
+			
+//		}
 		
 	}
 

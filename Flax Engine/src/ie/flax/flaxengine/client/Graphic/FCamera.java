@@ -122,7 +122,7 @@ public class FCamera {
 	 */
 	public void setX(double x)
 	{		
-		if(x <= mapWidth-width&& x > 0)
+		//if(x <= mapWidth-width&& x > 0)
 		{
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
@@ -136,7 +136,7 @@ public class FCamera {
 	 */
 	public void setY(double y) {
 		
-		if(y <= mapHeight-height&& y > 0)
+		//if(y <= mapHeight-height&& y > 0) //FIXME CIARAN
 		{
 			position.y = y;
 			FLog.trace(this.toString() + " setY(double " + position.y + ") ");
