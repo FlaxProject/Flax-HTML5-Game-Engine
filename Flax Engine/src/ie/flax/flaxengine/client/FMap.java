@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
+import ie.flax.flaxengine.client.events.MiniMapUpdateEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
@@ -345,6 +346,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
 		{
 			tiles.add(tile);
+			EventBus.handlerManager.fireEvent(new MiniMapUpdateEvent()); 
 			FLog.trace(tile + " was created and added to " + this);
 		}
 	}

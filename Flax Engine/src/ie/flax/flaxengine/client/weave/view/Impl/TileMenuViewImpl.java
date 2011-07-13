@@ -61,6 +61,15 @@ public class TileMenuViewImpl extends Composite implements TileMenuView {
 			}
 		});
 		
+		canvas.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				presenter.selectTile(event.getX(),event.getY());
+				
+			}
+		});
+		
 	}
 
 	@Override
