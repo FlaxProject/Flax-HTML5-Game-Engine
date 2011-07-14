@@ -1,17 +1,31 @@
 package ie.flax.flaxengine.client.weave.view.customwidgets;
 
 import ie.flax.flaxengine.client.FLog;
+import ie.flax.flaxengine.client.events.EventBus;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.EventTarget;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import com.google.gwt.i18n.client.HasDirection;
 /**
  * Draggable window, with a header and a default settings setup
  * 
@@ -26,38 +40,35 @@ public class FWindow {
 	// maybe even mac style slide down sheet. what ever.
 
 	private final VerticalPanel mainPanel;
-	private final DialogBox window;
-	private final Button close;
+	private final ClosablePopup window;
 
 	public FWindow(String title) {
 
-		window = new DialogBox();
-		mainPanel = new VerticalPanel();
-
-		close = new Button("Close");
-		close.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				close();
-
-			}
-		});
-
-		mainPanel.add(close);
-
-
-		window.add(mainPanel);
-		window.setPopupPosition(Window.getClientWidth() / 2,Window.getClientHeight() / 2);
+		window = new ClosablePopup(title, true);
 		
-		window.setText(title);
+		mainPanel = new VerticalPanel();
+		
+		window.add(mainPanel);
+		
+		//window.setText(title);
 		window.setGlassEnabled(true);
 		window.setAnimationEnabled(true);
 		window.show();
+		
+		window.setPopupPosition((Window.getClientWidth()/2)-(window.getOffsetWidth()/2), 
+				(Window.getClientHeight()/2)-(window.getOffsetHeight()/2));
 		window.hide();
 
-		FLog.debug("FWindow with title [" + title + "] was created");
-		RootPanel.get().add(window, 200, 200);
+		FLog.error("FWindow with title [" + title + "] was created");
+		RootPanel.get().add(window);
+		
+		window.addCloseHandler(new CloseHandler<PopupPanel>() {
+			
+			@Override
+			public void onClose(CloseEvent<PopupPanel> event) {
+				mainPanel.clear();
+			}
+		});
 	}
 	
 
@@ -70,6 +81,10 @@ public class FWindow {
 		mainPanel.add(widget);
 	}
 
+	public void close(){
+		window.close();
+	}
+	
 	/**
 	 * Return reference to the Vertical panel in the Fwindow
 	 * 
@@ -79,20 +94,74 @@ public class FWindow {
 		return mainPanel;
 	}
 
-
-	/**
-	 * Removes the FWindow from the RootPanel
-	 */
-	public void close() {
-		window.hide();
-	}
-
 	public void setTitle(String title) {
-		window.setText(title);
+		//window.setText(title);
 	}
 
 	public void show() {
 		window.show();
+		window.setPopupPosition((Window.getClientWidth()/2)-(window.getOffsetWidth()/2), 
+				(Window.getClientHeight()/2)-(window.getOffsetHeight()/2));
 	}
 
 }
+
+
+/**
+* @author Andrey Talnikov
+*/
+ class ClosablePopup extends DialogBox {
+
+   private Anchor closeAnchor;
+
+   /**
+    * Instantiates new closable popup.
+    *
+    * @param title        the title
+    * @param defaultClose it {@code true}, hide popup on 'x' click
+    */
+   public ClosablePopup(String title, boolean defaultClose) {
+       super(true);
+
+       closeAnchor = new Anchor("X");
+
+       FlexTable captionLayoutTable = new FlexTable();
+       captionLayoutTable.setWidth("100%");
+       captionLayoutTable.setText(0, 0, title);
+       captionLayoutTable.setWidget(0, 1, closeAnchor);
+       captionLayoutTable.getCellFormatter().setHorizontalAlignment(0, 1,
+               HasHorizontalAlignment.HorizontalAlignmentConstant.endOf(HasDirection.Direction.LTR));
+
+       HTML caption = (HTML) getCaption();
+       caption.getElement().appendChild(captionLayoutTable.getElement());
+
+       caption.addClickHandler(new ClickHandler() {
+           @Override
+           public void onClick(ClickEvent event) {
+               EventTarget target = event.getNativeEvent().getEventTarget();
+               Element targetElement = (Element) target.cast();
+
+               if (targetElement == closeAnchor.getElement()) {
+                   closeAnchor.fireEvent(event);
+               }
+           }
+       });
+
+       if (defaultClose) {
+           addCloseHandler(new ClickHandler() {
+               @Override
+               public void onClick(ClickEvent event) {
+                   hide();
+               }
+           });
+       }
+   }
+
+   public void addCloseHandler(ClickHandler handler) {
+       closeAnchor.addClickHandler(handler);
+   }
+   
+   public void close(){
+	   hide();
+   }
+ }

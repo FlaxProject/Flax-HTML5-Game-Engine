@@ -3,7 +3,6 @@ package ie.flax.flaxengine.client.weave.presenter;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MainMenuView;
-import ie.flax.flaxengine.client.weave.view.TileMenuView;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
 import ie.flax.flaxengine.client.weave.view.Impl.WeaveViewImpl;
 

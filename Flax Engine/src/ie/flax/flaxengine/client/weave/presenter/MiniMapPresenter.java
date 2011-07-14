@@ -1,12 +1,14 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.FCamera;
+import ie.flax.flaxengine.client.events.CameraUpdateEvent;
+import ie.flax.flaxengine.client.events.CameraUpdateEventHandler;
 import ie.flax.flaxengine.client.events.EventBus;
-import ie.flax.flaxengine.client.events.MiniMapUpdateEvent;
-import ie.flax.flaxengine.client.events.MiniMapUpdateEventHandler;
-import ie.flax.flaxengine.client.events.onImageLoadedEvent;
+import ie.flax.flaxengine.client.events.MapUpdateEvent;
+import ie.flax.flaxengine.client.events.MapUpdateEventHandler;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
@@ -14,7 +16,7 @@ import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Widget;
 
-public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.presenter, MiniMapUpdateEventHandler {
+public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.presenter, MapUpdateEventHandler, CameraUpdateEventHandler {
 
 	private final Weave model;
 	private final FCamera cam;
@@ -23,33 +25,19 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	Timer timer = new Timer() {
 		@Override
 		public void run() {
-			clear();
-			
-			if (view.getCanvas().getCoordinateSpaceHeight() == 0) {
-				view.getCanvas().setCoordinateSpaceHeight(
-						view.getCanvas().getCanvasElement().getClientHeight());
-				view.getCanvas().setCoordinateSpaceWidth(
-						view.getCanvas().getCanvasElement().getClientWidth());
-				view.getCanvas().getContext2d()
-						.scale(1.0 / inverseScale, 1.0 / inverseScale);
-			}
-			
-			
-			model.getFMapReference().draw(cam, view.getCanvas());
-			drawCurrentCameraRectangle();
+			draw();
 		}
 	};
 	
 	
 	@Override
-	public void onMiniMapUpdate(MiniMapUpdateEvent e) {
+	public void onMapUpdate(MapUpdateEvent e) {
 		
 		if(model.isRunning()) //all ways check to see if weave is running before doing anything intensive
 		{
-		
-		//FIXME CARL - drawing code should go here and also check out the below link
-		//http://stackoverflow.com/questions/3318565/any-way-to-clone-html5-canvas-element-with-its-content
-		
+			//clear();
+			//drawCurrentCameraRectangle();
+			draw();
 		}
 		
 	}
@@ -57,27 +45,16 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	
 	
 
-	public MiniMapPresenter(Weave model) {
+	public MiniMapPresenter(Weave editor) {
 		
-		this.model = model;
+		this.model = editor;
 		view = new MiniMapViewImpl(this);
 		cam = new FCamera(new FVector(0, 0), FlaxEngine.camera.getWidth()* inverseScale, FlaxEngine.camera.getHeight() *inverseScale);
 		
 		view.getCanvas().getContext2d().scale(1.0 / inverseScale, 1.0 / inverseScale);
 		
-		EventBus.handlerManager.addHandler(MiniMapUpdateEvent.TYPE, this);
-
-		/*
-		 * Once, I used requestAnimationFrame here. However, there are two
-		 * things wrong with this. One is that this _doesn't need to refresh
-		 * that often_. Users won't notice. The other is that it makes much more
-		 * sense to just update the minimap when and only when the main map is
-		 * changed. Compromise for the moment - timer that refreshes every
-		 * second.
-		 */
-
-		// TODO Carl change to event-based?
-		//timer.scheduleRepeating(50);
+		EventBus.handlerManager.addHandler(MapUpdateEvent.TYPE, this);
+		EventBus.handlerManager.addHandler(CameraUpdateEvent.TYPE, this);
 	}
 
 	@Override
@@ -87,7 +64,6 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 
 	@Override
 	public void moveMapCamera(int x, int y) {
-		// divided by two to offset the move. TODO Carl make this better
 		FlaxEngine.camera.setX((x * inverseScale) / 2);
 		FlaxEngine.camera.setY((y * inverseScale) / 2);
 	}
@@ -104,9 +80,36 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	}
 	
 	private void clear() {
+		FLog.error("clear");
 		view.getCanvas().getContext2d().fillRect(0, 0,
 				view.getCanvas().getCoordinateSpaceWidth()*inverseScale,
 				view.getCanvas().getCoordinateSpaceHeight()*inverseScale);
+	}
+
+	private void draw() {
+		if (view.getCanvas().getCoordinateSpaceHeight() == 0) {
+			view.getCanvas().setCoordinateSpaceHeight(
+					view.getCanvas().getCanvasElement().getClientHeight());
+			view.getCanvas().setCoordinateSpaceWidth(
+					view.getCanvas().getCanvasElement().getClientWidth());
+			view.getCanvas().getContext2d()
+					.scale(1.0 / inverseScale, 1.0 / inverseScale);
+		}
+		
+		
+		model.getFMapReference().draw(cam, view.getCanvas());
+	}
+
+
+
+
+	@Override
+	public void onCameraUpdate(CameraUpdateEvent e) {
+		if (model.isRunning()){
+		clear();
+		draw();
+		drawCurrentCameraRectangle();
+		}
 	}
 
 
