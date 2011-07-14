@@ -38,6 +38,8 @@ public class FCamera {
 		
 		FLog.trace(this.toString() + " Was created ");
 		
+		EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+		
 		/**
 		 * These are not set in the constructer as due to the JSON deserailing 
 		 * metho when a map is constructed it will call its set width and height.
