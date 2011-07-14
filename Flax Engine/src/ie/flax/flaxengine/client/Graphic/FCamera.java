@@ -121,7 +121,7 @@ public class FCamera {
 	 */
 	public void setX(double x)
 	{		
-		if(x <= mapWidth-width&& x > 0)
+		if(x <= mapWidth-width&& x >= 0)
 		{
 			
 			position.x = x;
@@ -138,7 +138,7 @@ public class FCamera {
 	 */
 	public void setY(double y) {
 		
-		if(y <= mapHeight-height&& y > 0)
+		if(y <= mapHeight-height&& y >= 0)
 		{
 
 			position.y = y;
