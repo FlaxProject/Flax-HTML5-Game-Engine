@@ -104,6 +104,7 @@ public abstract class FlaxEngine {
 		initEngine(insertId);
 		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
 		editor = new Weave(insertId, drawingSpace, editorOverLay, getCurrentMap());
+		
 	}
 
 
@@ -250,7 +251,13 @@ public abstract class FlaxEngine {
 			
 			engineStatus = true;
 			RootPanel.get(insertId).remove(splashScreen);
-			editor.toggle();
+			/*
+			 * Rudimentary check to see if the client's resolution is high enough to actually use weave
+			 * only for debugging purposes (mobile etc) so remove this when there's a better way.
+			 */
+			if ((Window.getClientHeight() > 768) || (Window.getClientWidth() > 1024)){
+				editor.toggle();
+			}
 		}
 
 		return engineStatus;

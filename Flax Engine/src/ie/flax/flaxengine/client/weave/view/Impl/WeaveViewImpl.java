@@ -26,6 +26,11 @@ public class WeaveViewImpl implements WeaveView{
 	
 	private State currentViewState;
 	
+	private final int EAST_PERCENT_WIDTH = 20;
+	private final int EAST_PERCENT_HEIGHT = 100;
+	private final int SOUTH_PERCENT_WIDTH = 100 - EAST_PERCENT_WIDTH;
+	private final int SOUTH_PERCENT_HEIGHT = 15;
+	
 	
 	//FIXME there is a problem with the canvas been overlapping the panels made here
 	// I fixed it using a CSS position absolute. Though might want to make the game canvas resize
@@ -41,13 +46,13 @@ public class WeaveViewImpl implements WeaveView{
 		
 		eastStackPanel = new StackLayoutPanel(Unit.PX);
 		eastStackPanel.setAnimationDuration(AnimationTime);		
-		eastStackPanel.setWidth("250px");
+		eastStackPanel.setWidth("100%");
 		eastStackPanel.setHeight("100%");
 	
 		
 		eastPanel = new VerticalPanel(); 
-		eastPanel.setWidth("250px");
-		eastPanel.setHeight(Window.getClientHeight()+"px");
+		eastPanel.setWidth(EAST_PERCENT_WIDTH + "%");
+		eastPanel.setHeight(EAST_PERCENT_HEIGHT+ "%");
 		eastPanel.add(eastStackPanel);
 		eastPanel.setCellHeight(eastStackPanel, "80%");
 		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
@@ -55,8 +60,9 @@ public class WeaveViewImpl implements WeaveView{
 		
 				
 		southPanel = new TabPanel();
-		southPanel.setWidth( (Window.getClientWidth()- eastPanel.getOffsetWidth()) +"px");
-		southPanel.setHeight("140px");
+		//southPanel.setWidth( (Window.getClientWidth()- eastPanel.getOffsetWidth()) +"px");
+		southPanel.setWidth(SOUTH_PERCENT_WIDTH+"%");
+		southPanel.setHeight(SOUTH_PERCENT_HEIGHT+"%");
 		southPanel.setAnimationEnabled(true);
 	
 		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
@@ -67,7 +73,7 @@ public class WeaveViewImpl implements WeaveView{
 		eastAnimate = new AnimationSlide(eastPanel.getElement());
 		
 		
-		FLog.debug("WeaveView was constructed sucessfully");
+		FLog.debug("WeaveView was constructed successfully");
 
 	}
 
@@ -131,12 +137,4 @@ public class WeaveViewImpl implements WeaveView{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	
-
-	
-	
-	
-
 }
