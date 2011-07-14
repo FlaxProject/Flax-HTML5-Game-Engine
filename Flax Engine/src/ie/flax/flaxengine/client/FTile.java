@@ -34,9 +34,10 @@ public class FTile implements JsonSerializable{
 		
 		this.x = x;
 		this.y = y;
-		this.setTexture(texture);
+		this.texture = texture;
+		this.setTileTexture(texture, img, tileSize);
 		
-		FLog.debug( this + " was created width  ( "+ x + "x, " +  y + "y )" );
+		//FLog.debug( this + " was created width  ( "+ x + "x, " +  y + "y )" );
 	}
 	
 	
@@ -131,10 +132,15 @@ public class FTile implements JsonSerializable{
 		
 		numTilesWidth = (img.getWidth() / tileSize);
 		ySrc = (int) (texture / numTilesWidth);
-		xSrc = texture % numTilesWidth;				
+		xSrc = texture % numTilesWidth;	
+		
+		
 		
 		textureX = xSrc * tileSize;
 		textureY = ySrc * tileSize;
+		
+		
+		//FLog.debug("t" + textureX);
 	}
 	
 	

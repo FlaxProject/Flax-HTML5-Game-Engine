@@ -127,7 +127,7 @@ public class FCamera {
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 
-			EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+			//EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
 		}
 	}
 
@@ -145,7 +145,7 @@ public class FCamera {
 			FLog.trace(this.toString() + " setY(double " + position.y + ") ");
 			
 
-			EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+			//EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
 		}
 		
 	}

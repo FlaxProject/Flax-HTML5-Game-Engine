@@ -177,9 +177,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	 * @return
 	 */
 	public FTile getTile(int xClick, int yClick) //absolute values
-	{
-		
-		
+	{		
 		/**
 		 * Both the camera and click values are absolute pixel values
 		 * aadding them togtheier and divding them by the tilesize and then dropping the decimal 
@@ -187,26 +185,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		 */
 		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
 		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
-		int mapWidthRelative = width;
 		
-		int index = clickX + (clickY*mapWidthRelative) ;
+		//FLog.debug(" (" + xClick + " "+ yClick + ") index" + index);
 		
-		FLog.debug(" (" + xClick + " "+ yClick + ") index" + index);
-		
-		return tiles.get( index );
-
-//		
-//		for(FTile obj : tiles)
-//		{
-//			if(obj.getX() == clickX && obj.getY() == clickY)
-//			{
-//				FLog.debug("getTile(" + clickX + " "+ clickY + ")");
-//				return obj;			
-//			}
-//		}
-//		
-//		FLog.debug("getTile(" + clickX + " "+ clickY + ") NOT FOUND");
-		//return null;
+		return tiles.get( clickX + (clickY*width) );
 	}
 	
 	
@@ -287,21 +269,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			
 			y++;
 		}
-//						
-//		if( (newMapObj.width % tileSize != 0) || (newMapObj.height % tileSize != 0) )
-//		{
-//			this.width = newMapObj.width/tileSize;
-//			this.height = newMapObj.height/tileSize;
-//			
-//			this.width  *=tileSize;
-//			this.height *=tileSize;
-//			
-//			Window.alert("Error in map data" + "\n\n" + "Map width and height are not multiples of the tilesize, I rounded them down for you to \n\n" + width + " by " + height + "\n" + " Everything is sorted :D");
-//		
-//		}else{
-			
-//		}
-		
+
 	}
 
 	/**
@@ -322,8 +290,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			 * Creates a temp FMap object from the JSON string which is stored
 			 * in the event object which was pulled from the server
 			 */
-			FMap temp = fromJson(e.getDataLoadedFromFile()); 
-			replaceMap(temp); //op code : this = temp;
+			final FMap temp = fromJson(e.getDataLoadedFromFile()); 
+		
 			
 			
 			//Loops though all objects from map
@@ -360,11 +328,19 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			 * Loads the tilesheet of the map, waits for the onLoad call back and fires a ImageSelection 
 			 * event which will load the tilesheet into the tileMenuView
 			 */
-			Graphic.getSingleton().loadImage(tileSheet).addLoadHanderl( new LoadHandler() {
+			Graphic.getSingleton().loadImage(temp.getTileSheet()).addLoadHanderl( new LoadHandler() {
 				
 				@Override
 				public void onLoad(LoadEvent event) {
-					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Idenfiter.TILE_SHEET));				
+					
+					/**
+					 * Only load in the new map data once all the images have loaded for the map.
+					 * So that the calucations for which texture to pick from an image can be done at load and not during frame 
+					 */
+					replaceMap(temp); //op code : this = temp;
+					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Idenfiter.TILE_SHEET));	
+					
+				
 				}
 			});	
 			
