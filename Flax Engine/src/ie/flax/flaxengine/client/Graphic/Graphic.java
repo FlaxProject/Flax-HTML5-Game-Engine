@@ -165,6 +165,8 @@ public class Graphic {
      * 
      * We're not using requestAnimationFrame for the moment. We will use
      * it later, but currently it's just too spotty for performance.
+     * 
+     * FIXME: this is taking more CPU than it should.
      */
     public native void requestAnimationFrame(TimerCallback callback) /*-{
 		var fn = function() {

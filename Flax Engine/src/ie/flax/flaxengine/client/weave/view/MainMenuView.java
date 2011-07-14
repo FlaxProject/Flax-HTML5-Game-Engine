@@ -8,7 +8,10 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
@@ -48,6 +51,15 @@ public class MainMenuView extends MenuBar {
 				event.preventDefault();
 			}
 		}, ClickEvent.getType());
+		
+		this.addHandler(new MouseOutHandler() {
+			
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				
+				selectItem(null);
+			}
+		}, MouseOutEvent.getType());
 		
 		window = new FWindow("Window");
 	
@@ -92,6 +104,7 @@ public class MainMenuView extends MenuBar {
 		//ignore anything that gives focus
 		//super.focus();
 	}
+	
 }
 
 
