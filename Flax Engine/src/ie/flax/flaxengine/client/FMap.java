@@ -60,13 +60,20 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	private String name;
 	private boolean Loaded; 
 	private Canvas drawingSpace;
+	private ImageElement tileSheetImage;
 	
 	/**
 	 * This holds the string which is used to reference the tileSheet image in the imageLibary
 	 */
 	private String tileSheet;	
 	
+	
+	/**
+	 * Tiles are stored in this list and have relative corrdinates. IE (1,0) (2,0) .... (3,3)
+	 * The relative unit it TILES 
+	 */
 	private List<FTile> tiles = new ArrayList<FTile>();
+	
 	private List<FObject> objects = new ArrayList<FObject>();
 	private List<FEntity> entities = new ArrayList<FEntity>();
 
@@ -111,18 +118,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		double camY = cam.getY();
 		double camXWidth = camX+cam.getWidth();
 		double camYHeight = camY+cam.getHeight();
-		ImageElement tileSheetImage = Graphic.getSingleton().getImage(tileSheet);
 
 		if(tileSheetImage != null)
-		{
-		
-			//for(FTile temp :  tiles)
-			//{
-				//check if the tile can be seen on screen before drawing
-				//if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-					//temp.draw(tileSheetImage, this.tileSize, temp.getX()-camX, temp.getY()-camY,drawingSpace.getContext2d());				
-			//}
-			
+		{		
 			
 			int camXRelative = (int) (cam.getX()/tileSize);
 			int camYRelative = (int) (cam.getY()/tileSize);
@@ -140,17 +138,18 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				// in number of tiles - relative
 				while( camXRelative < camXAndWidth )
 				{
-					int index = camXRelative + (camYRelative *  mapWidthRelative );
-					FTile t = tiles.get(index );					
-					t.draw(Graphic.getSingleton().getImage(tileSheet), tileSize, ( t.getX()*tileSize - camXRelativeCopy*tileSize ) , ( t.getY()*tileSize - camYRelativeCopy*tileSize ), drawingSpace.getContext2d());					
-					camXRelative++;
+					FTile t = tiles.get(camXRelative + (camYRelative *  mapWidthRelative ));					
+					t.draw(tileSheetImage, tileSize, ( t.getX()*tileSize - camXRelativeCopy*tileSize ) , ( t.getY()*tileSize - camYRelativeCopy*tileSize ), drawingSpace.getContext2d());					
 					
+					camXRelative++;					
 				}
 				
 				 camXRelative = camXRelativeCopy; //rest the X to intial
 				
 				 camYRelative++;				
 			}
+			
+			
 			
 			for(FObject temp : objects)
 			{
@@ -345,7 +344,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			});	
 			
 			//load another tilesheet by default	
-			Graphic.getSingleton().loadImage("http://flax.ie/test/tiles.png");		
+			Graphic.getSingleton().loadImage("http://flax.ie/test/tiles.png");	
+			
+			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
 			Loaded = true;
@@ -462,11 +463,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 
 	
 	/**
-	 * Sets the tileSheet of the engine
+	 * Sets the tileSheet of the engine and also sets the FMaps tilesheet ImageEelement to that message
 	 * @param tileSheet
 	 */
 	public void setTileSheet(String tileSheet) {
 		this.tileSheet = tileSheet;
+		this.tileSheetImage = Graphic.getSingleton().getImage(tileSheet);
 	}
 
 	/**
@@ -614,10 +616,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 
 
 
+	//TODO - CARL comment
 	@Override
 	public void onCameraUpdate(CameraUpdateEvent e) {
-		drawingSpace.getContext2d().fillRect(0, 0, 
-				drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
+		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
 		draw(null, null);
 	}
 
