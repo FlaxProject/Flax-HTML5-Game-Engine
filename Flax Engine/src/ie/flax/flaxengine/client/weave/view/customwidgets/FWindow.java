@@ -59,7 +59,6 @@ public class FWindow {
 				(Window.getClientHeight()/2)-(window.getOffsetHeight()/2));
 		window.hide();
 
-		FLog.error("FWindow with title [" + title + "] was created");
 		RootPanel.get().add(window);
 		
 		window.addCloseHandler(new CloseHandler<PopupPanel>() {
@@ -95,7 +94,7 @@ public class FWindow {
 	}
 
 	public void setTitle(String title) {
-		//window.setText(title);
+		window.setText(title);
 	}
 
 	public void show() {
@@ -113,7 +112,8 @@ public class FWindow {
  class ClosablePopup extends DialogBox {
 
    private Anchor closeAnchor;
-
+   FlexTable captionLayoutTable = new FlexTable();
+   
    /**
     * Instantiates new closable popup.
     *
@@ -164,4 +164,10 @@ public class FWindow {
    public void close(){
 	   hide();
    }
+   
+   @Override
+   public void setText(String text) {
+	   captionLayoutTable.setText(0, 0, text);
+   }
+   
  }

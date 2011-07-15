@@ -95,7 +95,8 @@ public abstract class FlaxEngine {
 	 * @param CSSclass
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
-		
+
+		FileHandle.writeStringToLocalStorage("test", "I am a test string");
 		this.insertId = insertId;
 		splashScreen = new SplashScreen();
 		RootPanel.get(insertId).add(splashScreen, 0, 0);
