@@ -1,20 +1,14 @@
 package ie.flax.flaxengine.client.weave.view.customwidgets;
 
-import ie.flax.flaxengine.client.FLog;
-import ie.flax.flaxengine.client.events.EventBus;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.i18n.client.HasDirection;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -25,149 +19,150 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import com.google.gwt.i18n.client.HasDirection;
 /**
  * Draggable window, with a header and a default settings setup
  * 
  * @param title
  * 
  * @author Ciaran McCann
+ * @author Carl Lange
  * 
  */
 public class FWindow {
-	
-	//FIXME CARL - Dialog panel needs to be changed to somthing else, so we can get an X in top right or somthing.
-	// maybe even mac style slide down sheet. what ever.
+    private final VerticalPanel mainPanel;
+    private final ClosablePopup window;
 
-	private final VerticalPanel mainPanel;
-	private final ClosablePopup window;
+    public FWindow(String title) {
 
-	public FWindow(String title) {
+        window = new ClosablePopup(title, true);
 
-		window = new ClosablePopup(title, true);
-		
-		mainPanel = new VerticalPanel();
-		
-		window.add(mainPanel);
-		
-		//window.setText(title);
-		window.setGlassEnabled(true);
-		window.setAnimationEnabled(true);
-		window.show();
-		
-		window.setPopupPosition((Window.getClientWidth()/2)-(window.getOffsetWidth()/2), 
-				(Window.getClientHeight()/2)-(window.getOffsetHeight()/2));
-		window.hide();
+        mainPanel = new VerticalPanel();
 
-		RootPanel.get().add(window);
-		
-		window.addCloseHandler(new CloseHandler<PopupPanel>() {
-			
-			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
-				mainPanel.clear();
-			}
-		});
-	}
-	
+        window.add(mainPanel);
 
-	/**
-	 * Adds widgets to vertical panel in digial window
-	 * 
-	 * @param widget
-	 */
-	public void add(Widget widget) {
-		mainPanel.add(widget);
-	}
+        // window.setText(title);
+        window.setGlassEnabled(true);
+        window.setAnimationEnabled(true);
+        window.show();
 
-	public void close(){
-		window.close();
-	}
-	
-	/**
-	 * Return reference to the Vertical panel in the Fwindow
-	 * 
-	 * @return
-	 */
-	public HasWidgets asWdidget() {
-		return mainPanel;
-	}
+        window.setPopupPosition(
+                (Window.getClientWidth() / 2) - (window.getOffsetWidth() / 2),
+                (Window.getClientHeight() / 2) - (window.getOffsetHeight() / 2));
+        window.hide();
 
-	public void setTitle(String title) {
-		window.setText(title);
-	}
+        RootPanel.get().add(window);
 
-	public void show() {
-		window.show();
-		window.setPopupPosition((Window.getClientWidth()/2)-(window.getOffsetWidth()/2), 
-				(Window.getClientHeight()/2)-(window.getOffsetHeight()/2));
-	}
+        window.addCloseHandler(new CloseHandler<PopupPanel>() {
+
+            @Override
+            public void onClose(CloseEvent<PopupPanel> event) {
+                mainPanel.clear();
+            }
+        });
+    }
+
+    /**
+     * Adds widgets to vertical panel in digial window
+     * 
+     * @param widget
+     */
+    public void add(Widget widget) {
+        mainPanel.add(widget);
+    }
+
+    public void close() {
+        window.close();
+    }
+
+    /**
+     * Return reference to the Vertical panel in the Fwindow
+     * 
+     * @return
+     */
+    public HasWidgets asWdidget() {
+        return mainPanel;
+    }
+
+    public void setTitle(String title) {
+        window.setText(title);
+    }
+
+    public void show() {
+        window.show();
+        window.setPopupPosition(
+                (Window.getClientWidth() / 2) - (window.getOffsetWidth() / 2),
+                (Window.getClientHeight() / 2) - (window.getOffsetHeight() / 2));
+    }
 
 }
 
-
 /**
-* @author Andrey Talnikov
-*/
- class ClosablePopup extends DialogBox {
+ * @author Andrey Talnikov
+ */
+class ClosablePopup extends DialogBox {
 
-   private Anchor closeAnchor;
-   FlexTable captionLayoutTable = new FlexTable();
-   
-   /**
-    * Instantiates new closable popup.
-    *
-    * @param title        the title
-    * @param defaultClose it {@code true}, hide popup on 'x' click
-    */
-   public ClosablePopup(String title, boolean defaultClose) {
-       super(true);
+    private Anchor closeAnchor;
+    FlexTable captionLayoutTable = new FlexTable();
 
-       closeAnchor = new Anchor("X");
+    /**
+     * Instantiates new closable popup.
+     * 
+     * @param title
+     *            the title
+     * @param defaultClose
+     *            it {@code true}, hide popup on 'x' click
+     */
+    public ClosablePopup(String title, boolean defaultClose) {
+        super(true);
 
-       FlexTable captionLayoutTable = new FlexTable();
-       captionLayoutTable.setWidth("100%");
-       captionLayoutTable.setText(0, 0, title);
-       captionLayoutTable.setWidget(0, 1, closeAnchor);
-       captionLayoutTable.getCellFormatter().setHorizontalAlignment(0, 1,
-               HasHorizontalAlignment.HorizontalAlignmentConstant.endOf(HasDirection.Direction.LTR));
+        closeAnchor = new Anchor("X");
 
-       HTML caption = (HTML) getCaption();
-       caption.getElement().appendChild(captionLayoutTable.getElement());
+        captionLayoutTable = new FlexTable();
+        captionLayoutTable.setWidth("100%");
+        captionLayoutTable.setText(0, 0, title);
+        captionLayoutTable.setWidget(0, 1, closeAnchor);
+        captionLayoutTable.getCellFormatter().setHorizontalAlignment(
+                0,
+                1,
+                HasHorizontalAlignment.HorizontalAlignmentConstant
+                        .endOf(HasDirection.Direction.LTR));
 
-       caption.addClickHandler(new ClickHandler() {
-           @Override
-           public void onClick(ClickEvent event) {
-               EventTarget target = event.getNativeEvent().getEventTarget();
-               Element targetElement = (Element) target.cast();
+        HTML caption = (HTML) getCaption();
+        caption.getElement().appendChild(captionLayoutTable.getElement());
 
-               if (targetElement == closeAnchor.getElement()) {
-                   closeAnchor.fireEvent(event);
-               }
-           }
-       });
+        caption.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                EventTarget target = event.getNativeEvent().getEventTarget();
+                Element targetElement = (Element) target.cast();
 
-       if (defaultClose) {
-           addCloseHandler(new ClickHandler() {
-               @Override
-               public void onClick(ClickEvent event) {
-                   hide();
-               }
-           });
-       }
-   }
+                if (targetElement == closeAnchor.getElement()) {
+                    closeAnchor.fireEvent(event);
+                }
+            }
+        });
 
-   public void addCloseHandler(ClickHandler handler) {
-       closeAnchor.addClickHandler(handler);
-   }
-   
-   public void close(){
-	   hide();
-   }
-   
-   @Override
-   public void setText(String text) {
-	   captionLayoutTable.setText(0, 0, text);
-   }
-   
- }
+        if (defaultClose) {
+            addCloseHandler(new ClickHandler() {
+                @Override
+                public void onClick(ClickEvent event) {
+                    hide();
+                }
+            });
+        }
+    }
+
+    public void addCloseHandler(ClickHandler handler) {
+        closeAnchor.addClickHandler(handler);
+    }
+
+    public void close() {
+        hide();
+    }
+
+    @Override
+    public void setText(String text) {
+        captionLayoutTable.setText(0, 0, text);
+    }
+
+}

@@ -11,100 +11,98 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
- * This is the menu bar in the north panel of Weave.
- * Its not really done in MVP, may want to look into converting it sometime soon
+ * This is the menu bar in the north panel of Weave. Its not really done in MVP,
+ * may want to look into converting it sometime soon
  * 
  * @author Ciarán McCann
- *
+ * 
  */
 public class MainMenuView extends MenuBar {
 
-	private MenuBar file;
-	private Command uploadFile;
-	private Command exportImport;
-	private Weave model;
-	private FWindow window;
-	
-	private AbstractPresenter fileuploadPresneter;
-	private AbstractPresenter ImportExportPresenter;
+    private MenuBar file;
+    private Command uploadFile;
+    private Command exportImport;
+    private Weave model;
+    private FWindow window;
 
-	public MainMenuView(Weave model) {
-		
-		this.model = model;
-		
-		file = new MenuBar();
-		bindCommands();
+    private AbstractPresenter fileuploadPresneter;
+    private AbstractPresenter ImportExportPresenter;
 
-		//this.addItem("File", file);
-		this.addItem("File Upload", uploadFile);
-		this.addItem("Export/Import Map", exportImport);
-		this.setAnimationEnabled(true);
-		
-		this.addHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-			}
-		}, ClickEvent.getType());
-		
-		this.addHandler(new MouseOutHandler() {
-			
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				
-				selectItem(null);
-			}
-		}, MouseOutEvent.getType());
-		
-		window = new FWindow("Window");
-	
-		fileuploadPresneter = new FileUploadPresenter();
-		ImportExportPresenter = new MapImportExportPresenter(model);
-	}
+    public MainMenuView(Weave model) {
 
-	/**
-	 * Binds the commands to the menu items
-	 */
-	private void bindCommands() {
+        this.model = model;
 
-		//TODO: Async this code, some reason not working atm. No bige for the mo
-		//GWT.runAsync(new RunAsyncCallback() {
-			exportImport = new Command() {
+        file = new MenuBar();
+        bindCommands();
 
-					@Override
-					public void execute() {
-	
-						window.setTitle("Import/Export Map");	
-						window.add(ImportExportPresenter.getView());
-						window.show();
+        // this.addItem("File", file);
+        this.addItem("File Upload", uploadFile);
+        this.addItem("Export/Import Map", exportImport);
+        this.setAnimationEnabled(true);
 
-					}
-				};
+        this.addHandler(new ClickHandler() {
 
-				uploadFile = new Command() {
+            @Override
+            public void onClick(ClickEvent event) {
+                event.preventDefault();
+            }
+        }, ClickEvent.getType());
 
-					@Override
-					public void execute() {
-					
-							window.setTitle("Import/Export Map");								
-							window.add(fileuploadPresneter.getView());						
-							window.show();
+        this.addHandler(new MouseOutHandler() {
 
-					}
-				};
-			}
-	
-	@Override
-	public void focus() {
-		//ignore anything that gives focus
-		//super.focus();
-	}
-	
+            @Override
+            public void onMouseOut(MouseOutEvent event) {
+
+                selectItem(null);
+            }
+        }, MouseOutEvent.getType());
+
+        window = new FWindow("Window");
+
+        fileuploadPresneter = new FileUploadPresenter();
+        ImportExportPresenter = new MapImportExportPresenter(model);
+    }
+
+    /**
+     * Binds the commands to the menu items
+     */
+    private void bindCommands() {
+
+        // TODO: Async this code, some reason not working atm. No bige for the
+        // mo
+        // GWT.runAsync(new RunAsyncCallback() {
+        exportImport = new Command() {
+
+            @Override
+            public void execute() {
+
+                window.setTitle("Import/Export Map");
+                window.add(ImportExportPresenter.getView());
+                window.show();
+
+            }
+        };
+
+        uploadFile = new Command() {
+
+            @Override
+            public void execute() {
+
+                window.setTitle("Upload Tilesheet");
+                window.add(fileuploadPresneter.getView());
+                window.show();
+
+            }
+        };
+    }
+
+    @Override
+    public void focus() {
+        // ignore anything that gives focus
+        // super.focus();
+    }
+
 }
-
-
