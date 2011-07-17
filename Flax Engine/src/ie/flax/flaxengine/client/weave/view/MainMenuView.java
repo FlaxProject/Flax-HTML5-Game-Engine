@@ -39,7 +39,7 @@ public class MainMenuView extends MenuBar {
         bindCommands();
 
         // this.addItem("File", file);
-        this.addItem("File Upload", uploadFile);
+        this.addItem("Upload Tilesheet", uploadFile);
         this.addItem("Export/Import Map", exportImport);
         this.setAnimationEnabled(true);
 
@@ -97,12 +97,12 @@ public class MainMenuView extends MenuBar {
 
             }
         };
+        // }
     }
 
     @Override
     public void focus() {
         // ignore anything that gives focus
-        // super.focus();
     }
 
 }

@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Draggable window, with a header and a default settings setup
+ * Draggable, closeable, modal window.
  * 
  * @param title
  * 
@@ -32,6 +32,13 @@ public class FWindow {
     private final VerticalPanel mainPanel;
     private final ClosablePopup window;
 
+    /**
+     * Constructs, but does not show, a draggable, closeable, modal window.
+     * 
+     * @param title
+     *            The title of the window to construct. This can be changed
+     *            later with {@link setTitle}.
+     */
     public FWindow(String title) {
 
         window = new ClosablePopup(title, true);
@@ -40,7 +47,6 @@ public class FWindow {
 
         window.add(mainPanel);
 
-        // window.setText(title);
         window.setGlassEnabled(true);
         window.setAnimationEnabled(true);
         window.show();
@@ -70,6 +76,9 @@ public class FWindow {
         mainPanel.add(widget);
     }
 
+    /**
+     * Closes the window - unsure if this works. TODO: find out if this works.
+     */
     public void close() {
         window.close();
     }
@@ -83,10 +92,19 @@ public class FWindow {
         return mainPanel;
     }
 
+    /**
+     * Sets the title of the window - that is, the name in the titlebar, not the
+     * tooltip.
+     * 
+     * @param title
+     */
     public void setTitle(String title) {
         window.setText(title);
     }
 
+    /**
+     * Shows the window in the centre of the screen.
+     */
     public void show() {
         window.show();
         window.setPopupPosition(
