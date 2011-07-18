@@ -6,6 +6,10 @@ import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.IsWidget;
@@ -31,6 +35,8 @@ public class WeaveViewImpl implements WeaveView{
 	
 	private final int EAST_PERCENT_WIDTH = 20;
 	private final int EAST_PERCENT_HEIGHT = 100;
+	private final int EAST_PERCENT_TOP_CELL_HEIGHT = 80;
+	private final int SOUTHEAST_CORNER_PERCENT_CELL_HEIGHT = 100-EAST_PERCENT_TOP_CELL_HEIGHT;
 	private final int SOUTH_PERCENT_WIDTH = 100 - EAST_PERCENT_WIDTH;
 	private final int SOUTH_PERCENT_HEIGHT = 15;
 	
@@ -38,13 +44,17 @@ public class WeaveViewImpl implements WeaveView{
 	//FIXME there is a problem with the canvas been overlapping the panels made here
 	// I fixed it using a CSS position absolute. Though might want to make the game canvas resize
 	// when the editor is involved.
-	public WeaveViewImpl()
-	{
+	public WeaveViewImpl() {
 		
 		currentViewState = State.HIDDEN;
 				
 		northPanel = new SimplePanel();		
-		northPanel.setWidth(Window.getClientWidth()+"px");
+		northPanel.setWidth("100%"/*Window.getClientWidth()+"px"*/);
+		
+		/*
+		 * This adds the northpanel to the RootPanel.
+		 * The positioning (0,-44) is in order to get the panel to slide from the top on toggle.
+		 */
 		RootPanel.get().add(northPanel, 0, -44 );
 		
 		eastStackPanel = new StackLayoutPanel(Unit.PX);
@@ -57,17 +67,16 @@ public class WeaveViewImpl implements WeaveView{
 		eastPanel.setWidth(EAST_PERCENT_WIDTH + "%");
 		eastPanel.setHeight(EAST_PERCENT_HEIGHT+ "%");
 		eastPanel.add(eastStackPanel);
-		eastPanel.setCellHeight(eastStackPanel, "80%");
+		eastPanel.setCellHeight(eastStackPanel, EAST_PERCENT_TOP_CELL_HEIGHT+"%");
 		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
-				
 		
-				
+		
 		southPanel = new TabPanel();
-		//southPanel.setWidth( (Window.getClientWidth()- eastPanel.getOffsetWidth()) +"px");
+		
 		southPanel.setWidth(SOUTH_PERCENT_WIDTH+"%");
 		southPanel.setHeight(SOUTH_PERCENT_HEIGHT+"%");
 		southPanel.setAnimationEnabled(true);
-	
+		
 		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
 		
 		
@@ -86,7 +95,7 @@ public class WeaveViewImpl implements WeaveView{
 		
 		if(currentViewState == State.SHOW)
 		{
-			//hidding code
+			//hiding code
 			northAnimate.slideTo(0, northPanel.getOffsetHeight()*-1, AnimationTime);
 			southAnimate.slideTo(0, Window.getClientHeight(), AnimationTime);
 			eastAnimate.slideTo(Window.getClientWidth()+eastPanel.getOffsetWidth(), 0, AnimationTime);
@@ -98,7 +107,7 @@ public class WeaveViewImpl implements WeaveView{
 			northAnimate.slideTo(0, 0, AnimationTime);
 			southAnimate.slideTo(0, Window.getClientHeight()-southPanel.getOffsetHeight(), AnimationTime);
 			eastAnimate.slideTo(Window.getClientWidth()-eastPanel.getOffsetWidth(), 0, AnimationTime);
-			currentViewState = State.SHOW;			
+			currentViewState = State.SHOW;	
 		}		
 	}
 
@@ -112,10 +121,8 @@ public class WeaveViewImpl implements WeaveView{
 
 	@Override
 	public void addToSouth(Widget widgetToInsert, String tabText) {
-
 		southPanel.add(widgetToInsert, tabText);	
-		if(southPanel.getWidgetCount() == 1);
-		{
+		if(southPanel.getWidgetCount() == 1) {
 			southPanel.selectTab(0);
 		}
 	}
@@ -128,14 +135,13 @@ public class WeaveViewImpl implements WeaveView{
 
 	@Override
 	public void addToEast(Widget widgetToInsert, String headerText) {
-		eastStackPanel.add(widgetToInsert, headerText, 30);
+		eastStackPanel.add(widgetToInsert, headerText, 30); //make each stack title 30px tall
 	}
 	
 	@Override
-	public void addToSouthEastCornor(Widget widgetToInsert) {
-		
+	public void addToSouthEastCorner(Widget widgetToInsert) {
 			eastPanel.add(widgetToInsert);
-			eastPanel.setCellHeight(widgetToInsert, "20%");
+			eastPanel.setCellHeight(widgetToInsert, SOUTHEAST_CORNER_PERCENT_CELL_HEIGHT+"%");
 	}
 
 

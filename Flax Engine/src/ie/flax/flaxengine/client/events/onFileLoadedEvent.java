@@ -57,10 +57,6 @@ public class onFileLoadedEvent extends GwtEvent<onFileLoadedEventHandler> {
 
 	@Override
 	public com.google.gwt.event.shared.GwtEvent.Type<onFileLoadedEventHandler> getAssociatedType() {
-		// TODO Auto-generated method stub
 		return TYPE;
 	}
-
-	
-
 }

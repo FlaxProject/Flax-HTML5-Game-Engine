@@ -10,7 +10,7 @@ import com.google.gwt.event.shared.GwtEvent;
  */
 public class ImageSelectionEvent extends GwtEvent<ImageSelectionEventHandler> {
 
-	public enum Idenfiter{
+	public enum Identifier{
 		TILE_SHEET,
 		NONE
 	}
@@ -20,19 +20,19 @@ public class ImageSelectionEvent extends GwtEvent<ImageSelectionEventHandler> {
 	 * This the string of file data 
 	 */
 	private String imageUrl;
-	private Idenfiter idenfiter;
+	private Identifier identifier;
 	
-	public ImageSelectionEvent(String imageUrl, Idenfiter idenfiter) {
+	public ImageSelectionEvent(String imageUrl, Identifier identifier) {
 		this.imageUrl = imageUrl;
-		this.idenfiter = idenfiter;
+		this.identifier = identifier;
 	}
 	
 	public String getImageUrl() {
 		return imageUrl;
 	}
 
-	public Idenfiter getIdenfiter() {
-		return idenfiter;
+	public Identifier getIdenfiter() {
+		return identifier;
 	}
 
 	/**

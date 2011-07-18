@@ -7,9 +7,9 @@ import ie.flax.flaxengine.client.events.EventBus;
 
 /**
  * FCamera controls the viewport of a map. It allows for only what the user is looking at to be rendered instead of the whole
- * map making for good performance bust.
+ * map making for good performance boost.
  * 
- * @author Ciaran McCann
+ * @author Ciarán McCann
  *
  */
 public class FCamera {
@@ -22,7 +22,7 @@ public class FCamera {
 	
 		
 	/**
-	 * The position is the vector at the top left hand conor
+	 * The position is the vector at the top left hand corner
 	 * The width and the height define the viewport of the map<br>
 	 * <br>Most of the time the width and height will be the same as the canvas width and height
 	 * @param position
@@ -42,12 +42,12 @@ public class FCamera {
 		EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
 		
 		/**
-		 * These are not set in the constructer as due to the JSON deserailing 
-		 * metho when a map is constructed it will call its set width and height.
+		 * These are not set in the constructor as due to the JSON deserialising 
+		 * method when a map is constructed it will call its set width and height.
 		 * So a call to the camera is made at that time.
 		 */
 		
-		//FIXME: Actually this needs to be chnaged, as what happens when more the one map is loaded, will do for the mo.
+		//FIXME: Actually this needs to be changed, as what happens when more the one map is loaded, will do for the mo.
 		
 		//this.mapWidth = mapWidth;
 		//this.mapHeight = mapHeight;		
@@ -102,7 +102,7 @@ public class FCamera {
 	}	
 	
 	/**
-	 * Gets the cameras x postion
+	 * Gets the camera's x position
 	 * @return
 	 */
 	public double getX()
@@ -111,7 +111,7 @@ public class FCamera {
 	}
 	
 	/**
-	 * Gets the cameras y postition
+	 * Gets the camera's y position
 	 * @return
 	 */
 	public double getY(){
@@ -119,7 +119,7 @@ public class FCamera {
 	}
 	
 	/**
-	 * Sets the cameras x postion, though first it checks
+	 * Sets the cameras x position, though first it checks
 	 * is the input valid
 	 * @param x
 	 */
@@ -138,7 +138,7 @@ public class FCamera {
 	}
 
 	/**
-	 * Sets the cameras y postion, though first it checks
+	 * Sets the cameras y position, though first it checks
 	 * is the input valid
 	 * @param y
 	 */
@@ -154,27 +154,23 @@ public class FCamera {
 
 			EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
 		}
-		
 	}
 	
-	
 	/**
-	 * Incerments the x postion by provided amount
+	 * Increments the x position by provided amount
 	 * @param x
 	 */
-	public void incermentX(double x)
+	public void incrementX(double x)
 	{		
 		setX(x+position.x);
 	}
 	
 	/**
-	 * Incerments the y postion by provided amount
+	 * Increments the y position by provided amount
 	 * @param y
 	 */
-	public void incermentY(double y)
+	public void incrementY(double y)
 	{		
 		setY(y+position.y);	
 	}
-	
-
 }

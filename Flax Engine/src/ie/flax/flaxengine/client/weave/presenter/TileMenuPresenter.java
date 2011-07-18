@@ -43,7 +43,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 
 		window = new FWindow("Window Tile");		
 		uploadPresenter = new FileUploadPresenter();
-		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Idenfiter.TILE_SHEET);			
+		imageLibPresenter =  new ImageLibPresenter(ImageSelectionEvent.Identifier.TILE_SHEET);			
 	}
 
 	
@@ -85,7 +85,7 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 
 	@Override
 	public void onImageSelection(ImageSelectionEvent e) {
-		if (e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET) {
+		if (e.getIdenfiter() == ImageSelectionEvent.Identifier.TILE_SHEET) {
 			
 			
 			ImageElement temp = Graphic.getSingleton().getImage(e.getImageUrl());			

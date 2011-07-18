@@ -9,7 +9,7 @@ import ie.flax.flaxengine.client.FlaxEngine;
 /**
  * This class handles the sprite for objects, like NPC , Characters etc.
  * It handles both non-animated and animated sprites.
- * @author Ciaran McCann
+ * @author Ciarán McCann
  *
  */
 public class Sprite {
@@ -47,7 +47,7 @@ public class Sprite {
 	 * The path is the string URL to the image
 	 * 
 	 * Non-Animated Sprites:
-	 * 		If frame width and height equal 0 then its an non aniamted sprite
+	 * 		If frame width and height equal 0 then its an non animated sprite
 	 * 
 	 * Animated Sprites
 	 * 		Once the frame with and height is greater then 0, the sprite is 
@@ -63,7 +63,7 @@ public class Sprite {
 		this.frameWidth = frameWidth;
 		image =  Graphic.getSingleton().getFImage(Path); 
 		
-		//If the frame width and height are not speificed then its not an animated sprite
+		//If the frame width and height are not specified then its not an animated sprite
 		if(frameWidth+frameHeight != 0) 
 		{
 			frameCount = image.getImage().getWidth()/frameWidth;
@@ -81,7 +81,7 @@ public class Sprite {
 		
 		if(image.isLoaded())
 		{
-			//If its frameheight is not speificed then its not an animated sprite
+			//If its frameheight is not specified then its not an animated sprite
 			if(fameHeight != 0)
 			{
 				if(animationState == AnimationState.IDE )
@@ -110,7 +110,7 @@ public class Sprite {
 
 	/**
 	 * Moves the animation across the image row to the next frame
-	 * and loops back once it reachs the end.
+	 * and loops back once it reaches the end.
 	 */
 	public void nextFrame()
 	{

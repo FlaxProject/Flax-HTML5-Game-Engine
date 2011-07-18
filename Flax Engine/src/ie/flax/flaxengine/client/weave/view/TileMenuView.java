@@ -6,7 +6,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 
 /**
- * This is the tileSheet view, usally at the south panel
+ * This is the tileSheet view, usually at the south panel
  *
  */
 public interface TileMenuView  {

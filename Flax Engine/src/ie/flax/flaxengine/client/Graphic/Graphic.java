@@ -9,8 +9,8 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 
 /**
- * This is basically a singlton class which loads and stores references to all
- * the images. It also has some useful ultilty drawing classes
+ * This is basically a singleton class which loads and stores references to all
+ * the images. It also has some useful utility drawing classes
  * 
  * @author Ciaran McCann
  */
@@ -47,7 +47,7 @@ public class Graphic {
     public void drawGrid(double width, double height, int gap,final Canvas canvas) {
        
     	
-    	//TODO fix this for better optimixation
+    	//TODO fix this for better optimisation
     	// canvas.getContext2d().setStrokeStyleDev(Color.RED);
         for (int x = 0; x < width; x += gap) {
             canvas.getContext2d().moveTo(x, 0);
@@ -115,7 +115,7 @@ public class Graphic {
     }
 
     /**
-     * Gets all the FImage objects in the libary.
+     * Gets all the FImage objects in the library.
      * 
      * @return
      */
@@ -135,7 +135,7 @@ public class Graphic {
         if (imageLibary.size() == 0) return true;
 
         // FIXME: Currently does noting, look into the imageloaded event for
-        // answer, though atm doesnt effect the engine
+        // answer, though atm doesn't effect the engine
         for (String key : imageLibary.keySet()) {
 
             if (imageLibary.get(key).isLoaded() != true) 

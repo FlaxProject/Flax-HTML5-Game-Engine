@@ -76,8 +76,8 @@ public class Weave implements ImageSelectionEventHandler{
 	}
 		
 	/**
-	 * This binds the goble key events for the editor, such as the backslash.
-	 * Though in furture the canvas keyevents may be changed to goble rootpanel events and thus
+	 * This binds the global key events for the editor, such as the backslash.
+	 * Though in future the canvas keyevents may be changed to global rootpanel events and thus
 	 * this method will handle all them as well.
 	 */
 	public void bind()
@@ -97,19 +97,19 @@ public class Weave implements ImageSelectionEventHandler{
 					 * The event.preventDefault() is to avoid anything else scrolling with the camera.
 					 */
 					if(event.isUpArrow()){
-						FlaxEngine.camera.incermentY(-cameraPanSpeed);		    
+						FlaxEngine.camera.incrementY(-cameraPanSpeed);		    
 						event.preventDefault();
 					}
 					if(event.isDownArrow()){
-						FlaxEngine.camera.incermentY(cameraPanSpeed);
+						FlaxEngine.camera.incrementY(cameraPanSpeed);
 						event.preventDefault();
 					}
 					if(event.isLeftArrow()){
-						FlaxEngine.camera.incermentX(-cameraPanSpeed);
+						FlaxEngine.camera.incrementX(-cameraPanSpeed);
 						event.preventDefault();
 					}
 					if(event.isRightArrow()){
-						FlaxEngine.camera.incermentX(cameraPanSpeed);
+						FlaxEngine.camera.incrementX(cameraPanSpeed);
 						event.preventDefault();
 					}
 										
@@ -144,7 +144,7 @@ public class Weave implements ImageSelectionEventHandler{
 	
 	/**
 	 * draws a Grid over the map so its easier to edit
-	 * FIXME: last time I tried this frame rate was killed, look into in furture.
+	 * FIXME: last time I tried this frame rate was killed, look into in future.
 	 */
 	public void drawGrid() {
 	 
@@ -157,7 +157,12 @@ public class Weave implements ImageSelectionEventHandler{
 
 
 	/**
+<<<<<<< HEAD
 	 * Sets the texture of the tile at location (x, y)
+=======
+	 * Finds the tile the user clicked on, if there is not one there it will create one with the current tile info
+	 * and add it to the map. It then returns the tile
+>>>>>>> refs/remotes/origin/master
 	 * @param x
 	 * @param y
 	 */
@@ -201,12 +206,6 @@ public class Weave implements ImageSelectionEventHandler{
 	
 	public void onMouseDown(MouseDownEvent event)
 	{		
-		/*
-		 * I know, preventDefault is bad in general, but it's
-		 * necessary here. This is to stop the selection happening (of widgets etc).
-		 */
-		event.preventDefault();
-		
 		if (event.isShiftKeyDown())
 		{				
 			tileRegion.onMouseDown(event);	
@@ -234,7 +233,7 @@ public class Weave implements ImageSelectionEventHandler{
 	@Override
 	public void onImageSelection(ImageSelectionEvent e) {
 		
-		if(e.getIdenfiter() == ImageSelectionEvent.Idenfiter.TILE_SHEET)
+		if(e.getIdenfiter() == ImageSelectionEvent.Identifier.TILE_SHEET)
 		{
 			map.setTileSheet(e.getImageUrl());
 		}
@@ -263,8 +262,4 @@ public class Weave implements ImageSelectionEventHandler{
 		running = !running;
 		WeavePresenter.toggleDisplay();
 	}
-
-
-
-	
 }
