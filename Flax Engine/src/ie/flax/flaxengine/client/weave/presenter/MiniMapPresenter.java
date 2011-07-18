@@ -21,14 +21,8 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	private final Weave model;
 	private final FCamera cam;
 	private final MiniMapView view;
-	private final int inverseScale = 12; // eg 8 if you want 1/8 scale
-	Timer timer = new Timer() {
-		@Override
-		public void run() {
-			draw();
-		}
-	};
-	
+	private final int inverseScale = 6; // eg 8 if you want 1/8 scale
+
 	
 	@Override
 	public void onMapUpdate(MapUpdateEvent e) {
@@ -38,13 +32,11 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 			//clear();
 			//drawCurrentCameraRectangle();
 			draw();
-		}
-		
+		}		
 	}
 	
 	
 	
-
 	public MiniMapPresenter(Weave editor) {
 		
 		this.model = editor;

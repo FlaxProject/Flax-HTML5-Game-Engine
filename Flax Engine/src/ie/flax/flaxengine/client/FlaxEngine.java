@@ -84,15 +84,9 @@ public abstract class FlaxEngine {
 	};
 
 	/**
-	 * This constructor initlizes the flax engine and setup default settings.
-	 * Takes in an array of strings which contain the address to map files.
-	 * 
+	 * This is the engine constructor
 	 * @param mapPaths
-	 *            - array of address to maps. if the insertId is not found it
-	 *            will dump the canvas in the body tag
 	 * @param insertId
-	 *            - id of element of which to insert the canvas
-	 * @param CSSclass
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
 

@@ -133,7 +133,7 @@ public class FCamera {
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 
-			//EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+			EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
 		}
 	}
 
@@ -145,14 +145,14 @@ public class FCamera {
 	public void setY(double y) {
 		
 		//FIXME CIARAN - magic number, only for testing will change at some piont
-		if(y <= mapHeight-(height/32)&& y > 0) 
+		if(y <= (mapHeight*32)-(height)&& y > 0) 
 		{
 
 			position.y = y;
 			FLog.trace(this.toString() + " setY(double " + position.y + ") ");
 			
 
-			//EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+			EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
 		}
 		
 	}

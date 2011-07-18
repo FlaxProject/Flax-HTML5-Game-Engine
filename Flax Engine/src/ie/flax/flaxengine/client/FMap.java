@@ -246,7 +246,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		 * well with the ID's etc.
 		 */
 		this.entities = newMapObj.entities;
-	//	this.tiles = newMapObj.tiles;
+		this.tiles = newMapObj.tiles;
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
@@ -257,18 +257,18 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		this.width = newMapObj.width;
 		this.height = newMapObj.height;
 		
-		while ( y < height)
-		{
-			while( x < width)
-			{
-				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
-				x++;
-			}
-			
-			x = 0;
-			
-			y++;
-		}
+//		while ( y < height)
+//		{
+//			while( x < width)
+//			{
+//				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
+//				x++;
+//			}
+//			
+//			x = 0;
+//			
+//			y++;
+//		}
 
 	}
 
