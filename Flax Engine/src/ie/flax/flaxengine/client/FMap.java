@@ -268,7 +268,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 //		}
 
 		
-		this.addEntity(new FEntity(100, 100, 32, 32, new Sprite("http://flax.ie/test/tiles.png", 32, 32), "audio") );
+		//this.addEntity(new FEntity(100, 100, 32, 32, new Sprite("http://flax.ie/test/tiles.png", 32, 32), "audio") );
 	}
 
 	/**
