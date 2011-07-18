@@ -7,8 +7,7 @@ public class onImageLoadedEvent extends GwtEvent<onImageLoadedEventHandler>{
 
 	private String imageName;	
 	
-	public onImageLoadedEvent(String imageName)
-	{
+	public onImageLoadedEvent(String imageName){
 		this.imageName = imageName;
 	}
 	
@@ -16,8 +15,7 @@ public class onImageLoadedEvent extends GwtEvent<onImageLoadedEventHandler>{
 	 * Gets the name of the image which was loaded
 	 * @return
 	 */
-	public String getImageName()
-	{
+	public String getImageName(){
 		return imageName;
 	}
 	
@@ -30,17 +28,11 @@ public class onImageLoadedEvent extends GwtEvent<onImageLoadedEventHandler>{
 
 	@Override
 	public Type<onImageLoadedEventHandler> getAssociatedType() {
-		// TODO Auto-generated method stub
 		return TYPE;
 	}
 
 	@Override
 	protected void dispatch(onImageLoadedEventHandler handler) {
 		handler.onImageLoaded(this);
-		
 	}
-	
-	
-
-
 }

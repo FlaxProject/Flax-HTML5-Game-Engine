@@ -1,7 +1,7 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.Graphic.Graphic;
-import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
 import ie.flax.flaxengine.client.weave.view.FileUploadView;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -46,7 +46,7 @@ public class FileUploadPresenter extends AbstractPresenter {
 	public FileUploadPresenter()
 	{
 		this.display = new FileUploadView();
-		imageLibaryPresenter = new ImageLibPresenter(Idenfiter.NONE);	
+		imageLibaryPresenter = new ImageLibPresenter(Identifier.NONE);	
 		bind();
 	}
 

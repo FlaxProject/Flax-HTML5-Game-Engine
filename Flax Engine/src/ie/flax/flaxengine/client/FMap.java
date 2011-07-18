@@ -6,7 +6,7 @@ import ie.flax.flaxengine.client.events.CameraUpdateEvent;
 import ie.flax.flaxengine.client.events.CameraUpdateEventHandler;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
-import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
 import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
@@ -313,7 +313,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				
 				@Override
 				public void onLoad(LoadEvent event) {
-					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Idenfiter.TILE_SHEET));				
+					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));				
 				}
 			});	
 			

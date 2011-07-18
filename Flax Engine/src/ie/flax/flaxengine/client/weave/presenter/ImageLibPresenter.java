@@ -5,7 +5,7 @@ import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.onImageLoadedEvent;
 import ie.flax.flaxengine.client.events.onImageLoadedEventHandler;
-import ie.flax.flaxengine.client.events.ImageSelectionEvent.Idenfiter;
+import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
 import ie.flax.flaxengine.client.weave.view.ImageLibView;
 import ie.flax.flaxengine.client.weave.view.Impl.ImageLibViewImpl;
 
@@ -23,10 +23,10 @@ public class ImageLibPresenter extends AbstractPresenter implements ImageLibView
 
 	private ImageLibView display;
 	private String currentImage;
-	private Idenfiter typeOfImage;
+	private Identifier typeOfImage;
 	//private FileUploadPresenter uploadPresenter;
 	
-	public ImageLibPresenter(Idenfiter tileSheet)
+	public ImageLibPresenter(Identifier tileSheet)
 	{
 		this.display = new ImageLibViewImpl(this);
 		populate();
