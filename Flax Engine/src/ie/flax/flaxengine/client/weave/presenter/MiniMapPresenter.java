@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import java.util.Date;
+
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
@@ -21,18 +23,25 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	private final Weave model;
 	private final FCamera cam;
 	private final MiniMapView view;
-	private final int inverseScale = 6; // eg 8 if you want 1/8 scale
+	private final int inverseScale = 5; // eg 8 if you want 1/8 scale
 
+	private double oldTime = new Date().getTime();
+	private double currentTime;
+	private double elapsedTime;
+	
 	
 	@Override
 	public void onMapUpdate(MapUpdateEvent e) {
-		
-		if(model.isRunning()) //all ways check to see if weave is running before doing anything intensive
-		{
-			//clear();
-			//drawCurrentCameraRectangle();
-			draw();
-		}		
+		currentTime = new Date().getTime();
+		elapsedTime = currentTime - oldTime;
+		if(model.isRunning()){
+			if (elapsedTime > 2000){
+				draw();
+				FLog.error("draw");
+				oldTime = currentTime;
+			}
+		}
+		FLog.error(elapsedTime+"");
 	}
 	
 	
@@ -72,7 +81,6 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	}
 	
 	private void clear() {
-		FLog.error("clear");
 		view.getCanvas().getContext2d().fillRect(0, 0,
 				view.getCanvas().getCoordinateSpaceWidth()*inverseScale,
 				view.getCanvas().getCoordinateSpaceHeight()*inverseScale);
@@ -98,11 +106,9 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	@Override
 	public void onCameraUpdate(CameraUpdateEvent e) {
 		if (model.isRunning()){
-		clear();
-		draw();
-		drawCurrentCameraRectangle();
+			clear();
+			draw();
+			drawCurrentCameraRectangle();
 		}
 	}
-
-
 }

@@ -1,11 +1,14 @@
 package ie.flax.flaxengine.client.weave;
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.events.CameraUpdateEvent;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEventHandler;
+import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.weave.controls.TileRegion;
 import ie.flax.flaxengine.client.weave.controls.TileRegion.MouseState;
 import ie.flax.flaxengine.client.weave.presenter.WeavePresenter;
@@ -15,6 +18,8 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -116,6 +121,29 @@ public class Weave implements ImageSelectionEventHandler{
 				}
 			}
 		};
+		
+		KeyUpHandler keyUpHandle = new KeyUpHandler() {
+			
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if(event.isUpArrow()){
+					event.preventDefault();
+					EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+				}
+				if(event.isDownArrow()){
+					event.preventDefault();
+					EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+				}
+				if(event.isLeftArrow()){
+					event.preventDefault();
+					EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+				}
+				if(event.isRightArrow()){
+					event.preventDefault();
+					EventBus.handlerManager.fireEvent(new CameraUpdateEvent()); 
+				}
+			}
+		};
 			
 		
 		/**
@@ -139,6 +167,7 @@ public class Weave implements ImageSelectionEventHandler{
 		 */
 		RootPanel.get().addDomHandler(keyPressHandle, KeyPressEvent.getType());
 		RootPanel.get().addDomHandler(keyDownHandle, KeyDownEvent.getType());
+		RootPanel.get().addDomHandler(keyUpHandle, KeyUpEvent.getType());
 	}
 	
 	
@@ -157,17 +186,12 @@ public class Weave implements ImageSelectionEventHandler{
 
 
 	/**
-<<<<<<< HEAD
 	 * Sets the texture of the tile at location (x, y)
-=======
-	 * Finds the tile the user clicked on, if there is not one there it will create one with the current tile info
-	 * and add it to the map. It then returns the tile
->>>>>>> refs/remotes/origin/master
 	 * @param x
 	 * @param y
 	 */
 	public void textureTileAt(int x, int y){		
-	
+		
 		FTile temp =  map.getTile(x, y);		
 		temp.setTextureX(currentTile.getTextureX());	
 		temp.setTextureY(currentTile.getTextureY());
@@ -194,11 +218,12 @@ public class Weave implements ImageSelectionEventHandler{
 			
 			if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
 			{						
-				tileRegion.onMouseMove(event);				
+				tileRegion.onMouseMove(event);
 			}
 			else if(event.isShiftKeyDown())
 			{
 				this.textureTileAt(event.getX(), event.getY());
+				EventBus.handlerManager.fireEvent(new MapUpdateEvent());
 			}
 		}			
 	}
@@ -221,8 +246,10 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		if (tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
 		{		
-			tileRegion.onMouseUp(event);		
+			tileRegion.onMouseUp(event);
 		}
+
+		EventBus.handlerManager.fireEvent(new MapUpdateEvent());
 	}
 
 
