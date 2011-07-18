@@ -17,24 +17,54 @@ import com.google.gwt.user.client.ui.MenuBar;
  * This is the menu bar in the north panel of Weave. Its not really done in MVP,
  * may want to look into converting it sometime soon
  * 
-<<<<<<< HEAD
- * @author Ciaran McCann
- *
-=======
- * @author CiarÃ¡n McCann
+ * @author Ciarán McCann
  * 
->>>>>>> refs/remotes/origin/master
  */
 public class MainMenuView extends MenuBar {
 
-	private MenuBar file;
-	private Command uploadFile;
-	private Command exportImport;
-	private Weave model;
-	private FWindow window;
-	
-	private AbstractPresenter fileuploadPresneter;
-	private AbstractPresenter ImportExportPresenter;
+    private MenuBar file;
+    private Command uploadFile;
+    private Command exportImport;
+    private Weave model;
+    private FWindow window;
+
+    private AbstractPresenter fileuploadPresneter;
+    private AbstractPresenter ImportExportPresenter;
+
+    public MainMenuView(Weave model) {
+
+        this.model = model;
+
+        file = new MenuBar();
+        bindCommands();
+
+        // this.addItem("File", file);
+        this.addItem("Upload Tilesheet", uploadFile);
+        this.addItem("Export/Import Map", exportImport);
+        this.setAnimationEnabled(true);
+
+        this.addHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+                event.preventDefault();
+            }
+        }, ClickEvent.getType());
+
+        this.addHandler(new MouseOutHandler() {
+
+            @Override
+            public void onMouseOut(MouseOutEvent event) {
+
+                selectItem(null);
+            }
+        }, MouseOutEvent.getType());
+
+        window = new FWindow("Window");
+
+        fileuploadPresneter = new FileUploadPresenter();
+        ImportExportPresenter = new MapImportExportPresenter(model);
+    }
 
     /**
      * Binds the commands to the menu items
