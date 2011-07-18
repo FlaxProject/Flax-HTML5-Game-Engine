@@ -215,12 +215,6 @@ public class Weave implements ImageSelectionEventHandler{
 	
 	public void onMouseDown(MouseDownEvent event)
 	{		
-		/*
-		 * I know, preventDefault is bad in general, but it's
-		 * necessary here. This is to stop the selection happening (of widgets etc).
-		 */
-		event.preventDefault();
-		
 		if (event.isShiftKeyDown())
 		{				
 			//tileRegion.onMouseDown(event);	
@@ -277,8 +271,4 @@ public class Weave implements ImageSelectionEventHandler{
 		running = !running;
 		WeavePresenter.toggleDisplay();
 	}
-
-
-
-	
 }

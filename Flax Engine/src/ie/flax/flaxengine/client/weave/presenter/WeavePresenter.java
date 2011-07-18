@@ -29,7 +29,7 @@ public class WeavePresenter extends AbstractPresenter {
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
 		display.addToSouth(FLog.getWidget(), "Console");
 
-		display.addToSouthEastCornor(MiniPresenter.getView());
+		display.addToSouthEastCorner(MiniPresenter.getView());
 
 		// TODO Carl Create some kind of strings/help file class for this string and others like it.
 		// TODO Shoudn't really be using plain html in strings.
