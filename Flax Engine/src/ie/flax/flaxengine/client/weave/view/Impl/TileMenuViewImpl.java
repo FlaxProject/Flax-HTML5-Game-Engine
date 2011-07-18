@@ -65,7 +65,7 @@ public class TileMenuViewImpl extends Composite implements TileMenuView {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				presenter.selectTile(event.getX(),event.getY());
+				presenter.selectTexture(event.getX(),event.getY());
 				
 			}
 		});

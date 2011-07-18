@@ -32,6 +32,7 @@ public class FCamera {
 	 * @param mapHeight
 	 */
 	public FCamera(FVector position, int width, int height) {
+		
 		this.position = position;
 		this.width = width;
 		this.height = height;
@@ -66,12 +67,6 @@ public class FCamera {
 		this.mapHeight = mapHeight;
 	}
 
-	/**
-	 * @return the width
-	 */
-	public  int getWidth() {
-		return width;
-	}
 
 	/**
 	 * @param width the width to set
@@ -81,6 +76,16 @@ public class FCamera {
 		FLog.trace(this.toString() + " setWidth(int " + this.width + ") PX ");
 	}
 
+	
+
+	/**
+	 * @return the width
+	 */
+	public  int getWidth() {
+		return width;
+	}
+	
+	
 	/**
 	 * @return the height
 	 */
@@ -109,8 +114,7 @@ public class FCamera {
 	 * Gets the cameras y postition
 	 * @return
 	 */
-	public double getY()
-	{
+	public double getY(){
 		return position.y;
 	}
 	
@@ -120,10 +124,12 @@ public class FCamera {
 	 * @param x
 	 */
 	public void setX(double x)
-	{		
-		//if(x <= mapWidth-width&& x > 0)
+	{	
+		
+		//FIXME CIARAN - magic number, only for testing will change at some piont
+		if(x <= (mapWidth*32)-(width)&& x > 0)
 		{
-			
+	
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 
@@ -138,7 +144,8 @@ public class FCamera {
 	 */
 	public void setY(double y) {
 		
-		//if(y <= mapHeight-height&& y > 0) //FIXME CIARAN
+		//FIXME CIARAN - magic number, only for testing will change at some piont
+		if(y <= mapHeight-(height/32)&& y > 0) 
 		{
 
 			position.y = y;

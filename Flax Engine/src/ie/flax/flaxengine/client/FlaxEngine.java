@@ -134,9 +134,11 @@ public abstract class FlaxEngine {
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
 
+			
 				if (editor.isRunning()) {
 					editor.onMouseMove(event);
 				}
+				event.stopPropagation();
 			}
 		});
 

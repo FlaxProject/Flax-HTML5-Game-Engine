@@ -1,9 +1,6 @@
 package ie.flax.flaxengine.client.weave.controls;
 
-import ie.flax.flaxengine.client.FMap;
-import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FVector;
-import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.weave.Weave;
 
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -12,7 +9,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 
 /**
- * This defines a generic class which allows for TileRegion operations
+ * This control allows for tileRegion effects. Such as setting the texture of a tile
  * 
  * @author Ciaran McCann
  * 
@@ -30,20 +27,14 @@ public class TileRegion implements IControl {
 	private FVector startPos;
 	private MouseState mouseState;
 	private Weave editor;
-	private FTile tile;
 	private int tilesize;
-	private FMap map;
-	private int texture;
 
-	
+
 	public TileRegion(Weave editor)
 	{
 		startPos = new FVector(0, 0);
 		mouseState = MouseState.MOUSE_UP;
-		this.editor = editor;
-		tile = null;	
-		map = editor.getFMapReference();
-		texture = editor.getCurrentTile().getTexture();
+		this.editor = editor;		
 	}
 
 
@@ -51,17 +42,12 @@ public class TileRegion implements IControl {
 		
 		if(mouseState == MouseState.MOUSE_DOWN)
 		{
-
 			
 			double newX =  event.getClientX();
 			double newY =  event.getClientY();
-			
-			
+						
 			int startX = (int)startPos.x;
-			int startY = (int)startPos.y;
-			
-			
-			
+			int startY = (int)startPos.y;								
 			int startXCopy = (int)startX;
 			
 			//start is when the click is started down and then new is got from the current position of the mouse, when moving
@@ -70,7 +56,7 @@ public class TileRegion implements IControl {
 				while(startX <= newX)
 				{
 									 
-					tileSelectedRegion(startX, startY);
+					editor.textureTileAt(startX, startY);
 					startX += tilesize;		
 				}
 				startX = startXCopy;
@@ -84,19 +70,19 @@ public class TileRegion implements IControl {
 	}
 
 
+	/**
+	 * This starts this control, the positon of mouse down is saved
+	 */
 	public void onMouseDown(MouseDownEvent event) {
 			
 			tilesize = editor.getFMapReference().getTileSize();
-			map = editor.getFMapReference();
-			mouseState = MouseState.MOUSE_DOWN;		
-			
-					
-			startPos = new FVector(event.getClientX(),event.getClientY());
-			texture = editor.getCurrentTile().getTexture();
-	
+			mouseState = MouseState.MOUSE_DOWN;									
+			startPos = new FVector(event.getClientX(),event.getClientY());	
 	}
 
-	
+	/**
+	 * When the mouse moves and the mouse is in a down state it draws the regions box
+	 */
 	public void onMouseMove(MouseMoveEvent event) {
 		
 		if (event.isShiftKeyDown()) {
@@ -121,8 +107,7 @@ public class TileRegion implements IControl {
 		
 		double newX =  clientX - (startPos.x);
 		double newY =  clientY - (startPos.y);	
-		
-		
+	
 		ctx.setStrokeStyle("#CD0000");
 		ctx.beginPath();
 		
@@ -136,26 +121,6 @@ public class TileRegion implements IControl {
 		ctx.stroke();
 		
 	}
-
-	
-	private void tileSelectedRegion(int startX, int startY)
-	{	
-		tile = map.getTile(startX,startY);
-		
-		if(tile == null)
-		{		
-			map.addTile(new FTile(startX,startY, texture, Graphic.getSingleton().getImage(map.getTileSheet()), map.getTileSize()));	
-	
-		}
-		else			
-		{
-			//FIXME CIARAN - uncomment when getting tileregion back
-			//tile.setTexture(texture );
-			tile = null;
-		}		
-		
-	}
-
 
 	/**
 	 * Gets the mouse state, i.e MOUSE_UP MOUSE_DOWN 

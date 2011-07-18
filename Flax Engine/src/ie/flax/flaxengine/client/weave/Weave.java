@@ -154,29 +154,16 @@ public class Weave implements ImageSelectionEventHandler{
 
 
 	/**
-	 * Finds the tile the user clicked on, if there is not one there it will create one with the currrent tile info
-	 * and add it to the map. It then retuns the tile
+	 * Sets the texture of the tile at location (x, y)
 	 * @param x
 	 * @param y
 	 */
-	public FTile selectedTile(int x, int y) 
-	{
-		FTile tile = map.getTile(x, y);
-		
-		if(tile != null) 
-		{
-			tile.setTileTexture(currentTile.getTexture(), Graphic.getSingleton().getImage(map.getTileSheet()), map.getTileSize() );	
-		}
-		else
-		{
-			int tileSize = map.getTileSize();
-			int tX = (int) ((x+FlaxEngine.camera.getX())/tileSize);
-			int tY = (int) ((y+FlaxEngine.camera.getY())/tileSize);
-			tile = new FTile(tX*tileSize,  tY*tileSize, currentTile.getTexture(), Graphic.getSingleton().getImage(map.getTileSheet()), map.getTileSize()) ;
-			map.addTile(tile );//TODO refactor into more generic
-		}
-		
-		return tile;
+	public void textureTileAt(int x, int y){		
+	
+		FTile temp =  map.getTile(x, y);		
+		temp.setTextureX(currentTile.getTextureX());	
+		temp.setTextureY(currentTile.getTextureY());
+		temp.setTexture(currentTile.getTexture());
 	}
 		
 
@@ -184,8 +171,7 @@ public class Weave implements ImageSelectionEventHandler{
 	 * While the editor is active there will be certain keys which will do stuff, this method binds those keys to functionality
 	 * @param event
 	 */
-	public void keyboardControls(KeyDownEvent event)
-	{
+	public void keyboardControls(KeyDownEvent event){
 				//Will be used in future, so don't remove me or I will slap you!		
 	}
 	
@@ -200,11 +186,11 @@ public class Weave implements ImageSelectionEventHandler{
 			
 			if (event.isShiftKeyDown() && tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
 			{						
-				//tileRegion.onMouseMove(event);				
+				tileRegion.onMouseMove(event);				
 			}
 			else if(event.isShiftKeyDown())
 			{
-				this.selectedTile(event.getX(), event.getY());
+				this.textureTileAt(event.getX(), event.getY());
 			}
 		}			
 	}
@@ -220,11 +206,11 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		if (event.isShiftKeyDown())
 		{				
-			//tileRegion.onMouseDown(event);	
+			tileRegion.onMouseDown(event);	
 		}	
 		else
 		{
-			this.selectedTile(event.getX(), event.getY());
+			this.textureTileAt(event.getX(), event.getY());
 		}
 		
 	}
@@ -233,7 +219,7 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		if (tileRegion.getMouseState() == MouseState.MOUSE_DOWN)
 		{		
-			//tileRegion.onMouseUp(event);		
+			tileRegion.onMouseUp(event);		
 		}
 	}
 

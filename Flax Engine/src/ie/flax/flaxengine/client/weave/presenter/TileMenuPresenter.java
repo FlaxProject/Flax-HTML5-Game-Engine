@@ -9,14 +9,9 @@ import ie.flax.flaxengine.client.weave.view.TileMenuView;
 import ie.flax.flaxengine.client.weave.view.Impl.TileMenuViewImpl;
 import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -116,7 +111,8 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 	 * @param clickY
 	 */
 	@Override
-	public void selectTile(int clickX, int clickY) {
+	public void selectTexture(int clickX, int clickY) { //TODO - this method should be more generic
+	
 		if (model.getFMapReference().getTileSheet() != null) {
 			
 			int tileSize = model.getFMapReference().getTileSize();
@@ -126,7 +122,8 @@ public class TileMenuPresenter extends AbstractPresenter implements ImageSelecti
 			int x = clickX / tileSize;
 			int y = clickY / tileSize;
 
-			model.getCurrentTile().setTileTexture((y * numberOfTilesInaRow) + x, img , tileSize);
+			model.getCurrentTile().setTileTexture((y * numberOfTilesInaRow) + x, img , tileSize);			
+			
 		}
 	}
 

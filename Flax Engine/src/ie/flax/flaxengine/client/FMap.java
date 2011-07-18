@@ -126,7 +126,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			int camYRelative = (int) (cam.getY()/tileSize);
 			int camXAndWidth = (int) (camXRelative)+cam.getWidth()/tileSize;
 			int camYAndHeight = (int) (camYRelative)+cam.getHeight()/tileSize;
-			int mapWidthRelative = (int) width;
 		
 			int camXRelativeCopy = camXRelative;
 			int camYRelativeCopy = camYRelative;
@@ -138,15 +137,17 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				// in number of tiles - relative
 				while( camXRelative < camXAndWidth )
 				{
-					FTile t = tiles.get(camXRelative + (camYRelative *  mapWidthRelative ));					
-					t.draw(tileSheetImage, tileSize, ( t.getX()*tileSize - camXRelativeCopy*tileSize ) , ( t.getY()*tileSize - camYRelativeCopy*tileSize ), drawingSpace.getContext2d());					
+					/**
+					 * TODO optimize this some more later by inlining, tho its fine for the mo
+					 */
+					FTile t = tiles.get(camXRelative + (camYRelative *  width ));					
+					t.draw(tileSheetImage, tileSize, ( camXRelative*tileSize - camXRelativeCopy*tileSize ) , ( camYRelative*tileSize - camYRelativeCopy*tileSize ), drawingSpace.getContext2d());					
 					
-					camXRelative++;					
+					camXRelative++;
 				}
-				
-				 camXRelative = camXRelativeCopy; //rest the X to intial
-				
-				 camYRelative++;				
+
+				camXRelative = camXRelativeCopy; // rest the X to intial
+				camYRelative++;
 			}
 			
 			
@@ -260,7 +261,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		{
 			while( x < width)
 			{
-				tiles.add( new FTile(x, y, 3, Graphic.getSingleton().getImage(tileSheet), tileSize));
+				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
 				x++;
 			}
 			
@@ -368,21 +369,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		}		
 	}
 	
-	/**
-	 * Adds the given tile to the map
-	 * @param tile
-	 */
-	public void addTile(FTile tile)
-	{
-		if(tile.getX() >= 0&&tile.getX() <= width+tileSize&&tile.getY() >= 0&&tile.getY() <= height-tileSize)
-		{
-			tiles.add(tile);
-			EventBus.handlerManager.fireEvent(new MapUpdateEvent()); 
-			FLog.trace(tile + " was created and added to " + this);
-		}
-	}
 
-	
 	/**
 	 * This adds the given FObject object or objects that are derived from FObject
 	 * to the map object.
@@ -496,6 +483,20 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	public String getTileSheet() {
 		return tileSheet;
 	}
+	
+	
+
+
+
+
+	//TODO - CARL comment
+	@Override
+	public void onCameraUpdate(CameraUpdateEvent e) {
+		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
+		draw(null, null);
+	}
+
+	
 
 	
 	
@@ -613,15 +614,31 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	public void setLoaded(boolean loaded) {
 		Loaded = loaded;
 	}
+	
 
-
-
-	//TODO - CARL comment
-	@Override
-	public void onCameraUpdate(CameraUpdateEvent e) {
-		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
-		draw(null, null);
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public ImageElement getTileSheetImage() {
+		return tileSheetImage;
 	}
 
-	
+
+
+	/**
+	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public void setTileSheetImage(ImageElement tileSheetImage) {
+		this.tileSheetImage = tileSheetImage;
+	}
+
+
 }
