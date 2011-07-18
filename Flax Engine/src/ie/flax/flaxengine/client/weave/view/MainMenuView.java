@@ -8,15 +8,22 @@ import ie.flax.flaxengine.client.weave.view.customwidgets.FWindow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
- * This is the menu bar in the north panel of Weave.
- * Its not really done in MVP, may want to look into converting it sometime soon
+ * This is the menu bar in the north panel of Weave. Its not really done in MVP,
+ * may want to look into converting it sometime soon
  * 
+<<<<<<< HEAD
  * @author Ciaran McCann
  *
+=======
+ * @author Ciarán McCann
+ * 
+>>>>>>> refs/remotes/origin/master
  */
 public class MainMenuView extends MenuBar {
 
@@ -29,69 +36,43 @@ public class MainMenuView extends MenuBar {
 	private AbstractPresenter fileuploadPresneter;
 	private AbstractPresenter ImportExportPresenter;
 
-	public MainMenuView(Weave model) {
-		
-		this.model = model;
-		
-		file = new MenuBar();
-		bindCommands();
+    /**
+     * Binds the commands to the menu items
+     */
+    private void bindCommands() {
 
-		//this.addItem("File", file);
-		this.addItem("File Upload", uploadFile);
-		this.addItem("Export/Import Map", exportImport);
-		this.setAnimationEnabled(true);
-		
-		this.addHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				event.preventDefault();
-			}
-		}, ClickEvent.getType());
-		
-		window = new FWindow("Window");
-	
-		fileuploadPresneter = new FileUploadPresenter();
-		ImportExportPresenter = new MapImportExportPresenter(model);
-	}
+        // TODO: Async this code, some reason not working atm. No bige for the
+        // mo
+        // GWT.runAsync(new RunAsyncCallback() {
+        exportImport = new Command() {
 
-	/**
-	 * Binds the commands to the menu items
-	 */
-	private void bindCommands() {
+            @Override
+            public void execute() {
 
-		//TODO: Async this code, some reason not working atm. No bige for the mo
-		//GWT.runAsync(new RunAsyncCallback() {
-			exportImport = new Command() {
+                window.setTitle("Import/Export Map");
+                window.add(ImportExportPresenter.getView());
+                window.show();
 
-					@Override
-					public void execute() {
-	
-						window.setTitle("Import/Export Map");	
-						window.add(ImportExportPresenter.getView());
-						window.show();
+            }
+        };
 
-					}
-				};
+        uploadFile = new Command() {
 
-				uploadFile = new Command() {
+            @Override
+            public void execute() {
 
-					@Override
-					public void execute() {
-					
-							window.setTitle("Import/Export Map");								
-							window.add(fileuploadPresneter.getView());						
-							window.show();
+                window.setTitle("Upload Tilesheet");
+                window.add(fileuploadPresneter.getView());
+                window.show();
 
-					}
-				};
-			}
-	
-	@Override
-	public void focus() {
-		//ignore anything that gives focus
-		//super.focus();
-	}
+            }
+        };
+        // }
+    }
+
+    @Override
+    public void focus() {
+        // ignore anything that gives focus
+    }
+
 }
-
-

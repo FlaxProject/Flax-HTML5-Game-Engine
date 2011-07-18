@@ -91,24 +91,27 @@ public class Weave implements ImageSelectionEventHandler{
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				
-					
 				if(running)
 				{
-					//TODO bug, when the camera moves up so does the tilesheet panel
-					//event.preventDefault();
-					
-					if(event.isUpArrow())
+					/*
+					 * The event.preventDefault() is to avoid anything else scrolling with the camera.
+					 */
+					if(event.isUpArrow()){
 						FlaxEngine.camera.incermentY(-cameraPanSpeed);		    
-					
-					if(event.isDownArrow())
+						event.preventDefault();
+					}
+					if(event.isDownArrow()){
 						FlaxEngine.camera.incermentY(cameraPanSpeed);
-					
-					if(event.isLeftArrow())
+						event.preventDefault();
+					}
+					if(event.isLeftArrow()){
 						FlaxEngine.camera.incermentX(-cameraPanSpeed);
-					
-					
-					if(event.isRightArrow())
+						event.preventDefault();
+					}
+					if(event.isRightArrow()){
 						FlaxEngine.camera.incermentX(cameraPanSpeed);
+						event.preventDefault();
+					}
 										
 				}
 			}
