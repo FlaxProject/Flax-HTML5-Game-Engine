@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -99,7 +102,8 @@ public abstract class FlaxEngine {
 		FileHandle.writeStringToLocalStorage("test", "I am a test string");
 		this.insertId = insertId;
 		splashScreen = new SplashScreen();
-		RootPanel.get(insertId).add(splashScreen, 0, 0);
+		RootPanel.get(insertId).add(splashScreen);
+		splashScreen.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		
 		FLog.init();
 		initEngine(insertId);
@@ -123,7 +127,6 @@ public abstract class FlaxEngine {
 
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-
 				if (editor.isRunning()) {
 					editor.keyboardControls(event);
 				}
@@ -134,7 +137,6 @@ public abstract class FlaxEngine {
 
 			@Override
 			public void onMouseMove(MouseMoveEvent event) {
-
 				if (editor.isRunning()) {
 					editor.onMouseMove(event);
 				}
@@ -145,7 +147,8 @@ public abstract class FlaxEngine {
 
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-
+				event.preventDefault();
+				
 				if (editor.isRunning()) {
 					editor.onMouseDown(event);
 				}
@@ -157,6 +160,8 @@ public abstract class FlaxEngine {
 
 			@Override
 			public void onMouseUp(MouseUpEvent event) {
+				event.preventDefault();
+				
 				if (editor.isRunning()) {
 					editor.onMouseUp(event);
 				}
@@ -164,6 +169,13 @@ public abstract class FlaxEngine {
 			}
 		});
 
+		editorOverLay.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				event.preventDefault();
+			}
+		});
 	}
 
 	
@@ -213,7 +225,8 @@ public abstract class FlaxEngine {
 		bind(); // sets the event handlers for canvas tag
 		
 		RootPanel.get(insertId).add(drawingSpace);// inser into doc		
-		RootPanel.get(insertId).add(editorOverLay, 0,0); 
+		RootPanel.get(insertId).add(editorOverLay); 
+
 		
 
 		/**
