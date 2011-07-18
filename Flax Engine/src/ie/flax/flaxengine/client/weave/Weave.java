@@ -100,15 +100,15 @@ public class Weave implements ImageSelectionEventHandler{
 						FlaxEngine.camera.incrementY(-cameraPanSpeed);		    
 						event.preventDefault();
 					}
-					if(event.isDownArrow()){
+					else if(event.isDownArrow()){
 						FlaxEngine.camera.incrementY(cameraPanSpeed);
 						event.preventDefault();
 					}
-					if(event.isLeftArrow()){
+					else if(event.isLeftArrow()){
 						FlaxEngine.camera.incrementX(-cameraPanSpeed);
 						event.preventDefault();
 					}
-					if(event.isRightArrow()){
+					else if(event.isRightArrow()){
 						FlaxEngine.camera.incrementX(cameraPanSpeed);
 						event.preventDefault();
 					}
@@ -157,12 +157,7 @@ public class Weave implements ImageSelectionEventHandler{
 
 
 	/**
-<<<<<<< HEAD
 	 * Sets the texture of the tile at location (x, y)
-=======
-	 * Finds the tile the user clicked on, if there is not one there it will create one with the current tile info
-	 * and add it to the map. It then returns the tile
->>>>>>> refs/remotes/origin/master
 	 * @param x
 	 * @param y
 	 */

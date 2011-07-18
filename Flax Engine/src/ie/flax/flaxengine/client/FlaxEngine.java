@@ -69,10 +69,8 @@ public abstract class FlaxEngine {
 			double currentMilliseconds = getMilliseconds();
 			
 			
-			if (isEngineReady()) {
-				if (playing == true) {
+			if (isEngineReady() && playing) {			
 					maps.get(0).draw(null, null);
-				}
 			}
 			
 
@@ -87,23 +85,30 @@ public abstract class FlaxEngine {
 	};
 
 	/**
-	 * This is the engine constructor
-	 * @param mapPaths
-	 * @param insertId
+	 * This is the engine constructor - 
+	 * @param mapPaths - URL to the map you wish to load with the engine
+	 * @param insertId - the div which the engine/game will be inserted into
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
 
 		FileHandle.writeStringToLocalStorage("test", "I am a test string");
 		this.insertId = insertId;
+		
+		/**
+		 * Construct the splash screen
+		 */
 		splashScreen = new SplashScreen();
-		RootPanel.get(insertId).add(splashScreen);
+		RootPanel.get(insertId).add(splashScreen);		
 		splashScreen.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		
-		FLog.init();
-		initEngine(insertId);
+				
+		FLog.init();		
+		initEngine(insertId);		
 		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
-		editor = new Weave(insertId, drawingSpace, editorOverLay, getCurrentMap());
 		
+		/**
+		 * Contrsucts the editor weave
+		 */
+		editor = new Weave(insertId, drawingSpace, editorOverLay, getCurrentMap());		
 	}
 
 
@@ -176,12 +181,8 @@ public abstract class FlaxEngine {
 
 	
 	/**
-	 * This method initialises many different components of the engine, events,
-	 * rendering, weave
-	 * 
+	 * This constructs the settings, constructs the game drawingcanvas and also the editoroverlay canvas
 	 * @param insertId
-	 * @param width
-	 * @param height
 	 */
 	protected void initEngine(String insertId) {
 
@@ -284,6 +285,10 @@ public abstract class FlaxEngine {
 		return maps.get(currentMap);
 	}
 
+	/**
+	 * Gets a reference to the editor
+	 * @return
+	 */
 	public Weave getEditor() {
 		return editor;
 	}
@@ -343,7 +348,6 @@ public abstract class FlaxEngine {
 				currentMap = mapIndex;
 				break;
 			}
-
 			mapIndex++;
 		}
 	}

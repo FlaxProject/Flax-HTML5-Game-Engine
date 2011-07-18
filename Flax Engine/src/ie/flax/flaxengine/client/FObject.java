@@ -28,15 +28,14 @@ public class FObject implements JsonSerializable{
 	 * @param width
 	 * @param height
 	 */
-	public FObject(float x, float y, float width, float height, Sprite sprite, String[] audio) {
+	public FObject(float x, float y, float width, float height, Sprite sprite, String audio) {
 
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.sprite = sprite;
-		this.audio = audio[0];
-		
+		this.audio = audio;		
 	}
 	
 

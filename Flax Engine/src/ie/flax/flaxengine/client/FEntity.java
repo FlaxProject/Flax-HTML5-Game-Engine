@@ -12,7 +12,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  */
 public class FEntity extends FObject implements JsonSerializable {
 
-	public FEntity(float x, float y, float width, float height, Sprite sprite, String[] audio)
+	public FEntity(float x, float y, float width, float height, Sprite sprite, String audio)
 	{
 		super(x, y, width, height, sprite, audio);
 	}

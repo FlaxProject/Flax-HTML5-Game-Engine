@@ -95,13 +95,7 @@ public class FTile implements JsonSerializable {
 		textureY = ySrc * tileSize;
 	}
 
-	/**
-	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated
+
 	public void setTexture(int texture) {
 		this.texture = texture;
 	}
@@ -110,35 +104,17 @@ public class FTile implements JsonSerializable {
 		return textureX;
 	}
 
-	/**
-	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated
+
 	public void setTextureX(double textureX) {
 		this.textureX = textureX;
 	}
 
-	/**
-	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated
+
 	public double getTextureY() {
 		return textureY;
 	}
 
-	/**
-	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated
+
 	public void setTextureY(double textureY) {
 		this.textureY = textureY;
 	}
