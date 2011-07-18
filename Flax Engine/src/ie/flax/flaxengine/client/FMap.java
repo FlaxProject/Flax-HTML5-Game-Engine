@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client;
 
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
+import ie.flax.flaxengine.client.Graphic.Sprite;
 import ie.flax.flaxengine.client.events.CameraUpdateEvent;
 import ie.flax.flaxengine.client.events.CameraUpdateEventHandler;
 import ie.flax.flaxengine.client.events.EventBus;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -50,9 +52,6 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  */
 public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraUpdateEventHandler{
 
-	/**
-	 * Map width and height most be a multplie of the tilesize
-	 */
 	private int width;
 	private int height;
 	
@@ -92,8 +91,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		name = mapPath;
 		
 		EventBus.handlerManager.addHandler(CameraUpdateEvent.TYPE, this);
-		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events
-		
+		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events	
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file	
 	}
 	
@@ -106,21 +104,21 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	 * @param cam2 
 	 */
 	public void draw(FCamera cam, Canvas drawingSpace) {	
-		/**
-		 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
-		 */
+		
 		if (cam==null)  cam = FlaxEngine.camera; 
 		if (drawingSpace==null) drawingSpace = this.drawingSpace;
-		/**
-		 * Maybe remove below line when game is been played, that line is only for the editor.It may increase in-game preforamnce 
-		 */
-		double camX = cam.getX();
-		double camY = cam.getY();
-		double camXWidth = camX+cam.getWidth();
-		double camYHeight = camY+cam.getHeight();
+
 
 		if(tileSheetImage != null)
 		{		
+			
+			/**
+			 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
+			 */			
+			double camX = cam.getX();
+			double camY = cam.getY();
+			double camXWidth = camX+cam.getWidth();
+			double camYHeight = camY+cam.getHeight();
 			
 			int camXRelative = (int) (cam.getX()/tileSize);
 			int camYRelative = (int) (cam.getY()/tileSize);
@@ -129,6 +127,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		
 			int camXRelativeCopy = camXRelative;
 			int camYRelativeCopy = camYRelative;
+			
+			int camXRelativeCopyScaled = camXRelativeCopy*tileSize;
+			int camYRelativeCopyScaled =  camYRelativeCopy*tileSize;
+			
+			Context2d ctx = drawingSpace.getContext2d();
 			
 			
 			// all in tiles - relative
@@ -141,8 +144,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 					 * TODO optimize this some more later by inlining, tho its fine for the mo
 					 */
 					FTile t = tiles.get(camXRelative + (camYRelative *  width ));					
-					t.draw(tileSheetImage, tileSize, ( camXRelative*tileSize - camXRelativeCopy*tileSize ) , ( camYRelative*tileSize - camYRelativeCopy*tileSize ), drawingSpace.getContext2d());					
-					
+					t.draw(tileSheetImage, tileSize, ( camXRelative*tileSize -  camXRelativeCopyScaled ) , ( camYRelative*tileSize - camYRelativeCopyScaled ), ctx);					
 					camXRelative++;
 				}
 
@@ -169,25 +171,24 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	}
 
 
+
 	/**
-	 * Checks the tile from the tile array based on the given x and y 
-	 * Currently only to be used for mouse clicks but could easly be changed
-	 * @param x
-	 * @param y
+	 * Gets the tile at the location which was clicked
+	 * 
+	 * @param xClick - absolute click values of the mouse
+	 * @param yClick - absolute click values of the mouse
 	 * @return
 	 */
-	public FTile getTile(int xClick, int yClick) //absolute values
+	public FTile getTile(int xClick, int yClick) 
 	{		
 		/**
 		 * Both the camera and click values are absolute pixel values
-		 * aadding them togtheier and divding them by the tilesize and then dropping the decimal 
+		 * adding them togtheier and divding them by the tilesize and then dropping the decimal 
 		 * will get you the tile x and y such as (2,2)
 		 */
 		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
 		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
-		
-		//FLog.debug(" (" + xClick + " "+ yClick + ") index" + index);
-		
+
 		return tiles.get( clickX + (clickY*width) );
 	}
 	
@@ -250,10 +251,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
-		
-		int y =0;
-		int x =0;
-		
 		this.width = newMapObj.width;
 		this.height = newMapObj.height;
 		
@@ -270,6 +267,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 //			y++;
 //		}
 
+		
+		//this.addEntity(new FEntity(100, 100, 32, 32, new Sprite("http://flax.ie/test/tiles.png", 32, 32), "audio") );
 	}
 
 	/**
@@ -361,7 +360,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	 */
 	public void addEntity(FEntity entity)
 	{
-		if(entity.getX() >= 0&&entity.getX() <= width+tileSize&&entity.getY() >= 0&&entity.getY() <= height-tileSize)
+		if(entity.getX() >= 0&&entity.getX() <= width*tileSize+tileSize&&entity.getY() >= 0&&entity.getY() <= height*tileSize-tileSize)
 		{
 			entities.add(entity); 
 			FLog.trace(entity + " was created and added to " + this);
@@ -408,7 +407,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		return drawingSpace;
 	}
 	
-
 
 	/**
 	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
@@ -483,21 +481,12 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		return tileSheet;
 	}
 	
-	
-
-
-
-
 	//TODO - CARL comment
 	@Override
 	public void onCameraUpdate(CameraUpdateEvent e) {
 		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
 		draw(null, null);
 	}
-
-	
-
-	
 	
 	/**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization

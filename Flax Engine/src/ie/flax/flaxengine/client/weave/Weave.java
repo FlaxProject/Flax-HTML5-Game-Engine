@@ -105,15 +105,15 @@ public class Weave implements ImageSelectionEventHandler{
 						FlaxEngine.camera.incrementY(-cameraPanSpeed);		    
 						event.preventDefault();
 					}
-					if(event.isDownArrow()){
+					else if(event.isDownArrow()){
 						FlaxEngine.camera.incrementY(cameraPanSpeed);
 						event.preventDefault();
 					}
-					if(event.isLeftArrow()){
+					else if(event.isLeftArrow()){
 						FlaxEngine.camera.incrementX(-cameraPanSpeed);
 						event.preventDefault();
 					}
-					if(event.isRightArrow()){
+					else if(event.isRightArrow()){
 						FlaxEngine.camera.incrementX(cameraPanSpeed);
 						event.preventDefault();
 					}
