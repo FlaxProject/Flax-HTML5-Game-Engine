@@ -128,7 +128,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			int camXRelativeCopyScaled = camXRelativeCopy*tileSize;
 			int camYRelativeCopyScaled =  camYRelativeCopy*tileSize;
 			
-			Context2d ctx = drawingSpace.getContext2d();
+			Context2d ctx = drawingSpace.getContext2d();	
+			
+			
+
 			
 			
 			// all in tiles - relative
@@ -149,8 +152,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				camYRelative++;
 			}
 			
-			
-			
+	
+
 			for(FObject temp : objects)
 			{
 				//check if the eneity can be seen on screen before drawing
@@ -164,6 +167,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
 				temp.draw(drawingSpace);
 			}		
+			
+			
+			
+			
 		}
 	}
 
@@ -244,28 +251,28 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		 * well with the ID's etc.
 		 */
 		this.entities = newMapObj.entities;
-		this.tiles = newMapObj.tiles;
+		//this.tiles = newMapObj.tiles;
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
 		this.width = newMapObj.width;
 		this.height = newMapObj.height;
 		
-//		int x  =0;
-//		int y =0;
-//		
-//		while ( y < height)
-//		{
-//			while( x < width)
-//			{
-//				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
-//				x++;
-//			}
-//			
-//			x = 0;
-//			
-//			y++;
-//		}
+		int x  =0;
+		int y =0;
+		
+		while ( y < height)
+		{
+			while( x < width)
+			{
+				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
+				x++;
+			}
+			
+			x = 0;
+			
+			y++;
+		}
 
 		
 		//this.addEntity(new FEntity(100, 100, 32, 32, new Sprite("http://flax.ie/test/tiles.png", 32, 32), "audio") );
@@ -345,17 +352,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				}
 			});	
 			
-
-			
-			//load another tilesheet by default	
-			Graphic.getSingleton().loadImage("sprites.png").addLoadHanderl(new LoadHandler() {
-				
-				@Override
-				public void onLoad(LoadEvent event) {
-					addEntity(new Player());					
-				}
-			});	
-			
 			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
@@ -371,7 +367,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	 */
 	public void addEntity(FEntity entity)
 	{
-		if(entity.getX() >= 0&&entity.getX() <= width*tileSize+tileSize&&entity.getY() >= 0&&entity.getY() <= height*tileSize-tileSize)
+		if(entity.getX() >= 0 && entity.getX() <= width*tileSize+tileSize&&entity.getY() >= 0&&entity.getY() <= height*tileSize-tileSize)
 		{
 			entities.add(entity); 
 			FLog.trace(entity + " was created and added to " + this);

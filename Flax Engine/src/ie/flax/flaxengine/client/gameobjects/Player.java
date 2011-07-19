@@ -9,16 +9,19 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
- * This is a basic entity 
+ * This is a basic entity player, wich has W D A S controls for moving in a direction
  *
  */
 public class Player extends FEntity {
 
 	private int speed;
 	
+	/**
+	 * Constructs all the data for you atm, just for testing. So it easy to create an entity
+	 */
 	public Player()
 	{
-		super(2, 2, 32, 32, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 64, 64), "audio");
+		super(0, 0, 32, 32, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 32,64), "audio");
 		speed = 10;		
 		bind();
 		

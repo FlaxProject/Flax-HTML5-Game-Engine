@@ -70,11 +70,12 @@ public class Sprite {
 					//This may fuck up as its tied to the refresh rate of the canvas
 				}
 								
-				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*frameHeight), frameWidth, frameHeight, position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),image.getImage().getWidth(), image.getImage().getHeight());
+				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*frameHeight), frameWidth, frameHeight, position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),frameWidth, frameHeight);
 			}
-			
-			//Non-animated image
-			drawingSpace.getContext2d().drawImage(image.getImage(), position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),image.getImage().getWidth(), image.getImage().getHeight());
+			else{						
+				//Non-animated image
+				drawingSpace.getContext2d().drawImage(image.getImage(), position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),image.getImage().getWidth(), image.getImage().getHeight());
+			}
 
 		}
 	}
