@@ -8,14 +8,17 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 
-@SuppressWarnings("deprecation")
+/**
+ * This is a basic entity 
+ *
+ */
 public class Player extends FEntity {
 
 	private int speed;
 	
 	public Player()
 	{
-		super(2, 2, 32, 32, new Sprite("http://flax.ie/test/g.png", 0, 0), "audio");
+		super(2, 2, 32, 32, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 64, 64), "audio");
 		speed = 10;		
 		bind();
 		
@@ -30,6 +33,7 @@ public class Player extends FEntity {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 			
+				//TODO capitial, incase capts lock is on
 				if(event.getCharCode() == 'w'){
 						y -= speed;			
 				}

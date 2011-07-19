@@ -20,20 +20,20 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class WeavePresenter extends AbstractPresenter {
 	
-	private final MiniMapPresenter MiniPresenter;
+//	private final MiniMapPresenter MiniPresenter;
 	private final TileMenuPresenter TilePresenter;
 	private final WeaveView display;
 
 	public WeavePresenter(Weave editor) {
 		display = new WeaveViewImpl();
 		TilePresenter = new TileMenuPresenter(editor);
-		MiniPresenter = new MiniMapPresenter(editor);
+		//MiniPresenter = new MiniMapPresenter(editor);
 		
 		display.addToSouth(TilePresenter.getView(), "TileMenu");
 		display.addToSouth(FLog.getWidget(), "Console");
 	
 
-		display.addToSouthEastCorner(MiniPresenter.getView());
+		//display.addToSouthEastCorner(MiniPresenter.getView());
 
 		display.addToEast(new HTML(new SafeHtml() {
 			

@@ -69,7 +69,7 @@ public class Sprite {
 					nextFrame(); //IDLE status update 
 					//This may fuck up as its tied to the refresh rate of the canvas
 				}
-				
+								
 				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*frameHeight), frameWidth, frameHeight, position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),image.getImage().getWidth(), image.getImage().getHeight());
 			}
 			

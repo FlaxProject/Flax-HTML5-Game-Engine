@@ -16,6 +16,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -116,6 +118,20 @@ public abstract class FlaxEngine {
 	 * Registers the main game canvas for Events
 	 */
 	private void bind() {
+		
+		
+		RootPanel.get().addDomHandler(new KeyPressHandler() {
+			
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				
+				if(event.getCharCode() == 'z')
+				{
+					playing = !playing;
+				}
+				
+			}
+		}, KeyPressEvent.getType());
 
 		// TODO Very strange bug which will not allow the attaching of these
 		// handlers
@@ -322,7 +338,7 @@ public abstract class FlaxEngine {
 	 * The run method starts the game loop
 	 */
 	public void run() {
-		playing = true;
+		playing = false;
 		Graphic.getSingleton().requestAnimationFrame(gameTimer);
 	}
 

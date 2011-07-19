@@ -9,7 +9,7 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class Main implements EntryPoint{
 
-	developersCodeTest theGame = new developersCodeTest("map.json", "nameFieldContainer");
+	developersCodeTest theGame = new developersCodeTest("smallMap.json", "nameFieldContainer");
 	
 	@Override
 	public void onModuleLoad() {				
