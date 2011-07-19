@@ -51,9 +51,7 @@ public class FWindow {
         window.setAnimationEnabled(true);
         window.show();
 
-        window.setPopupPosition(
-                (Window.getClientWidth() / 2) - (window.getOffsetWidth() / 2),
-                (Window.getClientHeight() / 2) - (window.getOffsetHeight() / 2));
+        window.setPopupPosition( (Window.getClientWidth() / 2) - (window.getOffsetWidth() / 2),(Window.getClientHeight() / 2) - (window.getOffsetHeight() / 2));
         window.hide();
 
         RootPanel.get().add(window);

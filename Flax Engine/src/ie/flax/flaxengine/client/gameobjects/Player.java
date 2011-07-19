@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client.gameobjects;
 
 import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
+import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.Graphic.Sprite;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -19,14 +20,13 @@ public class Player extends FEntity {
 	/**
 	 * Constructs all the data for you atm, just for testing. So it easy to create an entity
 	 */
-	public Player()
+	public Player(FVector pos)
 	{
-		super(0, 0, 32, 32, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 32,64), "audio");
+		super((float)pos.x, (float)pos.y, 32, 32, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 32,64), "audio");
 		speed = 10;		
 		bind();
 		
-		FLog.trace(this + " was created ");
-		
+		FLog.trace(this + " was created ");		
 	}
 
 	private void bind()
@@ -54,6 +54,17 @@ public class Player extends FEntity {
 		}, KeyPressEvent.getType());
 	}
 	
+	
+	/**
+	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
+	 * can work Using this method is at your own risk and will most likely break
+	 * your code in RUNTIME!!
+	 * 
+	 */
+	@Deprecated	
+	public Player(){
+		
+	}
 	
 
 	public int getSpeed() {

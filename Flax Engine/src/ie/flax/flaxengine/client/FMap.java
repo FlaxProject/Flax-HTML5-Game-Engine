@@ -132,7 +132,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			
 			
 
-			
+
 			
 			// all in tiles - relative
 			while(camYRelative < camYAndHeight)
@@ -152,7 +152,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				camYRelative++;
 			}
 			
-	
+			//FLog.debug("finihsed drawing");
+			
 
 			for(FObject temp : objects)
 			{
@@ -168,6 +169,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				temp.draw(drawingSpace);
 			}		
 			
+	
+		
 			
 			
 			
@@ -251,7 +254,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		 * well with the ID's etc.
 		 */
 		this.entities = newMapObj.entities;
-		//this.tiles = newMapObj.tiles;
+	//	this.tiles = newMapObj.tiles;
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
@@ -347,7 +350,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 					 */
 					replaceMap(temp); //op code : this = temp;
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));
-					addEntity(new Player());	
+					addEntity(new Player(new FVector(0, 0)));	
 
 				}
 			});	

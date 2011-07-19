@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
@@ -12,9 +13,9 @@ import ie.flax.flaxengine.client.FlaxEngine;
  * @author Ciarán McCann
  *
  */
-public class Sprite {
+public class Sprite implements JsonSerializable {
 	
-	private FImage image;
+	private FImage image; //FIXME serialiable problems
 	private int currentFrame; //The current frame, x pos across the image
 	private int frameCount; //Number of frames across
 	
@@ -23,6 +24,7 @@ public class Sprite {
 	
 	private AnimationState animationState;	//This holds the animated row
 	
+
 	/**
 	 * The path is the string URL to the image
 	 * 
@@ -51,6 +53,7 @@ public class Sprite {
 			animationState = AnimationState.IDE; //default to idle state
 		}
 	}
+	
 	
 	/**
 	 * This draws the sprite, if its an animated sprite or just a simple image
@@ -124,4 +127,130 @@ public class Sprite {
 			}
 		}
 		
+		
+		/**
+		 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated	
+		public Sprite()
+		{
+			
+		}
+		
+		
+		
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public FImage getImage() {
+			return image;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public void setImage(FImage image) {
+			this.image = image;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public int getCurrentFrame() {
+			return currentFrame;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public void setCurrentFrame(int currentFrame) {
+			this.currentFrame = currentFrame;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public int getFrameCount() {
+			return frameCount;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public void setFrameCount(int frameCount) {
+			this.frameCount = frameCount;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public int getFrameWidth() {
+			return frameWidth;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public void setFrameWidth(int frameWidth) {
+			this.frameWidth = frameWidth;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public int getFrameHeight() {
+			return frameHeight;
+		}
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public void setFrameHeight(int frameHeight) {
+			this.frameHeight = frameHeight;
+		}
+		
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
+		public AnimationState getAnimationState() {
+			return animationState;
+		}
 }
