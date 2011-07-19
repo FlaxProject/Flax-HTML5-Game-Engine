@@ -25,8 +25,12 @@
   <!-- For HTTP requests										  -->
   <inherits name="com.google.gwt.http.HTTP" />
   
+  
+  <!-- Disable Class Meta data  -XdisableClassMetadata -XdisableCastChecking -->
+ 
+  
   <!-- Only one permutation to speed up compile 				  -->
-
+  
   
   
   <!-- Specify the app entry point class.                         -->

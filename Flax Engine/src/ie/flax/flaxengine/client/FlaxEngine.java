@@ -120,6 +120,10 @@ public abstract class FlaxEngine {
 	private void bind() {
 		
 		
+		/**
+		 * Just a quick key to start the rendering. As now by default the system
+		 * doesn't render anything. As hosted mode gets killed by the rendering
+		 */
 		RootPanel.get().addDomHandler(new KeyPressHandler() {
 			
 			@Override
