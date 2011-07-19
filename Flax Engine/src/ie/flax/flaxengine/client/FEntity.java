@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client;
 
+import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Sprite;
 
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
@@ -12,9 +13,21 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  */
 public class FEntity extends FObject implements JsonSerializable {
 
+	//protected FCamera cam;
+	
 	public FEntity(float x, float y, float width, float height, Sprite sprite, String audio)
 	{
 		super(x, y, width, height, sprite, audio);
+	}
+	
+	
+	/**
+	 * If you wish the entites movement to trigger the camera to follow the entity. You most attach the camera
+	 * @param cam
+	 */
+	public void attachCamera(FCamera cam)
+	{
+		//this.cam = cam;
 	}
 	
 

@@ -3,6 +3,7 @@ package ie.flax.flaxengine.client.Graphic;
 import com.google.gwt.canvas.client.Canvas;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 
@@ -48,7 +49,7 @@ public class Sprite implements JsonSerializable {
 		//If the frame width and height are not specified then its not an animated sprite
 		if(frameWidth+frameHeight != 0) 
 		{
-			frameCount = image.getImage().getWidth()/frameWidth;
+			frameCount = (image.getImage().getWidth()/frameWidth)-1;
 			currentFrame = 0;	
 			animationState = AnimationState.IDE; //default to idle state
 		}
@@ -74,6 +75,8 @@ public class Sprite implements JsonSerializable {
 				}
 								
 				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*frameHeight), frameWidth, frameHeight, position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),frameWidth, frameHeight);
+				//FLog.error("sprite xs " + currentFrame*frameWidth + " sy " + animationState.index*frameHeight);
+			
 			}
 			else{						
 				//Non-animated image
@@ -98,6 +101,8 @@ public class Sprite implements JsonSerializable {
 	 */
 	public void nextFrame()
 	{
+		FLog.debug(" current  " + currentFrame + "  framecount " + frameCount);
+				
 		if(currentFrame < frameCount)
 			currentFrame++;	
 		else
@@ -109,10 +114,10 @@ public class Sprite implements JsonSerializable {
 	//Different Y values for the animations
 		public enum AnimationState { 		
 			IDE(0),
-			UP(1),
-			DOWN(2),
-			LEFT(3),
-			RIGHT(4);
+			UP(2),
+			DOWN(0),
+			LEFT(1),
+			RIGHT(3);
 			
 			
 			private final int index;
@@ -172,13 +177,7 @@ public class Sprite implements JsonSerializable {
 		public int getCurrentFrame() {
 			return currentFrame;
 		}
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
+	
 		public void setCurrentFrame(int currentFrame) {
 			this.currentFrame = currentFrame;
 		}
@@ -243,13 +242,7 @@ public class Sprite implements JsonSerializable {
 			this.frameHeight = frameHeight;
 		}
 		
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
+
 		public AnimationState getAnimationState() {
 			return animationState;
 		}

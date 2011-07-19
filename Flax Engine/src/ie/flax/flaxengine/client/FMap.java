@@ -333,7 +333,17 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			}
 				
 			
-			Graphic.getSingleton().loadImage("http://www.allacrost.org/media/art/sprites_map_claudius.png");
+			Graphic.getSingleton().loadImage("http://www.allacrost.org/media/art/sprites_map_claudius.png").addLoadHanderl(new LoadHandler() {
+				
+				@Override
+				public void onLoad(LoadEvent event) {
+					Player p = new Player(new FVector(0, 0));
+					p.attachCamera(FlaxEngine.camera);
+					addEntity(p);	
+					
+					
+				}
+			});
 			
 			/**
 			 * Loads the tilesheet of the map, waits for the onLoad call back and fires a ImageSelection 
@@ -350,7 +360,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 					 */
 					replaceMap(temp); //op code : this = temp;
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));
-					addEntity(new Player(new FVector(0, 0)));	
+				
 
 				}
 			});	

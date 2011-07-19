@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.Graphic.Sprite;
+import ie.flax.flaxengine.client.Graphic.Sprite.AnimationState;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
@@ -22,7 +23,7 @@ public class Player extends FEntity {
 	 */
 	public Player(FVector pos)
 	{
-		super((float)pos.x, (float)pos.y, 32, 32, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 32,64), "audio");
+		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 32,64), "audio");
 		speed = 10;		
 		bind();
 		
@@ -38,20 +39,53 @@ public class Player extends FEntity {
 			
 				//TODO capitial, incase capts lock is on
 				if(event.getCharCode() == 'w'){
-						y -= speed;			
+						
+						
+						y -= speed;	
+						
+//						if(cam != null)
+//							cam.incrementY(speed*-1);
+						
+						checkCurrentAnimationState(AnimationState.UP);
+						sprite.nextFrame();
 				}
 				else if(event.getCharCode() == 'd'){
-				    x += speed;
+				    
+						x += speed;		
+						
+//						if(cam != null)
+//							cam.incrementX(speed);
+						
+					    checkCurrentAnimationState(AnimationState.RIGHT);				
+						sprite.nextFrame();
 				}
 				else if(event.getCharCode() == 'a'){
-					x -= speed;
+					
+						x -= speed;					
+						checkCurrentAnimationState(AnimationState.LEFT);
+						sprite.nextFrame();
+					
 				}
 				else if(event.getCharCode() == 's'){
-					y += speed;
+					
+						y += speed;
+						checkCurrentAnimationState(AnimationState.DOWN);
+						sprite.nextFrame();
 				}
 				
 			}
 		}, KeyPressEvent.getType());
+	}
+	
+	
+	
+	private void checkCurrentAnimationState(AnimationState state)
+	{
+		 if(sprite.getAnimationState() != state)
+		 {
+		    	sprite.setAnimationState(state);
+		    	sprite.setCurrentFrame(0);
+		  }
 	}
 	
 	
