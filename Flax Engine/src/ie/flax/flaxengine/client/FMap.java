@@ -11,6 +11,7 @@ import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
 import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
+import ie.flax.flaxengine.client.gameobjects.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,13 +78,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	private List<FEntity> entities = new ArrayList<FEntity>();
 
 	/**
-	 * FMap constructor takes in the map path and use the static service file
-	 * handle to read the map file which is has the JSON of the map. The JSON
-	 * string is then returned to the FMap class via an event due to
-	 * asynchronous
-	 * 
-	 * @param mapPath
-	 *            address to the map file to be loaded.
+	 * FMap object is constructed from a file by provding the path name. 
+	 * @param mapPath - URL to map.json file
+	 * @param drawingSpace - TODO maybe remove and just pass in in drawing loop.
 	 */
 	public FMap(String mapPath, Canvas drawingSpace) {		
 		
@@ -323,6 +320,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			}
 				
 			
+			Graphic.getSingleton().loadImage("http://flax.ie/test/g.png");
+			
 			/**
 			 * Loads the tilesheet of the map, waits for the onLoad call back and fires a ImageSelection 
 			 * event which will load the tilesheet into the tileMenuView
@@ -331,19 +330,28 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				
 				@Override
 				public void onLoad(LoadEvent event) {
-			/**
+					
+					/**
 					 * Only load in the new map data once all the images have loaded for the map.
 					 * So that the calucations for which texture to pick from an image can be done at load and not during frame 
 					 */
 					replaceMap(temp); //op code : this = temp;
-
-					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));				
+					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));
+					addEntity(new Player());	
 
 				}
 			});	
 			
+
+			
 			//load another tilesheet by default	
-			Graphic.getSingleton().loadImage("http://flax.ie/test/tiles.png");	
+			Graphic.getSingleton().loadImage("sprites.png").addLoadHanderl(new LoadHandler() {
+				
+				@Override
+				public void onLoad(LoadEvent event) {
+					addEntity(new Player());					
+				}
+			});	
 			
 			
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");

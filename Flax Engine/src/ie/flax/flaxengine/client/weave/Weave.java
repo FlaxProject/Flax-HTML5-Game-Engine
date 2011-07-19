@@ -1,5 +1,4 @@
 package ie.flax.flaxengine.client.weave;
-import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
 import ie.flax.flaxengine.client.FlaxEngine;

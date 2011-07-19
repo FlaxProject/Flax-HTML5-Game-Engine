@@ -14,32 +14,12 @@ import ie.flax.flaxengine.client.FlaxEngine;
  */
 public class Sprite {
 	
-	//Different Y values for the animations
-	public enum AnimationState { 		
-		UP(0),
-		DOWN(1),
-		LEFT(2),
-		RIGHT(3),
-		IDE(4);
-		
-		private final int index;
-		
-		AnimationState(int index)
-		{
-			this.index = index;
-		}
-		
-		public int index(){
-			return index;
-		}
-	}
-	
 	private FImage image;
 	private int currentFrame; //The current frame, x pos across the image
 	private int frameCount; //Number of frames across
 	
 	private int frameWidth; // size of each frame eg 32 * 32
-	private int fameHeight;
+	private int frameHeight;
 	
 	private AnimationState animationState;	//This holds the animated row
 	
@@ -59,7 +39,7 @@ public class Sprite {
 	 */
 	public Sprite(String Path, int frameWidth, int frameHeight)
 	{
-		this.fameHeight = frameHeight;
+		this.frameHeight = frameHeight;
 		this.frameWidth = frameWidth;
 		image =  Graphic.getSingleton().getFImage(Path); 
 		
@@ -82,7 +62,7 @@ public class Sprite {
 		if(image.isLoaded())
 		{
 			//If its frameheight is not specified then its not an animated sprite
-			if(fameHeight != 0)
+			if(frameHeight != 0)
 			{
 				if(animationState == AnimationState.IDE )
 				{
@@ -90,7 +70,7 @@ public class Sprite {
 					//This may fuck up as its tied to the refresh rate of the canvas
 				}
 				
-				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*fameHeight));
+				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*frameHeight), frameWidth, frameHeight, position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),image.getImage().getWidth(), image.getImage().getHeight());
 			}
 			
 			//Non-animated image
@@ -119,4 +99,28 @@ public class Sprite {
 		else
 			currentFrame = 0;
 	}
+	
+	
+	
+	//Different Y values for the animations
+		public enum AnimationState { 		
+			IDE(0),
+			UP(1),
+			DOWN(2),
+			LEFT(3),
+			RIGHT(4);
+			
+			
+			private final int index;
+			
+			AnimationState(int index)
+			{
+				this.index = index;
+			}
+			
+			public int index(){
+				return index;
+			}
+		}
+		
 }

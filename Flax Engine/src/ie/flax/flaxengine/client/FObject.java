@@ -13,12 +13,12 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  */
 public class FObject implements JsonSerializable{
 
-	private float x;
-	private float y;
-	private float width;
-	private float height;
-	private Sprite sprite;
-	private String audio;
+	protected float x;
+	protected float y;
+	protected float width;
+	protected float height;
+	protected Sprite sprite;
+	protected String audio;
 	
 
 	/**
