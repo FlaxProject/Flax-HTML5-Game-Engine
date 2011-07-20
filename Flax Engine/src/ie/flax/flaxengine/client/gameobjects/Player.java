@@ -8,6 +8,8 @@ import ie.flax.flaxengine.client.Graphic.Sprite.AnimationState;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -24,7 +26,7 @@ public class Player extends FEntity {
 	 */
 	public Player(FVector pos)
 	{
-		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://www.allacrost.org/media/art/sprites_map_claudius.png", 32,64), "audio");
+		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://flax.ie/test/s.png", 32,64), "audio");
 		speed = 23;		
 		bind();
 		
@@ -44,6 +46,26 @@ public class Player extends FEntity {
 
 	private void bind()
 	{
+		RootPanel.get().addDomHandler( new TouchStartHandler() {
+			
+			@Override
+			public void onTouchStart(TouchStartEvent event) {
+				
+
+				y += speed;
+				checkCurrentAnimationState(AnimationState.DOWN);
+				sprite.nextFrame();
+				
+				if(cam != null)
+				{
+					cam.incrementY(speed);
+				}
+				
+			}
+		}, TouchStartEvent.getType());
+		
+		
+		
 		RootPanel.get().addHandler( new KeyPressHandler() {
 			
 			@Override

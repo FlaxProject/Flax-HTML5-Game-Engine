@@ -342,7 +342,7 @@ public abstract class FlaxEngine {
 	 * The run method starts the game loop
 	 */
 	public void run() {
-		playing = false;
+		playing = true;
 		Graphic.getSingleton().requestAnimationFrame(gameTimer);
 	}
 
