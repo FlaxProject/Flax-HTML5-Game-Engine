@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.controls;
 
+import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.weave.Weave;
 
@@ -64,6 +65,7 @@ public class TileRegion implements IControl {
 			}
 			
 			mouseState = MouseState.MOUSE_UP;
+			FLog.debug("editor.getEditorOverLay().getOffsetWidth()" + editor.getEditorOverLay().getOffsetWidth() + "editor.getEditorOverLay().getOffsetHeight()" + editor.getEditorOverLay().getOffsetHeight());
 			editor.getEditorOverLay().getContext2d().clearRect(0, 0, editor.getEditorOverLay().getOffsetWidth(), editor.getEditorOverLay().getOffsetHeight()); 
 		}
 		

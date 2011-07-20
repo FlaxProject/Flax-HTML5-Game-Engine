@@ -13,7 +13,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  */
 public class FEntity extends FObject implements JsonSerializable {
 
-	//protected FCamera cam;
+	protected transient FCamera cam;
 	
 	public FEntity(float x, float y, float width, float height, Sprite sprite, String audio)
 	{
@@ -27,7 +27,7 @@ public class FEntity extends FObject implements JsonSerializable {
 	 */
 	public void attachCamera(FCamera cam)
 	{
-		//this.cam = cam;
+		this.cam = cam;
 	}
 	
 

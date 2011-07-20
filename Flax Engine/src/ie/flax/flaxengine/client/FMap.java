@@ -129,10 +129,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			int camYRelativeCopyScaled =  camYRelativeCopy*tileSize;
 			
 			Context2d ctx = drawingSpace.getContext2d();	
-			
-			
-
-
+				
 			
 			// all in tiles - relative
 			while(camYRelative < camYAndHeight)
@@ -152,9 +149,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				camYRelative++;
 			}
 			
-			//FLog.debug("finihsed drawing");
-			
-
 			for(FObject temp : objects)
 			{
 				//check if the eneity can be seen on screen before drawing
@@ -168,11 +162,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
 				temp.draw(drawingSpace);
 			}		
-			
-	
-		
-			
-			
 			
 		}
 	}
@@ -331,13 +320,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				
 				//Graphic.getSingleton().loadImage(obj.getSprite());			
 			}
-				
+
 			
 			Graphic.getSingleton().loadImage("http://www.allacrost.org/media/art/sprites_map_claudius.png").addLoadHanderl(new LoadHandler() {
 				
 				@Override
 				public void onLoad(LoadEvent event) {
-					Player p = new Player(new FVector(0, 0));
+					
+					Player p = new Player(new FVector(200, 200));
 					p.attachCamera(FlaxEngine.camera);
 					addEntity(p);	
 					

@@ -154,9 +154,24 @@ public class Graphic {
      * @return
      */
     public final FImage loadImage(final String URL) {
-
-        FImage temp = new FImage(URL);
-        imageLibary.put(URL, temp);
+  
+    	FImage temp = new FImage(URL);
+		imageLibary.put(URL, temp);
+    	
+		
+		//TODO In furture look into checking if the image is already in the lib. Though I am pretty sure it just loads from cache so no bigy
+    	/**
+    	 * Check if image is already in libary
+    	 
+    	temp = imageLibary.get(URL);
+   	   	
+    	if( temp == null )
+    	{  	
+    		temp = new FImage(URL);
+    		imageLibary.put(URL, temp);
+    	}
+    	*/
+    	
         return temp;
     }
 

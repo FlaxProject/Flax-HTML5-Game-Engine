@@ -5,11 +5,13 @@ import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.onImageLoadedEvent;
 
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.event.*;
 
 /**
  * This wraps the GWT Image class, so that we can add isLoaded Meta data to the class
@@ -68,7 +70,7 @@ public class FImage {
 	 * @param handler
 	 */
 	public void addLoadHanderl(LoadHandler handler)
-	{
+	{		
 		imageData.addLoadHandler(handler);
 	}
 	

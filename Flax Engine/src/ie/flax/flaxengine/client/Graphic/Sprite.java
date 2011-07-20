@@ -1,6 +1,9 @@
 package ie.flax.flaxengine.client.Graphic;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.Window;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 
 import ie.flax.flaxengine.client.FLog;
@@ -15,17 +18,17 @@ import ie.flax.flaxengine.client.FlaxEngine;
  *
  */
 public class Sprite implements JsonSerializable {
+		
+	private transient FImage image; 
+	private transient int currentFrame; //The current frame, x pos across the image	
+	private transient int frameCount; //Number of frames across
+	private transient AnimationState animationState;	//This holds the animated row
 	
-	private FImage image; //FIXME serialiable problems
-	private int currentFrame; //The current frame, x pos across the image
-	private int frameCount; //Number of frames across
-	
+	private String imagePath;	
 	private int frameWidth; // size of each frame eg 32 * 32
 	private int frameHeight;
 	
-	private AnimationState animationState;	//This holds the animated row
 	
-
 	/**
 	 * The path is the string URL to the image
 	 * 
@@ -40,19 +43,54 @@ public class Sprite implements JsonSerializable {
 	 * @param frameWidth 
 	 * @param frameHeight
 	 */
-	public Sprite(String Path, int frameWidth, int frameHeight)
+	public Sprite(final String path, final int frameWidth, final int frameHeight)
 	{
 		this.frameHeight = frameHeight;
 		this.frameWidth = frameWidth;
-		image =  Graphic.getSingleton().getFImage(Path); 
+		this.imagePath = path;
 		
-		//If the frame width and height are not specified then its not an animated sprite
-		if(frameWidth+frameHeight != 0) 
-		{
-			frameCount = (image.getImage().getWidth()/frameWidth)-1;
-			currentFrame = 0;	
-			animationState = AnimationState.IDE; //default to idle state
-		}
+		init();
+	}
+	
+	
+	
+	/**
+	 * FIXME CIARAN	- Get the serializer to call a method of name init() if the class type implements a certain interface
+	 * or go crazy and try and get rid of the end for public get and sets and have the system load from just the construct paramters. 
+	 * 
+	 * 
+	 */
+	
+	
+	/**
+	 * This method most be called in constructor and also after deserailzation
+	 */
+	public void init()
+	{
+								
+		Graphic.getSingleton().loadImage(imagePath).addLoadHanderl(new LoadHandler() {
+			
+			@Override
+			public void onLoad(LoadEvent event) {
+				
+				image = Graphic.getSingleton().getFImage(imagePath);
+				//If the frame width and height are not specified then its not an animated sprite
+				if(frameWidth+frameHeight != 0) 
+				{
+					frameCount = (image.getImage().getWidth()/frameWidth)-1;
+					currentFrame = 0;	
+					animationState = AnimationState.IDE; //default to idle state
+				}
+			}
+		});
+	}
+	
+	
+
+	@Deprecated	
+	public Sprite()
+	{
+		animationState = AnimationState.IDE;
 	}
 	
 	
@@ -101,7 +139,7 @@ public class Sprite implements JsonSerializable {
 	 */
 	public void nextFrame()
 	{
-		FLog.debug(" current  " + currentFrame + "  framecount " + frameCount);
+		//FLog.debug(" current  " + currentFrame + "  framecount " + frameCount + " anaimtion state " + animationState);
 				
 		if(currentFrame < frameCount)
 			currentFrame++;	
@@ -132,55 +170,19 @@ public class Sprite implements JsonSerializable {
 			}
 		}
 		
-		
-		/**
-		 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated	
-		public Sprite()
-		{
 			
+		public String objectState()
+		{
+			return this + " currentFrame " + currentFrame + " frameWidth " + frameWidth + " frameCount " + frameCount + " anaimtion state " + animationState;
 		}
-		
-		
-		
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
-		public FImage getImage() {
-			return image;
-		}
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
-		public void setImage(FImage image) {
-			this.image = image;
-		}
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
-		public int getCurrentFrame() {
-			return currentFrame;
-		}
+				
 	
+
 		public void setCurrentFrame(int currentFrame) {
 			this.currentFrame = currentFrame;
 		}
+	
+		
 		/**
 		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
 		 * can work Using this method is at your own risk and will most likely break
@@ -188,19 +190,12 @@ public class Sprite implements JsonSerializable {
 		 * 
 		 */
 		@Deprecated
-		public int getFrameCount() {
-			return frameCount;
+		public void setFrameWidth(int frameWidth) {
+			this.frameWidth = frameWidth;
+			init();
 		}
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
-		public void setFrameCount(int frameCount) {
-			this.frameCount = frameCount;
-		}
+		
+
 		/**
 		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
 		 * can work Using this method is at your own risk and will most likely break
@@ -211,16 +206,7 @@ public class Sprite implements JsonSerializable {
 		public int getFrameWidth() {
 			return frameWidth;
 		}
-		/**
-		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-		 * can work Using this method is at your own risk and will most likely break
-		 * your code in RUNTIME!!
-		 * 
-		 */
-		@Deprecated
-		public void setFrameWidth(int frameWidth) {
-			this.frameWidth = frameWidth;
-		}
+		
 		/**
 		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
 		 * can work Using this method is at your own risk and will most likely break
@@ -245,5 +231,15 @@ public class Sprite implements JsonSerializable {
 
 		public AnimationState getAnimationState() {
 			return animationState;
+		}
+
+
+		public String getImagePath() {
+			return imagePath;
+		}
+
+
+		public void setImagePath(String imagePath) {
+			this.imagePath = imagePath;
 		}
 }

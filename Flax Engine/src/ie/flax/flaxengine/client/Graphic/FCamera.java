@@ -75,7 +75,6 @@ public class FCamera {
 		this.width = width;
 		FLog.trace(this.toString() + " setWidth(int " + this.width + ") PX ");
 	}
-
 	
 
 	/**
@@ -132,7 +131,8 @@ public class FCamera {
 	
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
-
+		}else{
+			FLog.error("Unable to set " + this.toString() + " setX(double " + x + ") ");
 		}
 	}
 
@@ -148,10 +148,11 @@ public class FCamera {
 		{
 
 			position.y = y;
-			FLog.trace(this.toString() + " setY(double " + position.y + ") ");
+			FLog.trace(this.toString() + " setY(double " + position.y + ") ");						
+		}else{
 			
+			FLog.error("Unable to set " + this.toString() + " setY(double " + y + ") ");
 
-			
 		}
 	}
 	
