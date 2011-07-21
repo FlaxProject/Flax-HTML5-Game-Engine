@@ -77,7 +77,7 @@ public abstract class FlaxEngine {
 			
 
 			if (currentMilliseconds < oldMilliseconds) {
-				FLog.updateFps(frameCount);
+				editor.updateFps(frameCount);
 				frameCount = 0;
 			}
 
@@ -93,7 +93,6 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
 
-		FileHandle.writeStringToLocalStorage("test", "I am a test string");
 		this.insertId = insertId;
 		
 		/**
@@ -108,7 +107,7 @@ public abstract class FlaxEngine {
 		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
 		
 		/**
-		 * Contrsucts the editor weave
+		 * Constructs the editor weave
 		 */
 		editor = new Weave(insertId, drawingSpace, editorOverLay, getCurrentMap());		
 	}

@@ -54,3 +54,11 @@ body {
 	 -webkit-transition:background-color 0.5s linear;  
 	background: red;
 }
+
+/**FPS**/
+
+.fpsWidget {
+background-color: rgba(240, 240, 240, 0.6) !important;
+-webkit-box-shadow: 0px 0px 5px rgba(180,180,180,0.7);
+padding: 2px;
+}

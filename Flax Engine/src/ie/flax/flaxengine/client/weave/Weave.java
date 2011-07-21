@@ -22,7 +22,9 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * This is the main class of the weave editor. 
@@ -49,6 +51,7 @@ public class Weave implements ImageSelectionEventHandler{
 	private TileRegion tileRegion;
 	private Canvas editorOverLay;
 
+	private HTML fpsHtml;
 	
 	/**
 	 * This construct takes in the width and height of the canvas. It then inserts the panel of into the element 
@@ -65,7 +68,12 @@ public class Weave implements ImageSelectionEventHandler{
 		this.editorOverLay = editorOverLay;
 		this.drawingSpace = drawingSpace;
 		this.map = map;
-		this.currentTile = new FTile();	
+		this.currentTile = new FTile();
+		
+		fpsHtml = new HTML();
+		fpsHtml.setStyleName("fpsWidget");
+		RootPanel.get().add(fpsHtml,10,30);
+		
 		
 		//Controls the select region of tiles operations
 		tileRegion = new TileRegion(this);
@@ -287,5 +295,9 @@ public class Weave implements ImageSelectionEventHandler{
 	public void toggle() {
 		running = !running;
 		WeavePresenter.toggleDisplay();
+	}
+
+	public void updateFps(int frameCount) {
+		fpsHtml.setText("FPS: "+frameCount);
 	}
 }
