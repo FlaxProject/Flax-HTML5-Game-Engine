@@ -132,10 +132,10 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				
 			
 			// all in tiles - relative
-			while(camYRelative < camYAndHeight)
+			while(camYRelative <= camYAndHeight)
 			{
 				// in number of tiles - relative
-				while( camXRelative < camXAndWidth )
+				while( camXRelative <= camXAndWidth )
 				{
 					/**
 					 * TODO optimize this some more later by inlining, tho its fine for the mo
@@ -337,16 +337,16 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 					 */
 					replaceMap(temp); //op code : this = temp;
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));
+					
+					Player p = new Player(new FVector(300, 300));
+					p.attachCamera(FlaxEngine.camera);
+					addEntity(p);	
+					
 				
 
 				}
 			});	
-			
-			Player p = new Player(new FVector(0, 0));
-			p.attachCamera(FlaxEngine.camera);
-			addEntity(p);	
-			
-			
+						
 			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
 			
 			Loaded = true;

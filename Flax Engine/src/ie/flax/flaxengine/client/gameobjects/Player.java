@@ -27,7 +27,7 @@ public class Player extends FEntity {
 	public Player(FVector pos)
 	{
 		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://flax.ie/test/s.png", 32,64), "audio");
-		speed = 23;		
+		speed = 12;		
 		bind();
 		
 		FLog.trace(this + " was created ");		
@@ -39,7 +39,7 @@ public class Player extends FEntity {
 	@Deprecated	
 	public Player(){
 		bind();
-		speed = 10;
+		speed = 12;
 	}
 	
 
@@ -58,7 +58,10 @@ public class Player extends FEntity {
 				
 				if(cam != null)
 				{
-					cam.incrementY(speed);
+					if( cam.getY() >= ( cam.getWidth()/2 )   )
+					{
+						cam.incrementY(speed);						
+					}
 				}
 				
 			}
