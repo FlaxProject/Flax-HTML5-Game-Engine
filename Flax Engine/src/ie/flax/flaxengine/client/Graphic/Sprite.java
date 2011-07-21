@@ -23,10 +23,12 @@ public class Sprite implements JsonSerializable {
 	private transient int currentFrame; //The current frame, x pos across the image	
 	private transient int frameCount; //Number of frames across
 	private transient AnimationState animationState;	//This holds the animated row
+	private transient static int interpolation;
 	
 	private String imagePath;	
 	private int frameWidth; // size of each frame eg 32 * 32
 	private int frameHeight;
+
 	
 	
 	/**
@@ -139,13 +141,13 @@ public class Sprite implements JsonSerializable {
 	 */
 	public void nextFrame()
 	{
-		//FLog.debug(" current  " + currentFrame + "  framecount " + frameCount + " anaimtion state " + animationState);
-				
-		if(currentFrame < frameCount)
-			currentFrame++;	
-		else
-			currentFrame = 0;
+		
+			if(currentFrame < frameCount)
+				currentFrame++;	
+			else
+				currentFrame = 3;	//FIXME set back to zero, only for spefic sprite	
 	}
+		
 	
 	
 	
