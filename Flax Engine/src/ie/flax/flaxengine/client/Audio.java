@@ -28,10 +28,6 @@ public class Audio {
 	 * @param src
 	 */
 	public static void loadHtml(String src) {
-		// Later on, this should be changed to SafeHtml
-		// this will be when we move to GWT 2.1
-		// http://code.google.com/webtoolkit/doc/latest/DevGuideSecuritySafeHtml.html
-		
 		//only do anything if the tag hasn't been loaded previously by something else
 		if(!tags.contains(src)){
 		
@@ -41,7 +37,7 @@ public class Audio {
 		
 		//adds the html
 		String pageContent="<audio id="+tagName+" src="+src+"></audio>";
-		RootPanel.get().add(new HTML(pageContent));
+		FlaxEngine.settings.getContainer().add(new HTML(pageContent));
 		
 		//adds that tag to the list
 		tags.add(tagName);

@@ -29,8 +29,12 @@ public class WeavePresenter extends AbstractPresenter {
 		TilePresenter = new TileMenuPresenter(editor);
 		//MiniPresenter = new MiniMapPresenter(editor);
 		
-		display.addToSouth(TilePresenter.getView(), "TileMenu");
+		/*
+		 * FIXME Switch these back again - tilemenu first, console second.
+		 */
 		display.addToSouth(FLog.getWidget(), "Console");
+		display.addToSouth(TilePresenter.getView(), "TileMenu");
+		
 	
 
 		//display.addToSouthEastCorner(MiniPresenter.getView());

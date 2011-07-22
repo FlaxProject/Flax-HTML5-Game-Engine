@@ -72,7 +72,7 @@ public class Weave implements ImageSelectionEventHandler{
 		
 		fpsHtml = new HTML();
 		fpsHtml.setStyleName("fpsWidget");
-		RootPanel.get().add(fpsHtml,10,30);
+		FlaxEngine.settings.getContainer().add(fpsHtml,10,30);
 		
 		
 		//Controls the select region of tiles operations

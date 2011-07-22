@@ -34,6 +34,7 @@ public class FLog {
 	private static ScrollPanel scrollPanel = new ScrollPanel();
 	private static HTMLPanel logWidget = new HTMLPanel("");
 	private static boolean inited = false;
+	
 	/**
 	 * Logs a debug message.
 	 * 

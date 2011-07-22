@@ -131,8 +131,8 @@ public class FileHandle {
      * @param stringToWrite
      *            The value to the key-value-pair in local storage.
      */
-    public static void writeStringToLocalStorage(String key,
-            String stringToWrite) {
+    public static void writeStringToLocalStorage(String key, 
+    		String stringToWrite) {
         if (storage != null) {
             storage.setItem(key, stringToWrite);
         } else {

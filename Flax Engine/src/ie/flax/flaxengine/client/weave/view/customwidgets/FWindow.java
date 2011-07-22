@@ -1,5 +1,7 @@
 package ie.flax.flaxengine.client.weave.view.customwidgets;
 
+import ie.flax.flaxengine.client.FlaxEngine;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -7,7 +9,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.i18n.client.HasDirection;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -51,10 +51,9 @@ public class FWindow {
         window.setAnimationEnabled(true);
         window.show();
 
-        window.setPopupPosition( (Window.getClientWidth() / 2) - (window.getOffsetWidth() / 2),(Window.getClientHeight() / 2) - (window.getOffsetHeight() / 2));
         window.hide();
 
-        RootPanel.get().add(window);
+        FlaxEngine.settings.getContainer().add(window);
 
         window.addCloseHandler(new CloseHandler<PopupPanel>() {
 
@@ -106,8 +105,8 @@ public class FWindow {
     public void show() {
         window.show();
         window.setPopupPosition(
-                (Window.getClientWidth() / 2) - (window.getOffsetWidth() / 2),
-                (Window.getClientHeight() / 2) - (window.getOffsetHeight() / 2));
+                		(FlaxEngine.settings.getContainer().getAbsoluteLeft() + (FlaxEngine.settings.getWidth() ) /2) - (window.getOffsetWidth() / 2),
+                		(FlaxEngine.settings.getContainer().getAbsoluteTop() + (FlaxEngine.settings.getHeight() ) /2) - (window.getOffsetHeight() / 2));
     }
 
 }

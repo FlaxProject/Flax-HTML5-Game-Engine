@@ -6,6 +6,7 @@ import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 import com.kfuntak.gwt.json.serialization.client.Serializer;
 
@@ -19,8 +20,8 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler {
     private boolean collisionOn;
     private String UID;
     private String serverPath;
-    private boolean fullscreen;
     private int width, height;
+	private String insertId;
 
     /**
      * This initialises the settings to their defaults. By default,
@@ -34,7 +35,6 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler {
         UID = "6cSNeQPq8qkcWzUBUe/LF1wPyC3iKJpO";
         collisionOn = true;
         serverPath = "/server.php";
-        fullscreen = true;
         width = (Window.getClientWidth());
         height = (Window.getClientHeight());
     }
@@ -60,33 +60,20 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler {
      * @param collision
      * @param UID
      * @param serverPath
+     * @param insertID This is needed for width and height.
      */
     public Settings(String imgDirPath, String mapDirPath, boolean collision,
-            String UID, String serverPath, boolean fullScreen) {
+            String UID, String serverPath, String insertID) {
         imageDirectoryPath = imgDirPath;
         mapDirectoryPath = mapDirPath;
         collisionOn = collision;
         this.UID = UID;
         this.serverPath = serverPath;
-        fullscreen = fullScreen;
-        if (fullscreen) {
-            width = (Window.getClientWidth());
-            height = (Window.getClientHeight());
-        } else if (!fullscreen) {
-            /*
-             * TODO CARL At some point make non-fullscreen work.
-             */
-            // width = RootPanel.get(insertId).getOffsetWidth();
-            // height = RootPanel.get(insertId).getOffsetHeight();
-        }
+        setContainer(insertID);
     }
 
     public boolean getCollisionOn() {
         return collisionOn;
-    }
-
-    public boolean getFullscreen() {
-        return fullscreen;
     }
 
     public int getHeight() {
@@ -149,11 +136,6 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler {
     }
 
     @Deprecated
-    public void setFullscreen(boolean fullscreenOn) {
-        fullscreen = fullscreenOn;
-    }
-
-    @Deprecated
     public void setHeight(int canvasHeight) {
         height = canvasHeight;
     }
@@ -192,4 +174,24 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler {
     public void setWidth(int canvasWidth) {
         width = canvasWidth;
     }
+
+	public void setContainer(String insertId) {
+		this.insertId = insertId;
+		 width = RootPanel.get(insertId).getOffsetWidth();
+	     height = RootPanel.get(insertId).getOffsetHeight();
+	}
+
+	public RootPanel getContainer() {
+		return RootPanel.get(insertId);
+	}
+	
+	@Deprecated
+	public String getInsertId() {
+		return this.insertId;
+	}
+	
+	@Deprecated
+	public void setInsertId(String insertId) {
+		this.insertId = insertId;
+	}
 }
