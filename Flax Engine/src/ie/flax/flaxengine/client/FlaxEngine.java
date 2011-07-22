@@ -288,7 +288,7 @@ public abstract class FlaxEngine {
 				return true;
 	
 		if ((maps.get(0) != null) && maps.get(0).getLoaded()
-		&& Graphic.getSingleton().isComponentReady() && Audio.isComponentReady()) {
+		&& Graphic.getSingleton().isComponentReady() && FAudio.isComponentReady()) {
 			
 			engineStatus = true;
 			RootPanel.get(insertId).remove(splashScreen);
