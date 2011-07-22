@@ -8,7 +8,6 @@ import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
 
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
@@ -171,7 +170,6 @@ public class WeaveViewImpl implements WeaveView{
 
 	@Override
 	public Widget getWidget() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

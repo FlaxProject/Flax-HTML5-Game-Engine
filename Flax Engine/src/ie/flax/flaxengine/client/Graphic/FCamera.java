@@ -56,16 +56,25 @@ public class FCamera {
 	/**
 	 * @param mapWidth the mapWidth to set
 	 */
-	public void setMapWidth(int mapWidth) {
+	public void setMapWidth(final int mapWidth) {
 		this.mapWidth = mapWidth;
 	}
 
 	/**
 	 * @param mapHeight the mapHeight to set
 	 */
-	public void setMapHeight(int mapHeight) {
+	public void setMapHeight(final int mapHeight) {
 		this.mapHeight = mapHeight;
 	}
+		
+	public int getMapWidth() {
+		return mapWidth;
+	}
+
+	public int getMapHeight() {
+		return mapHeight;
+	}
+
 
 
 	/**
@@ -127,8 +136,7 @@ public class FCamera {
 		
 		//FIXME CIARAN - magic number, only for testing will change at some piont
 		if(x <= (mapWidth*32)-(width)&& x >= 0)
-		{
-	
+		{	
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 		}else{

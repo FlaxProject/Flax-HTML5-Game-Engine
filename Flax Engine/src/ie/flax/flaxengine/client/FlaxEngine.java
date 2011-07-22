@@ -315,6 +315,7 @@ public abstract class FlaxEngine {
 		return maps.get(currentMap);
 	}
 
+
 	/**
 	 * Gets a reference to the editor
 	 * @return

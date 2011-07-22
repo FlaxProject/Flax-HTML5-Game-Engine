@@ -3,6 +3,7 @@ package ie.flax.flaxengine.client.gameobjects;
 import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
+import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Sprite;
 import ie.flax.flaxengine.client.Graphic.Sprite.AnimationState;
 
@@ -43,7 +44,9 @@ public class Player extends FEntity {
 	}
 	
 
-
+	/**
+	 * Binds the key and touch events to the player entity. 
+	 */
 	private void bind()
 	{
 		RootPanel.get().addDomHandler( new TouchStartHandler() {
@@ -73,9 +76,9 @@ public class Player extends FEntity {
 			
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
-			
-				//TODO capitial, incase capts lock is on
-				if(event.getCharCode() == 'w'){
+
+				
+				if(event.getCharCode() == 'w' || event.getCharCode() == 'W' ){
 						
 						
 						y -= speed;							
@@ -85,11 +88,16 @@ public class Player extends FEntity {
 
 						if(cam != null)
 						{
-							cam.incrementY(speed*-1);
+							//FLog.error(" - " + ( y+height - cam.getY() )  + "  <  " + (cam.getHeight()/2));
+							if( y+height - cam.getY()  < (cam.getHeight()/2) )
+							{
+								cam.incrementY(speed*-1);
+							}
+							
 						}
 						
 				}
-				else if(event.getCharCode() == 'd'){
+				else if(event.getCharCode() == 'd' || event.getCharCode() == 'D'){
 				    
 						x += speed;								
 					    checkCurrentAnimationState(AnimationState.RIGHT);				
@@ -101,7 +109,7 @@ public class Player extends FEntity {
 						}
 						
 				}
-				else if(event.getCharCode() == 'a'){
+				else if(event.getCharCode() == 'a' || event.getCharCode() == 'A'){
 					
 						x -= speed;					
 						checkCurrentAnimationState(AnimationState.LEFT);
@@ -113,13 +121,14 @@ public class Player extends FEntity {
 						}
 					
 				}
-				else if(event.getCharCode() == 's'){
+				else if(event.getCharCode() == 's' || event.getCharCode() == 'S'){
 					
 						y += speed;
 						checkCurrentAnimationState(AnimationState.DOWN);
 						sprite.nextFrame();
-						
-						if(cam != null)
+
+						//FLog.error(" - " + ( y+height - cam.getY() )  + "  >  " + cam.getHeight()/2);
+						if( y+height - cam.getY()  > (cam.getHeight()/2) )
 						{
 							cam.incrementY(speed);
 						}
