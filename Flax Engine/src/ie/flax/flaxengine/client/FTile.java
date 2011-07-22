@@ -12,7 +12,6 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  */
 public class FTile implements JsonSerializable {
 
-	private int texture;
 	private double textureX;
 	private double textureY;
 
@@ -28,8 +27,6 @@ public class FTile implements JsonSerializable {
 
 	public FTile(int texture, ImageElement img, int tileSize) {
 		super();
-
-		this.texture = texture;
 		this.setTileTexture(texture, img, tileSize);
 		// FLog.debug( this + " was created width  ( "+ x + "x, " + y + "y )" );
 	}
@@ -60,15 +57,6 @@ public class FTile implements JsonSerializable {
 		super();
 	}
 
-	/**
-	 * Sets the texture of the tile which is the location on the tilesheet to
-	 * used when drawing the tile
-	 * 
-	 * @return int texture number reference
-	 */
-	public final int getTexture() {
-		return texture;
-	}
 
 	/**
 	 * Sets the texture of the tile which is the image used when drawing the
@@ -78,7 +66,6 @@ public class FTile implements JsonSerializable {
 	 */
 	public void setTileTexture(int texture, ImageElement img, int tileSize) {
 
-		this.texture = texture;
 
 		/**
 		 * These are here so they don't have to be done in the draw loop
@@ -95,12 +82,11 @@ public class FTile implements JsonSerializable {
 		textureY = ySrc * tileSize;
 	}
 
-
-	public void setTexture(int texture) {
-		this.texture = texture;
-	}
-
-	public double getTextureX() {
+	/**
+	 * Gets the X corrdinate of the positon of the texture on the tilesheet
+	 * @return
+	 */
+	public final double getTextureX() {
 		return textureX;
 	}
 
@@ -110,7 +96,11 @@ public class FTile implements JsonSerializable {
 	}
 
 
-	public double getTextureY() {
+	/**
+	 * Gets the Y corrdinate of the positon of the texture on the tilesheet
+	 * @return
+	 */
+	public final double getTextureY() {
 		return textureY;
 	}
 

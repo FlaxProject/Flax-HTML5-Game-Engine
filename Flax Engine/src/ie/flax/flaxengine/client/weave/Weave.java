@@ -202,7 +202,6 @@ public class Weave implements ImageSelectionEventHandler{
 		FTile temp =  map.getTile(x, y);		
 		temp.setTextureX(currentTile.getTextureX());	
 		temp.setTextureY(currentTile.getTextureY());
-		temp.setTexture(currentTile.getTexture());
 	}
 		
 

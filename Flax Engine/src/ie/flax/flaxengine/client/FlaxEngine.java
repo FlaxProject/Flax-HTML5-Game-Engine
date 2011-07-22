@@ -72,7 +72,7 @@ public abstract class FlaxEngine {
 			
 			
 			if (isEngineReady() && playing) {			
-					maps.get(0).draw(null, null);
+					maps.get(0).draw(camera, drawingSpace);
 			}
 			
 
@@ -104,7 +104,7 @@ public abstract class FlaxEngine {
 				
 		FLog.init();		
 		initEngine(insertId);		
-		maps.add(new FMap(mapPaths, drawingSpace));// Loads all the maps
+		maps.add(new FMap(mapPaths));// Loads all the maps
 		
 		/**
 		 * Constructs the editor weave

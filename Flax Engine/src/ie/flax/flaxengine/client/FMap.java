@@ -51,7 +51,7 @@ import com.kfuntak.gwt.json.serialization.client.Serializer;
  * @author Ciaran McCann
  * 
  */
-public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraUpdateEventHandler{
+public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 
 	private int width;
 	private int height;
@@ -59,7 +59,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	private int tileSize;
 	private String name;
 	private boolean Loaded; 
-	private Canvas drawingSpace;
 	private ImageElement tileSheetImage;
 	
 	/**
@@ -82,12 +81,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	 * @param mapPath - URL to map.json file
 	 * @param drawingSpace - TODO maybe remove and just pass in in drawing loop.
 	 */
-	public FMap(String mapPath, Canvas drawingSpace) {		
+	public FMap(String mapPath) {		
 		
-		this.drawingSpace = drawingSpace;
 		name = mapPath;
-		
-		EventBus.handlerManager.addHandler(CameraUpdateEvent.TYPE, this);
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events	
 		FileHandle.readFileAsString(mapPath, this.toString());//Makes a request for the map file	
 	}
@@ -101,52 +97,55 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	 * @param cam2 
 	 */
 	public void draw(FCamera cam, Canvas drawingSpace) {	
+
+		/**
+			 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
+			 * TODO Ciaran - at some piont slim down these varibles. Wont save much but could be done some time
+			 */			
+			final double camX = cam.getX();
+			final double camY = cam.getY();
+			final double camXWidth = camX+cam.getWidth();
+			final double camYHeight = camY+cam.getHeight();
+			
+			int camXRelative = (int) (camX/tileSize);
+			int camYRelative = (int) (camY/tileSize);
+			final int camXAndWidth = (int) (camXRelative)+cam.getWidth()/tileSize;
+			final int camYAndHeight = (int) (camYRelative)+cam.getHeight()/tileSize;
 		
-		if (cam==null)  cam = FlaxEngine.camera; 
-		if (drawingSpace==null) drawingSpace = this.drawingSpace;
-
-
-		if(tileSheetImage != null)
-		{		
+			final int camXRelativeCopy = camXRelative;
+			final int camYRelativeCopy = camYRelative;
+			
+			final int camXRelativeCopyScaled = camXRelativeCopy*tileSize;
+			final int camYRelativeCopyScaled =  camYRelativeCopy*tileSize;
+			
+			final Context2d ctx = drawingSpace.getContext2d();	
+			FTile t  = null;
 			
 			/**
-			 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
-			 */			
-			double camX = cam.getX();
-			double camY = cam.getY();
-			double camXWidth = camX+cam.getWidth();
-			double camYHeight = camY+cam.getHeight();
-			
-			int camXRelative = (int) (cam.getX()/tileSize);
-			int camYRelative = (int) (cam.getY()/tileSize);
-			int camXAndWidth = (int) (camXRelative)+cam.getWidth()/tileSize;
-			int camYAndHeight = (int) (camYRelative)+cam.getHeight()/tileSize;
-		
-			int camXRelativeCopy = camXRelative;
-			int camYRelativeCopy = camYRelative;
-			
-			int camXRelativeCopyScaled = camXRelativeCopy*tileSize;
-			int camYRelativeCopyScaled =  camYRelativeCopy*tileSize;
-			
-			Context2d ctx = drawingSpace.getContext2d();	
+			 * currentYValue varibles is here to save on a multication and a subtraction every row item ( x corrdinate or coloum). 
+			 */
+			int currentYValue = 0; 
 				
 			
 			// all in tiles - relative
 			while(camYRelative <= camYAndHeight)
 			{
+	
+				currentYValue = ( camYRelative*tileSize - camYRelativeCopyScaled ); // get next Y value
+				
 				// in number of tiles - relative
 				while( camXRelative <= camXAndWidth )
 				{
-					/**
-					 * TODO optimize this some more later by inlining, tho its fine for the mo
-					 */
-					FTile t = tiles.get(camXRelative + (camYRelative *  width ));					
-					t.draw(tileSheetImage, tileSize, ( camXRelative*tileSize -  camXRelativeCopyScaled ) , ( camYRelative*tileSize - camYRelativeCopyScaled ), ctx);					
+
+					t = tiles.get(camXRelative + (camYRelative *  width ));										
+					ctx.drawImage(tileSheetImage, t.getTextureX(), t.getTextureY(), tileSize, tileSize, ( camXRelative*tileSize -  camXRelativeCopyScaled ) , currentYValue, tileSize, tileSize); 
+					
 					camXRelative++;
 				}
 
 				camXRelative = camXRelativeCopy; // rest the X to intial
 				camYRelative++;
+ 
 			}
 			
 			for(FObject temp : objects)
@@ -162,8 +161,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 				if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
 				temp.draw(drawingSpace);
 			}		
-			
-		}
 	}
 
 
@@ -182,9 +179,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		 * adding them togtheier and divding them by the tilesize and then dropping the decimal 
 		 * will get you the tile x and y such as (2,2)
 		 */
-		int clickX = (int) ((xClick+FlaxEngine.camera.getX())/tileSize);
-		int clickY = (int) ((yClick+FlaxEngine.camera.getY())/tileSize);
+		int clickX = (int) (xClick/tileSize);
+		int clickY = (int) (yClick/tileSize);
+		
+		clickX += (int) FlaxEngine.camera.getX()/tileSize;
+		clickY += (int) +FlaxEngine.camera.getY()/tileSize;
 
+		FLog.trace(" tileValue " + clickX + (clickY*width) );
+		
 		return tiles.get( clickX + (clickY*width) );
 	}
 	
@@ -266,8 +268,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 			y++;
 		}
 
-		
-		//this.addEntity(new FEntity(100, 100, 32, 32, new Sprite("http://flax.ie/test/tiles.png", 32, 32), "audio") );
 	}
 
 	/**
@@ -404,13 +404,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 	}
 	
 	
-	/**
-	 * @return the drawingSpace
-	 */
-	public final Canvas getDrawingSpace() {
-		return drawingSpace;
-	}
-	
 
 	/**
 	 * DO NOT USE THIS Constructor -This method only exist so that JSON serialization
@@ -485,13 +478,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler, CameraU
 		return tileSheet;
 	}
 	
-	//TODO - CARL comment
-	@Override
-	public void onCameraUpdate(CameraUpdateEvent e) {
-		drawingSpace.getContext2d().fillRect(0, 0, drawingSpace.getCoordinateSpaceWidth(), drawingSpace.getCoordinateSpaceHeight()); 
-		draw(null, null);
-	}
-	
+
 	/**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
 	 * can work Using this method is at your own risk and will most likely break
