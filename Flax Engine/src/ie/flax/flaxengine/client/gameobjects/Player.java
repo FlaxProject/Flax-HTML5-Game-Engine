@@ -75,67 +75,92 @@ public class Player extends FEntity {
 		RootPanel.get().addHandler( new KeyPressHandler() {
 			
 			@Override
-			public void onKeyPress(KeyPressEvent event) {
-
+			public void onKeyPress(KeyPressEvent event) {		
 				
-				if(event.getCharCode() == 'w' || event.getCharCode() == 'W' ){
-						
-						
-						y -= speed;							
-						checkCurrentAnimationState(AnimationState.UP);
-						sprite.nextFrame();
-						
-
-						if(cam != null)
-						{
-							//FLog.error(" - " + ( y+height - cam.getY() )  + "  <  " + (cam.getHeight()/2));
-							if( y+height - cam.getY()  < (cam.getHeight()/2) )
-							{
-								cam.incrementY(speed*-1);
-							}
-							
-						}
-						
-				}
-				else if(event.getCharCode() == 'd' || event.getCharCode() == 'D'){
-				    
-						x += speed;								
-					    checkCurrentAnimationState(AnimationState.RIGHT);				
-						sprite.nextFrame();
-						
-						if(cam != null)
-						{
-							cam.incrementX(speed);
-						}
-						
-				}
-				else if(event.getCharCode() == 'a' || event.getCharCode() == 'A'){
-					
-						x -= speed;					
-						checkCurrentAnimationState(AnimationState.LEFT);
-						sprite.nextFrame();
-						
-						if(cam != null)
-						{
-							cam.incrementX(speed*-1);
-						}
-					
-				}
-				else if(event.getCharCode() == 's' || event.getCharCode() == 'S'){
-					
-						y += speed;
-						checkCurrentAnimationState(AnimationState.DOWN);
-						sprite.nextFrame();
-
-						//FLog.error(" - " + ( y+height - cam.getY() )  + "  >  " + cam.getHeight()/2);
-						if( y+height - cam.getY()  > (cam.getHeight()/2) )
-						{
-							cam.incrementY(speed);
-						}
-				}
+				keyControls(event);
 				
 			}
 		}, KeyPressEvent.getType());
+		
+	}
+	
+	
+	
+	/**
+	 * This sets up the logic behind the keyControls for the player. 
+	 * I.E the player moving and animating on move. Also the camera panning with the player
+	 * @param event
+	 */
+	private void keyControls(KeyPressEvent event)
+	{
+
+		if(event.getCharCode() == 'w' || event.getCharCode() == 'W' ){
+				
+				
+				y -= speed;							
+				checkCurrentAnimationState(AnimationState.UP);
+				sprite.nextFrame();
+				
+
+				if(cam != null)
+				{
+					/**
+					 * Checks if the player is in the center of the screen and if so moves the camera.
+					 * This stops the camera been moved when the player is at the boundary of the map 
+					 */
+					if( y+height - cam.getY()  < (cam.getHeight()/2) )
+					{
+						cam.incrementY(speed*-1);
+					}							
+				}						
+		}
+		else if(event.getCharCode() == 'd' || event.getCharCode() == 'D'){
+		    
+				x += speed;								
+			    checkCurrentAnimationState(AnimationState.RIGHT);				
+				sprite.nextFrame();
+				
+				/**
+				 * Checks if the player is in the center of the screen and if so moves the camera.
+				 * This stops the camera been moved when the player is at the boundary of the map 
+				 */
+				if( cam != null && x+width - cam.getX()  > (cam.getWidth()/2) )
+				{
+					cam.incrementX(speed);
+				}					
+		}
+		else if(event.getCharCode() == 'a' || event.getCharCode() == 'A'){
+			
+				x -= speed;					
+				checkCurrentAnimationState(AnimationState.LEFT);
+				sprite.nextFrame();
+							
+				
+					/**
+					 * Checks if the player is in the center of the screen and if so moves the camera.
+					 * This stops the camera been moved when the player is at the boundary of the map 
+					 */
+					if( cam != null && x+width - cam.getX()  < (cam.getWidth()/2) )
+					{
+						cam.incrementX(speed*-1);
+					}				
+		}
+		else if(event.getCharCode() == 's' || event.getCharCode() == 'S'){
+			
+				y += speed;
+				checkCurrentAnimationState(AnimationState.DOWN);
+				sprite.nextFrame();
+
+				/**
+				 * Checks if the player is in the center of the screen and if so moves the camera.
+				 * This stops the camera been moved when the player is at the boundary of the map 
+				 */
+				if( cam != null && y+height - cam.getY()  > (cam.getHeight()/2) )
+				{
+					cam.incrementY(speed);
+				}
+		}
+		
 	}
 	
 	

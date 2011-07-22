@@ -140,7 +140,7 @@ public class FCamera {
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
 		}else{
-			FLog.error("Unable to set " + this.toString() + " setX(double " + x + ") ");
+			FLog.warn("Unable to set " + this.toString() + " setX(double " + x + ") ");
 		}
 	}
 
@@ -159,7 +159,7 @@ public class FCamera {
 			FLog.trace(this.toString() + " setY(double " + position.y + ") ");						
 		}else{
 			
-			FLog.error("Unable to set " + this.toString() + " setY(double " + y + ") ");
+			FLog.warn("Unable to set " + this.toString() + " setY(double " + y + ") ");
 
 		}
 	}

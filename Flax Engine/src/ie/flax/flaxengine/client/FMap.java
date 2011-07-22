@@ -368,7 +368,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			FLog.trace(entity + " was created and added to " + this);
 		}else
 		{
-			FLog.error("Unable to add " + entity + " to " + this);
+			FLog.warn("Unable to add " + entity + " to " + this);
 		}
 	}
 	
