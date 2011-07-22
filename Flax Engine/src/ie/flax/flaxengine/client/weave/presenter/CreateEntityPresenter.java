@@ -18,8 +18,6 @@ public class CreateEntityPresenter extends AbstractPresenter implements CreateEn
 	
 	@Override
 	public void setEntityType(String entity) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

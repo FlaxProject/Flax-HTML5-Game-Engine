@@ -35,14 +35,11 @@ public class CreateEntityViewImpl extends Composite implements CreateEntityView 
 	@UiHandler("selectSpriteButton")
 	void onSelectSpriteButtonClick(ClickEvent event) {
 		
-		//presenter.setEntityType(entity);
-		
+		//presenter.setEntityType(entity);		
 	}
 
 
 	@Override
 	public void setImage(String Path) {
-		// TODO Auto-generated method stub
-		
 	}
 }

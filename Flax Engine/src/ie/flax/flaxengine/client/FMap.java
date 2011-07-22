@@ -209,6 +209,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @return
 	 */
 	public static final FMap fromJson(String Json) {
+		
+		/**
+		 * TODO : http://code.google.com/p/gwt-lzma/
+		 */
+		
 		FMap temp = null;		
 		try {
 			Serializer serializer = (Serializer) GWT.create(Serializer.class);		
@@ -246,28 +251,31 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		 * well with the ID's etc.
 		 */
 		this.entities = newMapObj.entities;
-	//	this.tiles = newMapObj.tiles;
+		this.tiles = newMapObj.tiles;
 		this.objects = newMapObj.objects;
 		this.tileSheet = newMapObj.tileSheet;
 		this.tileSize = newMapObj.tileSize;
 		this.width = newMapObj.width;
 		this.height = newMapObj.height;
 		
-		int x  =0;
-		int y =0;
-		
-		while ( y < height)
-		{
-			while( x < width)
-			{
-				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
-				x++;
-			}
-			
-			x = 0;
-			
-			y++;
-		}
+		/**
+		 * Code to generate a map, very handy
+		 */
+//		int x  =0;
+//		int y =0;
+//		
+//		while ( y < height)
+//		{
+//			while( x < width)
+//			{
+//				tiles.add( new FTile( 21, Graphic.getSingleton().getImage(tileSheet), tileSize));
+//				x++;
+//			}
+//			
+//			x = 0;
+//			
+//			y++;
+//		}
 
 	}
 
@@ -290,37 +298,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			 * in the event object which was pulled from the server
 			 */
 			final FMap temp = fromJson(e.getDataLoadedFromFile()); 
-		
-			
-			
-			//Loops though all objects from map
-			for(FObject obj : objects)
-			{
-				//get the list of audio files assoiated with said object and loads them.
-				//for(String audioPath : obj.getAudio())
-				//{
-				//	Audio.loadHtml(audioPath);
-				//}
-				
-				//get the image file assoiated with said object and loads them.
-				//Graphic.getSingleton().loadImage(obj.getSprite());
-			}
-			
-			
-			//Loops though all entites from map
-			for(FEntity obj : entities)
-			{
-				//get the list of audio files assoiated with said object and loads them.
-				//for(String audioPath : obj.getAudio())
-				//{
-				//	Audio.loadHtml(audioPath);
-				//}\\
-				
-				//get the image file assoiated with said object and loads them.
-				
-				
-				//Graphic.getSingleton().loadImage(obj.getSprite());			
-			}
 
 			
 			/**
@@ -339,17 +316,14 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 					replaceMap(temp); //op code : this = temp;
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));
 					
-					Player p = new Player(new FVector(300, 300));
-					p.attachCamera(FlaxEngine.camera);
-					addEntity(p);	
-					
-				
-
+				//	Player p = new Player(new FVector(300, 300));
+				//	p.attachCamera(FlaxEngine.camera);
+				//	addEntity(p);	
+							
 				}
 			});	
 						
-			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");
-			
+			FLog.info("An FMap object of name [" + this.name + "]; was constructed from a file sucessfully");			
 			Loaded = true;
 		}
 	}

@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
+import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Sprite;
 import ie.flax.flaxengine.client.Graphic.Sprite.AnimationState;
 
@@ -28,7 +29,7 @@ public class Player extends FEntity {
 	public Player(FVector pos)
 	{
 		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://flax.ie/test/s.png", 32,64), "audio");
-		speed = 12;		
+		speed = 6;		
 		bind();
 		
 		FLog.trace(this + " was created ");		
@@ -40,7 +41,7 @@ public class Player extends FEntity {
 	@Deprecated	
 	public Player(){
 		bind();
-		speed = 12;
+		speed = 6;
 	}
 	
 
@@ -49,6 +50,9 @@ public class Player extends FEntity {
 	 */
 	private void bind()
 	{
+		
+		attachCamera(FlaxEngine.camera); //FIXME Ciaran remove after 0.2 when doing the entity system proper
+		
 		RootPanel.get().addDomHandler( new TouchStartHandler() {
 			
 			@Override
@@ -61,10 +65,8 @@ public class Player extends FEntity {
 				
 				if(cam != null)
 				{
-					if( cam.getY() >= ( cam.getWidth()/2 )   )
-					{
+					
 						cam.incrementY(speed);						
-					}
 				}
 				
 			}
@@ -87,80 +89,79 @@ public class Player extends FEntity {
 	
 	
 	/**
-	 * This sets up the logic behind the keyControls for the player. 
-	 * I.E the player moving and animating on move. Also the camera panning with the player
+	 * This sets up the logic behind the keyControls for the player. I.E the
+	 * player moving and animating on move. Also the camera panning with the
+	 * player
+	 * 
+	 * TODO - create different camera style options, such as camera centered on player or new area when player walks to the border
+	 * 
 	 * @param event
 	 */
-	private void keyControls(KeyPressEvent event)
-	{
-
-		if(event.getCharCode() == 'w' || event.getCharCode() == 'W' ){
-				
-				
-				y -= speed;							
-				checkCurrentAnimationState(AnimationState.UP);
-				sprite.nextFrame();
-				
-
-				if(cam != null)
-				{
-					/**
-					 * Checks if the player is in the center of the screen and if so moves the camera.
-					 * This stops the camera been moved when the player is at the boundary of the map 
-					 */
-					if( y+height - cam.getY()  < (cam.getHeight()/2) )
-					{
-						cam.incrementY(speed*-1);
-					}							
-				}						
-		}
-		else if(event.getCharCode() == 'd' || event.getCharCode() == 'D'){
-		    
-				x += speed;								
-			    checkCurrentAnimationState(AnimationState.RIGHT);				
-				sprite.nextFrame();
-				
-				/**
-				 * Checks if the player is in the center of the screen and if so moves the camera.
-				 * This stops the camera been moved when the player is at the boundary of the map 
-				 */
-				if( cam != null && x+width - cam.getX()  > (cam.getWidth()/2) )
-				{
-					cam.incrementX(speed);
-				}					
-		}
-		else if(event.getCharCode() == 'a' || event.getCharCode() == 'A'){
-			
-				x -= speed;					
-				checkCurrentAnimationState(AnimationState.LEFT);
-				sprite.nextFrame();
-							
-				
-					/**
-					 * Checks if the player is in the center of the screen and if so moves the camera.
-					 * This stops the camera been moved when the player is at the boundary of the map 
-					 */
-					if( cam != null && x+width - cam.getX()  < (cam.getWidth()/2) )
-					{
-						cam.incrementX(speed*-1);
-					}				
-		}
-		else if(event.getCharCode() == 's' || event.getCharCode() == 'S'){
-			
-				y += speed;
-				checkCurrentAnimationState(AnimationState.DOWN);
-				sprite.nextFrame();
-
-				/**
-				 * Checks if the player is in the center of the screen and if so moves the camera.
-				 * This stops the camera been moved when the player is at the boundary of the map 
-				 */
-				if( cam != null && y+height - cam.getY()  > (cam.getHeight()/2) )
-				{
-					cam.incrementY(speed);
-				}
-		}
+	private void keyControls(KeyPressEvent event) {
 		
+		int cameraSpeed = this.speed;
+
+		if (event.getCharCode() == 'w' || event.getCharCode() == 'W') {
+
+			y -= speed;
+			checkCurrentAnimationState(AnimationState.UP);
+			sprite.nextFrame();
+
+			/**
+			 * Checks if the player is in the center of the screen and if so
+			 * moves the camera. This stops the camera been moved when the
+			 * player is at the boundary of the map
+			 */
+			if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) {
+				cam.incrementY(cameraSpeed * -1);
+			}
+			
+		} else if (event.getCharCode() == 'd' || event.getCharCode() == 'D') {
+
+			x += speed;
+			checkCurrentAnimationState(AnimationState.RIGHT);
+			sprite.nextFrame();
+
+			/**
+			 * Checks if the player is in the center of the screen and if so
+			 * moves the camera. This stops the camera been moved when the
+			 * player is at the boundary of the map
+			 */
+			if (cam != null && x + width - cam.getX() > (cam.getWidth() / 2)) {
+				cam.incrementX(cameraSpeed);
+			}
+			
+		} else if (event.getCharCode() == 'a' || event.getCharCode() == 'A') {
+
+			x -= speed;
+			checkCurrentAnimationState(AnimationState.LEFT);
+			sprite.nextFrame();
+
+			/**
+			 * Checks if the player is in the center of the screen and if so
+			 * moves the camera. This stops the camera been moved when the
+			 * player is at the boundary of the map
+			 */
+			if (cam != null && x + width - cam.getX() < (cam.getWidth() / 2)) {
+				cam.incrementX(cameraSpeed * -1);
+			}
+			
+		} else if (event.getCharCode() == 's' || event.getCharCode() == 'S') {
+
+			y += speed;
+			checkCurrentAnimationState(AnimationState.DOWN);
+			sprite.nextFrame();
+
+			/**
+			 * Checks if the player is in the center of the screen and if so
+			 * moves the camera. This stops the camera been moved when the
+			 * player is at the boundary of the map
+			 */
+			if (cam != null && y + height - cam.getY() > (cam.getHeight() / 2)) {
+				cam.incrementY(cameraSpeed);
+			}
+		}
+
 	}
 	
 	

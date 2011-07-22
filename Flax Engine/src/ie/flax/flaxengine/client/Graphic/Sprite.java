@@ -81,7 +81,7 @@ public class Sprite implements JsonSerializable {
 				{
 					frameCount = (image.getImage().getWidth()/frameWidth)-1;
 					currentFrame = 0;	
-					animationState = AnimationState.IDE; //default to idle state
+					animationState = AnimationState.DOWN; //default to idle state
 				}
 			}
 		});
@@ -113,7 +113,10 @@ public class Sprite implements JsonSerializable {
 					nextFrame(); //IDLE status update 
 					//This may fuck up as its tied to the refresh rate of the canvas
 				}
-								
+				
+				
+				// TODO CIARAN - optimize this drawing as more entites are added 	
+				
 				drawingSpace.getContext2d().drawImage(image.getImage(),currentFrame*frameWidth,(animationState.index*frameHeight), frameWidth, frameHeight, position.x-FlaxEngine.camera.getX(), position.y-FlaxEngine.camera.getY(),frameWidth, frameHeight);
 				//FLog.error("sprite xs " + currentFrame*frameWidth + " sy " + animationState.index*frameHeight);
 			
@@ -141,11 +144,19 @@ public class Sprite implements JsonSerializable {
 	 */
 	public void nextFrame()
 	{
+//		if(interpolation > 1)
+//		{
 		
 			if(currentFrame < frameCount)
 				currentFrame++;	
 			else
 				currentFrame = 3;	//FIXME set back to zero, only for spefic sprite	
+//			
+//			
+//			interpolation = 0;
+//		}
+//		
+//		interpolation++;
 	}
 		
 	
