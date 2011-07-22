@@ -11,7 +11,6 @@ import com.google.gwt.logging.client.HtmlLogFormatter;
 import com.google.gwt.logging.client.SystemLogHandler;
 import com.google.gwt.logging.client.TextLogFormatter;
 import com.google.gwt.logging.impl.FormatterImpl;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -35,9 +34,6 @@ public class FLog {
 	private static ScrollPanel scrollPanel = new ScrollPanel();
 	private static HTMLPanel logWidget = new HTMLPanel("");
 	private static boolean inited = false;
-	private static HTMLPanel fpsPanel = new HTMLPanel("");
-	private static HTML fpsHtml = new HTML("");
-
 	/**
 	 * Logs a debug message.
 	 * 
@@ -74,14 +70,7 @@ public class FLog {
 	public static HorizontalPanel getWidget() {
 		return topPanel;
 	}
-
-	/*
-	 * TODO: remove the goddamn fps stuff from FLog.
-	 */
-	public static HTMLPanel getFpsPanel() {
-		return fpsPanel;
-	}
-
+	
 	/**
 	 * Logs an info message.
 	 * 
@@ -121,9 +110,6 @@ public class FLog {
 			scrollPanel.add(logWidget);
 			topPanel.add(scrollPanel);
 
-			topPanel.add(fpsPanel);
-			topPanel.setCellWidth(fpsPanel, "50px");
-
 			inited = true;
 		}
 	}
@@ -151,16 +137,6 @@ public class FLog {
 			scrollPanel.scrollToBottom();
 			l.log(new LogRecord(Level.WARNING, string));
 		}
-	}
-
-	/*
-	 * This is really only here because I couldn't think of another place. TODO:
-	 * remove fps stuff from Flog.
-	 */
-	public static void updateFps(int frameCount) {
-		fpsPanel.remove(fpsHtml);
-		fpsHtml = new HTML("FPS: " + frameCount);
-		fpsPanel.add(fpsHtml);
 	}
 }
 
