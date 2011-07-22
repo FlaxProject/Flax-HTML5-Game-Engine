@@ -274,7 +274,7 @@ public class Weave implements ImageSelectionEventHandler{
 	}
 
 
-	public Canvas getdrawingSpace() {return drawingSpace;}
+	public final Canvas getdrawingSpace() {return drawingSpace;}
 	public final FTile getCurrentTile(){return currentTile;}		
 	public final FMap getFMapReference(){return map;}
 	

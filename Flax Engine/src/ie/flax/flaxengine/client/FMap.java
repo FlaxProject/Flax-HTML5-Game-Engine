@@ -2,13 +2,9 @@ package ie.flax.flaxengine.client;
 
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.Graphic;
-import ie.flax.flaxengine.client.Graphic.Sprite;
-import ie.flax.flaxengine.client.events.CameraUpdateEvent;
-import ie.flax.flaxengine.client.events.CameraUpdateEventHandler;
 import ie.flax.flaxengine.client.events.EventBus;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
-import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
 import ie.flax.flaxengine.client.gameobjects.Player;
@@ -79,7 +75,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	/**
 	 * FMap object is constructed from a file by provding the path name. 
 	 * @param mapPath - URL to map.json file
-	 * @param drawingSpace - TODO maybe remove and just pass in in drawing loop.
 	 */
 	public FMap(String mapPath) {		
 		
@@ -96,7 +91,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param canvas 
 	 * @param cam2 
 	 */
-	public void draw(FCamera cam, Canvas drawingSpace) {	
+	public void draw(final FCamera cam, final Canvas drawingSpace) {	
 
 		/**
 			 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
@@ -125,6 +120,11 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			 * currentYValue varibles is here to save on a multication and a subtraction every row item ( x corrdinate or coloum). 
 			 */
 			int currentYValue = 0; 
+			
+			/**
+			 * Again like the currentYValue this varible exists to remove a multication  for every row item
+			 */
+			int currentYindexValue = 0;
 				
 			
 			// all in tiles - relative
@@ -132,12 +132,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			{
 	
 				currentYValue = ( camYRelative*tileSize - camYRelativeCopyScaled ); // get next Y value
+				currentYindexValue = camYRelative *  width; // get the next Y index value
 				
 				// in number of tiles - relative
 				while( camXRelative <= camXAndWidth )
 				{
 
-					t = tiles.get(camXRelative + (camYRelative *  width ));										
+					t = tiles.get(camXRelative + currentYindexValue );										
 					ctx.drawImage(tileSheetImage, t.getTextureX(), t.getTextureY(), tileSize, tileSize, ( camXRelative*tileSize -  camXRelativeCopyScaled ) , currentYValue, tileSize, tileSize); 
 					
 					camXRelative++;
@@ -172,7 +173,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param yClick - absolute click values of the mouse
 	 * @return
 	 */
-	public FTile getTile(int xClick, int yClick) 
+	public final FTile getTile(int xClick, int yClick) 
 	{		
 		/**
 		 * Both the camera and click values are absolute pixel values
@@ -185,7 +186,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		clickX += (int) FlaxEngine.camera.getX()/tileSize;
 		clickY += (int) +FlaxEngine.camera.getY()/tileSize;
 
-		FLog.trace(" tileValue " + clickX + (clickY*width) );
+		//FLog.trace(" tileValue " + clickX + (clickY*width) );
 		
 		return tiles.get( clickX + (clickY*width) );
 	}
@@ -196,7 +197,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * If true this FMap object has finished loading its data
 	 * @return
 	 */
-	public boolean getLoaded() {
+	public final boolean getLoaded() {
 		return Loaded;
 	}
 	
@@ -207,7 +208,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param JSON
 	 * @return
 	 */
-	public static FMap fromJson(String Json) {
+	public static final FMap fromJson(String Json) {
 		FMap temp = null;		
 		try {
 			Serializer serializer = (Serializer) GWT.create(Serializer.class);		
@@ -223,7 +224,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * 
 	 * @return String of JSON
 	 */
-	public static String toJson(FMap map) {
+	public static final String toJson(FMap map) {
 		Serializer serializer = (Serializer) GWT.create(Serializer.class);
 		return serializer.serialize(map);
 	}
