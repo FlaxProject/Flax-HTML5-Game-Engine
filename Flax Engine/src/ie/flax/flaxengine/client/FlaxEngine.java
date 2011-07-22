@@ -204,21 +204,20 @@ public abstract class FlaxEngine {
 	 * @param insertId
 	 */
 	protected void initEngine(String insertId) {
-
+		RootPanel.get().getAbsoluteLeft();
 		if (settings == null) {
 			settings = new Settings();
+			settings.setContainer(insertId);
 		}
 
 		int width = settings.getWidth();
 		int height = settings.getHeight();
 
-		if (settings.getFullscreen() == true) {
+		//basically check if it's fullscreen. Better than a use-once variable in Settings.
+		if (width == Window.getClientWidth() && height == Window.getClientHeight()) {
 			Window.enableScrolling(false);
-		} else {
-			// TODO CARL make this work from settings
-			// width = RootPanel.get(insertId).getOffsetWidth();
-			// height = RootPanel.get(insertId).getOffsetHeight();
 		}
+		
 
 		drawingSpace = Canvas.createIfSupported();
 		drawingSpace.setWidth(width + "px");
@@ -240,8 +239,8 @@ public abstract class FlaxEngine {
 
 		bind(); // sets the event handlers for canvas tag
 		
-		RootPanel.get(insertId).add(drawingSpace);// inser into doc		
-		RootPanel.get(insertId).add(editorOverLay); 
+		settings.getContainer().add(drawingSpace);// inser into doc		
+		settings.getContainer().add(editorOverLay); 
 
 		
 
@@ -250,7 +249,7 @@ public abstract class FlaxEngine {
 		 * is loaded by an FImage object, it inserts the image into this div
 		 * which is display none and this triggers a DOM load image
 		 */
-		RootPanel.get(insertId).add(FImage.getBootStrapDiv());
+		settings.getContainer().add(FImage.getBootStrapDiv());
 	}
 
 	/**
@@ -285,7 +284,7 @@ public abstract class FlaxEngine {
 			 * Rudimentary check to see if the client's resolution is high enough to actually use weave
 			 * only for debugging purposes (mobile etc) so remove this when there's a better way.
 			 */
-			if ((Window.getClientHeight() > 768) || (Window.getClientWidth() > 1024)){
+			if ((settings.getHeight() > 768) || (settings.getWidth() > 1024)){
 				editor.toggle();
 			}
 		}

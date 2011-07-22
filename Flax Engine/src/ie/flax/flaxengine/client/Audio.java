@@ -41,7 +41,7 @@ public class Audio {
 		
 		//adds the html
 		String pageContent="<audio id="+tagName+" src="+src+"></audio>";
-		RootPanel.get().add(new HTML(pageContent));
+		FlaxEngine.settings.getContainer().add(new HTML(pageContent));
 		
 		//adds that tag to the list
 		tags.add(tagName);

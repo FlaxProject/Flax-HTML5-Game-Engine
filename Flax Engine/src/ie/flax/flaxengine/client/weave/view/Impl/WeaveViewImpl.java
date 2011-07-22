@@ -1,13 +1,14 @@
 package ie.flax.flaxengine.client.weave.view.Impl;
 
 import ie.flax.flaxengine.client.FLog;
+import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.weave.view.WeaveView;
+import ie.flax.flaxengine.client.weave.view.animation.AnimationFade;
 import ie.flax.flaxengine.client.weave.view.animation.AnimationSlide;
 
+import com.google.gwt.animation.client.Animation;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.IsWidget;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -15,13 +16,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class WeaveViewImpl implements WeaveView{
+	private enum AnimationStyle {FADE, SLIDE};
+	private AnimationStyle animationStyle = AnimationStyle.SLIDE;
 	
 	private static final int AnimationTime = 300;
 	private SimplePanel northPanel;
 	private TabPanel southPanel;
 	private VerticalPanel eastPanel;	
-	private StackLayoutPanel eastStackPanel;	
-	private AnimationSlide northAnimate, southAnimate, eastAnimate;		
+	private StackLayoutPanel eastStackPanel;
+	
+	private Animation northAnimate, southAnimate, eastAnimate;		
+	
 	private enum State {SHOW,HIDDEN}
 	
 	private State currentViewState;
@@ -42,13 +47,13 @@ public class WeaveViewImpl implements WeaveView{
 		currentViewState = State.HIDDEN;
 				
 		northPanel = new SimplePanel();		
-		northPanel.setWidth("100%"/*Window.getClientWidth()+"px"*/);
+		northPanel.setWidth("100%"/*FlaxEngine.settings.getWidth()+"px"*/);
 		
 		/*
 		 * This adds the northpanel to the RootPanel.
 		 * The positioning (0,-44) is in order to get the panel to slide from the top on toggle.
 		 */
-		RootPanel.get().add(northPanel, 0, -44 );
+		FlaxEngine.settings.getContainer().add(northPanel, 0, -44 );
 		
 		eastStackPanel = new StackLayoutPanel(Unit.PX);
 		eastStackPanel.setAnimationDuration(AnimationTime);		
@@ -61,7 +66,7 @@ public class WeaveViewImpl implements WeaveView{
 		eastPanel.setHeight(EAST_PERCENT_HEIGHT+ "%");
 		eastPanel.add(eastStackPanel);
 		eastPanel.setCellHeight(eastStackPanel, EAST_PERCENT_TOP_CELL_HEIGHT+"%");
-		RootPanel.get().add(eastPanel, Window.getClientWidth(), 0);
+		FlaxEngine.settings.getContainer().add(eastPanel, FlaxEngine.settings.getWidth(), 0);
 		
 		
 		southPanel = new TabPanel();
@@ -70,14 +75,17 @@ public class WeaveViewImpl implements WeaveView{
 		southPanel.setHeight(SOUTH_PERCENT_HEIGHT+"%");
 		southPanel.setAnimationEnabled(true);
 		
-		RootPanel.get().add(southPanel, 0, Window.getClientHeight()+southPanel.getOffsetHeight());
+		FlaxEngine.settings.getContainer().add(southPanel, 0, FlaxEngine.settings.getHeight()+southPanel.getOffsetHeight());
 		
-		
-		northAnimate = new AnimationSlide(northPanel.getElement());
-		southAnimate = new AnimationSlide(southPanel.getElement());
-		eastAnimate = new AnimationSlide(eastPanel.getElement());
-		
-		
+		if (animationStyle == AnimationStyle.SLIDE) {
+			northAnimate = new AnimationSlide(northPanel.getElement());
+			southAnimate = new AnimationSlide(southPanel.getElement());
+			eastAnimate = new AnimationSlide(eastPanel.getElement());
+		} else if (animationStyle == AnimationStyle.FADE) {
+			northAnimate = new AnimationFade(northPanel.getElement());
+			southAnimate = new AnimationFade(southPanel.getElement());
+			eastAnimate = new AnimationFade(eastPanel.getElement());
+		}
 		FLog.debug("WeaveView was constructed successfully");
 
 	}
@@ -89,17 +97,29 @@ public class WeaveViewImpl implements WeaveView{
 		if(currentViewState == State.SHOW)
 		{
 			//hiding code
-			northAnimate.slideTo(0, northPanel.getOffsetHeight()*-1, AnimationTime);
-			southAnimate.slideTo(0, Window.getClientHeight(), AnimationTime);
-			eastAnimate.slideTo(Window.getClientWidth()+eastPanel.getOffsetWidth(), 0, AnimationTime);
+			if (animationStyle == AnimationStyle.SLIDE) {
+				((AnimationSlide) northAnimate).slideTo(0, northPanel.getOffsetHeight()*-1, AnimationTime);
+				((AnimationSlide) southAnimate).slideTo(0, FlaxEngine.settings.getHeight(), AnimationTime);
+				((AnimationSlide) eastAnimate).slideTo(FlaxEngine.settings.getWidth()+eastPanel.getOffsetWidth(), 0, AnimationTime);
+			} else if (animationStyle == AnimationStyle.FADE) {
+				((AnimationFade) northAnimate).fadeOut(AnimationTime);
+				((AnimationFade) southAnimate).fadeOut(AnimationTime);
+				((AnimationFade) eastAnimate).fadeOut(AnimationTime);
+			}
 			currentViewState = State.HIDDEN;
 			
 		}else{
 			
-			//showing code			
-			northAnimate.slideTo(0, 0, AnimationTime);
-			southAnimate.slideTo(0, Window.getClientHeight()-southPanel.getOffsetHeight(), AnimationTime);
-			eastAnimate.slideTo(Window.getClientWidth()-eastPanel.getOffsetWidth(), 0, AnimationTime);
+			//showing code
+			if (animationStyle == AnimationStyle.SLIDE) {
+				((AnimationSlide) northAnimate).slideTo(0, 0, AnimationTime);
+				((AnimationSlide) southAnimate).slideTo(0, FlaxEngine.settings.getHeight()-southPanel.getOffsetHeight(), AnimationTime);
+				((AnimationSlide) eastAnimate).slideTo(FlaxEngine.settings.getWidth()-eastPanel.getOffsetWidth(), 0, AnimationTime);
+			} else if (animationStyle == AnimationStyle.FADE) {
+				((AnimationFade) northAnimate).fadeIn(AnimationTime);
+				((AnimationFade) southAnimate).fadeIn(AnimationTime);
+				((AnimationFade) eastAnimate).fadeIn(AnimationTime);
+			}
 			currentViewState = State.SHOW;	
 		}		
 	}
