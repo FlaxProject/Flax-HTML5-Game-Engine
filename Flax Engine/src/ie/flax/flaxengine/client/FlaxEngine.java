@@ -24,6 +24,8 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -214,7 +216,8 @@ public abstract class FlaxEngine {
 		int height = settings.getHeight();
 
 		//basically check if it's fullscreen. Better than a use-once variable in Settings.
-		if (width == Window.getClientWidth() && height == Window.getClientHeight()) {
+		if (width == Window.getClientWidth() && height == Window.getClientHeight() &&
+				settings.getContainer().getAbsoluteLeft() == 0 && settings.getContainer().getAbsoluteTop() == 0){
 			Window.enableScrolling(false);
 		}
 		
@@ -239,8 +242,8 @@ public abstract class FlaxEngine {
 
 		bind(); // sets the event handlers for canvas tag
 		
-		settings.getContainer().add(drawingSpace);// inser into doc		
-		settings.getContainer().add(editorOverLay); 
+		settings.getContainer().add(drawingSpace,0,0);// insert into doc		
+		settings.getContainer().add(editorOverLay,0,0); 
 
 		
 
@@ -250,6 +253,15 @@ public abstract class FlaxEngine {
 		 * which is display none and this triggers a DOM load image
 		 */
 		settings.getContainer().add(FImage.getBootStrapDiv());
+		
+		settings.getContainer().addHandler(new ResizeHandler() {
+			
+			@Override
+			public void onResize(ResizeEvent event) {
+				settings.setWidth(event.getWidth());
+				settings.setHeight(event.getHeight());
+			}
+		}, ResizeEvent.getType());
 	}
 
 	/**

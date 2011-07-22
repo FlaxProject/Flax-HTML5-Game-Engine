@@ -35,8 +35,6 @@ public class FLog {
 	private static ScrollPanel scrollPanel = new ScrollPanel();
 	private static HTMLPanel logWidget = new HTMLPanel("");
 	private static boolean inited = false;
-	private static HTMLPanel fpsPanel = new HTMLPanel("");
-	private static HTML fpsHtml = new HTML("");
 
 	/**
 	 * Logs a debug message.
@@ -73,13 +71,6 @@ public class FLog {
 	 */
 	public static HorizontalPanel getWidget() {
 		return topPanel;
-	}
-
-	/*
-	 * TODO: remove the goddamn fps stuff from FLog.
-	 */
-	public static HTMLPanel getFpsPanel() {
-		return fpsPanel;
 	}
 
 	/**
@@ -121,9 +112,6 @@ public class FLog {
 			scrollPanel.add(logWidget);
 			topPanel.add(scrollPanel);
 
-			topPanel.add(fpsPanel);
-			topPanel.setCellWidth(fpsPanel, "50px");
-
 			inited = true;
 		}
 	}
@@ -151,16 +139,6 @@ public class FLog {
 			scrollPanel.scrollToBottom();
 			l.log(new LogRecord(Level.WARNING, string));
 		}
-	}
-
-	/*
-	 * This is really only here because I couldn't think of another place. TODO:
-	 * remove fps stuff from Flog.
-	 */
-	public static void updateFps(int frameCount) {
-		fpsPanel.remove(fpsHtml);
-		fpsHtml = new HTML("FPS: " + frameCount);
-		fpsPanel.add(fpsHtml);
 	}
 }
 
