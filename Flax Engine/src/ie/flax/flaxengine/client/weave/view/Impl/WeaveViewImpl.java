@@ -86,6 +86,9 @@ public class WeaveViewImpl implements WeaveView{
 			southAnimate = new AnimationSlide(southPanel.getElement());
 			eastAnimate = new AnimationSlide(eastPanel.getElement());
 		} else if (animationStyle == AnimationStyle.FADE) {
+			/*
+			 * TODO don't add these twice
+			 */
 			FlaxEngine.settings.getContainer().add(northPanel, 0,0);
 			FlaxEngine.settings.getContainer().add(southPanel, 0, (FlaxEngine.settings.getHeight()-southPanel.getOffsetHeight()));
 			FlaxEngine.settings.getContainer().add(southPanel, 0, (FlaxEngine.settings.getHeight()-southPanel.getOffsetHeight()));
