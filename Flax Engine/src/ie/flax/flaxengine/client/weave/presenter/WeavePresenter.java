@@ -22,12 +22,14 @@ public class WeavePresenter extends AbstractPresenter {
 	
 //	private final MiniMapPresenter MiniPresenter;
 	private final TileMenuPresenter TilePresenter;
+	private final PreferencesPresenter preferencePresenter;
 	private final WeaveView display;
 
 	public WeavePresenter(Weave editor) {
 		display = new WeaveViewImpl();
 		TilePresenter = new TileMenuPresenter(editor);
 		//MiniPresenter = new MiniMapPresenter(editor);
+		preferencePresenter = new PreferencesPresenter(editor);
 		
 		/*
 		 * FIXME Switch these back again - tilemenu first, console second.
@@ -56,6 +58,8 @@ public class WeavePresenter extends AbstractPresenter {
 		}), "About");
 
 		display.addToNorth(new MainMenuView(editor).asWidget()); // Non MVP include of UI
+		
+		display.addToEast(preferencePresenter.getView(), "Preferences");
 	}
 
 	@Override

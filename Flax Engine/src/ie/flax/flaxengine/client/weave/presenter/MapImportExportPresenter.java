@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
 import ie.flax.flaxengine.client.weave.view.Impl.MapImportExportViewImpl;
+
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -32,7 +33,7 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 	 */
 	public void clearData()
 	{
-		display.setData(" ");
+		display.setData("");
 	}
 	
 
