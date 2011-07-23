@@ -30,9 +30,23 @@ public class AnimationFade extends Animation{
 			el.getStyle().setOpacity(1.0-progress);
 		}
 	}
+	
+	@Override
+	protected void onStart() {
+		if (inOut) {
+			el.getStyle().setZIndex(0);
+		}
+		
+		super.onStart();
+	}
 
 	 @Override
 	protected void onComplete(){
+		 if (!inOut) {
+			 el.getStyle().setZIndex(-1);
+		 }
+		 
+		 
 		 super.onComplete();
 	}
 }
