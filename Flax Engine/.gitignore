@@ -1,3 +1,4 @@
 /flax_engine
 /WEB-INF
-/.gwt/.gwt-log
+/.gwt
+/.settings
