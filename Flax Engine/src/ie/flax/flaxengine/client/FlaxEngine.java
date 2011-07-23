@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class FlaxEngine {
 
-	private Canvas drawingSpace;
+	public static Canvas drawingSpace;
 	private Canvas editorOverLay;
 
 	private final List<FMap> maps = new ArrayList<FMap>();
@@ -305,7 +305,7 @@ public abstract class FlaxEngine {
 			 * only for debugging purposes (mobile etc) so remove this when there's a better way.
 			 */
 			if ((settings.getHeight() > 768) || (settings.getWidth() > 1024)){
-				editor.toggle();
+				//editor.toggle();
 			}
 		}
 

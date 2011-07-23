@@ -101,7 +101,7 @@ public class Weave implements ImageSelectionEventHandler{
 			}
 			
 		};
-		t.scheduleRepeating(6000); //currently every six seconds, seems to have relatively little perf impact.
+		//t.scheduleRepeating(6000); //currently every six seconds, seems to have relatively little perf impact.
 	}
 		
 	protected void localSaveMap() {

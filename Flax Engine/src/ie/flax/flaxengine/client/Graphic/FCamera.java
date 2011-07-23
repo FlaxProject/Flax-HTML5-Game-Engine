@@ -1,6 +1,8 @@
 package ie.flax.flaxengine.client.Graphic;
 
+import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
+import ie.flax.flaxengine.client.FObject;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.events.CameraUpdateEvent;
 import ie.flax.flaxengine.client.events.EventBus;
@@ -9,16 +11,20 @@ import ie.flax.flaxengine.client.events.EventBus;
  * FCamera controls the viewport of a map. It allows for only what the user is looking at to be rendered instead of the whole
  * map making for good performance boost.
  * 
- * @author Ciarán McCann
+ * @author Ciarï¿½n McCann
  *
  */
 public class FCamera {
 	
-	private FVector position;
-	private int width;
-	private int height;
-	private int mapWidth;
-	private int mapHeight;
+	private transient FVector position;
+	private transient int width;
+	private transient int height;
+	private transient int mapWidth;
+	private transient int mapHeight;
+	private transient int interpolation;
+	
+	
+	public enum Directoin { NORTH, SOUTH, EAST, WEST}
 	
 		
 	/**
@@ -51,6 +57,67 @@ public class FCamera {
 		
 		//this.mapWidth = mapWidth;
 		//this.mapHeight = mapHeight;		
+	}
+	
+	
+	/**
+	 * Not yet implemented
+	 * @param x
+	 * @param y
+	 */
+	public void panTo(int x, int y, int speed)
+	{
+		//TODO implement for in-game sinmetics 
+	}
+	
+	public void panCentered(FEntity entity, Directoin direction )
+	{
+		int cameraSpeed = entity.getSpeed();
+		
+		/**
+		 * Checks if the player is in the center of the screen and if so
+		 * moves the camera. This stops the camera been moved when the
+		 * player is at the boundary of the map
+		 */
+		
+		
+		if(direction == Directoin.EAST)
+		{
+						
+			if (entity.getX() + entity.getWidth() - this.getX() > (this.getWidth() / 2)) {
+	
+				this.incrementX(cameraSpeed);
+	
+				if (this.getX() % 32 != 0) {
+	
+					interpolation += cameraSpeed * -1;
+				} else {
+					interpolation += interpolation * -1;
+				}
+	
+			}
+			
+		}
+		else if ( direction)
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			FLog.trace(" % [" + this.getX() + "]  " + this.getX() % 32
+					+ " translated  " + interpolation);
+		
+	}
+	
+	
+	public int getInterpolation()
+	{
+		return interpolation;
 	}
 
 	/**

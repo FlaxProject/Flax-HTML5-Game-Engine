@@ -116,6 +116,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			final Context2d ctx = drawingSpace.getContext2d();	
 			FTile t  = null;
 			
+			ctx.fillRect(0, 0,  drawingSpace.getOffsetWidth(),  drawingSpace.getOffsetHeight()); 
+	
+			
 			/**
 			 * currentYValue varibles is here to save on a multication and a subtraction every row item ( x corrdinate or coloum). 
 			 */
@@ -126,6 +129,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			 */
 			int currentYindexValue = 0;
 				
+			ctx.save();
+			ctx.translate(cam.getInterpolation(), 0);
 			
 			// all in tiles - relative
 			while(camYRelative <= camYAndHeight)
@@ -135,7 +140,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				currentYindexValue = camYRelative *  width; // get the next Y index value
 				
 				// in number of tiles - relative
-				while( camXRelative <= camXAndWidth )
+				while( camXRelative <= camXAndWidth + 2)
 				{
 
 					t = tiles.get(camXRelative + currentYindexValue );										
@@ -148,6 +153,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				camYRelative++;
  
 			}
+			
+			ctx.restore();
 			
 			for(FObject temp : objects)
 			{

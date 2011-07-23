@@ -14,6 +14,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
 public class FEntity extends FObject implements JsonSerializable {
 
 	protected transient FCamera cam;
+	protected transient int speed;
 	
 	public FEntity(float x, float y, float width, float height, Sprite sprite, String audio)
 	{
@@ -30,6 +31,11 @@ public class FEntity extends FObject implements JsonSerializable {
 		this.cam = cam;
 	}
 	
+
+	public int getSpeed()
+	{
+		return speed;
+	}
 
 	/**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
