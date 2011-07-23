@@ -1,6 +1,8 @@
 package ie.flax.flaxengine.client.Graphic;
 
+import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
+import ie.flax.flaxengine.client.FObject;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.events.CameraUpdateEvent;
 import ie.flax.flaxengine.client.events.EventBus;
@@ -9,16 +11,21 @@ import ie.flax.flaxengine.client.events.EventBus;
  * FCamera controls the viewport of a map. It allows for only what the user is looking at to be rendered instead of the whole
  * map making for good performance boost.
  * 
- * @author Ciarán McCann
+ * @author Ciaran McCann
  *
  */
 public class FCamera {
 	
-	private FVector position;
-	private int width;
-	private int height;
-	private int mapWidth;
-	private int mapHeight;
+	private transient FVector position;
+	private transient int width;
+	private transient int height;
+	private transient int mapWidth;
+	private transient int mapHeight;
+	private transient FVector interpolation;
+	private transient Directoin interpolationDirection;
+	
+	
+	public enum Directoin { NORTH, SOUTH, EAST, WEST}
 	
 		
 	/**
@@ -33,6 +40,7 @@ public class FCamera {
 	 */
 	public FCamera(FVector position, int width, int height) {
 		
+		this.interpolation = new FVector(0, 0);
 		this.position = position;
 		this.width = width;
 		this.height = height;
@@ -51,6 +59,150 @@ public class FCamera {
 		
 		//this.mapWidth = mapWidth;
 		//this.mapHeight = mapHeight;		
+	}
+	
+	
+	/**
+	 * Not yet implemented
+	 * @param x
+	 * @param y
+	 */
+	public void panTo(int x, int y, int speed)
+	{
+		//TODO implement for in-game sinmetics 
+	}
+	
+	/**
+	 * Allows the camera the be centered on a entity and pan with easing.
+	 * 
+	 * <br><br>
+	 * This method should be called when the entity moves, it caluates should the camera move.
+	 * It also eases the camera across with a smooth translation
+	 * 
+	 * @param entity - Entity which the camera will center on
+	 * @param direction - direction that entity is moving
+	 */
+	public void panCentered(FEntity entity, Directoin direction )
+	{
+		
+		/**
+		 * READ ME
+		 * This method is quite complex, look at the
+		 * first if block for step by step instructions
+		 */
+		
+		
+		int cameraSpeed = entity.getSpeed();		
+		
+		if(direction == Directoin.EAST) // check direction camera is to pan in
+		{
+			 // check if this is the direction the entity was moving in, at the last call of this method
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation.x = 0;
+			}
+				
+			//below if checks basically if the entity is in the center of the drawingspace
+			if (entity.getX() + entity.getWidth() - this.getX() > (this.getWidth() / 2)) {
+	
+				 //if the camera was sucessfully set to the next value, if so do translate pan. If not you have reached a border of the map
+				if(this.incrementX(cameraSpeed))
+				{
+					//FIXME - CIARAN magic numbers
+					if (this.getX() % 32 != 0) {
+		
+						interpolation.x += cameraSpeed * -1; //Interpolation.x is used in a GLTranslate call to achieve the interpolation
+					} else {
+						interpolation.x += interpolation.x * -1; //This then sets it back when the full tile can be seen
+					}
+				}
+	
+			}
+			
+		}
+		else if (direction == Directoin.WEST)
+		{
+			
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation.x = 0;
+			}
+			
+			if (entity.getX() + entity.getWidth() - this.getX() < (this.getWidth() / 2)) {
+				
+				if(this.incrementX(cameraSpeed * -1))
+				{
+					
+					if (this.getX() % 32 != 0) {
+		
+						interpolation.x += cameraSpeed;
+					} else {
+						interpolation.x -= interpolation.x;
+					}	
+				}
+			}		
+			
+		}
+		else if (direction == Directoin.SOUTH)
+		{
+			
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation.y = 0;
+			}
+			
+			if (entity.getY() + entity.getHeight() - this.getY() > (this.getHeight() / 2)) {
+		
+				if(this.incrementY(cameraSpeed))
+				{
+					if (this.getY() % 32 != 0) {
+		
+						interpolation.y += cameraSpeed * -1;
+					} else {
+						interpolation.y += interpolation.y * -1;
+					}			
+				}
+			}
+			
+			
+		}		
+		else if (direction == Directoin.NORTH)
+		{
+			
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation.y = 0;
+			}
+			
+			if (entity.getY() + entity.getHeight() - this.getY() < (this.getHeight() / 2)) {
+	
+				if(this.incrementY(cameraSpeed * -1))
+				{
+					if (this.getY() % 32 != 0) {
+		
+						interpolation.y += cameraSpeed;
+					} else {
+						interpolation.y += interpolation.y * -1;
+					}	
+					
+					FLog.trace(" interpolation.y " + interpolation.y);
+				}
+			}
+			
+			
+		}
+									
+			//FLog.trace(" % [" + this.getX() + "]  " + this.getX() % 32+ " translated  " + interpolation);		
+	}
+	
+	
+	public FVector getInterpolation()
+	{
+		return interpolation;
 	}
 
 	/**
@@ -131,7 +283,7 @@ public class FCamera {
 	 * is the input valid
 	 * @param x
 	 */
-	public void setX(double x)
+	public boolean setX(double x)
 	{	
 		
 		//FIXME CIARAN - magic number, only for testing will change at some piont
@@ -139,8 +291,11 @@ public class FCamera {
 		{	
 			position.x = x;
 			FLog.trace(this.toString() + " setX(double " + position.x + ") ");
+			return true;
+			
 		}else{
 			FLog.warn("Unable to set " + this.toString() + " setX(double " + x + ") ");
+			return false;
 		}
 	}
 
@@ -149,17 +304,19 @@ public class FCamera {
 	 * is the input valid
 	 * @param y
 	 */
-	public void setY(double y) {
+	public boolean setY(double y) {
 		
 		//FIXME CIARAN - magic number, only for testing will change at some piont
 		if(y <= (mapHeight*32)-(height)&& y >= 0) 
 		{
-
 			position.y = y;
-			FLog.trace(this.toString() + " setY(double " + position.y + ") ");						
+			FLog.trace(this.toString() + " setY(double " + position.y + ") ");		
+			return true;
+			
 		}else{
 			
 			FLog.warn("Unable to set " + this.toString() + " setY(double " + y + ") ");
+			return false;
 
 		}
 	}
@@ -168,17 +325,17 @@ public class FCamera {
 	 * Increments the x position by provided amount
 	 * @param x
 	 */
-	public void incrementX(double x)
+	public boolean incrementX(double x)
 	{		
-		setX(x+position.x);
+		return setX(x+position.x);
 	}
 	
 	/**
 	 * Increments the y position by provided amount
 	 * @param y
 	 */
-	public void incrementY(double y)
+	public boolean incrementY(double y)
 	{		
-		setY(y+position.y);	
+		return setY(y+position.y);	
 	}
 }

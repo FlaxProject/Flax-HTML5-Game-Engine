@@ -5,6 +5,7 @@ import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.FCamera;
+import ie.flax.flaxengine.client.Graphic.FCamera.Directoin;
 import ie.flax.flaxengine.client.Graphic.Sprite;
 import ie.flax.flaxengine.client.Graphic.Sprite.AnimationState;
 
@@ -21,7 +22,6 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Player extends FEntity {
 
-	private transient int speed;
 	
 	/**
 	 * Constructs all the data for you atm, just for testing. So it easy to create an entity
@@ -29,7 +29,7 @@ public class Player extends FEntity {
 	public Player(FVector pos)
 	{
 		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://flax.ie/test/s.png", 32,64), "audio");
-		speed = 6;		
+		speed = 4;		
 		bind();
 		
 		FLog.trace(this + " was created ");		
@@ -41,7 +41,7 @@ public class Player extends FEntity {
 	@Deprecated	
 	public Player(){
 		bind();
-		speed = 6;
+		speed = 4;
 	}
 	
 
@@ -106,42 +106,26 @@ public class Player extends FEntity {
 			y -= speed;
 			checkCurrentAnimationState(AnimationState.UP);
 			sprite.nextFrame();
-
-			/**
-			 * Checks if the player is in the center of the screen and if so
-			 * moves the camera. This stops the camera been moved when the
-			 * player is at the boundary of the map
-			 */
-			if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) {
+			
+			//cam.panCentered(this, Directoin.NORTH);
+			if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) 
 				cam.incrementY(cameraSpeed * -1);
-			}
+			
 			
 		} else if (event.getCharCode() == 'd' || event.getCharCode() == 'D') {
 
 			x += speed;
 			checkCurrentAnimationState(AnimationState.RIGHT);
 			sprite.nextFrame();
+			cam.panCentered(this, Directoin.EAST);
 
-			/**
-			 * Checks if the player is in the center of the screen and if so
-			 * moves the camera. This stops the camera been moved when the
-			 * player is at the boundary of the map
-			 */
-			if (cam != null && x + width - cam.getX() > (cam.getWidth() / 2)) {
-				cam.incrementX(cameraSpeed);
-			}
 			
 		} else if (event.getCharCode() == 'a' || event.getCharCode() == 'A') {
 
 			x -= speed;
 			checkCurrentAnimationState(AnimationState.LEFT);
 			sprite.nextFrame();
-
-			/**
-			 * Checks if the player is in the center of the screen and if so
-			 * moves the camera. This stops the camera been moved when the
-			 * player is at the boundary of the map
-			 */
+			//cam.panCentered(this, Directoin.WEST);
 			if (cam != null && x + width - cam.getX() < (cam.getWidth() / 2)) {
 				cam.incrementX(cameraSpeed * -1);
 			}
@@ -151,15 +135,7 @@ public class Player extends FEntity {
 			y += speed;
 			checkCurrentAnimationState(AnimationState.DOWN);
 			sprite.nextFrame();
-
-			/**
-			 * Checks if the player is in the center of the screen and if so
-			 * moves the camera. This stops the camera been moved when the
-			 * player is at the boundary of the map
-			 */
-			if (cam != null && y + height - cam.getY() > (cam.getHeight() / 2)) {
-				cam.incrementY(cameraSpeed);
-			}
+			cam.panCentered(this, Directoin.SOUTH);
 		}
 
 	}

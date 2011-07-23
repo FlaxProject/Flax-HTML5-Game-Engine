@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public abstract class FlaxEngine {
 
-	private Canvas drawingSpace;
+	public static Canvas drawingSpace;
 	private Canvas editorOverLay;
 
 	private final List<FMap> maps = new ArrayList<FMap>();
