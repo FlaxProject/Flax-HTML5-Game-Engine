@@ -94,7 +94,10 @@ public class Weave implements ImageSelectionEventHandler{
 
 			@Override
 			public void run() {
-				localSaveMap();
+				
+				if (running) {
+					localSaveMap();
+				}
 			}
 			
 		};
