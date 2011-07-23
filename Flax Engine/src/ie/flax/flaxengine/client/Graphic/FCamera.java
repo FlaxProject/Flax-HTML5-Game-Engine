@@ -40,6 +40,7 @@ public class FCamera {
 	 */
 	public FCamera(FVector position, int width, int height) {
 		
+		this.interpolation = new FVector(0, 0);
 		this.position = position;
 		this.width = width;
 		this.height = height;
@@ -87,7 +88,7 @@ public class FCamera {
 			if(interpolationDirection != direction)
 			{
 				interpolationDirection = direction;
-				interpolation = 0;
+				interpolation.x = 0;
 			}
 						
 			if (entity.getX() + entity.getWidth() - this.getX() > (this.getWidth() / 2)) {
@@ -96,9 +97,9 @@ public class FCamera {
 	
 				if (this.getX() % 32 != 0) {
 	
-					interpolation += cameraSpeed * -1;
+					interpolation.x += cameraSpeed * -1;
 				} else {
-					interpolation += interpolation * -1;
+					interpolation.x += interpolation.x * -1;
 				}
 	
 			}
@@ -110,7 +111,7 @@ public class FCamera {
 			if(interpolationDirection != direction)
 			{
 				interpolationDirection = direction;
-				interpolation = 0;
+				interpolation.x = 0;
 			}
 			
 			if (entity.getX() + entity.getWidth() - this.getX() < (this.getWidth() / 2)) {
@@ -119,9 +120,9 @@ public class FCamera {
 				
 				if (this.getX() % 32 != 0) {
 	
-					interpolation += cameraSpeed;
+					interpolation.x += cameraSpeed;
 				} else {
-					interpolation -= interpolation;
+					interpolation.x -= interpolation.x;
 				}			
 			}		
 			
@@ -132,7 +133,7 @@ public class FCamera {
 			if(interpolationDirection != direction)
 			{
 				interpolationDirection = direction;
-				interpolation = 0;
+				interpolation.y = 0;
 			}
 			
 			if (entity.getY() + entity.getHeight() - this.getY() > (this.getHeight() / 2)) {
@@ -141,9 +142,9 @@ public class FCamera {
 				
 				if (this.getY() % 32 != 0) {
 	
-					interpolation += cameraSpeed;
+					interpolation.y += cameraSpeed * -1;
 				} else {
-					interpolation -= interpolation;
+					interpolation.y += interpolation.y * -1;
 				}			
 			}
 			

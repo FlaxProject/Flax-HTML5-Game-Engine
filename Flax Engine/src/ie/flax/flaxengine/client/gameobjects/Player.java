@@ -120,8 +120,13 @@ public class Player extends FEntity {
 
 			x += speed;
 			checkCurrentAnimationState(AnimationState.RIGHT);
-			sprite.nextFrame();			
-			cam.panCentered(this, Directoin.EAST);
+			sprite.nextFrame();
+			if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) {
+			 
+		        cam.incrementY(cameraSpeed * -1);
+			 	
+		     }
+			//cam.panCentered(this, Directoin.EAST);
 
 			
 		} else if (event.getCharCode() == 'a' || event.getCharCode() == 'A') {

@@ -130,7 +130,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			int currentYindexValue = 0;
 				
 			ctx.save();
-			ctx.translate(cam.getInterpolation(), 0);
+			ctx.translate(cam.getInterpolation().x, cam.getInterpolation().y);
 			
 			// all in tiles - relative
 			while(camYRelative <= camYAndHeight)
