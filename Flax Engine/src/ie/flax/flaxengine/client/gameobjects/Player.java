@@ -136,15 +136,7 @@ public class Player extends FEntity {
 			y += speed;
 			checkCurrentAnimationState(AnimationState.DOWN);
 			sprite.nextFrame();
-
-			/**
-			 * Checks if the player is in the center of the screen and if so
-			 * moves the camera. This stops the camera been moved when the
-			 * player is at the boundary of the map
-			 */
-			if (cam != null && y + height - cam.getY() > (cam.getHeight() / 2)) {
-				cam.incrementY(cameraSpeed);
-			}
+			cam.panCentered(this, Directoin.SOUTH);
 		}
 
 	}

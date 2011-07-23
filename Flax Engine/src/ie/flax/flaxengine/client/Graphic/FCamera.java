@@ -11,7 +11,7 @@ import ie.flax.flaxengine.client.events.EventBus;
  * FCamera controls the viewport of a map. It allows for only what the user is looking at to be rendered instead of the whole
  * map making for good performance boost.
  * 
- * @author Ciar�n McCann
+ * @author Ciaran McCann
  *
  */
 public class FCamera {
@@ -21,7 +21,8 @@ public class FCamera {
 	private transient int height;
 	private transient int mapWidth;
 	private transient int mapHeight;
-	private transient int interpolation;
+	private transient FVector interpolation;
+	private transient Directoin interpolationDirection;
 	
 	
 	public enum Directoin { NORTH, SOUTH, EAST, WEST}
@@ -83,6 +84,11 @@ public class FCamera {
 		
 		if(direction == Directoin.EAST)
 		{
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation = 0;
+			}
 						
 			if (entity.getX() + entity.getWidth() - this.getX() > (this.getWidth() / 2)) {
 	
@@ -98,12 +104,51 @@ public class FCamera {
 			}
 			
 		}
-		else if ( direction)
+		else if (direction == Directoin.WEST)
+		{
+			
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation = 0;
+			}
+			
+			if (entity.getX() + entity.getWidth() - this.getX() < (this.getWidth() / 2)) {
+				
+				this.incrementX(cameraSpeed * -1);
+				
+				if (this.getX() % 32 != 0) {
+	
+					interpolation += cameraSpeed;
+				} else {
+					interpolation -= interpolation;
+				}			
+			}		
+			
+		}
+		else if (direction == Directoin.SOUTH)
+		{
+			
+			if(interpolationDirection != direction)
+			{
+				interpolationDirection = direction;
+				interpolation = 0;
+			}
+			
+			if (entity.getY() + entity.getHeight() - this.getY() > (this.getHeight() / 2)) {
+		
+				this.incrementY(cameraSpeed);
+				
+				if (this.getY() % 32 != 0) {
+	
+					interpolation += cameraSpeed;
+				} else {
+					interpolation -= interpolation;
+				}			
+			}
 			
 			
-			
-			
-			
+		}
 			
 			
 			
@@ -115,7 +160,7 @@ public class FCamera {
 	}
 	
 	
-	public int getInterpolation()
+	public FVector getInterpolation()
 	{
 		return interpolation;
 	}
