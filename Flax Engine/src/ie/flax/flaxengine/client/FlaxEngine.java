@@ -105,8 +105,16 @@ public abstract class FlaxEngine {
 		splashScreen.getElement().getStyle().setPosition(Position.ABSOLUTE);
 				
 		FLog.init();		
-		initEngine(insertId);		
-		maps.add(new FMap(mapPaths));// Loads all the maps
+		initEngine(insertId);
+		
+		//TODO Carl loading map automatically from local storage needs improving, perhaps a window to confirm or something
+		FMap m = new FMap(mapPaths);
+		if (FileHandle.readStringFromLocalStorage("map") != null) {
+			m = (FMap.fromJson(FileHandle.readStringFromLocalStorage("map")));
+		}
+		maps.add(m);// Loads all the maps
+		
+		
 		
 		/**
 		 * Constructs the editor weave

@@ -15,11 +15,13 @@ public class AnimationFade extends Animation{
 	public void fadeIn(int milliseconds) {
 		inOut = true;
 		run(milliseconds);
+		el.getStyle().setZIndex(0);
 	}
 	
 	public void fadeOut(int milliseconds) {
 		inOut = false;
 		run(milliseconds);
+		el.getStyle().setZIndex(-1);
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package ie.flax.flaxengine.client.weave;
 import ie.flax.flaxengine.client.FMap;
 import ie.flax.flaxengine.client.FTile;
+import ie.flax.flaxengine.client.FileHandle;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.events.CameraUpdateEvent;
@@ -22,9 +23,9 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * This is the main class of the weave editor. 
@@ -85,8 +86,28 @@ public class Weave implements ImageSelectionEventHandler{
 		EventBus.handlerManager.addHandler(ImageSelectionEvent.TYPE, this); //Register to listen for event
 		
 		bind(); //Key and Mouse Events
+		
+		//set up a timer which fires every minute and writes the current map to local storage
+		//could do this onMapUpdateEvent.
+		//TODO Carl move localSave out of here, change the way it works...
+		Timer t = new Timer() {
+
+			@Override
+			public void run() {
+				
+				if (running) {
+					localSaveMap();
+				}
+			}
+			
+		};
+		t.scheduleRepeating(6000); //currently every six seconds, seems to have relatively little perf impact.
 	}
 		
+	protected void localSaveMap() {
+		FileHandle.writeStringToLocalStorage("map", FMap.toJson(map));
+	}
+
 	/**
 	 * This binds the global key events for the editor, such as the backslash.
 	 * Though in future the canvas keyevents may be changed to global rootpanel events and thus
