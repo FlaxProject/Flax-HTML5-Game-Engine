@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class WeaveViewImpl implements WeaveView{
 	private enum AnimationStyle {FADE, SLIDE};
-	private AnimationStyle animationStyle = AnimationStyle.SLIDE;
+	private AnimationStyle animationStyle = AnimationStyle.FADE;
 	
 	private static final int AnimationTime = 300;
 	private SimplePanel northPanel;

@@ -305,7 +305,7 @@ public abstract class FlaxEngine {
 			 * only for debugging purposes (mobile etc) so remove this when there's a better way.
 			 */
 			if ((settings.getHeight() > 768) || (settings.getWidth() > 1024)){
-				//editor.toggle();
+				editor.toggle();
 			}
 		}
 

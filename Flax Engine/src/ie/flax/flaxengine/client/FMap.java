@@ -102,8 +102,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			final double camXWidth = camX+cam.getWidth();
 			final double camYHeight = camY+cam.getHeight();
 			
-			int camXRelative = (int) (camX/tileSize)+2;//plus one gives a border tile
-			int camYRelative = (int) (camY/tileSize)+2;
+			int camXRelative = (int) (camX/tileSize);//plus one gives a border tile
+			int camYRelative = (int) (camY/tileSize);
 			final int camXAndWidth = (int) (camXRelative)+cam.getWidth()/tileSize;
 			final int camYAndHeight = (int) (camYRelative)+cam.getHeight()/tileSize;
 		
