@@ -4,7 +4,7 @@ import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.Graphic.TimerCallback;
-import ie.flax.flaxengine.client.expectations.MapDataCorrupt;
+import ie.flax.flaxengine.client.exception.MapDataCorrupt;
 import ie.flax.flaxengine.client.gamewidgets.SplashScreen;
 import ie.flax.flaxengine.client.weave.Weave;
 
@@ -95,6 +95,11 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
 
+		String encoded = LzwCompression.compress("dfdsfsdfadfdsfdfdfdfdfdf");
+		
+		Window.alert(encoded);
+		Window.alert(LzwCompression.decompress(encoded));
+		
 		/**
 		 * Construct the splash screen
 		 */

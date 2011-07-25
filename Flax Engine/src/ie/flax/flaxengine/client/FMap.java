@@ -7,13 +7,11 @@ import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
-import ie.flax.flaxengine.client.expectations.MapDataCorrupt;
-import ie.flax.flaxengine.client.gameobjects.Player;
+import ie.flax.flaxengine.client.exception.MapDataCorrupt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;

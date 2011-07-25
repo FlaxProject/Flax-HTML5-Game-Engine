@@ -1,7 +1,8 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.FMap;
-import ie.flax.flaxengine.client.expectations.MapDataCorrupt;
+import ie.flax.flaxengine.client.LzwCompression;
+import ie.flax.flaxengine.client.exception.MapDataCorrupt;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
 import ie.flax.flaxengine.client.weave.view.Impl.MapImportExportViewImpl;
@@ -42,7 +43,7 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 
 	@Override
 	public void exportJSON() {		
-		display.setData(FMap.toJson(model.getFMapReference()));	
+		display.setData( LzwCompression.compress(FMap.toJson(model.getFMapReference())) );	
 	}
 
 
@@ -53,7 +54,7 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 
 			// TODO Create copy constructor for the FMap class and remove the replaceMap function
 			try {
-				model.getFMapReference().replaceMap(FMap.fromJson(display.getData()));
+				model.getFMapReference().replaceMap(FMap.fromJson( LzwCompression.decompress(display.getData())));
 			} catch (MapDataCorrupt e) {
 				Window.alert(e.getError());
 			}
