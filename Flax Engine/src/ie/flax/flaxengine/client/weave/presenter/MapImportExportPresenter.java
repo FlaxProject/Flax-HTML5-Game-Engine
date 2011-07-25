@@ -1,10 +1,12 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.FMap;
+import ie.flax.flaxengine.client.expectations.MapDataCorrupt;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
 import ie.flax.flaxengine.client.weave.view.Impl.MapImportExportViewImpl;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -24,9 +26,10 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 		this.model = model;
 		
 		                      //Vpanel   //FWindow-Dialog
-		//TODO 	this.getView().getParent().getParent().setVisible(false);
-		
+	 	this.getView().getParent().getParent();	
 	}
+	
+	
 	
 	/**
 	 * On close of the export/import window this method should be called to clear the content
@@ -49,7 +52,11 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 		if (display.getData() != null) {
 
 			// TODO Create copy constructor for the FMap class and remove the replaceMap function
-			model.getFMapReference().replaceMap(FMap.fromJson(display.getData()));
+			try {
+				model.getFMapReference().replaceMap(FMap.fromJson(display.getData()));
+			} catch (MapDataCorrupt e) {
+				Window.alert(e.getError());
+			}
 
 		} else {
 			display.setData("You need to put a JSON map string into this textarea before you can load it into the engine!");
@@ -60,6 +67,7 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 
 	@Override
 	public Widget getView() {
+		clearData();
 		return display.asWidget();
 	}
 	

@@ -181,6 +181,10 @@ public class Settings implements JsonSerializable, onFileLoadedEventHandler {
 	     height = RootPanel.get(insertId).getOffsetHeight();
 	}
 
+	/**
+	 * This returns a reference to the panel in which all engine HTML most be inserted into and event hanlders registered with
+	 * @return
+	 */
 	public RootPanel getContainer() {
 		return RootPanel.get(insertId);
 	}

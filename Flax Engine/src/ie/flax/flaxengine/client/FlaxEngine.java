@@ -4,6 +4,7 @@ import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.Graphic.TimerCallback;
+import ie.flax.flaxengine.client.expectations.MapDataCorrupt;
 import ie.flax.flaxengine.client.gamewidgets.SplashScreen;
 import ie.flax.flaxengine.client.weave.Weave;
 
@@ -57,7 +58,6 @@ public abstract class FlaxEngine {
 	private final SplashScreen splashScreen;
 	public static FCamera camera;
 	
-	private final String insertId;
 
 	/**
 	 * This is technically the game loop. It tells requestAnimationFrame to call
@@ -95,8 +95,6 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
 
-		this.insertId = insertId;
-		
 		/**
 		 * Construct the splash screen
 		 */
@@ -110,7 +108,12 @@ public abstract class FlaxEngine {
 		//TODO Carl loading map automatically from local storage needs improving, perhaps a window to confirm or something
 		FMap m = new FMap(mapPaths);
 		if (FileHandle.readStringFromLocalStorage("map") != null) {
-			m = (FMap.fromJson(FileHandle.readStringFromLocalStorage("map")));
+			try {
+				m = (FMap.fromJson(FileHandle.readStringFromLocalStorage("map")));
+			} catch (MapDataCorrupt e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		maps.add(m);// Loads all the maps
 		
@@ -299,7 +302,7 @@ public abstract class FlaxEngine {
 		&& Graphic.getSingleton().isComponentReady() && FAudio.isComponentReady()) {
 			
 			engineStatus = true;
-			RootPanel.get(insertId).remove(splashScreen);
+			settings.getContainer().remove(splashScreen);
 			/*
 			 * Rudimentary check to see if the client's resolution is high enough to actually use weave
 			 * only for debugging purposes (mobile etc) so remove this when there's a better way.

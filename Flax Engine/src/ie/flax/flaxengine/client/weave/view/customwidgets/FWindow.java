@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class FWindow {
+	
     private final VerticalPanel mainPanel;
     private final ClosablePopup window;
 

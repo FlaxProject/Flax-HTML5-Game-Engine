@@ -7,11 +7,13 @@ import ie.flax.flaxengine.client.events.ImageSelectionEvent;
 import ie.flax.flaxengine.client.events.ImageSelectionEvent.Identifier;
 import ie.flax.flaxengine.client.events.onFileLoadedEvent;
 import ie.flax.flaxengine.client.events.onFileLoadedEventHandler;
+import ie.flax.flaxengine.client.expectations.MapDataCorrupt;
 import ie.flax.flaxengine.client.gameobjects.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.AlertHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
@@ -54,7 +56,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	
 	private int tileSize;
 	private String name;
-	private boolean Loaded; 
+	private transient boolean Loaded; 
 	private ImageElement tileSheetImage;
 	
 	/**
@@ -76,7 +78,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * FMap object is constructed from a file by provding the path name. 
 	 * @param mapPath - URL to map.json file
 	 */
-	public FMap(String mapPath) {		
+	public FMap(final String mapPath) {		
 		
 		name = mapPath;
 		EventBus.handlerManager.addHandler(onFileLoadedEvent.TYPE, this); //Register the obj for onFileLoaded events	
@@ -245,8 +247,9 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * 
 	 * @param JSON
 	 * @return
+	 * @throws MapDataCorrupt - if the JSON map string passed in has an error in it this expection will be throw
 	 */
-	public static final FMap fromJson(String Json) {
+	public static final FMap fromJson(String Json) throws MapDataCorrupt {
 		
 		/**
 		 * TODO : http://code.google.com/p/gwt-lzma/
@@ -257,7 +260,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			Serializer serializer = (Serializer) GWT.create(Serializer.class);		
 			 temp = (FMap) serializer.deSerialize(Json,"ie.flax.flaxengine.client.FMap");			
 		} catch (Exception e) {
-			Window.alert(e + "\n\n" + e.getCause() + "\n\n" + "Map data corrupt");		
+			
+			throw new MapDataCorrupt();
 		}	
 		return temp;
 	}
@@ -335,8 +339,15 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			 * Creates a temp FMap object from the JSON string which is stored
 			 * in the event object which was pulled from the server
 			 */
-			final FMap temp = fromJson(e.getDataLoadedFromFile()); 
+			 FMap temp = null;
+			try {
+				temp = fromJson(e.getDataLoadedFromFile());
+			} catch (MapDataCorrupt e1) {
+				// TODO Auto-generated catch block
+				Window.alert(e1.getError());
+			} 
 
+			final FMap temp2 = temp;
 			
 			/**
 			 * Loads the tilesheet of the map, waits for the onLoad call back and fires a ImageSelection 
@@ -351,7 +362,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 					 * Only load in the new map data once all the images have loaded for the map.
 					 * So that the calucations for which texture to pick from an image can be done at load and not during frame 
 					 */
-					replaceMap(temp); //op code : this = temp;
+					replaceMap(temp2); //op code : this = temp;
 					EventBus.handlerManager.fireEvent(new ImageSelectionEvent(tileSheet, Identifier.TILE_SHEET));
 					
 				//	Player p = new Player(new FVector(300, 300));
@@ -596,17 +607,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	}
 
 
-	/**
-	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
-	 * can work Using this method is at your own risk and will most likely break
-	 * your code in RUNTIME!!
-	 * 
-	 */
-	@Deprecated	
-	public void setLoaded(boolean loaded) {
-		Loaded = loaded;
-	}
-	
 
 	/**
 	 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
