@@ -91,7 +91,13 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param canvas 
 	 * @param cam2 
 	 */
-	public void draw(final FCamera cam, final Canvas drawingSpace, final double deltaTime) {	
+	public void draw(
+			final FCamera cam, 
+			final Canvas drawingSpace, 						
+			final double deltaTime		//Ok this shouldn't be here, need to have a thing about how going to do update and drawing.
+										//No piont looping though all the elements twice for update and draw, so why not at same time, but anyway need to sleep on it
+			) 
+	{	
 
 		/**
 			 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
@@ -211,7 +217,6 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 		clickX += (int) FlaxEngine.camera.getX()/tileSize;
 		clickY += (int) +FlaxEngine.camera.getY()/tileSize;
 
-		//FLog.trace(" tileValue " + clickX + (clickY*width) );
 		
 		/**
 		 * Read the comment in the draw method, you will then understand why there is a +1 here

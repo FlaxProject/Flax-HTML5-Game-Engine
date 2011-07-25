@@ -104,7 +104,8 @@ public class Player extends FEntity {
 		if (event.getCharCode() == 'w' || event.getCharCode() == 'W') {
 
 			y -= speed;
-			sprite.setAnimationState(AnimationState.UP);			
+			sprite.setAnimationState(AnimationState.UP);	
+			sprite.nextFrame();
 			cam.panCentered(this, Directoin.NORTH);
 
 		} else if (event.getCharCode() == 'd' || event.getCharCode() == 'D') {

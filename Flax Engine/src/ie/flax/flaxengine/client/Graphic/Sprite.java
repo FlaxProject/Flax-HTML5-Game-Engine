@@ -149,24 +149,20 @@ public class Sprite implements JsonSerializable {
 	 */
 	public void nextFrame()
 	{
-		if(timeSinceLastFrame >= 3000)
-		{
-		
-			if(currentFrame < frameCount)
-			{
-				currentFrame++;	
+		if (timeSinceLastFrame >= 1500) {
+
+			if (currentFrame < frameCount) {
+				currentFrame++;
+			} else {
+				currentFrame = 3; // FIXME set back to zero, only for spefic
+									// sprite
 			}
-			else
-			{
-				currentFrame = 3;	//FIXME set back to zero, only for spefic sprite	
-			}
-			
+
+			timeSinceLastFrame = 0;
 		}
 
 	}
-		
-	
-	
+			
 	
 	//Different Y values for the animations
 		public enum AnimationState { 		
@@ -188,15 +184,14 @@ public class Sprite implements JsonSerializable {
 				return index;
 			}
 		}
-		
-			
-		public String objectState()
-		{
-			return this + " currentFrame " + currentFrame + " frameWidth " + frameWidth + " frameCount " + frameCount + " anaimtion state " + animationState;
-		}
-				
-	
 
+		/**
+		 * DO NOT USE THIS METHOD -This method only exist so that JSON serialization
+		 * can work Using this method is at your own risk and will most likely break
+		 * your code in RUNTIME!!
+		 * 
+		 */
+		@Deprecated
 		public void setCurrentFrame(int currentFrame) {
 			this.currentFrame = currentFrame;
 		}
