@@ -2,7 +2,6 @@ package ie.flax.flaxengine.client.Graphic;
 
 import ie.flax.flaxengine.client.FEntity;
 import ie.flax.flaxengine.client.FLog;
-import ie.flax.flaxengine.client.FObject;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.events.CameraUpdateEvent;
 import ie.flax.flaxengine.client.events.EventBus;
@@ -114,7 +113,7 @@ public class FCamera {
 		
 						interpolation.x += cameraSpeed * -1; //Interpolation.x is used in a GLTranslate call to achieve the interpolation
 					} else {
-						interpolation.x += interpolation.x * -1; //This then sets it back when the full tile can be seen
+						interpolation.x += interpolation.x * -1; //Thisa then sets it back when the full tile can be seen
 					}
 				}
 	
@@ -128,21 +127,24 @@ public class FCamera {
 			{
 				interpolationDirection = direction;
 				interpolation.x = 0;
+				
 			}
 			
 			if (entity.getX() + entity.getWidth() - this.getX() < (this.getWidth() / 2)) {
 				
-				if(this.incrementX(cameraSpeed * -1))
-				{
 					
 					if (this.getX() % 32 != 0) {
 		
 						interpolation.x += cameraSpeed;
 					} else {
-						interpolation.x -= interpolation.x;
+						interpolation.x += interpolation.x * -1;
 					}	
-				}
-			}		
+					
+					this.incrementX(cameraSpeed * -1);
+				
+			}	
+			
+			FLog.trace(" % [" + this.getX() + "]  " + this.getX() % 32+ " translated  " + interpolation.x);		
 			
 		}
 		else if (direction == Directoin.SOUTH)
@@ -180,8 +182,7 @@ public class FCamera {
 			
 			if (entity.getY() + entity.getHeight() - this.getY() < (this.getHeight() / 2)) {
 	
-				if(this.incrementY(cameraSpeed * -1))
-				{
+				
 					if (this.getY() % 32 != 0) {
 		
 						interpolation.y += cameraSpeed;
@@ -189,8 +190,7 @@ public class FCamera {
 						interpolation.y += interpolation.y * -1;
 					}	
 					
-					FLog.trace(" interpolation.y " + interpolation.y);
-				}
+					this.incrementY(cameraSpeed * -1);
 			}
 			
 			
@@ -210,6 +210,7 @@ public class FCamera {
 	 */
 	public void setMapWidth(final int mapWidth) {
 		this.mapWidth = mapWidth;
+		this.mapWidth += 1;
 	}
 
 	/**

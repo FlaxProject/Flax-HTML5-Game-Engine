@@ -104,8 +104,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			
 			int camXRelative = (int) (camX/tileSize);//plus one gives a border tile
 			int camYRelative = (int) (camY/tileSize);
-			final int camXAndWidth = (int) (camXRelative)+cam.getWidth()/tileSize;
-			final int camYAndHeight = (int) (camYRelative)+cam.getHeight()/tileSize;
+			final int camXAndWidth = (int) ( (camXRelative)+cam.getWidth()/tileSize ) + 1;
+			final int camYAndHeight = (int) ( (camYRelative)+cam.getHeight()/tileSize ) + 1;
 		
 			final int camXRelativeCopy = camXRelative;
 			final int camYRelativeCopy = camYRelative;
@@ -115,10 +115,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			
 			final Context2d ctx = drawingSpace.getContext2d();	
 			FTile t  = null;
-			
-			ctx.fillRect(0, 0,  drawingSpace.getOffsetWidth(),  drawingSpace.getOffsetHeight()); 
-	
-			
+		
 			/**
 			 * currentYValue varibles is here to save on a multication and a subtraction every row item ( x corrdinate or coloum). 
 			 */
@@ -135,16 +132,29 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			// all in tiles - relative
 			while(camYRelative <= camYAndHeight)
 			{
-	
-				currentYValue = ( camYRelative*tileSize - camYRelativeCopyScaled ); // get next Y value
-				currentYindexValue = camYRelative *  width; // get the next Y index value
 				
-				// in number of tiles - relative
-				while( camXRelative <= camXAndWidth + 2)
+				/**
+				 * -1 to allow for the panning, read large comment below
+				 */
+				currentYValue = ( (camYRelative-1)*tileSize - camYRelativeCopyScaled ); // get next Y value
+			
+				currentYindexValue = (camYRelative) *  width; // get the next Y index value
+				
+				// in number of tiles - relatived
+				while( camXRelative <= camXAndWidth)
 				{
 
-					t = tiles.get(camXRelative + currentYindexValue );										
-					ctx.drawImage(tileSheetImage, t.getTextureX(), t.getTextureY(), tileSize, tileSize, ( camXRelative*tileSize -  camXRelativeCopyScaled ) , currentYValue, tileSize, tileSize); 
+					t = tiles.get(camXRelative + currentYindexValue );		
+					
+					/**
+					 * below is the call for the image to be drawn, note the -1 on the camXRelative, this is to facilate the panning.
+					 * Basically it makes the map render with -1 positon and thus there will always a border tile colum, so when the camera is panning
+					 * you don't notice anything wiered. 
+					 * 
+					 * I'm sure there is a better way to do this, tho it will do for the mo
+					 * 
+					 */
+					ctx.drawImage(tileSheetImage, t.getTextureX(), t.getTextureY(), tileSize, tileSize, ( (camXRelative-1)*tileSize -  camXRelativeCopyScaled ) , currentYValue, tileSize, tileSize); 
 					
 					camXRelative++;
 				}
@@ -195,7 +205,15 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 
 		//FLog.trace(" tileValue " + clickX + (clickY*width) );
 		
-		return tiles.get( clickX + (clickY*width) );
+		/**
+		 * Read the comment in the draw method, you will then understand why there is a +1 here
+		 */
+		int index = (clickX+1) + ((clickY+1)*width);
+		
+		if(index < 0)
+			index = 0;
+		
+		return tiles.get( index );
 	}
 	
 	

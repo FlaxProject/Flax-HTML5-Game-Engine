@@ -107,9 +107,9 @@ public class Player extends FEntity {
 			checkCurrentAnimationState(AnimationState.UP);
 			sprite.nextFrame();
 			
-			//cam.panCentered(this, Directoin.NORTH);
-			if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) 
-				cam.incrementY(cameraSpeed * -1);
+			cam.panCentered(this, Directoin.NORTH);
+			//if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) 
+			//	cam.incrementY(cameraSpeed * -1);
 			
 			
 		} else if (event.getCharCode() == 'd' || event.getCharCode() == 'D') {
@@ -125,10 +125,11 @@ public class Player extends FEntity {
 			x -= speed;
 			checkCurrentAnimationState(AnimationState.LEFT);
 			sprite.nextFrame();
-			//cam.panCentered(this, Directoin.WEST);
-			if (cam != null && x + width - cam.getX() < (cam.getWidth() / 2)) {
-				cam.incrementX(cameraSpeed * -1);
-			}
+			
+			cam.panCentered(this, Directoin.WEST);
+//			if (cam != null && x + width - cam.getX() < (cam.getWidth() / 2)) {
+//				cam.incrementX(cameraSpeed * -1);
+//			}
 			
 		} else if (event.getCharCode() == 's' || event.getCharCode() == 'S') {
 
