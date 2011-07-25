@@ -14,7 +14,7 @@ import ie.flax.flaxengine.client.FlaxEngine;
 /**
  * This class handles the sprite for objects, like NPC , Characters etc.
  * It handles both non-animated and animated sprites.
- * @author Ciarán McCann
+ * @author Ciarï¿½n McCann
  *
  */
 public class Sprite implements JsonSerializable {
@@ -23,7 +23,7 @@ public class Sprite implements JsonSerializable {
 	private transient int currentFrame; //The current frame, x pos across the image	
 	private transient int frameCount; //Number of frames across
 	private transient AnimationState animationState;	//This holds the animated row
-	private transient static int interpolation;
+	private transient double timeSinceLastFrame;
 	
 	private String imagePath;	
 	private int frameWidth; // size of each frame eg 32 * 32
@@ -130,12 +130,17 @@ public class Sprite implements JsonSerializable {
 	}
 	
 	/**
-	 * Sets the current row of the image in which the animation frames are
+	 * Sets the row of the sprite image, also if the current state isnt the same as the one beening passed in
+	 * it will reset the currentframe count
 	 * @param state
 	 */
 	public void setAnimationState(AnimationState state)
 	{
-		this.animationState = state;
+		if(this.animationState != state)
+		{
+			this.animationState = state;
+			this.currentFrame = 0;
+		}
 	}
 
 	/**
@@ -144,19 +149,20 @@ public class Sprite implements JsonSerializable {
 	 */
 	public void nextFrame()
 	{
-//		if(interpolation > 1)
-//		{
+		if(timeSinceLastFrame >= 3000)
+		{
 		
 			if(currentFrame < frameCount)
+			{
 				currentFrame++;	
+			}
 			else
+			{
 				currentFrame = 3;	//FIXME set back to zero, only for spefic sprite	
-//			
-//			
-//			interpolation = 0;
-//		}
-//		
-//		interpolation++;
+			}
+			
+		}
+
 	}
 		
 	
@@ -254,5 +260,12 @@ public class Sprite implements JsonSerializable {
 
 		public void setImagePath(String imagePath) {
 			this.imagePath = imagePath;
+		}
+
+
+
+		public void update(double deltaTime) {
+			
+			timeSinceLastFrame += deltaTime;
 		}
 }

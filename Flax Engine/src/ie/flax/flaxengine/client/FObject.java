@@ -11,7 +11,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  * @author Ciaran McCann
  *
  */
-public class FObject implements JsonSerializable{
+public abstract class FObject implements JsonSerializable{
 
 	protected float x;
 	protected float y;
@@ -133,6 +133,9 @@ public class FObject implements JsonSerializable{
 	public void setHeight(float height) {
 		this.height = height;
 	}
+
+
+	public abstract void update(double deltaTime);
 	
 	
 }

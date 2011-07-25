@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Player extends FEntity {
 
+
 	
 	/**
 	 * Constructs all the data for you atm, just for testing. So it easy to create an entity
@@ -60,7 +61,6 @@ public class Player extends FEntity {
 				
 
 				y += speed;
-				checkCurrentAnimationState(AnimationState.DOWN);
 				sprite.nextFrame();
 				
 				if(cam != null)
@@ -104,18 +104,13 @@ public class Player extends FEntity {
 		if (event.getCharCode() == 'w' || event.getCharCode() == 'W') {
 
 			y -= speed;
-			checkCurrentAnimationState(AnimationState.UP);
-			sprite.nextFrame();
-			
+			sprite.setAnimationState(AnimationState.UP);			
 			cam.panCentered(this, Directoin.NORTH);
-			//if (cam != null && y + height - cam.getY() < (cam.getHeight() / 2)) 
-			//	cam.incrementY(cameraSpeed * -1);
-			
-			
+
 		} else if (event.getCharCode() == 'd' || event.getCharCode() == 'D') {
 
 			x += speed;
-			checkCurrentAnimationState(AnimationState.RIGHT);
+			sprite.setAnimationState(AnimationState.RIGHT);
 			sprite.nextFrame();
 			cam.panCentered(this, Directoin.EAST);
 
@@ -123,37 +118,26 @@ public class Player extends FEntity {
 		} else if (event.getCharCode() == 'a' || event.getCharCode() == 'A') {
 
 			x -= speed;
-			checkCurrentAnimationState(AnimationState.LEFT);
+			sprite.setAnimationState(AnimationState.LEFT);	
 			sprite.nextFrame();
-			
 			cam.panCentered(this, Directoin.WEST);
-//			if (cam != null && x + width - cam.getX() < (cam.getWidth() / 2)) {
-//				cam.incrementX(cameraSpeed * -1);
-//			}
+
 			
 		} else if (event.getCharCode() == 's' || event.getCharCode() == 'S') {
 
 			y += speed;
-			checkCurrentAnimationState(AnimationState.DOWN);
+			sprite.setAnimationState(AnimationState.DOWN);
 			sprite.nextFrame();
 			cam.panCentered(this, Directoin.SOUTH);
 		}
 
 	}
-	
-	
-	/**
-	 * Checks if the current animation state is the same as the one been passed in. If not it sets the 
-	 * the one passed in to the current animation state and sets the currentFrame back to 0. To start from the start
-	 * @param state
-	 */
-	private void checkCurrentAnimationState(AnimationState state)
-	{
-		 if(sprite.getAnimationState() != state)
-		 {
-		    	sprite.setAnimationState(state);
-		    	sprite.setCurrentFrame(0);
-		  }
+
+	@Override
+	public void update(double deltaTime) {
+		
+		sprite.update(deltaTime);
+		
 	}
 
 }

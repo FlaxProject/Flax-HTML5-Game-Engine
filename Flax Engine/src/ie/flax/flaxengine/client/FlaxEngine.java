@@ -74,7 +74,7 @@ public abstract class FlaxEngine {
 			
 			
 			if (isEngineReady() && playing) {			
-					maps.get(0).draw(camera, drawingSpace);
+					maps.get(0).draw(camera, drawingSpace, currentMilliseconds);
 			}
 			
 

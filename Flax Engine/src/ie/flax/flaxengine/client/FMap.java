@@ -91,7 +91,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 	 * @param canvas 
 	 * @param cam2 
 	 */
-	public void draw(final FCamera cam, final Canvas drawingSpace) {	
+	public void draw(final FCamera cam, final Canvas drawingSpace, final double deltaTime) {	
 
 		/**
 			 * The below calucates and objects referencing is all done outside the loops to speed up the drawing
@@ -170,14 +170,22 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			{
 				//check if the eneity can be seen on screen before drawing
 				if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
-				temp.draw(drawingSpace);
+				{
+					temp.update(deltaTime);
+					temp.draw(drawingSpace);
+				}
 			}
 		
 			for(FEntity temp : entities)
 			{
 				//check if the eneity can be seen on screen before drawing
 				if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
-				temp.draw(drawingSpace);
+				{
+					
+						temp.update(deltaTime);
+						temp.draw(drawingSpace);
+					
+				}
 			}		
 	}
 

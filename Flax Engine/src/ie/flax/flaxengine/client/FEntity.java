@@ -11,7 +11,7 @@ import com.kfuntak.gwt.json.serialization.client.JsonSerializable;
  * @author Ciaran McCann
  *
  */
-public class FEntity extends FObject implements JsonSerializable {
+public abstract class FEntity extends FObject implements JsonSerializable {
 
 	protected transient FCamera cam;
 	protected transient int speed;
