@@ -341,6 +341,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			try {
 				temp = fromJson(e.getDataLoadedFromFile());
 			} catch (MapDataCorrupt e1) {
+				//FIXME CARL - handle expection
 				// TODO Auto-generated catch block
 				Window.alert(e1.getError());
 			} 

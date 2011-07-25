@@ -21,15 +21,13 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 	private MapImportExportView display;
 	private Weave model;
 	
-	public MapImportExportPresenter(Weave model)
-	{
+	public MapImportExportPresenter(Weave model){
 		this.display = new MapImportExportViewImpl(this);
 		this.model = model;
 		
 		                      //Vpanel   //FWindow-Dialog
-	 	this.getView().getParent().getParent();	
+	 	//this.getView().getParent().getParent();	
 	}
-	
 	
 	
 	/**

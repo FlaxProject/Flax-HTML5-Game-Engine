@@ -1,5 +1,9 @@
 package ie.flax.flaxengine.client;
 
+/**
+ * LZW algorithm
+ * 
+ */
 public class LzwCompression {
 
 

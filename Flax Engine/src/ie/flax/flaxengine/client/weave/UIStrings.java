@@ -6,6 +6,8 @@ package ie.flax.flaxengine.client.weave;
  *
  */
 public final class UIStrings {
+	
+	public final static String version = " Version 0.2 ";
 	public final static String logo = "<a href='http://flax.ie' target='_blank'><img style='padding-bottom:5px' src='http://flax.ie/images/flaxLogo.png' width='100%'/></a>";
 	public final static String newline = "<br/>";
 	public final static String twitterPlug = "<br/><p style='text-align:center'>You should follow us on Twitter " +
@@ -23,7 +25,7 @@ public final class UIStrings {
 				"project to work on, and, having realised that social networks were done already, " +
 				"they settled on a HTML5 game engine. This is the demo of its map editor.";
 		
-		String about = logo + newline + " Version 0.1 <br>"+ newline + aboutFlax + newline + aboutUs + newline + twitterPlug + newline + sitePlug;
+		String about = logo + newline + version + newline + newline + aboutFlax + newline + aboutUs + newline + twitterPlug + newline + sitePlug;
 		return about;
 	}
 	
@@ -47,6 +49,6 @@ public final class UIStrings {
 		String sitePlug = "Read more about this project at <a href='http://flax.ie' target='_blank'>flax.ie</a>!</p>";
 		
 		
-		return logo + newline + " Version 0.1 "+ newline + newline + tiling + newline + newline+ move + newline + newline + regions + newline+newline + cam + newline + twitterPlug + newline + sitePlug;
+		return logo + newline +  version + newline + newline + tiling + newline + newline+ move + newline + newline + regions + newline+newline + cam + newline + twitterPlug + newline + sitePlug;
 	}
 }

@@ -95,11 +95,6 @@ public abstract class FlaxEngine {
 	 */
 	public FlaxEngine(final String mapPaths, final String insertId) {
 
-		String encoded = LzwCompression.compress("dfdsfsdfadfdsfdfdfdfdfdf");
-		
-		Window.alert(encoded);
-		Window.alert(LzwCompression.decompress(encoded));
-		
 		/**
 		 * Construct the splash screen
 		 */
