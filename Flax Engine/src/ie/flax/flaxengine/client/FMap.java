@@ -150,6 +150,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				while( camXRelative <= camXAndWidth)
 				{
 
+					if (camXRelative+currentYindexValue >= tiles.size()) break;
 					t = tiles.get(camXRelative + currentYindexValue );		
 					
 					/**
@@ -177,7 +178,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				//check if the eneity can be seen on screen before drawing
 				if(temp.getX() >= camX-tileSize && temp.getX() <= camXWidth &&temp.getY() >= camY-tileSize && temp.getY() <= camYHeight)
 				{
-					temp.update(deltaTime);
+					if(deltaTime!=-1)temp.update(deltaTime);
 					temp.draw(drawingSpace);
 				}
 			}
@@ -187,10 +188,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				//check if the eneity can be seen on screen before drawing
 				if(temp.getX() >= camX-temp.getWidth() && temp.getX() <= camXWidth &&temp.getY() >= camY-temp.getHeight() && temp.getY() <= camYHeight)
 				{
-					
-						temp.update(deltaTime);
-						temp.draw(drawingSpace);
-					
+					if(deltaTime!=-1)temp.update(deltaTime);
+					temp.draw(drawingSpace);
 				}
 			}		
 	}

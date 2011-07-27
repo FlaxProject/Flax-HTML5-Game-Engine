@@ -23,7 +23,7 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	private final Weave model;
 	private final FCamera cam;
 	private final MiniMapView view;
-	private final int inverseScale = 5; // eg 8 if you want 1/8 scale
+	private final int inverseScale = 10; // eg 8 if you want 1/8 scale
 
 	private double oldTime = new Date().getTime();
 	private double currentTime;
@@ -36,9 +36,8 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		elapsedTime = currentTime - oldTime;
 		if(model.isRunning()){
 			if (elapsedTime > 2000){
-				draw();
-				FLog.error("draw");
 				oldTime = currentTime;
+				draw();
 			}
 		}
 		FLog.error(elapsedTime+"");
@@ -97,7 +96,7 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		}
 		
 		
-		model.getFMapReference().draw(cam, view.getCanvas());
+		model.getFMapReference().draw(cam, view.getCanvas(),-1);
 	}
 
 

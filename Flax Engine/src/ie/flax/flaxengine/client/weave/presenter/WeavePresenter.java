@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class WeavePresenter extends AbstractPresenter {
 	
-//	private final MiniMapPresenter MiniPresenter;
+	private final MiniMapPresenter MiniPresenter;
 	private final TileMenuPresenter TilePresenter;
 	private final PreferencesPresenter preferencePresenter;
 	private final WeaveView display;
@@ -28,7 +28,7 @@ public class WeavePresenter extends AbstractPresenter {
 	public WeavePresenter(Weave editor) {
 		display = new WeaveViewImpl();
 		TilePresenter = new TileMenuPresenter(editor);
-		//MiniPresenter = new MiniMapPresenter(editor);
+		MiniPresenter = new MiniMapPresenter(editor);
 		preferencePresenter = new PreferencesPresenter(editor);
 		
 		/*
@@ -39,7 +39,7 @@ public class WeavePresenter extends AbstractPresenter {
 		
 	
 
-		//display.addToSouthEastCorner(MiniPresenter.getView());
+		display.addToSouthEastCorner(MiniPresenter.getView());
 
 		display.addToEast(new HTML(new SafeHtml() {
 			
