@@ -3,6 +3,8 @@ package ie.flax.flaxengine.client.weave.view.Impl;
 
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.attachment.AttachmentHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,6 +12,9 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MiniMapViewImpl implements MiniMapView {
@@ -25,15 +30,22 @@ public class MiniMapViewImpl implements MiniMapView {
 				.getClientHeight());
 		minimap.setCoordinateSpaceWidth(minimap.getCanvasElement()
 				.getClientWidth());
-
+		
 		minimap.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				presenter.moveMapCamera(
+				if(!presenter.isRunning()){
+					presenter.setRunning(true);
+					hideWarning();
+				} else {
+					presenter.moveMapCamera(
 						event.getRelativeX(minimap.getElement()),
 						event.getRelativeY(minimap.getElement()));
+				}
 			}
+
+			
 		});
 		
 		minimap.addMouseMoveHandler(new MouseMoveHandler() {
@@ -54,6 +66,18 @@ public class MiniMapViewImpl implements MiniMapView {
 				event.preventDefault();
 			}
 		});
+		
+		this.showWarning();
+	}
+
+	private void showWarning() {
+		//minimap.getElement().setAttribute("style", "background-color: rgba(240, 240, 240, 0.7) !important;");
+		minimap.getElement().getStyle().setBackgroundColor("rgba(240, 240, 240, 0.7) !important;");
+	}
+	
+	private void hideWarning() {
+		//minimap.getElement().setAttribute("style", "");
+		
 	}
 
 	@Override
@@ -66,4 +90,5 @@ public class MiniMapViewImpl implements MiniMapView {
 		return minimap;
 	}
 
+	
 }

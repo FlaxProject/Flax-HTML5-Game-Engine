@@ -23,30 +23,46 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	private final Weave model;
 	private final FCamera cam;
 	private final MiniMapView view;
-	private final int inverseScale = 10; // eg 8 if you want 1/8 scale
+	private final int inverseScale = 12; // eg 8 if you want 1/8 scale
 
 	private double oldTime = new Date().getTime();
 	private double currentTime;
 	private double elapsedTime;
 	
+	private boolean isRunning = false;
+	private boolean firstRun = true;
 	
 	@Override
 	public void onMapUpdate(MapUpdateEvent e) {
-		currentTime = new Date().getTime();
-		elapsedTime = currentTime - oldTime;
-		if(model.isRunning()){
-			if (elapsedTime > 2000){
-				oldTime = currentTime;
-				draw();
+		//if(firstRun){
+		//	//this is in order to set up the canvas width and height (yes, I know, wtf)
+		//	draw();
+		//	firstRun = false;
+		//}
+		if(isRunning){
+			currentTime = new Date().getTime();
+			elapsedTime = currentTime - oldTime;
+			if(model.isRunning()){
+				if (elapsedTime > 2000){
+					oldTime = currentTime;
+					draw();
+				}
 			}
 		}
-		FLog.error(elapsedTime+"");
 	}
 	
-	
+	@Override
+	public void onCameraUpdate(CameraUpdateEvent e) {
+		if(isRunning){
+			if (model.isRunning()){
+				clear();
+				draw();
+				drawCurrentCameraRectangle();
+			}
+		}
+	}
 	
 	public MiniMapPresenter(Weave editor) {
-		
 		this.model = editor;
 		view = new MiniMapViewImpl(this);
 		cam = new FCamera(new FVector(0, 0), FlaxEngine.camera.getWidth()* inverseScale, FlaxEngine.camera.getHeight() *inverseScale);
@@ -99,15 +115,14 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		model.getFMapReference().draw(cam, view.getCanvas(),-1);
 	}
 
-
-
-
 	@Override
-	public void onCameraUpdate(CameraUpdateEvent e) {
-		if (model.isRunning()){
-			clear();
-			draw();
-			drawCurrentCameraRectangle();
-		}
+	public void setRunning(boolean run) {
+		//TODO
+		isRunning = true;
+	}
+	
+	@Override
+	public boolean isRunning() {
+		return isRunning;
 	}
 }

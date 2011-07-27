@@ -8,6 +8,10 @@ public interface MiniMapView {
 		public void moveMapCamera(int x, int y);
 
 		public void drawCurrentCameraRectangle();
+		
+		public void setRunning(boolean run);
+		
+		public boolean isRunning();
 	}
 
 	public Canvas getCanvas();
