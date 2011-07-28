@@ -8,6 +8,11 @@ body {
 	color: #000000;
 }
 
+a{
+	border:none;
+}
+
+
 /** Absolute positioning fixes the canvas on top of everything bug, look at this later **/
 #nameFieldContainer canvas{	
 	z-index:-1;
@@ -54,6 +59,7 @@ body {
 	 -webkit-transition:background-color 0.5s linear;  
 	background: red;
 }
+
 
 /**FPS**/
 
