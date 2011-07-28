@@ -11,6 +11,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.user.client.ui.CheckBox;
 
 public class MapImportExportViewImpl extends Composite implements MapImportExportView {
 	
@@ -18,6 +21,9 @@ public class MapImportExportViewImpl extends Composite implements MapImportExpor
 	@UiField Button buttonExport;
 	@UiField Button buttonImport;
 	@UiField TextArea data;
+	@UiField Button saveToLocalStorage;
+	@UiField Button loadFromLoadStorage;
+	@UiField CheckBox compressed;
 
 	private static MapImportExportViewImplUiBinder uiBinder = GWT.create(MapImportExportViewImplUiBinder.class);
 
@@ -51,5 +57,22 @@ public class MapImportExportViewImpl extends Composite implements MapImportExpor
 	@Override
 	public String getData() {
 		return this.data.getText();
+	}
+	
+	
+	@UiHandler("saveToLocalStorage")
+	void onSaveToLocalStorageClick(ClickEvent event) {		
+		presenter.saveToLocalStorage();
+	}
+	
+	@UiHandler("loadFromLoadStorage")
+	void onLoadFromLoadStorageClick(ClickEvent event) {
+		presenter.loadFromLocalStorage();
+	}
+	
+	
+	@UiHandler("compressed")
+	void onCompressedClick(ClickEvent event) {
+		presenter.toggleCompression();
 	}
 }

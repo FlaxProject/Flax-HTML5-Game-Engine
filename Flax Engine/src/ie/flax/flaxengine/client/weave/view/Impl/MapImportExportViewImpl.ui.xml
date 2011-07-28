@@ -2,13 +2,23 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.user.datepicker.client">
 	<ui:style>
-		
+		.align{
+				float:left;
+		}
 	</ui:style>
 	<g:HTMLPanel>
 		<g:VerticalPanel width="452px" height="300px">
-			<g:Button ui:field="buttonExport">Export</g:Button>
-			<g:Button ui:field="buttonImport">Import</g:Button>
-			<g:TextArea height="242px" width="438px" ui:field="data"/>
+			<g:HorizontalPanel>
+				<g:Button title="Exports the map out as text in the feild below" ui:field="buttonExport">Export</g:Button>
+				<g:Button title="Imports the text from the feild below and builds the map" ui:field="buttonImport">Import</g:Button>
+				<g:Button title="Saves the current map to local storage" ui:field="saveToLocalStorage">Save to Local Storage</g:Button>
+				<g:Button title="Loads a map from local storage" ui:field="loadFromLoadStorage">Load from Local Storage</g:Button>
+			</g:HorizontalPanel>
+			<g:HorizontalPanel>
+				<g:Label text="Data Format" width="109px"/>
+				<g:CheckBox  title="If checked, map data will be read/written as compressed" text="Compressed" ui:field="compressed" checked="true"/>
+			</g:HorizontalPanel>
+			<g:TextArea height="242px" width="450px" ui:field="data"/>
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

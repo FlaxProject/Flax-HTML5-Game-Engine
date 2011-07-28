@@ -104,20 +104,8 @@ public abstract class FlaxEngine {
 				
 		FLog.init();		
 		initEngine(insertId);
-		
-		//TODO Carl loading map automatically from local storage needs improving, perhaps a window to confirm or something
-		FMap m = new FMap(mapPaths);
-		if (FileHandle.readStringFromLocalStorage("map") != null) {
-			try {
-				m = (FMap.fromJson(FileHandle.readStringFromLocalStorage("map")));
-			} catch (MapDataCorrupt e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		maps.add(m);// Loads all the maps
-		
-		
+		maps.add( new FMap(mapPaths));// Loads all the maps
+			
 		
 		/**
 		 * Constructs the editor weave

@@ -13,6 +13,9 @@ public interface MapImportExportView
 	{	
 		void exportJSON();
 		void importJSON();
+		void loadFromLocalStorage();
+		void saveToLocalStorage();
+		void toggleCompression();
 	}
 
 }

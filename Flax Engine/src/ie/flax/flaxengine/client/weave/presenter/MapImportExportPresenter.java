@@ -1,10 +1,12 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
 import ie.flax.flaxengine.client.FMap;
+import ie.flax.flaxengine.client.FileHandle;
 import ie.flax.flaxengine.client.LzwCompression;
 import ie.flax.flaxengine.client.exception.MapDataCorrupt;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
+import ie.flax.flaxengine.client.weave.view.CreateEntityView.presenter;
 import ie.flax.flaxengine.client.weave.view.Impl.MapImportExportViewImpl;
 
 import com.google.gwt.user.client.Window;
@@ -20,12 +22,14 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 
 	private MapImportExportView display;
 	private Weave model;
+	private boolean compression;
 	
 	public MapImportExportPresenter(Weave model){
 		this.display = new MapImportExportViewImpl(this);
 		this.model = model;
+		this.compression = true;
 		
-		                      //Vpanel   //FWindow-Dialog
+		               //Vpanel   //FWindow-Dialog
 	 	//this.getView().getParent().getParent();	
 	}
 	
@@ -41,24 +45,31 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 
 	@Override
 	public void exportJSON() {		
-		display.setData( LzwCompression.compress(FMap.toJson(model.getFMapReference())) );	
+				
+		if(compression)
+		{		
+			display.setData("This may take some time, please wait. Compressing.....");
+			display.setData( LzwCompression.compress(FMap.toJson(model.getFMapReference())) );	
+		}else{
+			display.setData( FMap.toJson(model.getFMapReference()) );	
+		}
 	}
 
 
 	@Override
 	public void importJSON() {
-		
-		if (display.getData() != null) {
-
-			// TODO Create copy constructor for the FMap class and remove the replaceMap function
-			try {
-				model.getFMapReference().replaceMap(FMap.fromJson( LzwCompression.decompress(display.getData())));
-			} catch (MapDataCorrupt e) {
-				Window.alert(e.getError());
-			}
-
-		} else {
-			display.setData("You need to put a JSON map string into this textarea before you can load it into the engine!");
+					
+		try {
+			
+			if(compression)
+			{
+				model.getFMapReference().replaceMap(FMap.fromJson( LzwCompression.decompress( display.getData()  )));
+			}else{
+				model.getFMapReference().replaceMap(FMap.fromJson( display.getData()));
+			}		  
+			
+		} catch (MapDataCorrupt e) {
+			Window.alert(e.getError());
 		}
 	}
 	
@@ -68,6 +79,52 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 	public Widget getView() {
 		clearData();
 		return display.asWidget();
+	}
+
+
+	/**
+	 * Turns the compression of the map format on or off
+	 */
+	@Override
+	public void toggleCompression() {		
+		compression = !compression;		
+	}
+
+
+	@Override
+	public void loadFromLocalStorage() {
+
+		FMap map = null;
+		String jsonData = null;
+		
+		if(compression)
+			jsonData =   LzwCompression.decompress( FileHandle.readStringFromLocalStorage("map") );
+		else
+			jsonData = FileHandle.readStringFromLocalStorage("map");
+		
+		
+			try {
+				map = (FMap.fromJson(jsonData));
+			} catch (MapDataCorrupt e) {				
+				Window.alert(e.getError());
+			}	
+			
+			model.setFMapReference(map);
+	}
+
+
+	@Override
+	public void saveToLocalStorage() {
+							
+		if(compression)
+		{
+			FileHandle.writeStringToLocalStorage("map", LzwCompression.compress(FMap.toJson(model.getFMapReference())) );
+			display.setData("This may take some time, please wait. Compressing.....");
+			
+		}else{
+			FileHandle.writeStringToLocalStorage("map",FMap.toJson(model.getFMapReference()));
+		}
+			
 	}
 	
 }

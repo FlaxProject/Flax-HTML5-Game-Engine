@@ -303,4 +303,12 @@ public class Weave implements ImageSelectionEventHandler{
 	public void updateFps(int frameCount) {
 		fpsHtml.setText("FPS: "+frameCount);
 	}
+
+	/**
+	 * Sets the current map which the editor works on
+	 * @param map
+	 */
+	public void setFMapReference(FMap map) {
+		this.map = map;		
+	}
 }
