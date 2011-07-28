@@ -1,38 +1,29 @@
 
 package ie.flax.flaxengine.client.weave.view.Impl;
 
-import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 
-import com.gargoylesoftware.htmlunit.Page;
-import com.gargoylesoftware.htmlunit.attachment.AttachmentHandler;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MiniMapViewImpl implements MiniMapView {
 	private final Canvas minimap;
 	private final MiniMapView.presenter presenter;
-	private AbsolutePanel abp;
-	private HTML warning = new HTML("<h3>Click to turn on minimap!</h3><p>(May hurt performance)</p>");
+	private VerticalPanel abp;
+	//private HTML warning = new HTML("<h3>Click to turn on minimap!</h3><p>(May hurt performance)</p>");
 
 	public MiniMapViewImpl(MiniMapView.presenter pres) {
 		presenter = pres;
 		
-		abp = new AbsolutePanel();
+		abp = new VerticalPanel();
 		
 		// create the canvas here
 		minimap = Canvas.createIfSupported();
@@ -46,23 +37,11 @@ public class MiniMapViewImpl implements MiniMapView {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(event.getRelativeY(abp.getElement()) > abp.getOffsetHeight() - 50){
-				if(!presenter.isRunning()){
-					
-					presenter.setRunning(true);
-					hideWarning();
-				} else {
-					presenter.setRunning(false);
-					showWarning();
-				}
-				} else if (presenter.isRunning()){
-					presenter.moveMapCamera(
-						event.getRelativeX(minimap.getElement()),
-						event.getRelativeY(minimap.getElement()));
+			if (presenter.isRunning()){presenter.moveMapCamera(
+					event.getRelativeX(minimap.getElement()),
+					event.getRelativeY(minimap.getElement()));	
 				}
 			}
-
-			
 		});
 		
 		minimap.addMouseMoveHandler(new MouseMoveHandler() {
@@ -84,21 +63,40 @@ public class MiniMapViewImpl implements MiniMapView {
 			}
 		});
 		
-		this.showWarning();
+		//this.showWarning();
+		
+		Button onOffButton = new Button("Toggle minimap");
+		onOffButton.addClickHandler(new ClickHandler() {
+			boolean on = false;
+			@Override
+			public void onClick(ClickEvent event) {
+				if (on) {
+					on = false;
+				} else {
+					on = true;
+				}
+
+				presenter.setRunning(on);
+			}
+		});
 		
 		abp.add(minimap);
+		abp.setCellHeight(minimap, "90%");
+		abp.add(onOffButton);
+		abp.setCellWidth(onOffButton, "100%");
+		onOffButton.setWidth("100%");
 		abp.setSize("100%", "100%");
 	}
 
 	private void showWarning() {
-		warning.getElement().getStyle().setBackgroundColor("rgba(255, 255, 255, 0.7) !important;");
-		abp.add(warning,0,0);
+		//warning.getElement().getStyle().setBackgroundColor("rgba(255, 255, 255, 0.7) !important;");
+		//abp.add(warning,0,0);
 		
 	}
 	
 	private void hideWarning() {
-		abp.getElement().getStyle().setBackgroundColor("");
-		abp.remove(warning);
+		//abp.getElement().getStyle().setBackgroundColor("");
+		//abp.remove(warning);
 		
 	}
 

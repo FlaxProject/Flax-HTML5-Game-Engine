@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client.weave;
 
 /**
  * Use this for any outward-facing writing. Log messages, help text, etc.
+ * TODO Carl these should be HTML, not String.
  * @author elangca
  *
  */
@@ -41,7 +42,15 @@ public final class UIStrings {
 				+ "Then drag out from that point. You'll see a red box form. "
 				+ "When you let go, the tiles in that box will be textured with the current texture.";
 		
+		String minimap = "<strong>Using the minimap:</strong> To use the minimap, press the \"Toggle minimap\" button underneath it. " +
+				"Be aware that this will hurt performance (in some cases, quite badly), so it's off by default. When on, the minimap will refresh " +
+				"more or less when you edit tiles or move the camera.";
+		
 		String cam = "<strong>Moving the camera:</strong> To move the camera, use the arrow keys or click on the minimap below.";
+		
+		String player = "<strong>Moving the player:</strong> To move the player, use WASD (W is up, A is left, S is down, D is right).";
+		
+		String editor = "<strong>Toggling Weave:</strong> Simply press backslash (\\) to toggle the editor.";
 		
 		String twitterPlug = "<br/><p style='text-align:center'>You should follow us on Twitter " +
 				"<a href='http://twitter.com/flaxproject' target='_blank'>here</a>.";
@@ -49,6 +58,17 @@ public final class UIStrings {
 		String sitePlug = "Read more about this project at <a href='http://flax.ie' target='_blank'>flax.ie</a>!</p>";
 		
 		
-		return logo + newline +  version + newline + newline + tiling + newline + newline+ move + newline + newline + regions + newline+newline + cam + newline + twitterPlug + newline + sitePlug;
+		return 
+		logo + newline +  
+		version + newline + newline +
+		editor + newline +newline+
+		tiling + newline + newline+ 
+		move + newline + newline + 
+		regions + newline + newline + 
+		minimap + newline +newline +
+		cam + newline + newline +
+		player + newline +
+		twitterPlug + newline + 
+		sitePlug;
 	}
 }

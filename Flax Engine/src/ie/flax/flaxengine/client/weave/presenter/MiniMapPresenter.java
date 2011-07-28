@@ -1,8 +1,5 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
-import java.util.Date;
-
-import ie.flax.flaxengine.client.FLog;
 import ie.flax.flaxengine.client.FVector;
 import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.Graphic.FCamera;
@@ -15,7 +12,8 @@ import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 import ie.flax.flaxengine.client.weave.view.Impl.MiniMapViewImpl;
 
-import com.google.gwt.user.client.Timer;
+import java.util.Date;
+
 import com.google.gwt.user.client.ui.Widget;
 
 public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.presenter, MapUpdateEventHandler, CameraUpdateEventHandler {
@@ -117,7 +115,6 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 
 	@Override
 	public void setRunning(boolean run) {
-		//TODO
 		isRunning = run;
 	}
 	
