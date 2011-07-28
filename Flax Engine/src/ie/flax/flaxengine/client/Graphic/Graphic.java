@@ -183,6 +183,7 @@ public class Graphic {
      * 
      * FIXME: this is taking more CPU than it should.
      */
+    /*
     public native void requestAnimationFrame(TimerCallback callback) /*-{
 		var fn = function() {
 			callback.@ie.flax.flaxengine.client.Graphic.TimerCallback::fire()();
@@ -197,4 +198,8 @@ public class Graphic {
 			$wnd.setTimeout(fn, 1000 / 24); //24fps if fallback necessary
 //		}
     }-*/;
+    
+    public void requestAnimationFrame(TimerCallback callback) {
+    	
+    }
 }

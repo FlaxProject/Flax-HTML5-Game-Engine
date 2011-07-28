@@ -3,7 +3,6 @@ package ie.flax.flaxengine.client;
 import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
-import ie.flax.flaxengine.client.Graphic.TimerCallback;
 import ie.flax.flaxengine.client.gamewidgets.SplashScreen;
 import ie.flax.flaxengine.client.weave.Weave;
 
@@ -26,6 +25,7 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -62,6 +62,7 @@ public abstract class FlaxEngine {
 	 * This is technically the game loop. It tells requestAnimationFrame to call
 	 * it. Draw, update, etc should be in here.
 	 */
+	/*
 	private final TimerCallback gameTimer = new TimerCallback() {
 
 		@Override
@@ -84,6 +85,26 @@ public abstract class FlaxEngine {
 
 			oldMilliseconds = currentMilliseconds;
 
+		}
+	};*/
+	
+	private final Timer gameTimer = new Timer() {
+		public void run() {
+			frameCount++;
+			double currentMilliseconds = getMilliseconds();
+			
+			
+			if (isEngineReady() && playing) {			
+					maps.get(0).draw(camera, drawingSpace, currentMilliseconds);
+			}
+			
+
+			if (currentMilliseconds < oldMilliseconds) {
+				editor.updateFps(frameCount);
+				frameCount = 0;
+			}
+
+			oldMilliseconds = currentMilliseconds;
 		}
 	};
 
@@ -352,7 +373,8 @@ public abstract class FlaxEngine {
 	 */
 	public void run() {
 		playing = true;
-		Graphic.getSingleton().requestAnimationFrame(gameTimer);
+		//Graphic.getSingleton().requestAnimationFrame(gameTimer);
+		gameTimer.scheduleRepeating(1000/24);
 	}
 
 	/**
@@ -387,8 +409,7 @@ public abstract class FlaxEngine {
 	 * @return
 	 */
 	protected native double getMilliseconds() /*-{
-		var currentTime = new Date();
-		return currentTime.getMilliseconds();
+		return new Date().getMilliseconds();
 	}-*/;
 
 
