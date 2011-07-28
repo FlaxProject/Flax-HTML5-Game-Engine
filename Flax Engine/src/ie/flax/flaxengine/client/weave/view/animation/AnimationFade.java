@@ -2,6 +2,7 @@ package ie.flax.flaxengine.client.weave.view.animation;
 
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Window;
 
 public class AnimationFade extends Animation{
 

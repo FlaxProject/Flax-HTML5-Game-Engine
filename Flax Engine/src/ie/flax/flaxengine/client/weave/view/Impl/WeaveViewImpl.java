@@ -95,6 +95,10 @@ public class WeaveViewImpl implements WeaveView{
 			FlaxEngine.settings.getContainer().add(eastPanel, FlaxEngine.settings.getWidth()-eastPanel.getOffsetWidth(),0);
 			FlaxEngine.settings.getContainer().add(eastPanel, FlaxEngine.settings.getWidth()-eastPanel.getOffsetWidth(),0);
 			
+			northPanel.getElement().getStyle().setZIndex(-1);
+			southPanel.getElement().getStyle().setZIndex(-1);
+			eastPanel.getElement().getStyle().setZIndex(-1);
+			
 			northAnimate = new AnimationFade(northPanel.getElement());
 			southAnimate = new AnimationFade(southPanel.getElement());
 			eastAnimate = new AnimationFade(eastPanel.getElement());

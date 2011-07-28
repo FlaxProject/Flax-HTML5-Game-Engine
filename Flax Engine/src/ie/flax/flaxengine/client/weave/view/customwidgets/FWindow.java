@@ -55,7 +55,6 @@ public class FWindow {
         window.hide();
 
         FlaxEngine.settings.getContainer().add(window);
-
         window.addCloseHandler(new CloseHandler<PopupPanel>() {
 
             @Override
