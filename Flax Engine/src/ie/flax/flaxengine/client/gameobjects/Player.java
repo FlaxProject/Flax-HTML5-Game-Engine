@@ -51,10 +51,11 @@ public class Player extends FEntity {
 	 */
 	private void bind()
 	{
+		RootPanel containerPanel = RootPanel.get();
 		
 		attachCamera(FlaxEngine.camera); //FIXME Ciaran remove after 0.2 when doing the entity system proper
 		
-		RootPanel.get().addDomHandler( new TouchStartHandler() {
+		containerPanel.addDomHandler( new TouchStartHandler() {
 			
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
@@ -63,9 +64,7 @@ public class Player extends FEntity {
 				y += speed;
 				sprite.nextFrame();
 				
-				if(cam != null)
-				{
-					
+				if(cam != null){				
 						cam.incrementY(speed);						
 				}
 				
@@ -74,13 +73,12 @@ public class Player extends FEntity {
 		
 		
 		
-		RootPanel.get().addHandler( new KeyPressHandler() {
+		containerPanel.addHandler( new KeyPressHandler() {
 			
 			@Override
 			public void onKeyPress(KeyPressEvent event) {		
 				
-				keyControls(event);
-				
+				keyControls(event);				
 			}
 		}, KeyPressEvent.getType());
 		

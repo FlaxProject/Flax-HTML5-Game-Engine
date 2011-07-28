@@ -17,7 +17,7 @@
   <!-- Other module inherits                                      -->
   <!-- For logging. 											  -->
   <inherits name="com.google.gwt.logging.Logging"/>
-  <set-property name="gwt.logging.logLevel" value="INFO"/> 
+  <set-property name="gwt.logging.logLevel" value="SEVERE"/> 
   
   <!-- This disables the annoying undisableable popupWidget.-->
   <set-property name="gwt.logging.popupHandler" value="DISABLED"/>
@@ -29,7 +29,8 @@
   <set-property name="compiler.stackMode" value="strip"/>
   
   
-  
+  <set-configuration-property name="UiBinder.useSafeHtmlTemplates" value="true" />
+   
   <!-- Disable Class Meta data  -XdisableClassMetadata -XdisableCastChecking -->
   
   

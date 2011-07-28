@@ -32,8 +32,11 @@ public abstract class FEntity extends FObject implements JsonSerializable {
 	}
 	
 
-	public int getSpeed()
-	{
+	/**
+	 * Gets the speed the player character is moving at
+	 * @return
+	 */
+	public int getSpeed(){
 		return speed;
 	}
 
