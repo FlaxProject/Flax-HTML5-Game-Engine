@@ -7,6 +7,10 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<g:Button text="Autosave is off" ui:field="autosave"/>
+		<g:VerticalPanel spacing="5">
+			<g:CheckBox text="Autosave to local storage" ui:field="autosave"/>
+			<g:Button ui:field="clearMaps">Clear maps from local storage</g:Button>
+			<g:Button ui:field="clearAll">Clear everything from local storage</g:Button>
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

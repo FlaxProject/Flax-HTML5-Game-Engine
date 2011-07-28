@@ -15,13 +15,11 @@ public class AnimationFade extends Animation{
 	public void fadeIn(int milliseconds) {
 		inOut = true;
 		run(milliseconds);
-		el.getStyle().setZIndex(0);
 	}
 	
 	public void fadeOut(int milliseconds) {
 		inOut = false;
 		run(milliseconds);
-		el.getStyle().setZIndex(-1);
 	}
 	
 	@Override
@@ -35,10 +33,9 @@ public class AnimationFade extends Animation{
 	
 	@Override
 	protected void onStart() {
-		if (inOut) {
-			el.getStyle().setZIndex(0);
+		if(inOut){
+			el.getStyle().setZIndex(0); 
 		}
-		
 		super.onStart();
 	}
 

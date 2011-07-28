@@ -1,6 +1,7 @@
 
 package ie.flax.flaxengine.client.weave.view.Impl;
 
+import ie.flax.flaxengine.client.FlaxEngine;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 
 import com.gargoylesoftware.htmlunit.Page;
@@ -14,6 +15,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -71,8 +73,7 @@ public class MiniMapViewImpl implements MiniMapView {
 	}
 
 	private void showWarning() {
-		//minimap.getElement().setAttribute("style", "background-color: rgba(240, 240, 240, 0.7) !important;");
-		minimap.getElement().getStyle().setBackgroundColor("rgba(240, 240, 240, 0.7) !important;");
+		minimap.getElement().getStyle().setBackgroundColor("rgba(110, 110, 110, 0.7) !important;");
 	}
 	
 	private void hideWarning() {
