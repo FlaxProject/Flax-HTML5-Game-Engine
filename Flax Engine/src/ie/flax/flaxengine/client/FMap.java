@@ -119,6 +119,8 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 			final int camXRelativeCopyScaled = camXRelativeCopy*tileSize;
 			final int camYRelativeCopyScaled =  camYRelativeCopy*tileSize;
 			
+			final int totalTiles = tiles.size();
+			
 			final Context2d ctx = drawingSpace.getContext2d();	
 			FTile t  = null;
 		
@@ -150,7 +152,7 @@ public class FMap implements JsonSerializable, onFileLoadedEventHandler{
 				while( camXRelative <= camXAndWidth)
 				{
 
-					if (camXRelative+currentYindexValue >= tiles.size()) break;
+					if (camXRelative+currentYindexValue >= totalTiles) break;
 					t = tiles.get(camXRelative + currentYindexValue );		
 					
 					/**
