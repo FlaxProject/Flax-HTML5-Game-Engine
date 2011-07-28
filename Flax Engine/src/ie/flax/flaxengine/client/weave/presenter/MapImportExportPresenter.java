@@ -36,18 +36,17 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 	/**
 	 * On close of the export/import window this method should be called to clear the content
 	 */
-	public void clearData()
-	{
+	public void clearData(){
 		display.setData("");
 	}
 	
 
 	@Override
 	public void exportJSON() {		
-				
+			
+		display.setData("This may take some time, please wait. Compressing.....");
 		if(compression)
 		{		
-			display.setData("This may take some time, please wait. Compressing.....");
 			String data = LzwCompression.compress(FMap.toJson(model.getFMapReference())) ;
 			display.setData( data );	
 		}else{
@@ -104,12 +103,13 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 		
 		
 			try {
-				map = (FMap.fromJson(jsonData));
+				map = (FMap.fromJson(jsonData));				
 			} catch (MapDataCorrupt e) {				
 				Window.alert(e.getError());
 			}	
 			
 			model.getFMapReference().replaceMap(map);
+			display.setData("Loaded from local storage sucessfully");
 	}
 
 
@@ -117,9 +117,9 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 	public void saveToLocalStorage() {
 							
 		if(compression)
-		{
-			display.setData("This may take some time, please wait. Compressing.....");
-			FileHandle.writeStringToLocalStorage("map", LzwCompression.compress(FMap.toJson(model.getFMapReference())) );			
+		{		
+			FileHandle.writeStringToLocalStorage("map", LzwCompression.compress(FMap.toJson(model.getFMapReference())) );	
+			display.setData("Saved to local storage sucessfully");
 			
 		}else{
 			FileHandle.writeStringToLocalStorage("map",FMap.toJson(model.getFMapReference()));

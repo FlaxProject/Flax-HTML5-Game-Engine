@@ -15,8 +15,7 @@
 				<g:Button title="Loads a map from local storage" ui:field="loadFromLoadStorage">Load from Local Storage</g:Button>
 			</g:HorizontalPanel>
 			<g:HorizontalPanel>
-				<g:Label text="Data Format" width="109px"/>
-				<g:CheckBox  title="If checked, map data will be read/written as compressed" text="Compressed" ui:field="compressed" checked="true"/>
+				<g:CheckBox  title="If checked, map data will be read/written as compressed" text="Compressed (Note: Compression process is slow)" ui:field="compressed" checked="true"/>
 			</g:HorizontalPanel>
 			<g:TextArea height="242px" width="450px" ui:field="data"/>
 		</g:VerticalPanel>

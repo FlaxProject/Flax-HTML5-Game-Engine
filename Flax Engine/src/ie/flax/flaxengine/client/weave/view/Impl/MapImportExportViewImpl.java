@@ -59,7 +59,7 @@ public class MapImportExportViewImpl extends Composite implements MapImportExpor
 	
 	
 	@UiHandler("saveToLocalStorage")
-	void onSaveToLocalStorageClick(ClickEvent event) {		
+	void onSaveToLocalStorageClick(ClickEvent event) {	
 		presenter.saveToLocalStorage();
 	}
 	
