@@ -47,22 +47,16 @@ public class FImage {
 	    	  
 	        imageLoaded = true;
 	        image = (ImageElement)(imageData).getElement().cast();
-	       
-	        
-	        	//FIXME Problem with IE not getting widths and heights from image. 
-	        	//people say to set the containing element to visibility: hidden, though doesn't seem to work, will look into it more later
-	        	//Window.alert("W " + imageData.getWidth() );
-	        	//image.setWidth(imageData.getWidth());
-	        	//image.setHeight(imageData.getHeight());
-	        
-	        FLog.info("Image " + URL + " has loaded ");
+
+	        FLog.info("Image " + URL + " has loaded width " + image.getWidth() + "  height " + image.getHeight() );
 	        EventBus.handlerManager.fireEvent(new onImageLoadedEvent(URL)); //lets all listening components that a file is loaded
 	       
 	      }
 	    });
 		
-		imageData.setVisible(false);		
-		BOOT_STRAP_DIV.add(imageData);		
+			
+		BOOT_STRAP_DIV.add(imageData);	
+		imageData.getElement().setAttribute("style", "visibility: hidden");
 	}
 	
 	/**

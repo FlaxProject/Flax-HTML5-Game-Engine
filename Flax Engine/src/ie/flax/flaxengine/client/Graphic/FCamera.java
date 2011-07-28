@@ -130,8 +130,7 @@ public class FCamera {
 				
 			}
 			
-			if (entity.getX() + entity.getWidth() - this.getX() < (this.getWidth() / 2)) {
-				
+			if (entity.getX() + entity.getWidth() - this.getX() < (this.getWidth() / 2)) {			
 					
 					if (this.getX() % 32 != 0) {
 		
@@ -140,11 +139,8 @@ public class FCamera {
 						interpolation.x += interpolation.x * -1;
 					}	
 					
-					this.incrementX(cameraSpeed * -1);
-				
-			}	
-			
-			FLog.trace(" % [" + this.getX() + "]  " + this.getX() % 32+ " translated  " + interpolation.x);		
+					this.incrementX(cameraSpeed * -1);				
+			}		
 			
 		}
 		else if (direction == Directoin.SOUTH)
@@ -191,17 +187,12 @@ public class FCamera {
 					}	
 					
 					this.incrementY(cameraSpeed * -1);
-			}
-			
-			
-		}
-									
-			//FLog.trace(" % [" + this.getX() + "]  " + this.getX() % 32+ " translated  " + interpolation);		
+			}			
+		}	
 	}
 	
 	
-	public FVector getInterpolation()
-	{
+	public FVector getInterpolation(){
 		return interpolation;
 	}
 

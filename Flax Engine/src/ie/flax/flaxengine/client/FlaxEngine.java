@@ -4,7 +4,6 @@ import ie.flax.flaxengine.client.Graphic.FCamera;
 import ie.flax.flaxengine.client.Graphic.FImage;
 import ie.flax.flaxengine.client.Graphic.Graphic;
 import ie.flax.flaxengine.client.Graphic.TimerCallback;
-import ie.flax.flaxengine.client.exception.MapDataCorrupt;
 import ie.flax.flaxengine.client.gamewidgets.SplashScreen;
 import ie.flax.flaxengine.client.weave.Weave;
 
@@ -124,7 +123,7 @@ public abstract class FlaxEngine {
 		 * Just a quick key to start the rendering. As now by default the system
 		 * doesn't render anything. As hosted mode gets killed by the rendering
 		 */
-		RootPanel.get().addDomHandler(new KeyPressHandler() {
+		settings.getContainer().addDomHandler(new KeyPressHandler() {
 			
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
