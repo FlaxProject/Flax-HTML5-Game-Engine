@@ -1,6 +1,9 @@
 
 package ie.flax.flaxengine.client.weave.view.Impl;
 
+import ie.flax.flaxengine.client.events.CameraUpdateEvent;
+import ie.flax.flaxengine.client.events.EventBus;
+import ie.flax.flaxengine.client.events.MapUpdateEvent;
 import ie.flax.flaxengine.client.weave.view.MiniMapView;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -65,7 +68,7 @@ public class MiniMapViewImpl implements MiniMapView {
 		
 		//this.showWarning();
 		
-		Button onOffButton = new Button("Toggle minimap");
+		Button onOffButton = new Button("Toggle minimap (on/off)");
 		onOffButton.addClickHandler(new ClickHandler() {
 			boolean on = false;
 			@Override
@@ -73,10 +76,11 @@ public class MiniMapViewImpl implements MiniMapView {
 				if (on) {
 					on = false;
 				} else {
-					on = true;
+					on = true;			
 				}
-
+				
 				presenter.setRunning(on);
+				EventBus.handlerManager.fireEvent(new MapUpdateEvent());
 			}
 		});
 		
