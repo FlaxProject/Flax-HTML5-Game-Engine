@@ -8,5 +8,9 @@ public interface PreferencesView {
 	public interface presenter
 	{
 		void setAutosave(boolean on);
+
+		void removeMaps();
+
+		void clearLocalStorage();
 	}
 }

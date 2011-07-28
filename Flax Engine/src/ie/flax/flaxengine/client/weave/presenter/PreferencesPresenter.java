@@ -1,5 +1,6 @@
 package ie.flax.flaxengine.client.weave.presenter;
 
+import ie.flax.flaxengine.client.FileHandle;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.PreferencesView;
 import ie.flax.flaxengine.client.weave.view.Impl.PreferencesViewImpl;
@@ -35,6 +36,16 @@ public class PreferencesPresenter extends AbstractPresenter implements Preferenc
 	@Override
 	public Widget getView() {
 		return view.asWidget();
+	}
+
+	@Override
+	public void removeMaps() {
+		FileHandle.removeStringFromLocalStorage("map");
+	}
+
+	@Override
+	public void clearLocalStorage() {
+		FileHandle.clearLocalStorage();
 	}
 
 }
