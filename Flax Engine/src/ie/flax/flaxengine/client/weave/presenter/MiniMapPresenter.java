@@ -118,7 +118,7 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 	@Override
 	public void setRunning(boolean run) {
 		//TODO
-		isRunning = true;
+		isRunning = run;
 	}
 	
 	@Override
