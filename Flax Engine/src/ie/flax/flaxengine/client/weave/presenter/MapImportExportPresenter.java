@@ -6,7 +6,6 @@ import ie.flax.flaxengine.client.LzwCompression;
 import ie.flax.flaxengine.client.exception.MapDataCorrupt;
 import ie.flax.flaxengine.client.weave.Weave;
 import ie.flax.flaxengine.client.weave.view.MapImportExportView;
-import ie.flax.flaxengine.client.weave.view.CreateEntityView.presenter;
 import ie.flax.flaxengine.client.weave.view.Impl.MapImportExportViewImpl;
 
 import com.google.gwt.user.client.Window;
@@ -49,7 +48,8 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 		if(compression)
 		{		
 			display.setData("This may take some time, please wait. Compressing.....");
-			display.setData( LzwCompression.compress(FMap.toJson(model.getFMapReference())) );	
+			String data = LzwCompression.compress(FMap.toJson(model.getFMapReference())) ;
+			display.setData( data );	
 		}else{
 			display.setData( FMap.toJson(model.getFMapReference()) );	
 		}
@@ -109,7 +109,7 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 				Window.alert(e.getError());
 			}	
 			
-			model.setFMapReference(map);
+			model.getFMapReference().replaceMap(map);
 	}
 
 
@@ -118,8 +118,8 @@ public class MapImportExportPresenter extends AbstractPresenter implements MapIm
 							
 		if(compression)
 		{
-			FileHandle.writeStringToLocalStorage("map", LzwCompression.compress(FMap.toJson(model.getFMapReference())) );
 			display.setData("This may take some time, please wait. Compressing.....");
+			FileHandle.writeStringToLocalStorage("map", LzwCompression.compress(FMap.toJson(model.getFMapReference())) );			
 			
 		}else{
 			FileHandle.writeStringToLocalStorage("map",FMap.toJson(model.getFMapReference()));
