@@ -44,6 +44,7 @@ public class Sprite implements JsonSerializable {
 	 * @param Path
 	 * @param frameWidth 
 	 * @param frameHeight
+	 * @param Animationframes - this defines which y value on the sprite sheet is what, ie walking right, walking left etc
 	 */
 	public Sprite(final String path, final int frameWidth, final int frameHeight)
 	{
@@ -154,8 +155,7 @@ public class Sprite implements JsonSerializable {
 			if (currentFrame < frameCount) {
 				currentFrame++;
 			} else {
-				currentFrame = 3; // FIXME set back to zero, only for spefic
-									// sprite
+				currentFrame = 0; 
 			}
 
 			timeSinceLastFrame = 0;
@@ -166,11 +166,11 @@ public class Sprite implements JsonSerializable {
 	
 	//Different Y values for the animations
 		public enum AnimationState { 		
-			IDE(0),
-			UP(2),
-			DOWN(0),
-			LEFT(1),
-			RIGHT(3);
+			IDE(2),
+			UP(0),
+			DOWN(2),
+			LEFT(3),
+			RIGHT(1);
 			
 			
 			private final int index;
@@ -255,6 +255,7 @@ public class Sprite implements JsonSerializable {
 
 		public void setImagePath(String imagePath) {
 			this.imagePath = imagePath;
+			init();
 		}
 
 

@@ -69,6 +69,7 @@ public class MiniMapPresenter extends AbstractPresenter implements MiniMapView.p
 		
 		EventBus.handlerManager.addHandler(MapUpdateEvent.TYPE, this);
 		EventBus.handlerManager.addHandler(CameraUpdateEvent.TYPE, this);
+		
 	}
 
 	@Override

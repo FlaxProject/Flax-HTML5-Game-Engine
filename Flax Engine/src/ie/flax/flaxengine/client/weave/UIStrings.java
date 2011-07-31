@@ -9,7 +9,7 @@ package ie.flax.flaxengine.client.weave;
 public final class UIStrings {
 	
 	public final static String version = " Version 0.2 ";
-	public final static String logo = "<a href='http://flax.ie' target='_blank'><img style='padding-bottom:5px' src='http://flax.ie/images/flaxLogo.png' width='100%'/></a>";
+	public final static String logo = "<a href='http://flax.ie' target='_blank'><img style='padding-bottom:5px' width=\"85%\" src='http://flax.ie/images/flaxLogo.png' width='100%'/></a>";
 	public final static String newline = "<br/>";
 	public final static String twitterPlug = "<br/><p style='text-align:center'>You should follow us on Twitter " +
 			"<a href='http://twitter.com/flaxproject' target='_blank'>here</a>.";
@@ -57,11 +57,13 @@ public final class UIStrings {
 		
 		String sitePlug = "Read more about this project at <a href='http://flax.ie' target='_blank'>flax.ie</a>!</p>";
 		
+		String copyrightNotice = "<strong style=\"red\">Tilesheet/Sprite is the property of The Pokémon Company International. Flax tilesheet in the making.</strong>";   
+		
 		
 		return 
 		logo + newline +  
 		version + newline + newline +
-		editor + newline +newline+
+		copyrightNotice + newline +newline+
 		tiling + newline + newline+ 
 		move + newline + newline + 
 		regions + newline + newline + 

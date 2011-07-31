@@ -29,7 +29,7 @@ public class Player extends FEntity {
 	 */
 	public Player(FVector pos)
 	{
-		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://flax.ie/test/s.png", 32,64), "audio");
+		super((float)pos.x, (float)pos.y, 32, 64, new Sprite("http://flax.ie/test/pokesprite.png", 16,16), "audio");
 		speed = 4;		
 		bind();
 		
